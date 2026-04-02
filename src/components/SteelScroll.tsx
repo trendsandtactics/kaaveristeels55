@@ -9,7 +9,7 @@ export default function SteelScroll() {
       {/* Background Video */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
-        src="/yellowbg.mp4‎"
+        src="https://kaaveristeels54.vercel.app/yellowbg.mp4"
         autoPlay
         muted
         loop
