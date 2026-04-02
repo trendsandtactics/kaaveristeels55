@@ -66,7 +66,7 @@ export default function Header() {
     ? "bg-transparent py-6"
     : "bg-white shadow-sm py-4 border-b border-gray-200";
 
-  const currentLogo = transparent ? "/logo.png" : "/logo3.png";
+  const currentLogo = transparent ? "/logo3.png" : "/logo3.png";
 
   return (
     <header
