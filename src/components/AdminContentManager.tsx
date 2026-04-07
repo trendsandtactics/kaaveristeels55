@@ -24,7 +24,7 @@ type FormState = {
 };
 
 const MODULES: ModuleDef[] = [
-  { key: "certifications", label: "Certifications", kind: "certifications", description: "Upload and manage certification files" },
+  { key: "certifications", label: "Certifications", kind: "content", description: "Upload and manage certification files" },
   { key: "products", label: "Products", kind: "content", description: "Product catalog, specs, brochure links" },
   { key: "mediaEvents", label: "Media & Events", kind: "content", description: "Event highlights and company news" },
   { key: "blogs", label: "Blogs", kind: "content", description: "Rich blog content with SEO-ready publishing" },
@@ -43,7 +43,7 @@ const initialForm = (): FormState => ({
   title: "",
   short_description: "",
   content: "",
-  status: "draft",
+  status: "published",
   featured: false,
   sort_order: 0,
   cover_image: "",
