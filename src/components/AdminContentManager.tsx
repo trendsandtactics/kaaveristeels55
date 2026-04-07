@@ -207,8 +207,6 @@ export default function AdminContentManager() {
 
   const renderModuleSpecificFields = () => {
     switch (activeModule) {
-      case "products":
-        return <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Specification sheet URL" value={form.file_url} onChange={(e) => setForm((s) => ({ ...s, file_url: e.target.value }))} />;
       case "blogs":
         return (
           <div className="md:col-span-2 space-y-2">
@@ -311,11 +309,14 @@ export default function AdminContentManager() {
                 }} />
               </div>
               <div className="space-y-2">
-                <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Video URL" value={form.video_url} onChange={(e) => setForm((s) => ({ ...s, video_url: e.target.value }))} />
-                <input type="file" accept="video/*,application/pdf" className="w-full border rounded-lg px-3 py-2 text-sm" onChange={(e) => {
+                <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="File URL (PDF, Document, etc.)" value={form.file_url} onChange={(e) => setForm((s) => ({ ...s, file_url: e.target.value }))} />
+                <input type="file" accept="video/*,application/pdf,.doc,.docx" className="w-full border rounded-lg px-3 py-2 text-sm" onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) uploadFromDevice(file, "file_url");
                 }} />
+              </div>
+              <div className="space-y-2 md:col-span-2">
+                <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Video URL (YouTube/Vimeo)" value={form.video_url} onChange={(e) => setForm((s) => ({ ...s, video_url: e.target.value }))} />
               </div>
 
               {renderModuleSpecificFields()}
