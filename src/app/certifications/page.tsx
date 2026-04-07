@@ -172,6 +172,7 @@ export default function CertificationsPage() {
                       }
                       className="flex flex-1 items-center justify-center rounded-[24px] border border-black/10 bg-[#fafafa] p-4 text-left transition hover:border-black/20 hover:shadow-md md:p-5"
                     >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={fileUrl}
                         alt={item.title}
@@ -205,6 +206,7 @@ export default function CertificationsPage() {
               </div>
 
               <div className="flex max-h-[82vh] items-center justify-center overflow-auto rounded-2xl bg-[#f8f8f8] p-3 md:p-6">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={selectedCertificate.fileUrl}
                   alt={selectedCertificate.title}
