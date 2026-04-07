@@ -17,13 +17,13 @@ export default function SteelScroll() {
         preload="auto"
       />
 
-      {/* Premium Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/85 z-[1]" />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/90 z-[1]" />
 
-      {/* CENTERED CONTENT */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center text-center px-6">
+      {/* BOTTOM CENTER CONTENT */}
+      <div className="absolute inset-0 z-10 flex items-end justify-center px-6 pb-10 md:pb-16">
 
-        <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-4 md:gap-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-4 md:gap-6 text-center">
 
           {/* Heading */}
           <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-white font-bold leading-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)]">
