@@ -1,22 +1,22 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { listModuleItems } from "@/lib/dynamic-cms";
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ module: string }> }) {
+export async function GET(request: Request, { params }: { params: { module: string } }) {
   try {
-    const { module } = await params;
-    const q = request.nextUrl.searchParams.get("q") ?? undefined;
-    const limit = Number(request.nextUrl.searchParams.get("limit") ?? "24");
-    const rows = await listModuleItems(module, { q, status: "published", limit });
-    return NextResponse.json(
-      { data: rows },
-      {
-        headers: {
-          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=900",
-        },
-      },
-    );
+    const { searchParams } = new URL(request.url);
+    const q = searchParams.get("q") || undefined;
+    const limit = parseInt(searchParams.get("limit") || "50", 10);
+
+    // Fetch published records from the MySQL database using the dynamic-cms lib
+    const items = await listModuleItems(params.module, {
+      status: "published",
+      q,
+      limit,
+    });
+
+    return NextResponse.json({ data: items });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unable to fetch content.";
-    return NextResponse.json({ error: message }, { status: 400 });
+    console.error(`Public API Error [${params.module}]:`, error);
+    return NextResponse.json({ error: "Failed to fetch module records." }, { status: 500 });
   }
 }

@@ -1,34 +1,31 @@
 import { NextResponse } from "next/server";
-import { ensureDynamicCmsTables } from "@/lib/dynamic-cms";
 import { getPool } from "@/lib/mysql";
 import { RowDataPacket } from "mysql2";
 
-export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
-    await ensureDynamicCmsTables();
-    const { id } = await params;
+    const id = parseInt(params.id, 10);
+    if (isNaN(id)) return new NextResponse("Invalid ID", { status: 400 });
 
-    const [rows] = await getPool().query<(RowDataPacket & { file_name: string; mime_type: string; file_data: Buffer })[]>(
-      "SELECT file_name, mime_type, file_data FROM cms_uploads WHERE id = ? LIMIT 1",
-      [Number(id)],
+    const pool = getPool();
+    const [rows] = await pool.query<RowDataPacket[]>(
+      "SELECT file_name, mime_type, file_data FROM cms_uploads WHERE id = ?",
+      [id]
     );
 
-    if (!rows.length) {
-      return new NextResponse("Not found", { status: 404 });
-    }
+    if (rows.length === 0) return new NextResponse("File Not Found", { status: 404 });
 
-    const row = rows[0];
-    const body = new Uint8Array(row.file_data);
+    const file = rows[0];
 
-    return new NextResponse(body, {
+    return new NextResponse(file.file_data, {
       headers: {
-        "Content-Type": row.mime_type,
-        "Content-Disposition": `inline; filename=\"${row.file_name}\"`,
+        "Content-Type": file.mime_type,
+        "Content-Disposition": `inline; filename="${file.file_name}"`,
         "Cache-Control": "public, max-age=31536000, immutable",
       },
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unable to fetch file.";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("File Fetch Error:", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
