@@ -7,6 +7,11 @@ import { motion } from "framer-motion";
 
 export default function HomeAbout() {
   const [playVideo, setPlayVideo] = useState(false);
+  const [thumbError, setThumbError] = useState(false);
+
+  const youtubeVideoId = "OFUDOvewAG8";
+  const localThumbnail = "/image/video-thumbnail.jpg";
+  const fallbackThumbnail = `https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`;
 
   return (
     <section className="relative w-full py-16 px-6 md:px-12 overflow-hidden">
@@ -19,10 +24,10 @@ export default function HomeAbout() {
           className="object-cover object-center"
           priority
         />
-        <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-white/75 backdrop-blur-[2px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-16 relative z-10">
         {/* Video Section */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -31,44 +36,58 @@ export default function HomeAbout() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="w-full md:w-1/2 relative"
         >
-          <div className="relative w-full pb-[65%] bg-black rounded-sm overflow-hidden shadow-2xl">
+          <div className="relative w-full aspect-video bg-black rounded-sm overflow-hidden shadow-2xl">
             {playVideo ? (
               <iframe
-                src="https://www.youtube.com/embed/OFUDOvewAG8?autoplay=1&controls=1&rel=0"
+                src={`https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&controls=1&rel=0`}
                 title="KAAVERI TMT Video"
                 allow="autoplay; encrypted-media"
                 allowFullScreen
-                className="absolute top-0 left-0 w-full h-full"
+                className="absolute inset-0 w-full h-full"
               />
             ) : (
               <div
                 className="absolute inset-0 cursor-pointer group"
                 onClick={() => setPlayVideo(true)}
               >
-                <Image
-                  src="/image/video-thumbnail.jpg"
-                  alt="Video Thumbnail"
-                  fill
-                  className="object-cover scale-105 group-hover:scale-110 transition duration-500"
-                  priority
-                />
+                {!thumbError ? (
+                  <Image
+                    src={localThumbnail}
+                    alt="Video Thumbnail"
+                    fill
+                    priority
+                    className="object-cover scale-100 group-hover:scale-105 transition duration-500"
+                    onError={() => setThumbError(true)}
+                  />
+                ) : (
+                  <Image
+                    src={fallbackThumbnail}
+                    alt="YouTube Video Thumbnail"
+                    fill
+                    unoptimized
+                    className="object-cover scale-100 group-hover:scale-105 transition duration-500"
+                  />
+                )}
 
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition duration-300" />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-black/15 group-hover:bg-black/25 transition duration-300" />
 
+                {/* Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 md:w-20 md:h-20 bg-accent-red rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-300">
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-accent-red rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 transition duration-300">
                     <span className="text-white text-xl md:text-2xl ml-1">▶</span>
                   </div>
                 </div>
               </div>
             )}
 
-            <div className="absolute inset-0 border-8 border-white/20 pointer-events-none z-20" />
+            {/* Border */}
+            <div className="absolute inset-0 border-[6px] md:border-8 border-white/20 pointer-events-none z-20" />
           </div>
 
           {/* Glow Effects */}
           <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-accent-yellow/30 blur-2xl rounded-full z-0" />
-          <div className="absolute -top-6 -left-6 w-32 h-32 bg-accent-red/30 blur-2xl rounded-full z-0" />
+          <div className="absolute -top-6 -left-6 w-32 h-32 bg-accent-red/20 blur-2xl rounded-full z-0" />
           <div className="hidden md:block absolute -right-6 -bottom-6 w-full h-full border-2 border-accent-red/20 -z-10 rounded-sm" />
         </motion.div>
 
@@ -87,8 +106,9 @@ export default function HomeAbout() {
             </h2>
           </div>
 
-          <h3 className="font-heading text-4xl md:text-5xl text-foreground mb-8 leading-tight">
-            Strength That <br />
+          <h3 className="font-heading text-4xl md:text-5xl lg:text-6xl text-foreground mb-8 leading-tight">
+            Strength That
+            <br />
             <span className="text-accent-red">Supports The Future</span>
           </h3>
 
