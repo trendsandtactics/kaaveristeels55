@@ -72,7 +72,7 @@ export default function DynamicModulePage({ module, heading, subtitle }: { modul
                 <article key={item.id} className="rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-shadow">
                   <div className="relative w-full">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={resolveMediaUrl(item.cover_image ?? item.file_url, "")} alt={item.title} className="w-full h-auto bg-gray-100" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                    <img src={resolveMediaUrl(item.cover_image || item.file_url || "", "")} alt={item.title} className="w-full h-auto bg-gray-100" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                   </div>
                   <div className="p-5">
                     <p className="text-[10px] uppercase tracking-[0.18em] text-black/50 font-semibold">Featured</p>
@@ -90,7 +90,7 @@ export default function DynamicModulePage({ module, heading, subtitle }: { modul
             <article key={item.id} className="group rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <div className="relative w-full">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={resolveMediaUrl(item.cover_image ?? item.file_url, "")} alt={item.title} className="w-full h-auto bg-gray-100" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                <img src={resolveMediaUrl(item.cover_image || item.file_url || "", "")} alt={item.title} className="w-full h-auto bg-gray-100" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
                 <p className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.18em] text-white font-semibold z-10">{module}</p>
               </div>

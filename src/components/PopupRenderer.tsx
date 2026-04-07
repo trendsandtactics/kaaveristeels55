@@ -26,7 +26,7 @@ export default function PopupRenderer() {
           setPopup(item);
           setImageSrc(
             resolveMediaUrl(
-              item.file_url ?? item.cover_image,
+              item.file_url || item.cover_image || "",
               ""
             )
           );
