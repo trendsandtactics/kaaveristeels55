@@ -9,7 +9,7 @@ export default function SteelScroll() {
       {/* Background Video */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
-        src="https://kaaveristeels54.vercel.app/yellowbg.mp4"
+        src="/kaaveri01.mp4"
         autoPlay
         muted
         loop
@@ -17,23 +17,22 @@ export default function SteelScroll() {
         preload="auto"
       />
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/80 z-[1]" />
+      {/* Premium Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/80 z-[1]" />
 
-      {/* Content Wrapper */}
+      {/* Content */}
       <div className="absolute inset-0 z-10 flex items-end">
-        <div className="max-w-7xl mx-auto w-full px-6 md:px-12 pb-12 md:pb-16">
+        <div className="max-w-7xl mx-auto w-full px-6 md:px-12 pb-10 md:pb-16">
 
-          {/* Bottom Row */}
-          <div className="flex items-end justify-between gap-6">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
 
-            {/* Heading - SINGLE LINE */}
-            <h2 className="font-heading text-2xl md:text-5xl lg:text-6xl text-white font-bold leading-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)] whitespace-nowrap">
+            {/* Heading */}
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-white font-bold leading-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)]">
               Building India&apos;s Future
             </h2>
 
             {/* Button */}
-            <button className="px-6 py-3 md:px-8 md:py-4 bg-accent-yellow text-black font-bold text-xs md:text-lg uppercase tracking-wider rounded-sm shadow-[0_0_30px_rgba(234,179,8,0.35)] hover:scale-105 transition duration-300 whitespace-nowrap">
+            <button className="px-6 py-3 md:px-8 md:py-4 bg-[#7A1C1C] text-white font-semibold text-xs md:text-lg uppercase tracking-wider rounded-md shadow-[0_8px_30px_rgba(122,28,28,0.6)] hover:bg-[#5c1414] hover:scale-105 transition duration-300 ease-in-out whitespace-nowrap">
               Explore Our Products
             </button>
 
