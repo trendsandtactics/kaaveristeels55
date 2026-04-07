@@ -10,7 +10,6 @@ export default function HomeAbout() {
 
   return (
     <section className="relative w-full py-16 px-6 md:px-12 overflow-hidden">
-      
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -24,7 +23,6 @@ export default function HomeAbout() {
       </div>
 
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
-
         {/* Video Section */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -34,49 +32,43 @@ export default function HomeAbout() {
           className="w-full md:w-1/2 relative"
         >
           <div className="relative w-full pb-[65%] bg-black rounded-sm overflow-hidden shadow-2xl">
-
-            {/* IF VIDEO PLAYED */}
             {playVideo ? (
               <iframe
-                src="https://www.youtube.com/embed/OFUDOvewAG8?autoplay=0&controls=1&rel=0"
+                src="https://www.youtube.com/embed/OFUDOvewAG8?autoplay=1&controls=1&rel=0"
                 title="KAAVERI TMT Video"
-                allow="encrypted-media"
+                allow="autoplay; encrypted-media"
                 allowFullScreen
                 className="absolute top-0 left-0 w-full h-full"
               />
             ) : (
-              /* THUMBNAIL + PLAY BUTTON */
               <div
                 className="absolute inset-0 cursor-pointer group"
                 onClick={() => setPlayVideo(true)}
               >
                 <Image
-                  src="/image/video-thumbnail.jpg" // 👈 replace with your thumbnail
+                  src="/image/video-thumbnail.jpg"
                   alt="Video Thumbnail"
                   fill
-                  className="object-cover"
+                  className="object-cover scale-105 group-hover:scale-110 transition duration-500"
+                  priority
                 />
 
-                {/* Play Button */}
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition duration-300" />
+
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-accent-red rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition">
-                    <span className="text-white text-xl">▶</span>
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-accent-red rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-300">
+                    <span className="text-white text-xl md:text-2xl ml-1">▶</span>
                   </div>
                 </div>
-
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black/30" />
               </div>
             )}
 
-            {/* Border */}
             <div className="absolute inset-0 border-8 border-white/20 pointer-events-none z-20" />
           </div>
 
           {/* Glow Effects */}
           <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-accent-yellow/30 blur-2xl rounded-full z-0" />
           <div className="absolute -top-6 -left-6 w-32 h-32 bg-accent-red/30 blur-2xl rounded-full z-0" />
-
           <div className="hidden md:block absolute -right-6 -bottom-6 w-full h-full border-2 border-accent-red/20 -z-10 rounded-sm" />
         </motion.div>
 
@@ -101,16 +93,18 @@ export default function HomeAbout() {
           </h3>
 
           <p className="font-body text-foreground/80 text-lg leading-relaxed mb-6 font-medium">
-            At KAAVERI, we are passionate about steel and dedicated to excellence.
-            As a leading manufacturer of TMT bars and structural steel products,
-            we are committed to providing the construction industry with the
-            highest quality materials that ensure strength, safety, and sustainability.
+            At KAAVERI, we are passionate about steel and dedicated to
+            excellence. As a leading manufacturer of TMT bars and structural
+            steel products, we are committed to providing the construction
+            industry with the highest quality materials that ensure strength,
+            safety, and sustainability.
           </p>
 
           <p className="font-body text-foreground/80 text-lg leading-relaxed mb-10 font-medium">
-            Our state-of-the-art manufacturing processes and rigorous quality control
-            ensure that every product leaving our facility meets the highest global
-            standards, empowering builders to create structures that stand the test of time.
+            Our state-of-the-art manufacturing processes and rigorous quality
+            control ensure that every product leaving our facility meets the
+            highest global standards, empowering builders to create structures
+            that stand the test of time.
           </p>
 
           <Link href="/about-us">
@@ -121,7 +115,6 @@ export default function HomeAbout() {
               <div className="absolute inset-0 bg-white transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 z-0" />
             </button>
           </Link>
-
         </motion.div>
       </div>
     </section>
