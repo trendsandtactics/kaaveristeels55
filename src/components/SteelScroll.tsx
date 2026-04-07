@@ -18,16 +18,17 @@ export default function SteelScroll() {
       />
 
       {/* Premium Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/80 z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black/85 z-[1]" />
 
-      {/* Content */}
+      {/* Content Wrapper */}
       <div className="absolute inset-0 z-10 flex items-end">
         <div className="max-w-7xl mx-auto w-full px-6 md:px-12 pb-10 md:pb-16">
 
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          {/* Text + Button Row */}
+          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
 
             {/* Heading */}
-            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-white font-bold leading-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)]">
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-white font-bold leading-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)] whitespace-nowrap">
               Building India&apos;s Future
             </h2>
 
