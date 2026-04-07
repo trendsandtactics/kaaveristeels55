@@ -101,13 +101,15 @@ export default function PopupRenderer() {
                 className="h-full w-full bg-white"
               />
             ) : (
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={imageSrc}
-                alt="Certificate"
-                className="h-full w-full object-contain bg-white"
-                onError={() => setImageSrc("/image/certificate.jpg")}
-              />
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={imageSrc}
+              alt="Certificate"
+              className="h-full w-full object-contain bg-white"
+              onError={() => setImageSrc("/image/certificate.jpg")}
+            />
+          </>
             )}
           </div>
         </div>
