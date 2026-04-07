@@ -86,7 +86,7 @@ export default function DynamicModulePage({ module, heading, subtitle }: { modul
             <div className="grid md:grid-cols-3 gap-5">
               {featured.map((item) => (
                 <article key={item.id} className="rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-shadow">
-                  <div className="relative h-44 w-full"><Image src={resolveMediaUrl(item.cover_image ?? item.file_url, fallbackImage)} alt={item.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" /></div>
+                  <div className="relative aspect-square w-full"><Image src={resolveMediaUrl(item.cover_image ?? item.file_url, fallbackImage)} alt={item.title} fill className="object-contain bg-gray-100" sizes="(max-width: 768px) 100vw, 33vw" /></div>
                   <div className="p-5">
                     <p className="text-[10px] uppercase tracking-[0.18em] text-black/50 font-semibold">Featured</p>
                     <h3 className="font-heading text-2xl mt-2">{item.title}</h3>
@@ -101,8 +101,8 @@ export default function DynamicModulePage({ module, heading, subtitle }: { modul
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
           {items.map((item) => (
             <article key={item.id} className="group rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <div className="relative h-56 w-full">
-                <Image src={resolveMediaUrl(item.cover_image ?? item.file_url, fallbackImage)} alt={item.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" />
+              <div className="relative aspect-square w-full">
+                <Image src={resolveMediaUrl(item.cover_image ?? item.file_url, fallbackImage)} alt={item.title} fill className="object-contain bg-gray-100" sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" />
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent" />
                 <p className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.18em] text-white font-semibold">{module}</p>
               </div>
@@ -111,10 +111,11 @@ export default function DynamicModulePage({ module, heading, subtitle }: { modul
                 <h3 className="font-heading text-2xl text-black group-hover:text-accent-red transition-colors">{item.title}</h3>
                 <p className="text-sm text-black/65 mt-2 line-clamp-3">{item.short_description ?? "Content will be updated soon."}</p>
 
-                <div className="mt-4 flex items-center justify-between">
-                  <Link href={`/${module}/${item.slug}`} className="text-sm font-semibold text-accent-red">Read more</Link>
-                  {item.file_url ? <a href={item.file_url} target="_blank" className="text-sm font-semibold text-black/70 hover:text-black" rel="noreferrer">Download</a> : null}
-                </div>
+                {item.file_url && (
+                  <div className="mt-4 flex items-center justify-end">
+                    <a href={item.file_url} target="_blank" className="text-sm font-semibold text-black/70 hover:text-black" rel="noreferrer">Download</a>
+                  </div>
+                )}
               </div>
             </article>
           ))}
