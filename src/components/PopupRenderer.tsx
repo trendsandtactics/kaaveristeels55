@@ -13,7 +13,7 @@ type PopupItem = {
 export default function PopupRenderer() {
   const [popup, setPopup] = useState<PopupItem | null>(null);
   const [open, setOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState("/image/certificate.jpg");
+  const [imageSrc, setImageSrc] = useState("");
 
   const isPdf = imageSrc.toLowerCase().includes(".pdf");
 
@@ -27,7 +27,7 @@ export default function PopupRenderer() {
           setImageSrc(
             resolveMediaUrl(
               item.file_url ?? item.cover_image,
-              "/image/certificate.jpg"
+              ""
             )
           );
           setOpen(true);
@@ -105,9 +105,9 @@ export default function PopupRenderer() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageSrc}
-              alt="Certificate"
+              alt={popup.title || "Popup"}
               className="h-full w-full object-contain bg-white"
-              onError={() => setImageSrc("/image/certificate.jpg")}
+              onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
           </>
             )}

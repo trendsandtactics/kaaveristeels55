@@ -1,19 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import { resolveMediaUrl } from "@/lib/media";
-
-const MODULE_FALLBACK_IMAGE: Record<string, string> = {
-  products: "/image/tmtbars.png",
-  blogs: "/image/about1.png",
-  projects: "/image/about2.png",
-  mediaEvents: "/image/kaaveriabout.png",
-  careers: "/image/aboutbackground.png",
-  dealers: "/image/tmtbar.png",
-  galleries: "/image/certificate.jpg",
-  brochures: "/image/billets.png",
-};
 
 type DynamicItem = {
   id: number;
@@ -60,7 +48,6 @@ export default function DynamicModulePage({ module, heading, subtitle }: { modul
   }, [module, debouncedQ]);
 
   const featured = useMemo(() => items.filter((item) => item.featured).slice(0, 3), [items]);
-  const fallbackImage = MODULE_FALLBACK_IMAGE[module] ?? "/image/kaaveriwbg.png";
 
   return (
     <main className="min-h-screen pt-24 bg-gray-50">
@@ -85,11 +72,14 @@ export default function DynamicModulePage({ module, heading, subtitle }: { modul
             <div className="grid md:grid-cols-3 gap-5">
               {featured.map((item) => (
                 <article key={item.id} className="rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-shadow">
-                  <div className="relative aspect-square w-full"><Image src={resolveMediaUrl(item.cover_image ?? item.file_url, fallbackImage)} alt={item.title} fill className="object-contain bg-gray-100" sizes="(max-width: 768px) 100vw, 33vw" /></div>
+                  <div className="relative w-full">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={resolveMediaUrl(item.cover_image ?? item.file_url, "")} alt={item.title} className="w-full h-auto bg-gray-100" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                  </div>
                   <div className="p-5">
                     <p className="text-[10px] uppercase tracking-[0.18em] text-black/50 font-semibold">Featured</p>
                     <h3 className="font-heading text-2xl mt-2">{item.title}</h3>
-                    <p className="text-sm text-black/65 mt-2 line-clamp-3">{item.short_description ?? "No summary available."}</p>
+                    <p className="text-sm text-black/65 mt-2 line-clamp-3">{item.short_description}</p>
                   </div>
                 </article>
               ))}
@@ -100,15 +90,16 @@ export default function DynamicModulePage({ module, heading, subtitle }: { modul
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
           {items.map((item) => (
             <article key={item.id} className="group rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <div className="relative aspect-square w-full">
-                <Image src={resolveMediaUrl(item.cover_image ?? item.file_url, fallbackImage)} alt={item.title} fill className="object-contain bg-gray-100" sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" />
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent" />
-                <p className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.18em] text-white font-semibold">{module}</p>
+              <div className="relative w-full">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={resolveMediaUrl(item.cover_image ?? item.file_url, "")} alt={item.title} className="w-full h-auto bg-gray-100" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+                <p className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.18em] text-white font-semibold z-10">{module}</p>
               </div>
 
               <div className="p-5">
                 <h3 className="font-heading text-2xl text-black group-hover:text-accent-red transition-colors">{item.title}</h3>
-                <p className="text-sm text-black/65 mt-2 line-clamp-3">{item.short_description ?? "Content will be updated soon."}</p>
+                <p className="text-sm text-black/65 mt-2 line-clamp-3">{item.short_description}</p>
 
                 {item.file_url && (
                   <div className="mt-4 flex items-center justify-end">

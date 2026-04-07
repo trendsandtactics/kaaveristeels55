@@ -1,41 +1,16 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import { resolveMediaUrl } from "@/lib/media";
 
 type Certification = {
   id: number;
   title: string;
-  description: string;
-  issuedBy: string;
-  issueDate: string | null;
-  createdAt: string;
+  short_description?: string | null;
+  cover_image?: string | null;
+  file_url?: string | null;
+  created_at: string;
 };
-
-async function readApiResponse(
-  response: Response
-): Promise<{ error?: string; certifications?: Certification[] }> {
-  const contentType = response.headers.get("content-type") || "";
-
-  if (contentType.includes("application/json")) {
-    return response.json();
-  }
-
-  const text = await response.text();
-  return { error: text || "Unexpected server response." };
-}
-
-function formatDate(date: string | null) {
-  if (!date) return "";
-
-  const parsed = new Date(date);
-  if (Number.isNaN(parsed.getTime())) return "";
-
-  return parsed.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 export default function CertificationsPage() {
   const [items, setItems] = useState<Certification[]>([]);
@@ -51,17 +26,16 @@ export default function CertificationsPage() {
       setLoading(true);
       setError("");
 
-      const response = await fetch("/api/certifications", {
-        cache: "force-cache",
+          const response = await fetch("/api/public/content/certifications?limit=50", {
+            cache: "no-store",
       });
 
-      const data = await readApiResponse(response);
-
       if (!response.ok) {
-        throw new Error(data.error ?? "Unable to fetch certificates.");
+            throw new Error("Unable to fetch certificates.");
       }
 
-      setItems(data.certifications ?? []);
+          const data = await response.json();
+          setItems(data.data ?? []);
     } catch (err) {
       setError(
         err instanceof Error
@@ -134,8 +108,6 @@ export default function CertificationsPage() {
           ) : (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
               {items.map((item) => {
-                const fileUrl = `/api/certifications/${item.id}/file`;
-
                 return (
                   <article
                     key={item.id}
@@ -145,21 +117,10 @@ export default function CertificationsPage() {
                       <h3 className="font-heading text-xl leading-snug text-black md:text-2xl">
                         {item.title}
                       </h3>
-
-                      {item.issueDate ? (
-                        <span className="shrink-0 pt-1 text-xs font-semibold uppercase tracking-[0.14em] text-black/55 md:text-sm">
-                          {formatDate(item.issueDate)}
-                        </span>
-                      ) : null}
                     </div>
 
                     <p className="mb-3 text-sm leading-7 text-black/72 md:text-base">
-                      {item.description}
-                    </p>
-
-                    <p className="mb-5 text-sm text-black/72">
-                      <span className="font-semibold text-black">Issued by:</span>{" "}
-                      {item.issuedBy}
+                      {item.short_description}
                     </p>
 
                     <button
@@ -167,16 +128,17 @@ export default function CertificationsPage() {
                       onClick={() =>
                         setSelectedCertificate({
                           title: item.title,
-                          fileUrl,
+                          fileUrl: resolveMediaUrl(item.file_url ?? item.cover_image, ""),
                         })
                       }
                       className="flex flex-1 items-center justify-center rounded-[24px] border border-black/10 bg-[#fafafa] p-4 text-left transition hover:border-black/20 hover:shadow-md md:p-5"
                     >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={fileUrl}
+                        src={resolveMediaUrl(item.file_url ?? item.cover_image, "")}
                         alt={item.title}
                         className="block h-auto max-h-[620px] w-full rounded-2xl object-contain"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
                       />
                     </button>
                   </article>
