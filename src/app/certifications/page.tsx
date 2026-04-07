@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { resolveMediaUrl } from "@/lib/media";
 
 type Certification = {
@@ -26,21 +26,19 @@ export default function CertificationsPage() {
       setLoading(true);
       setError("");
 
-          const response = await fetch("/api/public/content/certifications?limit=50", {
-            cache: "no-store",
+      const response = await fetch("/api/public/content/certifications?limit=50", {
+        cache: "no-store",
       });
 
       if (!response.ok) {
-            throw new Error("Unable to fetch certificates.");
+        throw new Error("Unable to fetch certificates.");
       }
 
-          const data = await response.json();
-          setItems(data.data ?? []);
+      const data = await response.json();
+      setItems(data.data ?? []);
     } catch (err) {
       setError(
-        err instanceof Error
-          ? err.message
-          : "Unable to fetch certificates."
+        err instanceof Error ? err.message : "Unable to fetch certificates."
       );
     } finally {
       setLoading(false);
@@ -61,6 +59,13 @@ export default function CertificationsPage() {
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
   }, []);
+
+  const imageItems = useMemo(() => {
+    return items.filter((item) => {
+      const fileUrl = resolveMediaUrl(item.file_url ?? item.cover_image, "");
+      return /\.(png|jpg|jpeg|webp|gif|bmp|svg)$/i.test(fileUrl);
+    });
+  }, [items]);
 
   return (
     <main className="min-h-screen bg-[#f6f6f6]">
@@ -101,13 +106,18 @@ export default function CertificationsPage() {
             </p>
           ) : error ? (
             <p className="py-20 text-center text-base text-red-600">{error}</p>
-          ) : items.length === 0 ? (
+          ) : imageItems.length === 0 ? (
             <p className="py-20 text-center text-base text-black/60">
-              No certificates available yet.
+              No certificate images available yet.
             </p>
           ) : (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
-              {items.map((item) => {
+              {imageItems.map((item) => {
+                const fileUrl = resolveMediaUrl(
+                  item.file_url ?? item.cover_image,
+                  ""
+                );
+
                 return (
                   <article
                     key={item.id}
@@ -119,26 +129,28 @@ export default function CertificationsPage() {
                       </h3>
                     </div>
 
-                    <p className="mb-3 text-sm leading-7 text-black/72 md:text-base">
-                      {item.short_description}
-                    </p>
+                    {item.short_description ? (
+                      <p className="mb-3 text-sm leading-7 text-black/72 md:text-base">
+                        {item.short_description}
+                      </p>
+                    ) : null}
 
                     <button
                       type="button"
                       onClick={() =>
                         setSelectedCertificate({
                           title: item.title,
-                          fileUrl: resolveMediaUrl(item.file_url ?? item.cover_image, ""),
+                          fileUrl,
                         })
                       }
                       className="flex flex-1 items-center justify-center rounded-[24px] border border-black/10 bg-[#fafafa] p-4 text-left transition hover:border-black/20 hover:shadow-md md:p-5"
                     >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={resolveMediaUrl(item.file_url ?? item.cover_image, "")}
+                        src={fileUrl}
                         alt={item.title}
                         className="block h-auto max-h-[620px] w-full rounded-2xl object-contain"
-                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        loading="lazy"
                       />
                     </button>
                   </article>
