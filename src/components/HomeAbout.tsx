@@ -30,25 +30,47 @@ export default function HomeAbout() {
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, amount: 0.3 }}
-          onViewportEnter={() => setPlayVideo(true)}
-          onViewportLeave={() => setPlayVideo(false)}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="w-full md:w-1/2 relative"
         >
           <div className="relative w-full pb-[65%] bg-black rounded-sm overflow-hidden shadow-2xl">
 
-          {playVideo && (
-            <iframe
-              src="https://www.youtube.com/embed/OFUDOvewAG8?autoplay=1&mute=0&controls=0&rel=0"
-              title="KAAVERI TMT Video"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-              className="absolute top-0 left-0 w-full h-full object-contain"
-            />
-          )}
+            {/* IF VIDEO PLAYED */}
+            {playVideo ? (
+              <iframe
+                src="https://www.youtube.com/embed/OFUDOvewAG8?autoplay=0&controls=1&rel=0"
+                title="KAAVERI TMT Video"
+                allow="encrypted-media"
+                allowFullScreen
+                className="absolute top-0 left-0 w-full h-full"
+              />
+            ) : (
+              /* THUMBNAIL + PLAY BUTTON */
+              <div
+                className="absolute inset-0 cursor-pointer group"
+                onClick={() => setPlayVideo(true)}
+              >
+                <Image
+                  src="/image/video-thumbnail.jpg" // 👈 replace with your thumbnail
+                  alt="Video Thumbnail"
+                  fill
+                  className="object-cover"
+                />
 
+                {/* Play Button */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-16 h-16 bg-accent-red rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                    <span className="text-white text-xl">▶</span>
+                  </div>
+                </div>
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-black/30" />
+              </div>
+            )}
+
+            {/* Border */}
             <div className="absolute inset-0 border-8 border-white/20 pointer-events-none z-20" />
-
           </div>
 
           {/* Glow Effects */}
@@ -57,7 +79,6 @@ export default function HomeAbout() {
 
           <div className="hidden md:block absolute -right-6 -bottom-6 w-full h-full border-2 border-accent-red/20 -z-10 rounded-sm" />
         </motion.div>
-
 
         {/* Content Section */}
         <motion.div
