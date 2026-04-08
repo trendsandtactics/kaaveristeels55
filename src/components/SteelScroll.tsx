@@ -22,12 +22,12 @@ export default function SteelScroll() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-4 md:gap-6 text-center">
 
           {/* Heading */}
-          <h2 className="font-heading text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-white font-bold leading-tight drop-shadow-[0_6px_40px_rgba(0,0,0,1)]">
+          <h2 className="font-heading text-xl sm:text-2xl md:text-4xl lg:text-5xl text-white font-bold leading-tight drop-shadow-[0_6px_40px_rgba(0,0,0,1)]">
             Building India&apos;s Future
           </h2>
 
           {/* Button */}
-          <button className="px-6 py-3 md:px-8 md:py-4 bg-[#7A1C1C] text-white font-semibold text-xs md:text-lg uppercase tracking-wider rounded-md shadow-[0_10px_40px_rgba(122,28,28,0.7)] hover:bg-[#5c1414] hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out whitespace-nowrap">
+          <button className="px-5 py-2.5 md:px-7 md:py-3 bg-[#7A1C1C] text-white font-semibold text-[10px] md:text-sm uppercase tracking-wider rounded-md shadow-[0_10px_40px_rgba(122,28,28,0.7)] hover:bg-[#5c1414] hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out whitespace-nowrap">
             Explore Our Products
           </button>
 

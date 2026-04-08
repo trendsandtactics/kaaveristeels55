@@ -86,15 +86,15 @@ export default function Header() {
             <Image
               src="/logo3.png"
               alt="Kaaveri TMT Bars & Structural"
-              width={200}
-              height={60}
-              className="h-10 md:h-11 w-auto object-contain"
+              width={240}
+              height={80}
+              className="h-14 md:h-16 lg:h-20 w-auto object-contain"
               priority
             />
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-3 xl:gap-5">
+          <nav className="hidden xl:flex items-center gap-4 2xl:gap-6">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className={`${navItemClass} group`}>
                 {link.name}
@@ -164,7 +164,7 @@ export default function Header() {
 
           {/* Mobile Button */}
           <button
-            className="lg:hidden z-50 text-xl text-black"
+            className="xl:hidden z-50 text-2xl text-black p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
             type="button"
@@ -180,7 +180,7 @@ export default function Header() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 flex flex-col items-center justify-start gap-4 bg-white px-6 pt-24 pb-12 overflow-y-auto"
+              className="fixed inset-0 z-40 flex flex-col items-center justify-start gap-4 bg-white px-6 pt-32 pb-12 overflow-y-auto"
             >
               {navLinks.map((link) => (
                 <Link
