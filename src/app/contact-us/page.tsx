@@ -1,116 +1,34 @@
+"use client";
+
 import React from "react";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import { logout } from "./actions";
+import MapEmbed from "@/components/MapEmbed";
 
-type QuoteRequest = {
-    id: number;
-    name: string;
-    company?: string;
-    email: string;
-    phone: string;
-    product_type: string;
-    quantity: string;
-    location?: string;
-    notes?: string;
-};
-
-export const dynamic = 'force-dynamic'; // Ensures this page isn't statically cached
-
-export const metadata = {
-    title: "Dashboard | KAAVERI TMT",
-};
-
-export default async function AdminDashboard({ searchParams }: { searchParams: { page?: string } }) {
-    // 1. Verify authentication
-    const session = cookies().get('admin_session');
-    if (!session || session.value !== 'authenticated') {
-        redirect('/admin/login');
-    }
-
-    // 2. Pagination setup
-    const page = parseInt(searchParams.page || '1', 10) || 1;
-    const limit = 10;
-    const offset = (page - 1) * limit;
-
-    // 3. Fetch submissions from the database
-    let requests: QuoteRequest[] = [];
-    let totalPages = 1;
-    try {
-        const { getDbPool } = await import('./db');
-        const pool = getDbPool();
-
-        const [countResult] = await pool.query('SELECT COUNT(*) as count FROM quote_requests');
-        const totalItems = (countResult as unknown as { count: number }[])[0]?.count || 0;
-        totalPages = Math.ceil(totalItems / limit) || 1;
-
-        const [rows] = await pool.query(`SELECT * FROM quote_requests ORDER BY id DESC LIMIT ${limit} OFFSET ${offset}`);
-        requests = rows as QuoteRequest[];
-    } catch (err) {
-        console.error("Failed to fetch requests:", err);
-    }
-
+export default function ContactUsPage() {
     return (
-        <div className="min-h-screen bg-gray-50 pt-32 pb-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
-                <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 font-heading">Quote Requests</h1>
-                    <form action={logout}>
-                        <button type="submit" className="px-6 py-3 bg-black text-white text-xs font-bold uppercase tracking-widest rounded-sm hover:bg-accent-red transition-colors shadow-md">
-                            Logout
-                        </button>
-                    </form>
-                </div>
-                
-                <div className="bg-white shadow-xl rounded-sm border border-gray-100 overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-[#f8f9fa]">
-                            <tr>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-black/70 uppercase tracking-widest">Name / Company</th>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-black/70 uppercase tracking-widest">Contact</th>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-black/70 uppercase tracking-widest">Details</th>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-black/70 uppercase tracking-widest">Notes</th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200 font-body">
-                            {requests.length > 0 ? requests.map((req, i) => (
-                                <tr key={req.id || i} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-6 py-4 text-sm text-gray-900"><span className="font-bold">{req.name}</span><br/><span className="text-gray-500">{req.company}</span></td>
-                                    <td className="px-6 py-4 text-sm text-gray-500">{req.email}<br/>{req.phone}</td>
-                                    <td className="px-6 py-4 text-sm text-gray-900"><span className="font-semibold">{req.product_type}</span><br/><span className="text-gray-500">{req.quantity}</span><br/><span className="text-xs text-gray-400">{req.location}</span></td>
-                                    <td className="px-6 py-4 text-sm text-gray-500 max-w-xs">{req.notes || '-'}</td>
-                                </tr>
-                            )) : (
-                                <tr>
-                                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500">No requests found.</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+        <main className="flex min-h-screen flex-col w-full relative pt-24 bg-background">
+            {/* Contact Hero Area */}
+            <div className="w-full py-16 md:py-24 bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow text-black relative overflow-hidden shadow-2xl">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
 
-                {/* Pagination Controls */}
-                {totalPages > 1 && (
-                    <div className="flex justify-between items-center px-6 py-4 border-t border-gray-200 bg-[#f8f9fa]">
-                        <Link
-                            href={`?page=${page > 1 ? page - 1 : 1}`}
-                            className={`px-4 py-2 border border-gray-300 text-xs font-bold uppercase tracking-widest rounded-sm transition-colors ${page <= 1 ? 'text-gray-400 bg-gray-50 cursor-not-allowed pointer-events-none' : 'text-black bg-white hover:bg-gray-50 shadow-sm'}`}
-                        >
-                            Previous
-                        </Link>
-                        <span className="text-xs text-black/70 font-bold uppercase tracking-widest">
-                            Page {page} of {totalPages}
-                        </span>
-                        <Link
-                            href={`?page=${page < totalPages ? page + 1 : totalPages}`}
-                            className={`px-4 py-2 border border-gray-300 text-xs font-bold uppercase tracking-widest rounded-sm transition-colors ${page >= totalPages ? 'text-gray-400 bg-gray-50 cursor-not-allowed pointer-events-none' : 'text-black bg-white hover:bg-gray-50 shadow-sm'}`}
-                        >
-                            Next
-                        </Link>
+                <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
+                    <div className="flex items-center justify-center gap-4 mb-6">
+                        <div className="w-12 h-[2px] bg-black" />
+                        <h2 className="font-body text-black uppercase tracking-[0.2em] font-bold text-sm">Get In Touch</h2>
+                        <div className="w-12 h-[2px] bg-black" />
                     </div>
-                )}
+                    <h1 className="font-heading text-5xl md:text-7xl mb-6 text-black drop-shadow-md">
+                        Reach Out to <span className="text-black font-extrabold">KAAVERI</span>
+                    </h1>
+                    <p className="font-body text-black max-w-2xl mx-auto text-lg leading-relaxed font-medium">
+                        Whether you have inquiries about our premium steel products or require consulting for your structural needs, our team is directly available to assist you.
+                    </p>
                 </div>
             </div>
-        </div>
+
+            <div className="w-full flex-grow py-8">
+                <MapEmbed />
+            </div>
+        </main>
     );
 }
