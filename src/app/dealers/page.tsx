@@ -1,10 +1,20 @@
-import DynamicModulePage from "@/components/DynamicModulePage";
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+
+interface Dealer {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
+  email?: string;
+  website?: string;
+}
 
 export default function DealersPage() {
-<<<<<<< HEAD
-  return <DynamicModulePage module="dealers" heading="Find Dealers" subtitle="Search authorized dealers by region and connect with nearby supply partners quickly." />;
-}
-=======
   const [dealers, setDealers] = useState<Dealer[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -169,4 +179,3 @@ export default function DealersPage() {
     </main>
   );
 }
->>>>>>> ee1fc45 (st)
