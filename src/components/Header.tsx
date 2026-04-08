@@ -94,7 +94,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-5">
+          <nav className="hidden lg:flex items-center gap-3 xl:gap-5">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className={`${navItemClass} group`}>
                 {link.name}
@@ -180,7 +180,7 @@ export default function Header() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-5 bg-white px-6"
+              className="fixed inset-0 z-40 flex flex-col items-center justify-start gap-4 bg-white px-6 pt-24 pb-12 overflow-y-auto"
             >
               {navLinks.map((link) => (
                 <Link

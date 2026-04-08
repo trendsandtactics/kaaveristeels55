@@ -35,7 +35,7 @@ const GenericPlaceholderPage: React.FC<GenericPlaceholderPageProps> = ({
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="flex items-center justify-center gap-4 mb-6"
+                        className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-6"
                     >
                         <div className={`w-12 h-[2px] bg-black`} />
                         <h2 className={`font-body uppercase tracking-[0.2em] font-bold text-sm text-black`}>{subtitle}</h2>

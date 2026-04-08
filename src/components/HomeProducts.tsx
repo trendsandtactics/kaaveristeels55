@@ -73,7 +73,7 @@ export default function HomeProducts() {
                             transition={{ duration: 0.7, delay: index * 0.2 }}
                             className="group relative bg-white border border-gray-100 shadow-xl overflow-hidden rounded-sm"
                         >
-                            <div className="relative w-full h-[400px] overflow-hidden">
+                            <div className="relative w-full h-[320px] md:h-[400px] overflow-hidden">
                                 <Image
                                     src={product.image}
                                     alt={product.name}

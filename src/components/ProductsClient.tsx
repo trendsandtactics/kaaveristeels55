@@ -183,7 +183,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                             </div>
                         </div>
                     </div>
-                    <div className="w-full md:w-1/2 relative h-[500px] rounded-sm overflow-hidden shadow-2xl">
+                    <div className="w-full md:w-1/2 relative h-[320px] sm:h-[400px] md:h-[500px] rounded-sm overflow-hidden shadow-2xl">
                         <Image src="/tmtbar1.png" alt="TMT Bars" fill className="object-cover" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                         <div className="absolute bottom-8 left-8 right-8">
