@@ -51,8 +51,8 @@ export default function PopupRenderer() {
   if (!popup || !open) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-[2px] flex items-center justify-center p-3 sm:p-4">
-      <div className="relative w-full flex items-center justify-center">
+    <div className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-[2px] flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+      <div className="relative w-full h-full max-h-full flex items-center justify-center">
         <div
           className="
             relative
@@ -62,6 +62,10 @@ export default function PopupRenderer() {
             md:max-w-[500px]
             lg:max-w-[560px]
             xl:max-w-[620px]
+            max-h-full
+            flex
+            flex-col
+            justify-center
           "
         >
           <button
@@ -91,7 +95,7 @@ export default function PopupRenderer() {
           </button>
 
           <div
-            className="w-full overflow-hidden rounded-2xl bg-white shadow-2xl"
+            className="w-full max-h-full min-h-0 overflow-hidden rounded-2xl bg-white shadow-2xl"
             style={{ aspectRatio: "210 / 297" }}
           >
             {isPdf ? (
