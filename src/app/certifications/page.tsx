@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { resolveMediaUrl } from "@/lib/media";
 
 type Certification = {
   id: number;
   title: string;
-  short_description?: string | null;
-  cover_image?: string | null;
-  file_url?: string | null;
-  created_at: string;
+  description: string;
+  issuedBy: string;
+  issueDate: string | null;
+  createdAt: string;
+  fileUrl?: string;
+  fileName?: string | null;
+  fileType?: string | null;
 };
 
 export default function CertificationsPage() {
@@ -26,7 +28,7 @@ export default function CertificationsPage() {
       setLoading(true);
       setError("");
 
-      const response = await fetch("/api/public/content/certifications?limit=50", {
+      const response = await fetch("/api/certifications", {
         cache: "no-store",
       });
 
@@ -35,7 +37,7 @@ export default function CertificationsPage() {
       }
 
       const data = await response.json();
-      setItems(data.data ?? []);
+      setItems(data.certifications ?? []);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Unable to fetch certificates."
@@ -62,8 +64,11 @@ export default function CertificationsPage() {
 
   const imageItems = useMemo(() => {
     return items.filter((item) => {
-      const fileUrl = resolveMediaUrl(item.file_url ?? item.cover_image, "");
-      return /\.(png|jpg|jpeg|webp|gif|bmp|svg)$/i.test(fileUrl);
+      const fileUrl = item.fileUrl || `/api/certifications/${item.id}/file`;
+      return (
+        item.fileType?.startsWith("image/") ||
+        /\.(png|jpg|jpeg|webp|gif|bmp|svg)$/i.test(item.fileName || fileUrl)
+      );
     });
   }, [items]);
 
@@ -113,10 +118,7 @@ export default function CertificationsPage() {
           ) : (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
               {imageItems.map((item) => {
-                const fileUrl = resolveMediaUrl(
-                  item.file_url ?? item.cover_image,
-                  ""
-                );
+                const fileUrl = item.fileUrl || `/api/certifications/${item.id}/file`;
 
                 return (
                   <article
@@ -129,9 +131,9 @@ export default function CertificationsPage() {
                       </h3>
                     </div>
 
-                    {item.short_description ? (
+                    {item.description ? (
                       <p className="mb-3 text-sm leading-7 text-black/72 md:text-base">
-                        {item.short_description}
+                        {item.description}
                       </p>
                     ) : null}
 
