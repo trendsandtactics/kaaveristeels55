@@ -62,7 +62,7 @@ export default function Header() {
   const transparent = pathname === "/" && !scrolled;
 
   const navItemClass =
-    "relative inline-flex items-center h-9 text-[11px] uppercase tracking-[0.14em] font-semibold text-black whitespace-nowrap transition-colors duration-300 hover:text-red-600";
+    "relative inline-flex items-center h-9 text-[10px] xl:text-[11px] uppercase tracking-[0.08em] xl:tracking-[0.12em] font-semibold text-black whitespace-nowrap transition-colors duration-300 hover:text-red-600";
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 transition-all duration-500">
@@ -88,13 +88,13 @@ export default function Header() {
               alt="Kaaveri TMT Bars & Structural"
               width={210}
               height={65}
-              className="h-10 md:h-12 lg:h-16 w-auto object-contain"
+              className="h-10 md:h-12 lg:h-11 xl:h-14 w-auto object-contain"
               priority
             />
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-3 xl:gap-5">
+          <nav className="hidden lg:flex items-center gap-2 xl:gap-5">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className={`${navItemClass} group`}>
                 {link.name}
@@ -125,18 +125,18 @@ export default function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.22, ease: "easeOut" }}
-                    className="absolute left-1/2 top-full z-50 mt-3 w-[540px] -translate-x-1/2 rounded-2xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                    className="absolute right-0 xl:left-1/2 top-full z-50 mt-3 w-[420px] xl:w-[540px] xl:-translate-x-1/2 rounded-2xl border border-black/10 bg-white p-4 xl:p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                   >
                     <div className="mb-3 text-[12px] font-bold uppercase tracking-[0.15em] text-black/70">
                       Media & Support
                     </div>
 
-                    <div className="grid max-h-[320px] grid-cols-2 gap-x-6 gap-y-1 overflow-y-auto pr-1">
+                    <div className="grid max-h-[320px] grid-cols-2 gap-x-3 xl:gap-x-6 gap-y-1 overflow-y-auto pr-1">
                       {mediaSupportLinks.map((item) => (
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="rounded-lg px-3 py-2 text-sm text-black transition hover:bg-yellow-50 hover:text-red-600"
+                          className="rounded-lg px-3 py-2 text-xs xl:text-sm text-black transition hover:bg-yellow-50 hover:text-red-600"
                         >
                           {item.name}
                         </Link>
@@ -156,7 +156,7 @@ export default function Header() {
             {/* CTA */}
             <Link
               href="/product-enquiry"
-              className="ml-2 inline-flex items-center justify-center rounded-full bg-red-600 px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition duration-300 hover:bg-red-700"
+              className="ml-1 xl:ml-2 inline-flex items-center justify-center rounded-full bg-red-600 px-4 py-2 xl:px-5 text-[10px] xl:text-[11px] font-semibold uppercase tracking-[0.08em] xl:tracking-[0.12em] text-white transition duration-300 hover:bg-red-700"
             >
               Request Quote
             </Link>
