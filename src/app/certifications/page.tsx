@@ -1,80 +1,46 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
-type Post = {
+type Certification = {
   id: number;
   title: string;
-  excerpt: string;
-  author: string;
-  publishedAt: string;
-  imageUrl?: string;
-  slug: string;
+  description: string;
+  issuedBy: string;
+  issueDate: string | null;
+  createdAt: string;
+  fileUrl?: string;
+  fileName?: string | null;
+  fileType?: string | null;
 };
 
-export default function BlogPage() {
-  const [posts, setPosts] = useState<Post[]>([]);
+export default function CertificationsPage() {
+  const [items, setItems] = useState<Certification[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedCertificate, setSelectedCertificate] = useState<{
+    title: string;
+    fileUrl: string;
+  } | null>(null);
 
-  const loadPosts = useCallback(async () => {
+  const loadItems = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
 
-      // This is a placeholder. Replace with your actual API endpoint.
-      // For now, we'll use some mock data.
-      // const response = await fetch("/api/blog", {
-      //   cache: "no-store",
-      // });
+      const response = await fetch("/api/certifications", {
+        cache: "no-store",
+      });
 
-      // if (!response.ok) {
-      //   throw new Error("Unable to fetch blog posts.");
-      // }
+      if (!response.ok) {
+        throw new Error("Unable to fetch certificates.");
+      }
 
-      // const data = await response.json();
-      const mockData = {
-        posts: [
-          {
-            id: 1,
-            title: "The Future of Stainless Steel in Construction",
-            excerpt:
-              "Discover how stainless steel is revolutionizing the construction industry with its durability, sustainability, and aesthetic appeal.",
-            author: "John Doe",
-            publishedAt: new Date().toISOString(),
-            imageUrl:
-              "https://images.unsplash.com/photo-1517964396979-9b3cb1de3a04?q=80&w=2070&auto=format&fit=crop",
-            slug: "future-of-stainless-steel-in-construction",
-          },
-          {
-            id: 2,
-            title: "Choosing the Right Grade of Steel for Your Project",
-            excerpt:
-              "A comprehensive guide to understanding different steel grades and selecting the perfect one for your specific needs.",
-            author: "Jane Smith",
-            publishedAt: new Date().toISOString(),
-            imageUrl:
-              "https://images.unsplash.com/photo-1621947231262-21c3a24845a2?q=80&w=2070&auto=format&fit=crop",
-            slug: "choosing-the-right-grade-of-steel",
-          },
-          {
-            id: 3,
-            title: "KAAVERI Steels: A Commitment to Quality and Innovation",
-            excerpt:
-              "Learn more about our company's history, our commitment to quality, and our vision for the future of the steel industry.",
-            author: "Samuel Green",
-            publishedAt: new Date().toISOString(),
-            imageUrl:
-              "https://images.unsplash.com/photo-1531305942448-3712a83832f7?q=80&w=2070&auto=format&fit=crop",
-            slug: "kaaveri-steels-commitment-to-quality",
-          },
-        ],
-      };
-      setPosts(mockData.posts ?? []);
+      const data = await response.json();
+      setItems(data.certifications ?? []);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Unable to fetch blog posts."
+        err instanceof Error ? err.message : "Unable to fetch certificates."
       );
     } finally {
       setLoading(false);
@@ -82,99 +48,158 @@ export default function BlogPage() {
   }, []);
 
   useEffect(() => {
-    loadPosts();
-  }, [loadPosts]);
+    loadItems();
+  }, [loadItems]);
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedCertificate(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
+
+  const imageItems = useMemo(() => {
+    return items.filter((item) => {
+      const fileUrl = item.fileUrl || `/api/certifications/${item.id}/file`;
+      return (
+        item.fileType?.startsWith("image/") ||
+        /\.(png|jpg|jpeg|webp|gif|bmp|svg)$/i.test(item.fileName || fileUrl)
+      );
+    });
+  }, [items]);
 
   return (
     <main className="min-h-screen bg-[#f6f6f6]">
       {/* Hero Section */}
-      <section className="relative w-full overflow-hidden bg-gradient-to-r from-gray-800 via-gray-900 to-black py-24 text-white shadow-2xl md:py-32">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_0%,transparent_60%)] mix-blend-overlay" />
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] opacity-50 mix-blend-overlay" />
+      <section className="relative w-full overflow-hidden bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow py-24 text-black shadow-2xl md:py-32">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] mix-blend-overlay" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] opacity-30 mix-blend-overlay" />
 
         <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
           <div className="mb-6 flex items-center justify-center gap-4">
-            <div className="h-[2px] w-12 bg-accent-yellow" />
-            <h1 className="font-body text-sm font-bold uppercase tracking-[0.2em] text-accent-yellow">
-              KAAVERI Insights
+            <div className="h-[2px] w-12 bg-black" />
+            <h1 className="font-body text-sm font-bold uppercase tracking-[0.2em] text-black">
+              Verified Certificates
             </h1>
-            <div className="h-[2px] w-12 bg-accent-yellow" />
+            <div className="h-[2px] w-12 bg-black" />
           </div>
 
           <h2 className="font-heading text-4xl leading-tight md:text-6xl">
-            News, Articles & Resources
+            Trusted Quality.
+            <br />
+            Proven Standards.
           </h2>
 
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-white/75 md:text-lg">
-            Stay updated with the latest news from the steel industry, company
-            announcements, and expert insights from our team.
+          <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-black/75 md:text-lg">
+            Explore KAAVERI certifications published directly from the admin
+            panel for complete public transparency, trust, and quality
+            assurance.
           </p>
         </div>
       </section>
 
-      {/* Blog Posts Section */}
+      {/* Certificates Section */}
       <section className="px-4 py-14 md:px-8 lg:px-12 xl:px-16">
         <div className="mx-auto max-w-[1600px]">
           {loading ? (
             <p className="py-20 text-center text-base text-black/60">
-              Loading posts...
+              Loading certificates...
             </p>
           ) : error ? (
             <p className="py-20 text-center text-base text-red-600">{error}</p>
-          ) : posts.length === 0 ? (
+          ) : imageItems.length === 0 ? (
             <p className="py-20 text-center text-base text-black/60">
-              No blog posts available yet.
+              No certificate images available yet.
             </p>
           ) : (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {posts.map((post) => (
-                <article
-                  key={post.id}
-                  className="group flex h-full flex-col overflow-hidden rounded-[30px] border border-black/10 bg-white p-6 shadow-[0_12px_35px_rgba(0,0,0,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(0,0,0,0.10)]"
-                >
-                  {post.imageUrl && (
-                    <div className="mb-5 aspect-video w-full overflow-hidden rounded-2xl">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+              {imageItems.map((item) => {
+                const fileUrl = item.fileUrl || `/api/certifications/${item.id}/file`;
+
+                return (
+                  <article
+                    key={item.id}
+                    className="flex h-full flex-col rounded-[30px] border border-black/10 bg-white p-6 shadow-[0_12px_35px_rgba(0,0,0,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(0,0,0,0.10)]"
+                  >
+                    <div className="mb-4 flex items-start justify-between gap-4">
+                      <h3 className="font-heading text-xl leading-snug text-black md:text-2xl">
+                        {item.title}
+                      </h3>
+                    </div>
+
+                    {item.description ? (
+                      <p className="mb-3 text-sm leading-7 text-black/72 md:text-base">
+                        {item.description}
+                      </p>
+                    ) : null}
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSelectedCertificate({
+                          title: item.title,
+                          fileUrl,
+                        })
+                      }
+                      className="flex flex-1 items-center justify-center rounded-[24px] border border-black/10 bg-[#fafafa] p-4 text-left transition hover:border-black/20 hover:shadow-md md:p-5"
+                    >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={post.imageUrl}
-                        alt={post.title}
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        src={fileUrl}
+                        alt={item.title}
+                        className="block h-auto max-h-[620px] w-full rounded-2xl object-contain"
                         loading="lazy"
                       />
-                    </div>
-                  )}
-                  <div className="mb-3 flex items-center gap-4 text-xs text-black/60">
-                    <span>
-                      {new Date(post.publishedAt).toLocaleDateString()}
-                    </span>
-                    <span className="h-1 w-1 rounded-full bg-black/20" />
-                    <span>By {post.author}</span>
-                  </div>
-                  <h3 className="font-heading text-xl leading-snug text-black md:text-2xl">
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="hover:text-accent-yellow transition"
-                    >
-                      {post.title}
-                    </Link>
-                  </h3>
-                  <p className="mt-3 flex-1 text-sm leading-7 text-black/72 md:text-base">
-                    {post.excerpt}
-                  </p>
-                  <div className="mt-6">
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="font-semibold text-black transition hover:text-accent-yellow"
-                    >
-                      Read More &rarr;
-                    </Link>
-                  </div>
-                </article>
-              ))}
+                    </button>
+                  </article>
+                );
+              })}
             </div>
           )}
         </div>
       </section>
+
+      {selectedCertificate && (
+        <div className="fixed inset-0 z-[9999] bg-black/85 p-4 backdrop-blur-sm md:p-8">
+          <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
+            <div className="relative w-full rounded-[28px] bg-white p-4 shadow-2xl md:p-6">
+              <div className="mb-4 flex items-center justify-between gap-4">
+                <h3 className="font-heading text-lg text-black md:text-2xl">
+                  {selectedCertificate.title}
+                </h3>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedCertificate(null)}
+                  className="rounded-lg border border-black px-4 py-2 text-sm font-semibold text-black transition hover:bg-black hover:text-white"
+                >
+                  Close
+                </button>
+              </div>
+
+              <div className="flex max-h-[82vh] items-center justify-center overflow-auto rounded-2xl bg-[#f8f8f8] p-3 md:p-6">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={selectedCertificate.fileUrl}
+                  alt={selectedCertificate.title}
+                  className="h-auto max-h-[78vh] w-auto max-w-full object-contain"
+                />
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            aria-label="Close certificate preview"
+            onClick={() => setSelectedCertificate(null)}
+            className="absolute inset-0 -z-10"
+          />
+        </div>
+      )}
     </main>
   );
 }
