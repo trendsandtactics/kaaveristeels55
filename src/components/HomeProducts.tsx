@@ -11,7 +11,7 @@ const products = [
         description: "High-strength ribbed TMT bars built for maximum durability, flexibility, and earthquake resistance. The foundation of modern construction.",
     },
     {
-        name: "Structural Beams",
+        name: "Structural Steels",
         image: "/structuralbar 1.png",
         description: "Premium structural steel beams crafted for heavy-duty load bearing. Ensuring structural integrity and flawless execution for mega-projects.",
     },
