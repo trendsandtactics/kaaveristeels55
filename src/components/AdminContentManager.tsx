@@ -241,6 +241,23 @@ export default function AdminContentManager() {
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Latitude (e.g. 13.0827)" value={form.extra_data.latitude ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, latitude: e.target.value } }))} />
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Longitude (e.g. 80.2707)" value={form.extra_data.longitude ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, longitude: e.target.value } }))} />
             <input className="md:col-span-2 border rounded-lg px-3 py-2 text-sm" placeholder="Google Map URL (Optional fallback)" value={form.extra_data.map_url ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, map_url: e.target.value } }))} />
+            
+            {(form.extra_data.latitude && form.extra_data.longitude) || form.extra_data.map_url ? (
+              <div className="md:col-span-2 h-48 lg:h-64 rounded-xl overflow-hidden shadow-inner border border-black/10 mt-2 bg-gray-200">
+                <iframe
+                  key={`${form.extra_data.latitude}-${form.extra_data.longitude}-${form.extra_data.map_url}`}
+                  src={
+                    form.extra_data.latitude && form.extra_data.longitude
+                      ? `https://maps.google.com/maps?q=${form.extra_data.latitude},${form.extra_data.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`
+                      : form.extra_data.map_url
+                  }
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  title="Admin Map Preview"
+                />
+              </div>
+            ) : null}
           </>
         );
       case "careers":
