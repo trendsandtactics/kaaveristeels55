@@ -378,6 +378,7 @@ export default function AdminCertificationsPanel() {
 
                   {isImage ? (
                     <div className="mt-4">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={fileUrl}
                         alt={item.title}

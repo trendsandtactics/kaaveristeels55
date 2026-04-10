@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
 
 interface Dealer {
   id: number;
@@ -18,8 +17,6 @@ export default function DealersPage() {
   const [dealers, setDealers] = useState<Dealer[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedCity, setSelectedCity] = useState<string>("All");
-  const [selectedDealer, setSelectedDealer] = useState<Dealer | null>(null);
 
   const loadDealers = useCallback(async () => {
     try {
