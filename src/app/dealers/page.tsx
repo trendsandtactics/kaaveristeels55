@@ -12,6 +12,8 @@ interface Dealer {
   phone: string;
   email?: string;
   mapUrl?: string;
+  latitude?: string;
+  longitude?: string;
 }
 
 export default function DealersPage() {
@@ -48,6 +50,8 @@ export default function DealersPage() {
           phone: extra?.phone || "",
           email: extra?.email || "",
           mapUrl: extra?.map_url || "",
+          latitude: extra?.latitude || "",
+          longitude: extra?.longitude || "",
         };
       });
 
@@ -146,10 +150,21 @@ export default function DealersPage() {
   }, [dealers, selectedCity]);
 
   const activeMapUrl = useMemo(() => {
-    if (selectedDealer?.mapUrl) return selectedDealer.mapUrl;
+    if (selectedDealer) {
+      if (selectedDealer.latitude && selectedDealer.longitude) {
+        return `https://maps.google.com/maps?q=${selectedDealer.latitude},${selectedDealer.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+      }
+      if (selectedDealer.mapUrl) return selectedDealer.mapUrl;
+    }
     if (selectedCity !== "All") return `https://maps.google.com/maps?q=${encodeURIComponent(selectedCity)}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
     if (userLocation) return `https://maps.google.com/maps?q=${userLocation.lat},${userLocation.lng}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
-    if (filteredDealers.length > 0 && filteredDealers[0].mapUrl) return filteredDealers[0].mapUrl;
+    if (filteredDealers.length > 0) {
+      const first = filteredDealers[0];
+      if (first.latitude && first.longitude) {
+        return `https://maps.google.com/maps?q=${first.latitude},${first.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+      }
+      if (first.mapUrl) return first.mapUrl;
+    }
     return "https://maps.google.com/maps?q=Tamil%20Nadu&t=&z=6&ie=UTF8&iwloc=&output=embed";
   }, [selectedDealer, filteredDealers, selectedCity, userLocation]);
 

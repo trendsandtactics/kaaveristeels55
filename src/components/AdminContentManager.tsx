@@ -127,6 +127,8 @@ export default function AdminContentManager() {
           phone: form.extra_data.phone || "",
           email: form.extra_data.email || "",
           map_url: form.extra_data.map_url || "",
+          latitude: form.extra_data.latitude || "",
+          longitude: form.extra_data.longitude || "",
         },
       };
     }
@@ -236,7 +238,9 @@ export default function AdminContentManager() {
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="State" value={form.extra_data.state ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, state: e.target.value } }))} />
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Dealer Phone" value={form.extra_data.phone ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, phone: e.target.value } }))} />
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Dealer Email" value={form.extra_data.email ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, email: e.target.value } }))} />
-            <input className="md:col-span-2 border rounded-lg px-3 py-2 text-sm" placeholder="Google Map URL" value={form.extra_data.map_url ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, map_url: e.target.value } }))} />
+            <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Latitude (e.g. 13.0827)" value={form.extra_data.latitude ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, latitude: e.target.value } }))} />
+            <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Longitude (e.g. 80.2707)" value={form.extra_data.longitude ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, longitude: e.target.value } }))} />
+            <input className="md:col-span-2 border rounded-lg px-3 py-2 text-sm" placeholder="Google Map URL (Optional fallback)" value={form.extra_data.map_url ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, map_url: e.target.value } }))} />
           </>
         );
       case "careers":
