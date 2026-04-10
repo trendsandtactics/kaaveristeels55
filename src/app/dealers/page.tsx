@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, LocateFixed } from "lucide-react";
 
 interface Dealer {
   id: number;
@@ -20,6 +20,9 @@ export default function DealersPage() {
   const [error, setError] = useState("");
   const [selectedCity, setSelectedCity] = useState<string>("All");
   const [selectedDealer, setSelectedDealer] = useState<Dealer | null>(null);
+  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [locating, setLocating] = useState(false);
+  const [locationError, setLocationError] = useState("");
 
   const loadDealers = useCallback(async () => {
     try {
@@ -88,6 +91,45 @@ export default function DealersPage() {
     loadDealers();
   }, [loadDealers]);
 
+  // Ask for location on mount (Trigger browser allow popup)
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (err) => console.log("Location access denied or error:", err)
+      );
+    }
+  }, []);
+
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser.");
+      return;
+    }
+    setLocating(true);
+    setLocationError("");
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+        setSelectedCity("All");
+        setSelectedDealer(null);
+        setLocating(false);
+      },
+      (err) => {
+        setLocationError("Unable to retrieve your location.");
+        setLocating(false);
+      }
+    );
+  };
+
   // Reset selected dealer when city changes
   useEffect(() => {
     setSelectedDealer(null);
@@ -105,10 +147,11 @@ export default function DealersPage() {
 
   const activeMapUrl = useMemo(() => {
     if (selectedDealer?.mapUrl) return selectedDealer.mapUrl;
+    if (selectedCity !== "All") return `https://maps.google.com/maps?q=${encodeURIComponent(selectedCity)}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
+    if (userLocation) return `https://maps.google.com/maps?q=${userLocation.lat},${userLocation.lng}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
     if (filteredDealers.length > 0 && filteredDealers[0].mapUrl) return filteredDealers[0].mapUrl;
-    if (selectedCity !== "All") return `https://maps.google.com/maps?q=${encodeURIComponent(selectedCity)}&t=&z=11&ie=UTF8&iwloc=&output=embed`;
     return "https://maps.google.com/maps?q=Tamil%20Nadu&t=&z=6&ie=UTF8&iwloc=&output=embed";
-  }, [selectedDealer, filteredDealers, selectedCity]);
+  }, [selectedDealer, filteredDealers, selectedCity, userLocation]);
 
   return (
     <main className="flex flex-col min-h-screen w-full relative pt-24 bg-gray-50 overflow-hidden transition-colors duration-500">
@@ -140,17 +183,32 @@ export default function DealersPage() {
       {/* Dealers List Section */}
       <section className="px-6 py-12 md:py-20 max-w-7xl mx-auto w-full z-10 relative">
         {/* Filter Row */}
-        <div className="mb-10 flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-6 rounded-2xl shadow-sm border border-black/10">
-          <h3 className="font-heading text-2xl text-black">Filter by City</h3>
-          <select
-            value={selectedCity}
-            onChange={(e) => setSelectedCity(e.target.value)}
-            className="w-full md:w-72 border border-black/20 rounded-xl px-4 py-3 bg-gray-50 outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/20 font-body text-sm font-semibold transition-all shadow-sm"
-          >
-            {cities.map((city) => (
-              <option key={city} value={city}>{city}</option>
-            ))}
-          </select>
+        <div className="mb-10 flex flex-col md:flex-row gap-6 items-center justify-between bg-white p-6 rounded-2xl shadow-sm border border-black/10">
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <h3 className="font-heading text-2xl text-black">Filter by City</h3>
+            <button
+              onClick={handleGetLocation}
+              disabled={locating}
+              className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg font-semibold text-sm hover:bg-red-100 transition-colors disabled:opacity-50"
+              title="Find Dealers Near Me"
+            >
+              <LocateFixed className={`w-4 h-4 ${locating ? "animate-pulse" : ""}`} />
+              {locating ? "Locating..." : "Near Me"}
+            </button>
+          </div>
+          
+          <div className="w-full md:w-auto flex flex-col">
+            <select
+              value={selectedCity}
+              onChange={(e) => setSelectedCity(e.target.value)}
+              className="w-full md:w-72 border border-black/20 rounded-xl px-4 py-3 bg-gray-50 outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/20 font-body text-sm font-semibold transition-all shadow-sm"
+            >
+              {cities.map((city) => (
+                <option key={city} value={city}>{city}</option>
+              ))}
+            </select>
+            {locationError && <p className="text-xs text-red-600 mt-2 text-right">{locationError}</p>}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
