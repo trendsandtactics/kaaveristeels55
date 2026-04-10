@@ -16,6 +16,18 @@ interface Dealer {
   longitude?: string;
 }
 
+function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+  const R = 6371; // Radius of the earth in km
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // Distance in km
+}
+
 export default function DealersPage() {
   const [dealers, setDealers] = useState<Dealer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -145,27 +157,46 @@ export default function DealersPage() {
   }, [dealers]);
 
   const filteredDealers = useMemo(() => {
-    if (selectedCity === "All") return dealers;
-    return dealers.filter(d => d.city === selectedCity);
-  }, [dealers, selectedCity]);
+    let result = dealers;
+    if (selectedCity !== "All") {
+      result = result.filter(d => d.city === selectedCity);
+    }
+    if (userLocation) {
+      result = [...result].sort((a, b) => {
+        const latA = parseFloat(a.latitude || "0");
+        const lngA = parseFloat(a.longitude || "0");
+        const latB = parseFloat(b.latitude || "0");
+        const lngB = parseFloat(b.longitude || "0");
+
+        if (!latA || !lngA) return 1;
+        if (!latB || !lngB) return -1;
+
+        const distA = getDistance(userLocation.lat, userLocation.lng, latA, lngA);
+        const distB = getDistance(userLocation.lat, userLocation.lng, latB, lngB);
+
+        return distA - distB;
+      });
+    }
+    return result;
+  }, [dealers, selectedCity, userLocation]);
 
   const activeMapUrl = useMemo(() => {
+    const baseUrl = "https://www.google.com/maps/d/embed?mid=1RbM92MaO-rY-tnUoNiLR_irhlqJg5C4&ehbc=2E312F&noprof=1";
+    
     if (selectedDealer) {
       if (selectedDealer.latitude && selectedDealer.longitude) {
-        return `https://maps.google.com/maps?q=${selectedDealer.latitude},${selectedDealer.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+        return `${baseUrl}&ll=${selectedDealer.latitude},${selectedDealer.longitude}&z=15`;
       }
-      if (selectedDealer.mapUrl) return selectedDealer.mapUrl;
-    }
-    if (selectedCity !== "All") return `https://maps.google.com/maps?q=${encodeURIComponent(selectedCity)}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
-    if (userLocation) return `https://maps.google.com/maps?q=${userLocation.lat},${userLocation.lng}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
-    if (filteredDealers.length > 0) {
+    } else if (selectedCity !== "All" && filteredDealers.length > 0) {
       const first = filteredDealers[0];
       if (first.latitude && first.longitude) {
-        return `https://maps.google.com/maps?q=${first.latitude},${first.longitude}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+        return `${baseUrl}&ll=${first.latitude},${first.longitude}&z=12`;
       }
-      if (first.mapUrl) return first.mapUrl;
+    } else if (userLocation) {
+      return `${baseUrl}&ll=${userLocation.lat},${userLocation.lng}&z=11`;
     }
-    return "https://maps.google.com/maps?q=Tamil%20Nadu&t=&z=6&ie=UTF8&iwloc=&output=embed";
+    
+    return baseUrl;
   }, [selectedDealer, filteredDealers, selectedCity, userLocation]);
 
   return (
