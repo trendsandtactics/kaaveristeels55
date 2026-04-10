@@ -167,6 +167,8 @@ CREATE TABLE IF NOT EXISTS dealers (
   phone VARCHAR(60) NULL,
   email VARCHAR(190) NULL,
   map_url VARCHAR(500) NULL,
+  latitude VARCHAR(60) NULL,
+  longitude VARCHAR(60) NULL,
   status ENUM('draft','published') NOT NULL DEFAULT 'draft',
   featured TINYINT(1) NOT NULL DEFAULT 0,
   sort_order INT NOT NULL DEFAULT 0,
