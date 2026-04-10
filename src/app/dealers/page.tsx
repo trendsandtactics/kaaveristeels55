@@ -123,7 +123,7 @@ export default function DealersPage() {
         setSelectedDealer(null);
         setLocating(false);
       },
-      (err) => {
+      () => {
         setLocationError("Unable to retrieve your location.");
         setLocating(false);
       }
