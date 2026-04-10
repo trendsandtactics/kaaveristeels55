@@ -322,7 +322,7 @@ export default function DealersPage() {
               style={{ border: 0 }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className="absolute inset-0 w-full h-full"
+              className="absolute left-0 -top-[60px] w-full h-[calc(100%+60px)]"
               title="Dealer Location Map"
             />
           </div>
