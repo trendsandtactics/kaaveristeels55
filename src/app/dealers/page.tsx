@@ -228,7 +228,12 @@ export default function DealersPage() {
             filteredDealers.map((dealer) => (
               <div
                 key={dealer.id}
-                onClick={() => setSelectedDealer(dealer)}
+                onClick={() => {
+                  setSelectedDealer(dealer);
+                  if (window.innerWidth < 1024) {
+                    document.getElementById("map-view")?.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
                 className={`cursor-pointer rounded-2xl border p-6 transition-all duration-300 ${
                   selectedDealer?.id === dealer.id
                     ? "border-red-600 bg-red-50 shadow-md ring-1 ring-red-600"
@@ -262,8 +267,9 @@ export default function DealersPage() {
           </div>
 
           {/* Right Column: Google Map */}
-          <div className="lg:col-span-7 h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-lg border border-black/10 relative bg-gray-200">
+          <div id="map-view" className="lg:col-span-7 h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-lg border border-black/10 relative bg-gray-200">
             <iframe
+              key={activeMapUrl}
               src={activeMapUrl}
               width="100%"
               height="100%"
