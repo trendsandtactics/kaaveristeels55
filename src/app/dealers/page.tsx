@@ -1,80 +1,80 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { MapPin, Phone, Mail } from "lucide-react";
 
 interface Dealer {
   id: number;
-  name: string;
+  title: string;
   address: string;
   city: string;
   state: string;
-  zip: string;
   phone: string;
   email?: string;
-  website?: string;
+  mapUrl?: string;
 }
 
 export default function DealersPage() {
   const [dealers, setDealers] = useState<Dealer[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedCity, setSelectedCity] = useState<string>("All");
+  const [selectedDealer, setSelectedDealer] = useState<Dealer | null>(null);
 
   const loadDealers = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
 
-      // This is a placeholder. Replace with your actual API endpoint.
-      // For now, we'll use some mock data.
-      const mockData = {
-        dealers: [
+      const res = await fetch("/api/public/content/dealers?limit=100", { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to fetch dealers.");
+      const data = await res.json();
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const fetchedDealers: Dealer[] = (data.data || []).map((item: any) => {
+        let extra = item.extra_data;
+        if (typeof extra === "string") {
+          try { extra = JSON.parse(extra); } catch { extra = {}; }
+        }
+        return {
+          id: item.id,
+          title: item.title,
+          address: item.short_description || "",
+          city: extra?.city || "",
+          state: extra?.state || "",
+          phone: extra?.phone || "",
+          email: extra?.email || "",
+          mapUrl: extra?.map_url || "",
+        };
+      });
+
+      // Fallback mock if API is empty for demonstration
+      if (fetchedDealers.length === 0) {
+        fetchedDealers.push(
           {
             id: 1,
-            name: "Steel Distributors Inc.",
-            address: "123 Industrial Park",
-            city: "Metropolis",
-            state: "IL",
-            zip: "62960",
-            phone: "555-123-4567",
-            email: "contact@steeldist.com",
-            website: "www.steeldist.com",
+            title: "Chennai Steel Hub",
+            address: "12, Mount Road, Guindy",
+            city: "Chennai",
+            state: "Tamil Nadu",
+            phone: "+91 98765 43210",
+            email: "chennai@kaaveristeel.com",
+            mapUrl: "https://maps.google.com/maps?q=Guindy,%20Chennai&t=&z=13&ie=UTF8&iwloc=&output=embed",
           },
           {
             id: 2,
-            name: "Metal Supply Co.",
-            address: "456 Commerce Ave",
-            city: "Gotham",
-            state: "NJ",
-            zip: "07001",
-            phone: "555-987-6543",
-            email: "sales@metalsupply.co",
-            website: "www.metalsupply.co",
-          },
-          {
-            id: 3,
-            name: "KAAVERI Official Outlet",
-            address: "789 Steel St",
-            city: "Star City",
-            state: "CA",
-            zip: "90210",
-            phone: "555-555-5555",
-            email: "info@kaaveri-star.com",
-            website: "www.kaaveristeels.com",
-          },
-          {
-            id: 4,
-            name: "Central City Metals",
-            address: "101 Flashpoint Rd",
-            city: "Central City",
-            state: "MO",
-            zip: "63101",
-            phone: "555-111-2222",
-            email: "support@ccmetals.com",
-            website: "www.ccmetals.com",
-          },
-        ],
-      };
-      setDealers(mockData.dealers ?? []);
+            title: "Madurai Metals",
+            address: "45, Bypass Road",
+            city: "Madurai",
+            state: "Tamil Nadu",
+            phone: "+91 87654 32109",
+            email: "madurai@kaaveristeel.com",
+            mapUrl: "https://maps.google.com/maps?q=Bypass%20Road,%20Madurai&t=&z=13&ie=UTF8&iwloc=&output=embed",
+          }
+        );
+      }
+
+      setDealers(fetchedDealers);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Unable to fetch dealers."
