@@ -28,26 +28,29 @@ export default function TrustOnSitePage() {
       </section>
 
 
-      {/* 🚚 VEHICLE SECTION */}
-      <section className="py-20 md:py-32 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col items-center">
+      {/* 🚚 VEHICLE SECTION (BACKGROUND IMAGE) */}
+      <section className="relative py-24 md:py-32 px-6 overflow-hidden">
 
-          {/* Vehicle */}
-          <div className="relative flex justify-center items-center">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src="/vehicle.png"
+            alt="vehicle background"
+            className="w-full h-full object-contain opacity-20 scale-110"
+          />
+        </div>
 
-            <img
-              src="/vehicle.png"
-              alt="vehicle"
-              className="w-full max-w-[700px] md:max-w-[900px] drop-shadow-[0_40px_60px_rgba(0,0,0,0.3)]"
-            />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-white/80" />
 
-            {/* Shadow */}
-            <div className="absolute bottom-[-20px] w-[60%] h-[50px] bg-black/20 blur-2xl rounded-full" />
+        {/* Content */}
+        <div className="relative z-10 max-w-6xl mx-auto text-center">
 
-          </div>
+          <h2 className="text-2xl md:text-3xl font-bold mb-12 text-black">
+            On-Site Testing Experience
+          </h2>
 
-          {/* Floating Points */}
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
             {[
               "🚚 Mobile Testing Vehicle",
@@ -73,7 +76,6 @@ export default function TrustOnSitePage() {
       <section className="px-6 py-16">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
 
-          {/* Card 1 */}
           <div className="bg-red-600 text-white rounded-2xl p-8 shadow-lg">
             <h2 className="text-xl md:text-2xl font-bold mb-6">
               We Don’t Just Promise Quality
@@ -86,7 +88,6 @@ export default function TrustOnSitePage() {
             </ul>
           </div>
 
-          {/* Card 2 */}
           <div className="bg-red-600 text-white rounded-2xl p-8 shadow-lg">
             <h2 className="text-xl md:text-2xl font-bold mb-6">
               Why This Changes Everything
