@@ -2,16 +2,16 @@ import React from "react";
 import DynamicModulePage from "@/components/DynamicModulePage";
 
 export const metadata = {
-  title: "Announcements & Popups | KAAVERI Steels",
-  description: "Latest announcements and updates from KAAVERI Steels.",
+  title: "Popup Modules | KAAVERI Steels",
+  description: "View active popup announcements and event highlights.",
 };
 
 export default function PopupModulesPage() {
   return (
     <DynamicModulePage
       module="popups"
-      heading="Announcements"
-      subtitle="The latest updates, offers, and announcements from KAAVERI Steels."
+      heading="Popup Announcements"
+      subtitle="Browse all currently active popups and events."
     />
   );
 }
