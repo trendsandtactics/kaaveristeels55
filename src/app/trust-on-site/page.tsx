@@ -13,7 +13,7 @@ export default function TrustOnSitePage() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
-            src="/bg-construction.jpg" // 👉 replace with your bg image
+            src="/background1.png" // 👉 replace with your bg image
             className="w-full h-full object-cover opacity-20"
             alt="background"
           />
