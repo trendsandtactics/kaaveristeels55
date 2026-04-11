@@ -51,7 +51,7 @@ export default function CSRPage() {
           </h1>
 
           <p className="font-body text-black/80 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
-            Building strong foundations isn't just about steel. It's about giving back to the community and ensuring sustainable development.
+            Building strong foundations isn&apos;t just about steel. It&apos;s about giving back to the community and ensuring sustainable development.
           </p>
         </div>
       </div>
