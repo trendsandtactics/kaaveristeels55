@@ -34,61 +34,66 @@ export default function TrustOnSitePage() {
       </section>
 
       {/* 🚚 VEHICLE WITH FLOATING POINTS */}
-      <section className="relative py-24 bg-white overflow-hidden">
+     <section className="relative py-28 overflow-hidden bg-gradient-to-b from-yellow-100 via-white to-white">
 
-        <div className="relative max-w-6xl mx-auto flex items-center justify-center">
+  {/* Glow Background */}
+  <div className="absolute inset-0 flex justify-center">
+    <div className="w-[600px] h-[600px] bg-yellow-300 opacity-30 blur-[120px] rounded-full" />
+  </div>
 
-          {/* 🚗 Vehicle Image */}
-          <img
-            src="/vehicle.png" // 👉 your vehicle image
-            alt="vehicle"
-            className="w-[700px] relative z-10"
-          />
+  <div className="relative max-w-6xl mx-auto flex items-center justify-center">
 
-          {/* 🔴 Floating Points */}
+    {/* 🚚 VEHICLE */}
+    <img
+      src="/vehicle.png"
+      alt="vehicle"
+      className="w-[750px] relative z-10 drop-shadow-[0_30px_40px_rgba(0,0,0,0.25)]"
+    />
 
-          {/* Left Top */}
-          <div className="absolute left-0 top-10 bg-white shadow-xl rounded-xl px-4 py-3 border">
-            <div className="flex items-center gap-2">
-              <Truck className="text-red-600 w-5 h-5" />
-              <p className="text-sm font-semibold">
-                Mobile Testing Vehicle
-              </p>
-            </div>
-          </div>
+    {/* 🔴 FLOATING CARDS */}
 
-          {/* Left Bottom */}
-          <div className="absolute left-10 bottom-10 bg-white shadow-xl rounded-xl px-4 py-3 border">
-            <div className="flex items-center gap-2">
-              <Zap className="text-red-600 w-5 h-5" />
-              <p className="text-sm font-semibold">
-                Instant Test Results
-              </p>
-            </div>
-          </div>
+    {/* LEFT TOP */}
+    <div className="absolute left-0 top-16 backdrop-blur-lg bg-white/80 shadow-xl rounded-xl px-5 py-3 border border-white/50">
+      <div className="flex items-center gap-2">
+        <span className="text-red-600">🚚</span>
+        <p className="text-sm font-semibold">
+          Mobile Testing Vehicle
+        </p>
+      </div>
+    </div>
 
-          {/* Right Top */}
-          <div className="absolute right-0 top-10 bg-white shadow-xl rounded-xl px-4 py-3 border">
-            <div className="flex items-center gap-2">
-              <Eye className="text-red-600 w-5 h-5" />
-              <p className="text-sm font-semibold">
-                Live Testing
-              </p>
-            </div>
-          </div>
+    {/* LEFT BOTTOM */}
+    <div className="absolute left-10 bottom-10 backdrop-blur-lg bg-white/80 shadow-xl rounded-xl px-5 py-3 border border-white/50">
+      <div className="flex items-center gap-2">
+        <span className="text-red-600">⚡</span>
+        <p className="text-sm font-semibold">
+          Instant Test Results
+        </p>
+      </div>
+    </div>
 
-          {/* Right Bottom */}
-          <div className="absolute right-10 bottom-10 bg-white shadow-xl rounded-xl px-4 py-3 border">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="text-red-600 w-5 h-5" />
-              <p className="text-sm font-semibold">
-                100+ Years Strength
-              </p>
-            </div>
-          </div>
+    {/* RIGHT TOP */}
+    <div className="absolute right-0 top-16 backdrop-blur-lg bg-white/80 shadow-xl rounded-xl px-5 py-3 border border-white/50">
+      <div className="flex items-center gap-2">
+        <span className="text-red-600">👁️</span>
+        <p className="text-sm font-semibold">
+          Live Testing
+        </p>
+      </div>
+    </div>
 
-        </div>
-      </section>
+    {/* RIGHT BOTTOM */}
+    <div className="absolute right-10 bottom-10 backdrop-blur-lg bg-white/80 shadow-xl rounded-xl px-5 py-3 border border-white/50">
+      <div className="flex items-center gap-2">
+        <span className="text-red-600">🛡️</span>
+        <p className="text-sm font-semibold">
+          100+ Years Strength
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
 
       {/* 🔴 FEATURES (UNCHANGED CLEAN STYLE) */}
       <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10">
