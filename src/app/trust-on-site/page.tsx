@@ -46,18 +46,48 @@ export default function TrustOnSitePage() {
   return (
     <main className="flex flex-col min-h-screen w-full pt-24 bg-gray-50">
 
-      {/* Hero Section */}
-      <div className="w-full py-20 bg-white text-center border-b">
-        <h1 className="text-4xl md:text-6xl font-bold text-red-700 mb-4">
-          KAAVERI TRUST ON SITE
-        </h1>
+      {/* 🔶 HERO SECTION */}
+      <div className="relative w-full py-28 text-center overflow-hidden">
 
-        <p className="text-xl font-semibold text-black">
-          “We Don’t Just Promise Quality – We Prove It.”
-        </p>
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src="/construction-bg.jpg" // 👉 replace with your image
+            alt="construction"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-yellow-300/90 via-yellow-400/90 to-yellow-500/90" />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 max-w-4xl mx-auto px-6">
+          <h1 className="text-4xl md:text-6xl font-bold text-black mb-4">
+            KAAVERI TRUST ON SITE
+          </h1>
+
+          <p className="text-xl font-semibold text-black">
+            “We Don’t Just Promise Quality – We Prove It.”
+          </p>
+        </div>
       </div>
 
-      {/* Features Section */}
+      {/* 🚚 VEHICLE IMAGE SECTION (YOU ADD IMAGE HERE) */}
+      <section className="py-16 bg-white text-center">
+        <h2 className="text-3xl font-bold mb-6 text-black">
+          On-Site Testing Vehicle
+        </h2>
+
+        {/* Replace below with your vehicle image */}
+        <div className="max-w-5xl mx-auto">
+          <img
+            src="/vehicle.png" // 👉 your vehicle image
+            alt="testing vehicle"
+            className="w-full object-contain"
+          />
+        </div>
+      </section>
+
+      {/* 🔴 FEATURES */}
       <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10">
 
         {/* Left */}
@@ -93,19 +123,21 @@ export default function TrustOnSitePage() {
         </div>
       </section>
 
-      {/* Bottom Banner */}
-      <section className="bg-black text-white text-center py-16">
-        <h2 className="text-4xl font-bold mb-4">KAAVERI TMT</h2>
-        <p className="text-lg mb-6">Tested. Certified. Trusted.</p>
+      {/* ⚪ CLEAN CTA SECTION (NO BLACK) */}
+      <section className="bg-white text-center py-16 border-t">
+        <h2 className="text-4xl font-bold mb-4 text-black">KAAVERI TMT</h2>
+        <p className="text-lg mb-6 text-gray-700">
+          Tested. Certified. Trusted.
+        </p>
 
-        <p className="text-xl mb-2">For Free Test call us @</p>
-        <p className="text-3xl font-bold text-red-500">
+        <p className="text-xl mb-2 text-black">For Free Test call us @</p>
+        <p className="text-3xl font-bold text-red-600">
           +91 88558 24555
         </p>
 
         <Link
           href="/contact-us"
-          className="inline-block mt-8 px-8 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-bold"
+          className="inline-block mt-8 px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold"
         >
           Contact Now
         </Link>
