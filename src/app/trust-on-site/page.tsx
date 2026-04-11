@@ -5,154 +5,133 @@ import Link from "next/link";
 
 export default function TrustOnSitePage() {
   return (
-    <main className="flex flex-col min-h-screen w-full pt-24 bg-white overflow-hidden">
+    <main className="flex flex-col min-h-screen w-full bg-white overflow-hidden">
 
       {/* 🌟 HERO */}
-      <section className="relative w-full py-28 overflow-hidden">
+      <section className="w-full bg-yellow-400 py-24 md:py-32 px-6 text-center">
+        <div className="max-w-5xl mx-auto">
 
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img
-            src="/background1.png" // 👉 replace with your bg image
-            className="w-full h-full object-cover opacity-20"
-            alt="background"
-          />
-        </div>
-
-        {/* Soft overlay */}
-        <div className="absolute inset-0 bg-white/70 backdrop-blur-sm" />
-
-        <div className="relative z-10 max-w-5xl mx-auto text-center px-6">
           <p className="uppercase tracking-widest text-sm mb-4 text-black font-semibold">
             KAAVERI STEELS
           </p>
 
-          <h1 className="text-5xl md:text-7xl font-bold text-black mb-6">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black mb-6 leading-tight">
             Trust On Site
           </h1>
 
-          <p className="text-lg text-black/80 max-w-2xl mx-auto">
-            We Don’t Just Promise Quality – We Prove It with live testing,
+          <p className="text-base md:text-lg text-black/80 max-w-2xl mx-auto">
+            We don’t just promise quality — we prove it with live testing,
             transparency, and engineering excellence.
           </p>
+
         </div>
       </section>
 
+
       {/* 🚚 VEHICLE SECTION */}
-      <section className="relative py-36 overflow-visible">
+      <section className="py-20 md:py-32 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col items-center">
 
-        {/* Moving Background Effect */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute w-full h-full animate-pulse opacity-20">
-            <img
-              src="/background1.png" // 👉 subtle texture image
-              className="w-full h-full object-cover"
-              alt=""
-            />
-          </div>
-        </div>
+          {/* Vehicle */}
+          <div className="relative flex justify-center items-center">
 
-        <div className="relative max-w-7xl mx-auto flex items-center justify-center">
-
-          <div className="relative flex items-center justify-center">
-
-            {/* VEHICLE */}
             <img
               src="/vehicle.png"
               alt="vehicle"
-              className="w-[800px] relative z-20 drop-shadow-[0_50px_80px_rgba(0,0,0,0.35)]"
+              className="w-full max-w-[700px] md:max-w-[900px] drop-shadow-[0_40px_60px_rgba(0,0,0,0.3)]"
             />
 
-            {/* SHADOW */}
-            <div className="absolute bottom-[-30px] w-[550px] h-[70px] bg-black/20 blur-3xl rounded-full z-10" />
-
-            {/* FLOATING POINTS (ANIMATED) */}
-
-            {/* LEFT TOP */}
-            <div className="absolute left-[-120px] top-[80px] z-30 animate-bounce-slow">
-              <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-full px-5 py-2 border">
-                🚚 Mobile Testing Vehicle
-              </div>
-            </div>
-
-            {/* LEFT BOTTOM */}
-            <div className="absolute left-[-80px] bottom-[60px] z-30 animate-bounce-slow delay-200">
-              <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-full px-5 py-2 border">
-                ⚡ Instant Test Results
-              </div>
-            </div>
-
-            {/* RIGHT TOP */}
-            <div className="absolute right-[-120px] top-[80px] z-30 animate-bounce-slow delay-300">
-              <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-full px-5 py-2 border">
-                👁️ Live Testing
-              </div>
-            </div>
-
-            {/* RIGHT BOTTOM */}
-            <div className="absolute right-[-80px] bottom-[60px] z-30 animate-bounce-slow delay-500">
-              <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-full px-5 py-2 border">
-                🛡️ 100+ Years Strength
-              </div>
-            </div>
+            {/* Shadow */}
+            <div className="absolute bottom-[-20px] w-[60%] h-[50px] bg-black/20 blur-2xl rounded-full" />
 
           </div>
+
+          {/* Floating Points */}
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+
+            {[
+              "🚚 Mobile Testing Vehicle",
+              "⚡ Instant Test Results",
+              "👁️ Live Testing",
+              "🛡️ 100+ Years Strength",
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="bg-white shadow-lg rounded-xl px-5 py-4 text-center font-medium border hover:scale-105 transition"
+              >
+                {item}
+              </div>
+            ))}
+
+          </div>
+
         </div>
       </section>
+
 
       {/* 🔴 FEATURES */}
-      <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10">
+      <section className="px-6 py-16">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
 
-        <div className="bg-red-600 text-white rounded-2xl p-8 shadow-lg">
-          <h2 className="text-2xl font-bold mb-6">
-            We Don’t Just Promise Quality
-          </h2>
+          {/* Card 1 */}
+          <div className="bg-red-600 text-white rounded-2xl p-8 shadow-lg">
+            <h2 className="text-xl md:text-2xl font-bold mb-6">
+              We Don’t Just Promise Quality
+            </h2>
 
-          <ul className="space-y-4 text-sm">
-            <li>✔ Fully Equipped Mobile Testing Vehicle</li>
-            <li>✔ Instant Test Result</li>
-            <li>✔ Live Testing in Front of Engineers & Builders</li>
-          </ul>
-        </div>
+            <ul className="space-y-3 text-sm md:text-base">
+              <li>✔ Fully Equipped Mobile Testing Vehicle</li>
+              <li>✔ Instant Test Result</li>
+              <li>✔ Live Testing with Engineers & Builders</li>
+            </ul>
+          </div>
 
-        <div className="bg-red-600 text-white rounded-2xl p-8 shadow-lg">
-          <h2 className="text-2xl font-bold mb-6">
-            Why This Changes Everything
-          </h2>
+          {/* Card 2 */}
+          <div className="bg-red-600 text-white rounded-2xl p-8 shadow-lg">
+            <h2 className="text-xl md:text-2xl font-bold mb-6">
+              Why This Changes Everything
+            </h2>
 
-          <ul className="space-y-4 text-sm">
-            <li>✔ No Blind Trust</li>
-            <li>✔ Complete Transparency</li>
-            <li>✔ No Compromise On Strength</li>
-            <li>✔ Confidence For 100+ Years of Structure Life</li>
-          </ul>
+            <ul className="space-y-3 text-sm md:text-base">
+              <li>✔ No Blind Trust</li>
+              <li>✔ Complete Transparency</li>
+              <li>✔ No Compromise On Strength</li>
+              <li>✔ Confidence for 100+ Years</li>
+            </ul>
+          </div>
+
         </div>
       </section>
 
+
       {/* ⚪ CTA */}
-      <section className="bg-white text-center py-16 border-t">
-        <h2 className="text-4xl font-bold mb-4 text-black">
-          KAAVERI TMT
-        </h2>
+      <section className="bg-gray-50 text-center py-16 px-6 border-t">
+        <div className="max-w-xl mx-auto">
 
-        <p className="text-lg mb-6 text-gray-700">
-          Tested. Certified. Trusted.
-        </p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black">
+            KAAVERI TMT
+          </h2>
 
-        <p className="text-xl mb-2 text-black">
-          For Free Test call us @
-        </p>
+          <p className="text-base md:text-lg mb-6 text-gray-700">
+            Tested. Certified. Trusted.
+          </p>
 
-        <p className="text-3xl font-bold text-red-600">
-          +91 88558 24555
-        </p>
+          <p className="text-lg text-black mb-2">
+            For Free Test call us
+          </p>
 
-        <Link
-          href="/contact-us"
-          className="inline-block mt-8 px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold"
-        >
-          Contact Now
-        </Link>
+          <p className="text-2xl md:text-3xl font-bold text-red-600">
+            +91 88558 24555
+          </p>
+
+          <Link
+            href="/contact-us"
+            className="inline-block mt-8 px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition"
+          >
+            Contact Now
+          </Link>
+
+        </div>
       </section>
 
     </main>
