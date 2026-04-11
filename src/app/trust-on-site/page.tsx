@@ -45,7 +45,7 @@ export default function TrustOnSitePage() {
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute w-full h-full animate-pulse opacity-20">
             <img
-              src="/bg-pattern.png" // 👉 subtle texture image
+              src="/background1.png" // 👉 subtle texture image
               className="w-full h-full object-cover"
               alt=""
             />
