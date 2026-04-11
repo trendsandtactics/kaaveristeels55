@@ -1,36 +1,36 @@
 import React from "react";
 import Link from "next/link";
-import { Heart, BookOpen, TreePine, Users } from "lucide-react";
+import { ShieldCheck, HardHat, FileBadge2, CheckCircle } from "lucide-react";
 
 export const metadata = {
-  title: "Corporate Social Responsibility | KAAVERI Steels",
-  description: "Our commitment to sustainable development, community welfare, and environmental stewardship.",
+  title: "Trust On Site | KAAVERI Steels",
+  description: "Experience unwavering reliability and quality assurance with KAAVERI Steels directly at your construction site.",
 };
 
-const csrFeatures = [
+const trustFeatures = [
   {
-    icon: <BookOpen className="w-8 h-8 text-red-600" />,
-    title: "Education Initiatives",
-    description: "Supporting local schools and providing scholarships to empower the next generation of builders and leaders.",
+    icon: <ShieldCheck className="w-8 h-8 text-red-600" />,
+    title: "Quality Assurance",
+    description: "On-site testing and verification of steel quality to ensure your project meets the highest safety standards.",
   },
   {
-    icon: <Heart className="w-8 h-8 text-red-600" />,
-    title: "Healthcare Support",
-    description: "Organizing health camps and upgrading medical facilities for communities around our manufacturing units.",
+    icon: <HardHat className="w-8 h-8 text-red-600" />,
+    title: "Expert Guidance",
+    description: "Our engineers visit your site to provide technical support and ensure optimal usage of our TMT bars.",
   },
   {
-    icon: <TreePine className="w-8 h-8 text-red-600" />,
-    title: "Environmental Stewardship",
-    description: "Implementing green manufacturing processes and engaging in large-scale tree plantation drives.",
+    icon: <FileBadge2 className="w-8 h-8 text-red-600" />,
+    title: "Certified Materials",
+    description: "Every bundle delivered to your site comes with official test certificates for complete peace of mind.",
   },
   {
-    icon: <Users className="w-8 h-8 text-red-600" />,
-    title: "Community Development",
-    description: "Investing in local infrastructure, clean water access, and skill development programs for rural empowerment.",
+    icon: <CheckCircle className="w-8 h-8 text-red-600" />,
+    title: "Seamless Delivery",
+    description: "Direct-to-site delivery tracking ensuring your materials arrive exactly when you need them.",
   }
 ];
 
-export default function CSRPage() {
+export default function TrustOnSitePage() {
   return (
     <main className="flex flex-col min-h-screen w-full relative pt-24 bg-gray-50 overflow-hidden transition-colors duration-500">
       {/* Hero Section */}
@@ -42,17 +42,17 @@ export default function CSRPage() {
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-6">
             <div className="w-12 h-[2px] bg-black" />
             <h2 className="font-body uppercase tracking-[0.2em] font-bold text-sm text-black">
-              Empowering Communities
+              Our Promise
             </h2>
             <div className="w-12 h-[2px] bg-black" />
           </div>
 
           <h1 className="font-heading text-5xl md:text-7xl mb-6 text-black drop-shadow-md">
-            Corporate Social Responsibility
+            Trust On Site
           </h1>
 
           <p className="font-body text-black/80 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
-            Building strong foundations isn&apos;t just about steel. It&apos;s about giving back to the community and ensuring sustainable development.
+            Experience unwavering reliability and quality assurance directly at your construction site with our expert team.
           </p>
         </div>
       </div>
@@ -60,14 +60,14 @@ export default function CSRPage() {
       {/* Features Section */}
       <section className="px-6 py-16 md:py-24 max-w-7xl mx-auto w-full z-10 relative">
         <div className="text-center mb-16">
-          <h2 className="font-heading text-4xl text-black mb-4">Our Core Initiatives</h2>
+          <h2 className="font-heading text-4xl text-black mb-4">The KAAVERI Advantage</h2>
           <p className="font-body text-black/70 max-w-2xl mx-auto">
-            We are deeply committed to making a positive impact on society through targeted, long-term welfare programs.
+            We are deeply committed to ensuring your project&apos;s success through on-the-ground support and verified materials.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {csrFeatures.map((item, index) => (
+          {trustFeatures.map((item, index) => (
             <div 
               key={index} 
               className="bg-white p-8 rounded-2xl shadow-sm border border-black/10 hover:shadow-lg hover:-translate-y-1 hover:border-black/20 transition-all duration-300 flex flex-col sm:flex-row gap-6 items-start"
