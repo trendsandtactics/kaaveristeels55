@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 
@@ -8,11 +10,17 @@ export default function TrustOnSitePage() {
       {/* 🌟 HERO */}
       <section className="relative w-full py-28 overflow-hidden">
 
-        {/* Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500" />
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src="/bg-construction.jpg" // 👉 replace with your bg image
+            className="w-full h-full object-cover opacity-20"
+            alt="background"
+          />
+        </div>
 
-        {/* Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.4)_0%,transparent_60%)]" />
+        {/* Soft overlay */}
+        <div className="absolute inset-0 bg-white/70 backdrop-blur-sm" />
 
         <div className="relative z-10 max-w-5xl mx-auto text-center px-6">
           <p className="uppercase tracking-widest text-sm mb-4 text-black font-semibold">
@@ -31,11 +39,17 @@ export default function TrustOnSitePage() {
       </section>
 
       {/* 🚚 VEHICLE SECTION */}
-      <section className="relative py-36 overflow-visible bg-gradient-to-b from-yellow-100 via-white to-white">
+      <section className="relative py-36 overflow-visible">
 
-        {/* BIG GLOW */}
-        <div className="absolute inset-0 flex justify-center items-center">
-          <div className="w-[800px] h-[800px] bg-yellow-300/40 blur-[160px] rounded-full" />
+        {/* Moving Background Effect */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute w-full h-full animate-pulse opacity-20">
+            <img
+              src="/bg-pattern.png" // 👉 subtle texture image
+              className="w-full h-full object-cover"
+              alt=""
+            />
+          </div>
         </div>
 
         <div className="relative max-w-7xl mx-auto flex items-center justify-center">
@@ -46,38 +60,38 @@ export default function TrustOnSitePage() {
             <img
               src="/vehicle.png"
               alt="vehicle"
-              className="w-[800px] relative z-20 object-contain drop-shadow-[0_50px_80px_rgba(0,0,0,0.35)]"
+              className="w-[800px] relative z-20 drop-shadow-[0_50px_80px_rgba(0,0,0,0.35)]"
             />
 
-            {/* GROUND SHADOW */}
-            <div className="absolute bottom-[-30px] w-[550px] h-[70px] bg-black/25 blur-3xl rounded-full z-10" />
+            {/* SHADOW */}
+            <div className="absolute bottom-[-30px] w-[550px] h-[70px] bg-black/20 blur-3xl rounded-full z-10" />
 
-            {/* FLOATING CARDS */}
+            {/* FLOATING POINTS (ANIMATED) */}
 
             {/* LEFT TOP */}
-            <div className="absolute left-[-120px] top-[80px] z-30">
-              <div className="bg-white/90 backdrop-blur-md shadow-2xl rounded-xl px-5 py-3 border hover:scale-105 transition">
+            <div className="absolute left-[-120px] top-[80px] z-30 animate-bounce-slow">
+              <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-full px-5 py-2 border">
                 🚚 Mobile Testing Vehicle
               </div>
             </div>
 
             {/* LEFT BOTTOM */}
-            <div className="absolute left-[-80px] bottom-[60px] z-30">
-              <div className="bg-white/90 backdrop-blur-md shadow-2xl rounded-xl px-5 py-3 border hover:scale-105 transition">
+            <div className="absolute left-[-80px] bottom-[60px] z-30 animate-bounce-slow delay-200">
+              <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-full px-5 py-2 border">
                 ⚡ Instant Test Results
               </div>
             </div>
 
             {/* RIGHT TOP */}
-            <div className="absolute right-[-120px] top-[80px] z-30">
-              <div className="bg-white/90 backdrop-blur-md shadow-2xl rounded-xl px-5 py-3 border hover:scale-105 transition">
+            <div className="absolute right-[-120px] top-[80px] z-30 animate-bounce-slow delay-300">
+              <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-full px-5 py-2 border">
                 👁️ Live Testing
               </div>
             </div>
 
             {/* RIGHT BOTTOM */}
-            <div className="absolute right-[-80px] bottom-[60px] z-30">
-              <div className="bg-white/90 backdrop-blur-md shadow-2xl rounded-xl px-5 py-3 border hover:scale-105 transition">
+            <div className="absolute right-[-80px] bottom-[60px] z-30 animate-bounce-slow delay-500">
+              <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-full px-5 py-2 border">
                 🛡️ 100+ Years Strength
               </div>
             </div>
