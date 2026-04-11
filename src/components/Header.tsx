@@ -21,11 +21,12 @@ const mediaSupportLinks = [
   { name: "Weight & Bundle Calculator", href: "/weight-bundle-calculator" },
   { name: "Media & Events", href: "/media-events" },
   { name: "Find Dealers", href: "/dealers" },
-  { name: "Projects", href: "/projects" },
   { name: "Blogs", href: "/blogs" },
   { name: "Certifications", href: "/certifications" },
   { name: "Product Brochure", href: "/product-brochure" },
   { name: "Product Other Enquiry", href: "/product-enquiry" },
+  { name: "Corporate Social Responsibility", href: "/csr" },
+  { name: "Trust On Site", href: "/trust-on-site" },
 ];
 
 export default function Header() {
