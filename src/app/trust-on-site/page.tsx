@@ -28,25 +28,25 @@ export default function TrustOnSitePage() {
       </section>
 
 
-      {/* 🚚 VEHICLE SECTION (BACKGROUND IMAGE) */}
+      {/* 🚚 VEHICLE SECTION WITH CUSTOM BACKGROUND */}
       <section className="relative py-24 md:py-32 px-6 overflow-hidden">
 
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
-            src="/vehicle.png"
-            alt="vehicle background"
-            className="w-full h-full object-contain opacity-20 scale-110"
+            src="/your-bg-image.png" // 🔁 replace with your image
+            alt="background"
+            className="w-full h-full object-cover"
           />
         </div>
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-white/80" />
+        <div className="absolute inset-0 bg-black/50" />
 
         {/* Content */}
-        <div className="relative z-10 max-w-6xl mx-auto text-center">
+        <div className="relative z-10 max-w-6xl mx-auto text-center text-white">
 
-          <h2 className="text-2xl md:text-3xl font-bold mb-12 text-black">
+          <h2 className="text-2xl md:text-3xl font-bold mb-12">
             On-Site Testing Experience
           </h2>
 
@@ -60,7 +60,7 @@ export default function TrustOnSitePage() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-white shadow-lg rounded-xl px-5 py-4 text-center font-medium border hover:scale-105 transition"
+                className="bg-white/90 text-black shadow-lg rounded-xl px-5 py-4 text-center font-medium border hover:scale-105 transition"
               >
                 {item}
               </div>
