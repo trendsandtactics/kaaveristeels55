@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function TrustOnSitePage() {
   return (
-    <main className="flex flex-col min-h-screen w-full pt-24 bg-white">
+    <main className="flex flex-col min-h-screen w-full pt-24 bg-white overflow-hidden">
 
       {/* 🌟 HERO */}
       <section className="relative w-full py-28 overflow-hidden">
@@ -31,14 +31,14 @@ export default function TrustOnSitePage() {
       </section>
 
       {/* 🚚 VEHICLE SECTION */}
-      <section className="relative py-32 overflow-hidden bg-gradient-to-b from-yellow-100 via-white to-white">
+      <section className="relative py-36 overflow-visible bg-gradient-to-b from-yellow-100 via-white to-white">
 
-        {/* Glow */}
+        {/* BIG GLOW */}
         <div className="absolute inset-0 flex justify-center items-center">
-          <div className="w-[700px] h-[700px] bg-yellow-300/30 blur-[140px] rounded-full" />
+          <div className="w-[800px] h-[800px] bg-yellow-300/40 blur-[160px] rounded-full" />
         </div>
 
-        <div className="relative max-w-6xl mx-auto flex items-center justify-center">
+        <div className="relative max-w-7xl mx-auto flex items-center justify-center">
 
           <div className="relative flex items-center justify-center">
 
@@ -46,42 +46,40 @@ export default function TrustOnSitePage() {
             <img
               src="/vehicle.png"
               alt="vehicle"
-              className="w-[720px] relative z-10 drop-shadow-[0_40px_60px_rgba(0,0,0,0.35)]"
+              className="w-[800px] relative z-20 object-contain drop-shadow-[0_50px_80px_rgba(0,0,0,0.35)]"
             />
 
-            {/* SHADOW */}
-            <div className="absolute bottom-[-20px] w-[500px] h-[60px] bg-black/20 blur-2xl rounded-full" />
+            {/* GROUND SHADOW */}
+            <div className="absolute bottom-[-30px] w-[550px] h-[70px] bg-black/25 blur-3xl rounded-full z-10" />
+
+            {/* FLOATING CARDS */}
 
             {/* LEFT TOP */}
-            <div className="absolute -left-10 top-10 group">
-              <div className="bg-white/90 backdrop-blur-md shadow-xl rounded-xl px-5 py-3 border hover:scale-105 transition">
+            <div className="absolute left-[-120px] top-[80px] z-30">
+              <div className="bg-white/90 backdrop-blur-md shadow-2xl rounded-xl px-5 py-3 border hover:scale-105 transition">
                 🚚 Mobile Testing Vehicle
               </div>
-              <div className="w-16 h-[2px] bg-gray-300 ml-auto mt-1" />
             </div>
 
             {/* LEFT BOTTOM */}
-            <div className="absolute -left-5 bottom-10 group">
-              <div className="bg-white/90 backdrop-blur-md shadow-xl rounded-xl px-5 py-3 border hover:scale-105 transition">
+            <div className="absolute left-[-80px] bottom-[60px] z-30">
+              <div className="bg-white/90 backdrop-blur-md shadow-2xl rounded-xl px-5 py-3 border hover:scale-105 transition">
                 ⚡ Instant Test Results
               </div>
-              <div className="w-20 h-[2px] bg-gray-300 ml-auto mt-1" />
             </div>
 
             {/* RIGHT TOP */}
-            <div className="absolute -right-10 top-10 group">
-              <div className="bg-white/90 backdrop-blur-md shadow-xl rounded-xl px-5 py-3 border hover:scale-105 transition">
+            <div className="absolute right-[-120px] top-[80px] z-30">
+              <div className="bg-white/90 backdrop-blur-md shadow-2xl rounded-xl px-5 py-3 border hover:scale-105 transition">
                 👁️ Live Testing
               </div>
-              <div className="w-16 h-[2px] bg-gray-300 mt-1" />
             </div>
 
             {/* RIGHT BOTTOM */}
-            <div className="absolute -right-5 bottom-10 group">
-              <div className="bg-white/90 backdrop-blur-md shadow-xl rounded-xl px-5 py-3 border hover:scale-105 transition">
+            <div className="absolute right-[-80px] bottom-[60px] z-30">
+              <div className="bg-white/90 backdrop-blur-md shadow-2xl rounded-xl px-5 py-3 border hover:scale-105 transition">
                 🛡️ 100+ Years Strength
               </div>
-              <div className="w-20 h-[2px] bg-gray-300 mt-1" />
             </div>
 
           </div>
@@ -119,7 +117,9 @@ export default function TrustOnSitePage() {
 
       {/* ⚪ CTA */}
       <section className="bg-white text-center py-16 border-t">
-        <h2 className="text-4xl font-bold mb-4 text-black">KAAVERI TMT</h2>
+        <h2 className="text-4xl font-bold mb-4 text-black">
+          KAAVERI TMT
+        </h2>
 
         <p className="text-lg mb-6 text-gray-700">
           Tested. Certified. Trusted.
