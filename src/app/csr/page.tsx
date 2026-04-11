@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Heart, BookOpen, TreePine, Users } from "lucide-react";
 
 export const metadata = {
@@ -96,12 +97,12 @@ export default function CSRPage() {
           <p className="font-body text-white/80 text-lg mb-8 max-w-2xl mx-auto">
             Discover more about how we are working towards a better, greener, and more equitable tomorrow.
           </p>
-          <a 
-            href="/contact"
+          <Link 
+            href="/contact-us"
             className="inline-flex items-center justify-center px-8 py-4 bg-red-600 text-white font-body font-bold uppercase tracking-wider text-sm hover:bg-red-700 transition-colors rounded-lg"
           >
             Get In Touch
-          </a>
+          </Link>
         </div>
       </section>
     </main>
