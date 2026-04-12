@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import Image from "next/image";
 
 export default function TrustOnSitePage() {
   return (
@@ -12,10 +12,12 @@ export default function TrustOnSitePage() {
 
   {/* 🌆 Background Image */}
   <div className="absolute inset-0">
-    <img
+    <Image
       src="/bg1.png"   // your background image
       alt="background"
-      className="w-full h-full object-cover"
+      fill
+      priority
+      className="object-cover"
     />
   </div>
 
@@ -37,9 +39,12 @@ export default function TrustOnSitePage() {
 
     {/* 🚚 VEHICLE HERO */}
     <div className="relative flex justify-center mb-12">
-      <img
+      <Image
         src="/vehicle.png"
         alt="vehicle"
+        width={1024}
+        height={500}
+        priority
         className="w-full max-w-5xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
       />
     </div>
