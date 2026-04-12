@@ -141,17 +141,17 @@ export default function TrustOnSitePage() {
 
 
       {/* 📞 CTA */}
-  <section className="relative py-16 px-4 md:px-10 overflow-hidden">
+ <section className="relative py-16 px-4 md:px-10 overflow-hidden">
 
-  {/* Background Gradient */}
-  <div className="absolute inset-0 bg-gradient-to-br from-red-800 via-white to-white"></div>
+  {/* Full Section Gradient (no inner red box) */}
+  <div className="absolute inset-0 bg-gradient-to-br from-red-800 via-red-700 to-red-600"></div>
 
   {/* Decorative Glow */}
   <div className="absolute -top-20 -left-20 w-72 h-72 bg-red-500 opacity-30 blur-3xl rounded-full"></div>
   <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-yellow-400 opacity-20 blur-3xl rounded-full"></div>
 
-  {/* Content Wrapper */}
-  <div className="relative max-w-6xl mx-auto bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-10">
+  {/* Content Wrapper (transparent, no background) */}
+  <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
 
     {/* Left Content */}
     <div className="text-white max-w-lg">
@@ -166,7 +166,7 @@ export default function TrustOnSitePage() {
       </p>
 
       {/* Phone CTA */}
-      <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10 w-fit">
+      <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10 w-fit backdrop-blur-md">
         <div className="w-12 h-12 flex items-center justify-center bg-yellow-400 text-red-800 rounded-lg text-xl font-bold">
           ☎
         </div>
@@ -183,7 +183,7 @@ export default function TrustOnSitePage() {
     </div>
 
     {/* Right Form */}
-    <div className="w-full max-w-md bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow-xl">
+    <div className="w-full max-w-md bg-white/10 backdrop-blur-lg p-6 rounded-xl border border-white/20 shadow-xl">
 
       <div className="flex flex-col gap-4">
 
