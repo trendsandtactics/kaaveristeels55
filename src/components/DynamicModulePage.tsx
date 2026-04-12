@@ -14,7 +14,10 @@ type DynamicItem = {
   video_url?: string | null;
   featured?: number | boolean;
   created_at?: string;
+  extra_data?: string | Record<string, string> | null;
 };
+
+const ITEMS_PER_PAGE = 9;
 
 export default function DynamicModulePage({
   module,
@@ -28,7 +31,9 @@ export default function DynamicModulePage({
   const [items, setItems] = useState<DynamicItem[]>([]);
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
+  const [activeCategory, setActiveCategory] = useState<string>("All");
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const timeout = setTimeout(() => setDebouncedQ(q), 250);
@@ -44,7 +49,7 @@ export default function DynamicModulePage({
       signal: controller.signal,
     };
 
-    fetch(`/api/public/content/${module}?q=${encodeURIComponent(debouncedQ)}&limit=24`, requestInit)
+    fetch(`/api/public/content/${module}?q=${encodeURIComponent(debouncedQ)}&limit=100`, requestInit)
       .then((res) => res.json())
       .then((data) => setItems(data.data ?? []))
       .catch((error) => {
@@ -57,7 +62,29 @@ export default function DynamicModulePage({
     return () => controller.abort();
   }, [module, debouncedQ]);
 
-  const featured = useMemo(() => items.filter((item) => item.featured).slice(0, 3), [items]);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedQ, activeCategory]);
+
+  const displayedItems = useMemo(() => {
+    if (module !== "products" || activeCategory === "All") return items;
+    return items.filter((item) => {
+      let category = "";
+      try {
+        const extra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
+        category = extra?.category || "";
+      } catch (e) {}
+      return category === activeCategory;
+    });
+  }, [items, module, activeCategory]);
+
+  const featured = useMemo(() => displayedItems.filter((item) => item.featured).slice(0, 3), [displayedItems]);
+
+  const totalPages = Math.ceil(displayedItems.length / ITEMS_PER_PAGE);
+  const paginatedItems = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return displayedItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [displayedItems, currentPage]);
 
   return (
     <main className="min-h-screen pt-24 bg-gray-50">
@@ -86,6 +113,26 @@ export default function DynamicModulePage({
       </section>
 
       <section className="max-w-7xl mx-auto px-6 py-12">
+        {module === "products" && (
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex flex-wrap gap-2 bg-gray-200/60 p-1.5 rounded-xl border border-black/5">
+              {["All", "TMT", "Structural"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveCategory(tab)}
+                  className={`px-6 py-2 rounded-lg text-sm font-bold tracking-wider uppercase transition-all duration-300 ${
+                    activeCategory === tab
+                      ? "bg-white text-accent-red shadow-md"
+                      : "text-black/60 hover:text-black hover:bg-gray-300/50"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {featured.length > 0 ? (
           <div className="mb-10">
             <h2 className="font-heading text-2xl text-black mb-4">Featured</h2>
@@ -129,7 +176,7 @@ export default function DynamicModulePage({
         ) : null}
 
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {items.map((item) => {
+          {paginatedItems.map((item) => {
             const imageSrc = resolveMediaUrl(item.cover_image || item.file_url || "", "");
 
             return (
@@ -162,6 +209,32 @@ export default function DynamicModulePage({
                     {item.short_description}
                   </p>
 
+              {module === "products" && item.extra_data && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {(() => {
+                    try {
+                      const extra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
+                      if (extra.category === "TMT") {
+                        return (
+                          <>
+                            {extra.tmt_grade && <span className="bg-gray-100 text-black/80 px-2 py-1 text-xs rounded font-semibold">{extra.tmt_grade}</span>}
+                            {extra.tmt_size && <span className="bg-gray-100 text-black/80 px-2 py-1 text-xs rounded font-semibold">{extra.tmt_size}</span>}
+                          </>
+                        );
+                      } else if (extra.category === "Structural") {
+                        return (
+                          <>
+                            {extra.structural_type && <span className="bg-gray-100 text-black/80 px-2 py-1 text-xs rounded font-semibold">{extra.structural_type}</span>}
+                            {extra.dimensions && <span className="bg-gray-100 text-black/80 px-2 py-1 text-xs rounded font-semibold">{extra.dimensions}</span>}
+                          </>
+                        );
+                      }
+                    } catch (e) {}
+                    return null;
+                  })()}
+                </div>
+              )}
+
                   {item.file_url && (
                     <div className="mt-4 flex items-center justify-end">
                       <a
@@ -180,7 +253,29 @@ export default function DynamicModulePage({
           })}
         </div>
 
-        {!loading && !items.length ? (
+        {totalPages > 1 && (
+          <div className="mt-12 flex items-center justify-center gap-4">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-lg border border-black/10 bg-white text-sm font-semibold text-black disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+            >
+              Previous
+            </button>
+            <span className="text-sm font-medium text-black/70">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-lg border border-black/10 bg-white text-sm font-semibold text-black disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+            >
+              Next
+            </button>
+          </div>
+        )}
+
+        {!loading && !displayedItems.length ? (
           <p className="text-black/50 text-sm">No published records yet.</p>
         ) : null}
 
