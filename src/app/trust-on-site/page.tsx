@@ -7,92 +7,99 @@ export default function TrustOnSitePage() {
   return (
     <main className="w-full bg-[#f3f4f6]">
 
-      {/* 🔝 TOP STRIP */}
-      <section className="w-full bg-white border-b px-6 py-4 flex flex-col md:flex-row justify-between items-center">
-        
-        <div className="text-left">
-          <h1 className="text-xl font-bold text-red-700">KAAVERI</h1>
-          <p className="text-sm text-gray-600">TMT Bars & Structural</p>
+      {/* 🌟 HERO SECTION */}
+      <section className="relative pt-28 md:pt-32 pb-20 overflow-hidden bg-gradient-to-b from-white to-gray-100">
+
+        {/* Background subtle pattern */}
+        <div className="absolute inset-0 bg-[url('/city-bg.png')] bg-bottom bg-no-repeat bg-contain opacity-20"></div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+
+          {/* TITLE */}
+          <p className="uppercase tracking-widest text-sm text-gray-500 mb-3">
+            KAAVERI STEELS
+          </p>
+
+          <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
+            Trust On Site
+          </h1>
+
+          <p className="text-gray-600 max-w-2xl mx-auto mb-10">
+            We don’t just promise quality — we prove it with live testing,
+            transparency, and engineering excellence.
+          </p>
+
+          {/* 🚚 VEHICLE HERO */}
+          <div className="relative flex justify-center mb-12">
+            <img
+              src="/vehicle.png"
+              alt="vehicle"
+              className="w-full max-w-5xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
+            />
+          </div>
+
+          {/* 🪨 STEEL STRIP */}
+          <div className="w-full max-w-4xl mx-auto bg-gray-900 text-white py-3 text-sm md:text-base font-semibold tracking-widest rounded">
+            KAAVERI TMT — 550D
+          </div>
+
         </div>
-
-        <h2 className="text-lg font-semibold text-gray-800 my-2 md:my-0">
-          TRUST ON SITE
-        </h2>
-
-        <p className="text-sm text-gray-600">
-          www.kaaveristeels.co.in
-        </p>
       </section>
 
 
-      {/* 🔴 FEATURE HEADERS */}
-      <section className="px-6 md:px-20 py-10 grid md:grid-cols-2 gap-6">
+      {/* 🔴 CONTENT SECTION */}
+      <section className="px-6 md:px-20 py-16">
 
-        <div className="bg-red-700 text-white text-center py-4 rounded-md font-bold">
-          “We Don’t Just Promise Quality – We Prove It.”
+        {/* HEADERS */}
+        <div className="grid md:grid-cols-2 gap-6 mb-10">
+
+          <div className="bg-red-700 text-white text-center py-4 rounded-md font-bold text-lg">
+            “We Don’t Just Promise Quality – We Prove It.”
+          </div>
+
+          <div className="bg-red-700 text-white text-center py-4 rounded-md font-bold text-lg">
+            Why This Changes Everything
+          </div>
+
         </div>
 
-        <div className="bg-red-700 text-white text-center py-4 rounded-md font-bold">
-          Why This Changes Everything
+        {/* LIST */}
+        <div className="grid md:grid-cols-2 gap-10 text-gray-800">
+
+          <ul className="space-y-4">
+            <li>▶ Fully Equipped Mobile Testing Vehicle</li>
+            <li>▶ Instant Test Result</li>
+            <li>▶ Live Testing in Front of Engineers & Builders</li>
+          </ul>
+
+          <ul className="space-y-4">
+            <li>▶ No Blind Trust</li>
+            <li>▶ Complete Transparency</li>
+            <li>▶ No Compromise On Strength</li>
+            <li>▶ Confidence For 100+ Years of Structure Life</li>
+          </ul>
+
         </div>
 
       </section>
 
 
-      {/* 📋 FEATURES LIST */}
-      <section className="px-6 md:px-20 pb-16 grid md:grid-cols-2 gap-10 text-gray-800">
+      {/* 📞 CTA */}
+      <section className="text-center py-16 px-6 bg-white border-t">
 
-        <ul className="space-y-4">
-          <li>▶ Fully Equipped Mobile Testing Vehicle</li>
-          <li>▶ Instant Test Result</li>
-          <li>▶ Live Testing in Front of Engineers & Builders</li>
-        </ul>
-
-        <ul className="space-y-4">
-          <li>▶ No Blind Trust</li>
-          <li>▶ Complete Transparency</li>
-          <li>▶ No Compromise On Strength</li>
-          <li>▶ Confidence For 100+ Years of Structure Life</li>
-        </ul>
-
-      </section>
-
-
-      {/* 🏗 CENTER TITLE */}
-      <section className="text-center py-6">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-red-700">
+        <h2 className="text-4xl font-extrabold text-red-700 mb-2">
           KAAVERI TMT
         </h2>
-        <p className="text-gray-600 mt-2">
+
+        <p className="text-gray-600 mb-4">
           Tested. Certified. Trusted.
         </p>
-      </section>
-
-
-      {/* 🚚 VEHICLE IMAGE */}
-      <section className="flex justify-center px-6 py-10">
-        <img
-          src="/vehicle.png"
-          alt="vehicle"
-          className="w-full max-w-5xl object-contain"
-        />
-      </section>
-
-
-      {/* 🪨 STEEL STRIP */}
-      <section className="w-full bg-gray-800 text-white text-center py-4 font-semibold tracking-widest">
-        KAAVERI TMT — 550D
-      </section>
-
-
-      {/* 📞 CONTACT */}
-      <section className="text-center py-12 px-6">
 
         <p className="text-gray-700 mb-2">
           For Free Test call us @
         </p>
 
-        <p className="text-3xl md:text-4xl font-bold text-red-700 mb-6">
+        <p className="text-3xl font-bold text-red-700 mb-6">
           +91 88558 24555
         </p>
 
