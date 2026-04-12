@@ -1,29 +1,28 @@
 "use client";
 
 import React, { useRef } from "react";
-import Image from "next/image";
 
 export default function TrustOnSitePage() {
   const formRef = useRef(null);
 
   const scrollToForm = () => {
-    formRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
     <main className="w-full bg-[#f3f4f6]">
 
-      {/* 🌟 HERO SECTION */}
+      {/* HERO SECTION */}
       <section className="relative pt-28 md:pt-32 pb-20 overflow-hidden">
 
-        {/* Background Image */}
+        {/* Background */}
         <div className="absolute inset-0">
-          <Image
+          <img
             src="/bg1.png"
             alt="background"
-            fill
-            priority
-            className="object-cover"
+            className="w-full h-full object-cover"
           />
         </div>
 
@@ -44,12 +43,10 @@ export default function TrustOnSitePage() {
 
           {/* Vehicle */}
           <div className="flex justify-center mb-12">
-            <Image
+            <img
               src="/vehicle.png"
               alt="vehicle"
-              width={1200}
-              height={600}
-              className="object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
+              className="w-full max-w-5xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
             />
           </div>
 
@@ -65,7 +62,7 @@ export default function TrustOnSitePage() {
       </section>
 
 
-      {/* 🔴 CONTENT SECTION */}
+      {/* CONTENT SECTION */}
       <section className="px-6 md:px-20 py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto">
 
@@ -125,7 +122,7 @@ export default function TrustOnSitePage() {
       </section>
 
 
-      {/* 📞 CTA FORM SECTION */}
+      {/* CTA FORM SECTION */}
       <section
         ref={formRef}
         className="py-16 px-6 md:px-12 bg-gray-100"
