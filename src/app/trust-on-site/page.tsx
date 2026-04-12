@@ -44,11 +44,6 @@ export default function TrustOnSitePage() {
       />
     </div>
 
-    {/* 🪨 STEEL STRIP */}
-    <div className="w-full max-w-4xl mx-auto bg-gray-900 text-white py-3 text-sm md:text-base font-semibold tracking-widest rounded">
-      KAAVERI TMT — 550D
-    </div>
-
   </div>
 </section>
 
