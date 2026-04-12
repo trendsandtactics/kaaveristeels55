@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import Link from "next/link";
+import Image from "next/image";
 
 export default function TrustOnSitePage() {
   const formRef = useRef(null);
@@ -16,12 +16,14 @@ export default function TrustOnSitePage() {
       {/* 🌟 HERO SECTION */}
       <section className="relative pt-28 md:pt-32 pb-20 overflow-hidden">
 
-        {/* Background */}
+        {/* Background Image */}
         <div className="absolute inset-0">
-          <img
+          <Image
             src="/bg1.png"
             alt="background"
-            className="w-full h-full object-cover"
+            fill
+            priority
+            className="object-cover"
           />
         </div>
 
@@ -42,10 +44,12 @@ export default function TrustOnSitePage() {
 
           {/* Vehicle */}
           <div className="flex justify-center mb-12">
-            <img
+            <Image
               src="/vehicle.png"
               alt="vehicle"
-              className="w-full max-w-5xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
+              width={1200}
+              height={600}
+              className="object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
             />
           </div>
 
@@ -132,7 +136,7 @@ export default function TrustOnSitePage() {
           <div className="text-white">
 
             <h2 className="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">
-              Don't Take Chances <br /> With Your Foundation.
+              Don&apos;t Take Chances <br /> With Your Foundation.
             </h2>
 
             <p className="text-white/90 mb-8">
