@@ -64,6 +64,7 @@ export default function AdminContentManager() {
   const [search, setSearch] = useState("");
   const [form, setForm] = useState<FormState>(initialForm());
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [productCategoryTab, setProductCategoryTab] = useState<"All" | "TMT" | "Structural">("All");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const richEditorRef = useRef<HTMLDivElement | null>(null);
@@ -171,6 +172,14 @@ export default function AdminContentManager() {
     fetchItems();
   };
 
+  const displayedItems = useMemo(() => {
+    if (activeModule !== "products" || productCategoryTab === "All") return items;
+    return items.filter((row) => {
+      const extra = (typeof row.extra_data === "string" && row.extra_data ? JSON.parse(String(row.extra_data)) : row.extra_data) as Record<string, string> | null;
+      return extra?.category === productCategoryTab;
+    });
+  }, [items, activeModule, productCategoryTab]);
+
   const editRow = (row: Item) => {
     if (activeDef.kind !== "content") return;
     const extra = (typeof row.extra_data === "string" && row.extra_data ? JSON.parse(String(row.extra_data)) : row.extra_data) as Record<string, string> | null;
@@ -212,6 +221,90 @@ export default function AdminContentManager() {
 
   const renderModuleSpecificFields = () => {
     switch (activeModule) {
+      case "products":
+        return (
+          <>
+            <div className="md:col-span-2">
+              <select
+                className="w-full border rounded-lg px-3 py-2 text-sm"
+                value={form.extra_data.category ?? ""}
+                onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, category: e.target.value } }))}
+              >
+                <option value="" disabled>Select Category</option>
+                <option value="TMT">TMT</option>
+                <option value="Structural">Structural</option>
+              </select>
+            </div>
+            
+            {form.extra_data.category === "TMT" && (
+              <>
+                <div>
+                  <select
+                    className="w-full border rounded-lg px-3 py-2 text-sm"
+                    value={form.extra_data.tmt_grade ?? ""}
+                    onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, tmt_grade: e.target.value } }))}
+                  >
+                    <option value="" disabled>Select Grade</option>
+                    <option value="Fe 500">Fe 500</option>
+                    <option value="Fe 500D">Fe 500D</option>
+                    <option value="Fe 550">Fe 550</option>
+                    <option value="Fe 550D">Fe 550D</option>
+                    <option value="Fe 600">Fe 600</option>
+                    <option value="CRS">CRS</option>
+                  </select>
+                </div>
+                <div>
+                  <select
+                    className="w-full border rounded-lg px-3 py-2 text-sm"
+                    value={form.extra_data.tmt_size ?? ""}
+                    onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, tmt_size: e.target.value } }))}
+                  >
+                    <option value="" disabled>Select Size / Dia</option>
+                    <option value="8mm">8mm</option>
+                    <option value="10mm">10mm</option>
+                    <option value="12mm">12mm</option>
+                    <option value="16mm">16mm</option>
+                    <option value="20mm">20mm</option>
+                    <option value="25mm">25mm</option>
+                    <option value="32mm">32mm</option>
+                  </select>
+                </div>
+              </>
+            )}
+
+            {form.extra_data.category === "Structural" && (
+              <>
+                <div>
+                  <select
+                    className="w-full border rounded-lg px-3 py-2 text-sm"
+                    value={form.extra_data.structural_type ?? ""}
+                    onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, structural_type: e.target.value } }))}
+                  >
+                    <option value="" disabled>Select Steel Type</option>
+                    <option value="Round Bars">Round Bars</option>
+                    <option value="Square Bars">Square Bars</option>
+                    <option value="Flats">Flats</option>
+                    <option value="Angles">Angles</option>
+                    <option value="C Channels">C Channels</option>
+                    <option value="I Beams">I Beams</option>
+                    <option value="Pipes">Pipes</option>
+                    <option value="Rectangular Tubes">Rectangular Tubes</option>
+                    <option value="Square Tubes">Square Tubes</option>
+                  </select>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    className="w-full border rounded-lg px-3 py-2 text-sm"
+                    placeholder="Dimensions (e.g. 100x50 mm)"
+                    value={form.extra_data.dimensions ?? ""}
+                    onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, dimensions: e.target.value } }))}
+                  />
+                </div>
+              </>
+            )}
+          </>
+        );
       case "blogs":
         return (
           <div className="md:col-span-2 space-y-2">
@@ -294,6 +387,7 @@ export default function AdminContentManager() {
               onClick={() => {
                 setActiveModule(module.key);
                 setSearch("");
+                setProductCategoryTab("All");
                 resetForm();
               }}
               className={`w-full text-left rounded-xl px-3 py-2 text-sm font-semibold ${activeModule === module.key ? "bg-black text-white" : "bg-gray-100 text-black hover:bg-gray-200"}`}
@@ -361,7 +455,29 @@ export default function AdminContentManager() {
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <h3 className="font-heading text-2xl">{activeDef.label}</h3>
               {activeDef.kind === "content" ? (
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2 items-center">
+                  {activeModule === "products" && (
+                    <div className="flex bg-gray-100 p-1 rounded-lg mr-2">
+                      <button
+                        onClick={() => setProductCategoryTab("All")}
+                        className={`px-3 py-1 text-sm rounded-md transition-colors ${productCategoryTab === "All" ? "bg-white shadow-sm font-semibold" : "text-gray-600 hover:text-black"}`}
+                      >
+                        All
+                      </button>
+                      <button
+                        onClick={() => setProductCategoryTab("TMT")}
+                        className={`px-3 py-1 text-sm rounded-md transition-colors ${productCategoryTab === "TMT" ? "bg-white shadow-sm font-semibold" : "text-gray-600 hover:text-black"}`}
+                      >
+                        TMT
+                      </button>
+                      <button
+                        onClick={() => setProductCategoryTab("Structural")}
+                        className={`px-3 py-1 text-sm rounded-md transition-colors ${productCategoryTab === "Structural" ? "bg-white shadow-sm font-semibold" : "text-gray-600 hover:text-black"}`}
+                      >
+                        Structural
+                      </button>
+                    </div>
+                  )}
                   <input value={search} onChange={(e) => setSearch(e.target.value)} className="border rounded-lg px-3 py-2 text-sm" placeholder="Search" />
                   <button onClick={fetchItems} className="rounded-lg bg-gray-900 text-white px-3 py-2 text-sm" type="button">Apply</button>
                 </div>
@@ -379,7 +495,7 @@ export default function AdminContentManager() {
                   </tr>
                 </thead>
                 <tbody>
-                  {items.map((row) => (
+                  {displayedItems.map((row) => (
                     <tr key={row.id} className="border-b last:border-b-0">
                       <td className="py-3 pr-3">
                         <div className="font-semibold">{String(row.title ?? row.name ?? `#${row.id}`)}</div>
@@ -403,7 +519,7 @@ export default function AdminContentManager() {
               </table>
             </div>
 
-            {!loading && !items.length ? <p className="mt-4 text-sm text-black/50">No records found.</p> : null}
+            {!loading && !displayedItems.length ? <p className="mt-4 text-sm text-black/50">No records found.</p> : null}
             {loading ? <p className="mt-4 text-sm text-black/50">Loading...</p> : null}
             {message ? <p className="mt-3 text-sm text-black/70">{message}</p> : null}
           </div>
