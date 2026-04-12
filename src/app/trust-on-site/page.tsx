@@ -8,17 +8,15 @@ export default function TrustOnSitePage() {
     <main className="w-full bg-[#f3f4f6]">
 
       {/* 🌟 HERO SECTION */}
-     <section className="relative pt-28 md:pt-32 pb-20 overflow-hidden">
+    <section className="relative pt-28 md:pt-32 pb-20 overflow-hidden">
 
   {/* 🌆 Background Image */}
   <div className="absolute inset-0">
     <img
-      src="/bg1.png"   // <-- add your background image here
+      src="/hero-bg.jpg"   // your background image
       alt="background"
       className="w-full h-full object-cover"
     />
-    {/* Overlay for readability */}
-    <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/70 to-gray-100"></div>
   </div>
 
   <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
