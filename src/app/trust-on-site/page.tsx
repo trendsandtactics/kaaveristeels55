@@ -28,20 +28,17 @@ export default function TrustOnSitePage() {
       </section>
 
 
-      {/* 🚚 VEHICLE SECTION WITH CUSTOM BACKGROUND */}
+      {/* 🚚 VEHICLE SECTION */}
       <section className="relative py-24 md:py-32 px-6 overflow-hidden">
 
-        {/* Background Image */}
+        {/* Background Image WITHOUT overlay */}
         <div className="absolute inset-0">
           <img
-            src="/bg1.png" // 🔁 replace with your image
+            src="/your-bg-image.png"
             alt="background"
             className="w-full h-full object-cover"
           />
         </div>
-
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/50" />
 
         {/* Content */}
         <div className="relative z-10 max-w-6xl mx-auto text-center text-white">
@@ -60,7 +57,7 @@ export default function TrustOnSitePage() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="bg-white/90 text-black shadow-lg rounded-xl px-5 py-4 text-center font-medium border hover:scale-105 transition"
+                className="bg-white text-black shadow-lg rounded-xl px-5 py-4 text-center font-medium border hover:scale-105 transition"
               >
                 {item}
               </div>
@@ -117,17 +114,24 @@ export default function TrustOnSitePage() {
             Tested. Certified. Trusted.
           </p>
 
-          <p className="text-lg text-black mb-2">
+          <p className="text-lg text-black mb-4">
             For Free Test call us
           </p>
 
-          <p className="text-2xl md:text-3xl font-bold text-red-600">
+          <p className="text-2xl md:text-3xl font-bold text-red-600 mb-6">
             +91 88558 24555
           </p>
 
+          {/* 🚚 VEHICLE IMAGE ABOVE BUTTON */}
+          <img
+            src="/vehicle.png"
+            alt="vehicle"
+            className="mx-auto mb-6 max-w-full h-auto"
+          />
+
           <Link
             href="/contact-us"
-            className="inline-block mt-8 px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition"
+            className="inline-block mt-4 px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition"
           >
             Contact Now
           </Link>
