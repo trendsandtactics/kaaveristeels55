@@ -19,6 +19,20 @@ type DynamicItem = {
 
 const ITEMS_PER_PAGE = 9;
 
+const TMT_GRADES = ["All", "Fe 500", "Fe 500D", "Fe 550", "Fe 550D", "Fe 600", "CRS"];
+const STRUCTURAL_TYPES = [
+  "All",
+  "Round Bars",
+  "Square Bars",
+  "Flats",
+  "Angles",
+  "C Channels",
+  "I Beams",
+  "Pipes",
+  "Rectangular Tubes",
+  "Square Tubes",
+];
+
 export default function DynamicModulePage({
   module,
   heading,
@@ -32,6 +46,7 @@ export default function DynamicModulePage({
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [activeSubCategory, setActiveSubCategory] = useState<string>("All");
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -64,19 +79,29 @@ export default function DynamicModulePage({
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [debouncedQ, activeCategory]);
+  }, [debouncedQ, activeCategory, activeSubCategory]);
+
+  useEffect(() => {
+    setActiveSubCategory("All");
+  }, [activeCategory]);
 
   const displayedItems = useMemo(() => {
-    if (module !== "products" || activeCategory === "All") return items;
+    if (module !== "products") return items;
     return items.filter((item) => {
       let category = "";
+      let subCategory = "";
       try {
         const extra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
         category = extra?.category || "";
+        subCategory = category === "TMT" ? (extra?.tmt_grade || "") : category === "Structural" ? (extra?.structural_type || "") : "";
       } catch (e) {}
-      return category === activeCategory;
+      
+      const categoryMatch = activeCategory === "All" || category === activeCategory;
+      const subCategoryMatch = activeSubCategory === "All" || subCategory === activeSubCategory;
+      
+      return categoryMatch && subCategoryMatch;
     });
-  }, [items, module, activeCategory]);
+  }, [items, module, activeCategory, activeSubCategory]);
 
   const featured = useMemo(() => displayedItems.filter((item) => item.featured).slice(0, 3), [displayedItems]);
 
@@ -114,23 +139,65 @@ export default function DynamicModulePage({
 
       <section className="max-w-7xl mx-auto px-6 py-12">
         {module === "products" && (
-          <div className="flex justify-center mb-10">
-            <div className="inline-flex flex-wrap gap-2 bg-gray-200/60 p-1.5 rounded-xl border border-black/5">
-              {["All", "TMT", "Structural"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveCategory(tab)}
-                  className={`px-6 py-2 rounded-lg text-sm font-bold tracking-wider uppercase transition-all duration-300 ${
-                    activeCategory === tab
-                      ? "bg-white text-accent-red shadow-md"
-                      : "text-black/60 hover:text-black hover:bg-gray-300/50"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
+          <>
+            <div className="flex justify-center mb-6">
+              <div className="inline-flex flex-wrap gap-2 bg-gray-200/60 p-1.5 rounded-xl border border-black/5">
+                {["All", "TMT", "Structural"].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveCategory(tab)}
+                    className={`px-6 py-2 rounded-lg text-sm font-bold tracking-wider uppercase transition-all duration-300 ${
+                      activeCategory === tab
+                        ? "bg-white text-accent-red shadow-md"
+                        : "text-black/60 hover:text-black hover:bg-gray-300/50"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+
+            {activeCategory === "TMT" && (
+              <div className="flex justify-center mb-10">
+                <div className="flex flex-wrap justify-center gap-2">
+                  {TMT_GRADES.map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveSubCategory(tab)}
+                      className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 border ${
+                        activeSubCategory === tab
+                          ? "bg-accent-red text-white border-accent-red shadow-md"
+                          : "bg-white text-black/60 border-black/10 hover:border-black/30 hover:text-black"
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeCategory === "Structural" && (
+              <div className="flex justify-center mb-10">
+                <div className="flex flex-wrap justify-center gap-2">
+                  {STRUCTURAL_TYPES.map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveSubCategory(tab)}
+                      className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 border ${
+                        activeSubCategory === tab
+                          ? "bg-accent-red text-white border-accent-red shadow-md"
+                          : "bg-white text-black/60 border-black/10 hover:border-black/30 hover:text-black"
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         {featured.length > 0 ? (
