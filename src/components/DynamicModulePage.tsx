@@ -94,7 +94,7 @@ export default function DynamicModulePage({
         const extra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
         category = extra?.category || "";
         subCategory = category === "TMT" ? (extra?.tmt_grade || "") : category === "Structural" ? (extra?.structural_type || "") : "";
-      } catch (e) {}
+      } catch {}
       
       const categoryMatch = activeCategory === "All" || category === activeCategory;
       const subCategoryMatch = activeSubCategory === "All" || subCategory === activeSubCategory;
@@ -296,7 +296,7 @@ export default function DynamicModulePage({
                           </>
                         );
                       }
-                    } catch (e) {}
+                    } catch {}
                     return null;
                   })()}
                 </div>
