@@ -44,6 +44,14 @@ export default function TrustOnSitePage() {
       />
     </div>
 
+    <div className="flex justify-center mt-10">
+  <button
+    className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 md:py-4 text-sm md:text-base font-semibold tracking-wide rounded-lg shadow-md hover:shadow-lg transition duration-300"
+  >
+    Book an Appointment
+  </button>
+</div>
+
   </div>
 </section>
 
@@ -128,32 +136,61 @@ export default function TrustOnSitePage() {
 
 
       {/* 📞 CTA */}
-      <section className="text-center py-16 px-6 bg-white border-t">
+     <section className="relative py-16 px-6 md:px-12 overflow-hidden">
 
-        <h2 className="text-4xl font-extrabold text-red-700 mb-2">
-          KAAVERI TMT
-        </h2>
+  {/* Background Gradient */}
+  <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-500"></div>
 
-        <p className="text-gray-600 mb-4">
-          Tested. Certified. Trusted.
-        </p>
+  {/* Subtle Pattern */}
+  <div className="absolute inset-0 opacity-10 bg-[url('/pattern.svg')]"></div>
 
-        <p className="text-gray-700 mb-2">
-          For Free Test call us @
-        </p>
+  <div className="relative max-w-5xl mx-auto text-center text-white">
 
-        <p className="text-3xl font-bold text-red-700 mb-6">
-          +91 88558 24555
-        </p>
+    {/* Heading */}
+    <h2 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-wide">
+      KAAVERI TMT
+    </h2>
 
-        <Link
-          href="/contact-us"
-          className="inline-block bg-red-700 hover:bg-red-800 text-white px-8 py-3 rounded-md font-semibold transition"
-        >
-          Contact Now
-        </Link>
+    {/* Tagline */}
+    <p className="text-white/90 text-base md:text-lg mb-6">
+      Tested. Certified. Trusted.
+    </p>
 
-      </section>
+    {/* Divider */}
+    <div className="w-16 h-1 bg-white mx-auto mb-6 rounded-full"></div>
+
+    {/* Call Text */}
+    <p className="text-white/90 mb-2 text-sm md:text-base">
+      For Free Test, Call Us
+    </p>
+
+    {/* Phone */}
+    <p className="text-2xl md:text-4xl font-bold mb-8 tracking-wide">
+      +91 88558 24555
+    </p>
+
+    {/* CTA Buttons */}
+    <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+
+      <Link
+        href="/contact-us"
+        className="bg-white text-red-700 px-8 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg hover:bg-gray-100 transition"
+      >
+        Contact Now
+      </Link>
+
+      <a
+        href="tel:+918855824555"
+        className="border border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-red-700 transition"
+      >
+        Call Now
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
 
     </main>
   );
