@@ -49,40 +49,82 @@ export default function TrustOnSitePage() {
 
 
       {/* 🔴 CONTENT SECTION */}
-      <section className="px-6 md:px-20 py-16">
+     <section className="px-6 md:px-20 py-16 bg-gray-50">
+  
+  <div className="max-w-7xl mx-auto">
 
-        {/* HEADERS */}
-        <div className="grid md:grid-cols-2 gap-6 mb-10">
+    {/* HEADER CARDS */}
+    <div className="grid md:grid-cols-2 gap-6 mb-12">
 
-          <div className="bg-red-700 text-white text-center py-4 rounded-md font-bold text-lg">
-            “We Don’t Just Promise Quality – We Prove It.”
-          </div>
+      <div className="bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
+        “We Don’t Just Promise Quality – We Prove It.”
+      </div>
 
-          <div className="bg-red-700 text-white text-center py-4 rounded-md font-bold text-lg">
-            Why This Changes Everything
-          </div>
+      <div className="bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
+        Why This Changes Everything
+      </div>
 
-        </div>
+    </div>
 
-        {/* LIST */}
-        <div className="grid md:grid-cols-2 gap-10 text-gray-800">
+    {/* CONTENT */}
+    <div className="grid md:grid-cols-2 gap-8">
 
-          <ul className="space-y-4">
-            <li>▶ Fully Equipped Mobile Testing Vehicle</li>
-            <li>▶ Instant Test Result</li>
-            <li>▶ Live Testing in Front of Engineers & Builders</li>
-          </ul>
+      {/* LEFT CARD */}
+      <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+        <ul className="space-y-5">
 
-          <ul className="space-y-4">
-            <li>▶ No Blind Trust</li>
-            <li>▶ Complete Transparency</li>
-            <li>▶ No Compromise On Strength</li>
-            <li>▶ Confidence For 100+ Years of Structure Life</li>
-          </ul>
+          {[
+            "Fully Equipped Mobile Testing Vehicle",
+            "Instant Test Result",
+            "Live Testing in Front of Engineers & Builders"
+          ].map((item, index) => (
+            <li key={index} className="flex items-start gap-3 group">
+              
+              <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
+                ✓
+              </span>
 
-        </div>
+              <p className="text-gray-700 group-hover:text-black transition">
+                {item}
+              </p>
 
-      </section>
+            </li>
+          ))}
+
+        </ul>
+      </div>
+
+      {/* RIGHT CARD */}
+      <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+        <ul className="space-y-5">
+
+          {[
+            "No Blind Trust",
+            "Complete Transparency",
+            "No Compromise On Strength",
+            "Confidence For 100+ Years of Structure Life"
+          ].map((item, index) => (
+            <li key={index} className="flex items-start gap-3 group">
+              
+              <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
+                ✓
+              </span>
+
+              <p className="text-gray-700 group-hover:text-black transition">
+                {item}
+              </p>
+
+            </li>
+          ))}
+
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
 
 
       {/* 📞 CTA */}
