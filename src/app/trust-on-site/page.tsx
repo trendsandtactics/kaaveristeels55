@@ -5,51 +5,65 @@ import Link from "next/link";
 
 export default function TrustOnSitePage() {
   return (
-    <main className="flex flex-col min-h-screen w-full bg-white overflow-hidden">
+    <main className="flex flex-col w-full bg-black text-white overflow-hidden">
 
-      {/* 🌟 HERO */}
-      <section className="relative w-full py-28 md:py-36 px-6 text-center bg-gradient-to-br from-yellow-400 to-yellow-500">
+      {/* 🌟 HERO – CINEMATIC */}
+      <section className="relative h-[90vh] flex items-center justify-center text-center overflow-hidden">
 
-        <div className="max-w-5xl mx-auto">
-          <p className="uppercase tracking-widest text-sm mb-4 text-black/70 font-semibold">
+        {/* Background glow */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 via-yellow-500 to-yellow-600 opacity-95" />
+
+        {/* Noise / texture layer */}
+        <div className="absolute inset-0 opacity-10 mix-blend-overlay bg-[url('/noise.png')]" />
+
+        <div className="relative z-10 px-6">
+
+          <p className="uppercase tracking-[6px] text-sm mb-6 text-black/70">
             KAAVERI STEELS
           </p>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold text-black mb-6 leading-tight">
+          <h1 className="text-6xl md:text-8xl font-extrabold text-black leading-tight mb-6">
             Trust On Site
           </h1>
 
-          <p className="text-lg md:text-xl text-black/80 max-w-2xl mx-auto">
+          <p className="max-w-2xl mx-auto text-lg md:text-xl text-black/80">
             We don’t just promise quality — we prove it with live testing,
             transparency, and engineering excellence.
           </p>
+
         </div>
+
+        {/* bottom fade */}
+        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black to-transparent" />
       </section>
 
 
-      {/* 🚚 EXPERIENCE SECTION */}
-      <section className="relative py-28 px-6 bg-gray-50">
+      {/* 🚚 EXPERIENCE – FLOATING CARDS */}
+      <section className="relative py-32 px-6">
 
         <div className="max-w-6xl mx-auto text-center">
 
-          <h2 className="text-3xl md:text-4xl font-bold mb-14 text-gray-900">
+          <h2 className="text-4xl md:text-5xl font-bold mb-20">
             On-Site Testing Experience
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
             {[
-              { icon: "🚚", text: "Mobile Testing Vehicle" },
-              { icon: "⚡", text: "Instant Test Results" },
-              { icon: "👁️", text: "Live Testing" },
-              { icon: "🛡️", text: "100+ Years Strength" },
+              "🚚 Mobile Testing Vehicle",
+              "⚡ Instant Test Results",
+              "👁️ Live Testing",
+              "🛡️ 100+ Years Strength",
             ].map((item, i) => (
               <div
                 key={i}
-                className="backdrop-blur-lg bg-white/70 border border-gray-200 shadow-xl rounded-2xl p-6 text-center hover:-translate-y-2 hover:shadow-2xl transition-all duration-300"
+                className="group relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 transition duration-500 hover:-translate-y-3 hover:scale-105"
               >
-                <div className="text-3xl mb-3">{item.icon}</div>
-                <p className="font-semibold text-gray-800">{item.text}</p>
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-yellow-400/20 to-transparent opacity-0 group-hover:opacity-100 transition" />
+
+                <p className="relative z-10 text-lg font-medium">
+                  {item}
+                </p>
               </div>
             ))}
 
@@ -58,80 +72,95 @@ export default function TrustOnSitePage() {
       </section>
 
 
-      {/* 🔴 FEATURES */}
-      <section className="px-6 py-20">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+      {/* 🔴 FEATURES – SPLIT DESIGN */}
+      <section className="relative py-32 px-6">
 
-          <div className="bg-gradient-to-br from-red-600 to-red-700 text-white rounded-3xl p-10 shadow-xl hover:scale-[1.02] transition">
-            <h2 className="text-2xl font-bold mb-6">
-              We Don’t Just Promise Quality
-            </h2>
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
 
-            <ul className="space-y-4 text-base">
-              <li>✔ Fully Equipped Mobile Testing Vehicle</li>
-              <li>✔ Instant Test Result</li>
-              <li>✔ Live Testing with Engineers & Builders</li>
-            </ul>
-          </div>
+          {[{
+            title: "We Don’t Just Promise Quality",
+            list: [
+              "Fully Equipped Mobile Testing Vehicle",
+              "Instant Test Result",
+              "Live Testing with Engineers & Builders"
+            ]
+          },
+          {
+            title: "Why This Changes Everything",
+            list: [
+              "No Blind Trust",
+              "Complete Transparency",
+              "No Compromise On Strength",
+              "Confidence for 100+ Years"
+            ]
+          }].map((block, i) => (
 
-          <div className="bg-gradient-to-br from-red-600 to-red-700 text-white rounded-3xl p-10 shadow-xl hover:scale-[1.02] transition">
-            <h2 className="text-2xl font-bold mb-6">
-              Why This Changes Everything
-            </h2>
+            <div
+              key={i}
+              className="relative p-10 rounded-3xl bg-gradient-to-br from-red-600 to-red-700 shadow-2xl hover:scale-[1.03] transition duration-500"
+            >
+              <h2 className="text-2xl font-bold mb-6">
+                {block.title}
+              </h2>
 
-            <ul className="space-y-4 text-base">
-              <li>✔ No Blind Trust</li>
-              <li>✔ Complete Transparency</li>
-              <li>✔ No Compromise On Strength</li>
-              <li>✔ Confidence for 100+ Years</li>
-            </ul>
-          </div>
+              <ul className="space-y-4 text-base">
+                {block.list.map((item, idx) => (
+                  <li key={idx}>✔ {item}</li>
+                ))}
+              </ul>
+
+              {/* glow */}
+              <div className="absolute -inset-1 bg-red-500 blur-2xl opacity-20 rounded-3xl"></div>
+            </div>
+
+          ))}
 
         </div>
       </section>
 
 
-      {/* 🚀 CTA PREMIUM */}
-      <section className="relative bg-gray-100 py-24 px-6 text-center overflow-hidden">
+      {/* 🚀 CTA – HERO STYLE */}
+      <section className="relative py-36 px-6 text-center overflow-hidden">
 
-        <div className="max-w-3xl mx-auto">
+        {/* glowing background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900" />
+        <div className="absolute top-1/2 left-1/2 w-[700px] h-[700px] bg-red-500/20 blur-3xl rounded-full -translate-x-1/2 -translate-y-1/2" />
 
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900">
+        <div className="relative z-10 max-w-3xl mx-auto">
+
+          <h2 className="text-5xl md:text-6xl font-extrabold mb-6">
             KAAVERI TMT
           </h2>
 
-          <p className="text-lg text-gray-600 mb-6">
+          <p className="text-lg text-gray-300 mb-6">
             Tested. Certified. Trusted.
           </p>
 
-          <p className="text-lg text-gray-800 mb-2">
+          <p className="text-gray-400 mb-2">
             For Free Test call us
           </p>
 
-          <p className="text-3xl font-bold text-red-600 mb-10">
+          <p className="text-3xl font-bold text-red-500 mb-12">
             +91 88558 24555
           </p>
 
-          {/* 🚚 VEHICLE IMAGE (HERO STYLE) */}
-          <div className="relative flex justify-center mb-10">
+          {/* 🚚 FLOATING VEHICLE */}
+          <div className="flex justify-center mb-12">
             <img
               src="/vehicle.png"
               alt="vehicle"
-              className="w-full max-w-2xl drop-shadow-2xl hover:scale-105 transition duration-500"
+              className="max-w-2xl w-full drop-shadow-[0_40px_80px_rgba(0,0,0,0.8)] hover:scale-105 transition duration-500"
             />
           </div>
 
           <Link
             href="/contact-us"
-            className="inline-block px-10 py-4 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition"
+            className="inline-block px-12 py-5 bg-red-600 hover:bg-red-700 text-white rounded-full text-lg font-bold shadow-2xl hover:scale-105 transition"
           >
             Contact Now
           </Link>
 
         </div>
-
-        {/* subtle background glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-red-200/30 blur-3xl rounded-full"></div>
       </section>
 
     </main>
