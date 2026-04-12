@@ -8,43 +8,51 @@ export default function TrustOnSitePage() {
     <main className="w-full bg-[#f3f4f6]">
 
       {/* 🌟 HERO SECTION */}
-      <section className="relative pt-28 md:pt-32 pb-20 overflow-hidden bg-gradient-to-b from-white to-gray-100">
+     <section className="relative pt-28 md:pt-32 pb-20 overflow-hidden">
 
-        {/* Background subtle pattern */}
-        <div className="absolute inset-0 bg-[url('/city-bg.png')] bg-bottom bg-no-repeat bg-contain opacity-20"></div>
+  {/* 🌆 Background Image */}
+  <div className="absolute inset-0">
+    <img
+      src="/bg1.png"   // <-- add your background image here
+      alt="background"
+      className="w-full h-full object-cover"
+    />
+    {/* Overlay for readability */}
+    <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/70 to-gray-100"></div>
+  </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+  <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
 
-          {/* TITLE */}
-          <p className="uppercase tracking-widest text-sm text-gray-500 mb-3">
-            KAAVERI STEELS
-          </p>
+    {/* TITLE */}
+    <p className="uppercase tracking-widest text-sm text-gray-500 mb-3">
+      KAAVERI STEELS
+    </p>
 
-          <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
-            Trust On Site
-          </h1>
+    <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
+      Trust On Site
+    </h1>
 
-          <p className="text-gray-600 max-w-2xl mx-auto mb-10">
-            We don’t just promise quality — we prove it with live testing,
-            transparency, and engineering excellence.
-          </p>
+    <p className="text-gray-600 max-w-2xl mx-auto mb-10">
+      We don’t just promise quality — we prove it with live testing,
+      transparency, and engineering excellence.
+    </p>
 
-          {/* 🚚 VEHICLE HERO */}
-          <div className="relative flex justify-center mb-12">
-            <img
-              src="/vehicle.png"
-              alt="vehicle"
-              className="w-full max-w-5xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
-            />
-          </div>
+    {/* 🚚 VEHICLE HERO */}
+    <div className="relative flex justify-center mb-12">
+      <img
+        src="/vehicle.png"
+        alt="vehicle"
+        className="w-full max-w-5xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
+      />
+    </div>
 
-          {/* 🪨 STEEL STRIP */}
-          <div className="w-full max-w-4xl mx-auto bg-gray-900 text-white py-3 text-sm md:text-base font-semibold tracking-widest rounded">
-            KAAVERI TMT — 550D
-          </div>
+    {/* 🪨 STEEL STRIP */}
+    <div className="w-full max-w-4xl mx-auto bg-gray-900 text-white py-3 text-sm md:text-base font-semibold tracking-widest rounded">
+      KAAVERI TMT — 550D
+    </div>
 
-        </div>
-      </section>
+  </div>
+</section>
 
 
       {/* 🔴 CONTENT SECTION */}
