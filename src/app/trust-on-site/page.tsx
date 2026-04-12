@@ -136,62 +136,79 @@ export default function TrustOnSitePage() {
 
 
       {/* 📞 CTA */}
-     <section className="relative py-16 px-6 md:px-12 overflow-hidden">
+    <section className="py-16 px-6 md:px-12 bg-gray-100">
+  
+  <div className="max-w-6xl mx-auto bg-gradient-to-r from-red-800 to-red-600 rounded-3xl p-8 md:p-12 grid md:grid-cols-2 gap-10 items-center">
 
-  {/* Background Gradient */}
-  <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-500"></div>
+    {/* LEFT CONTENT */}
+    <div className="text-white">
 
-  {/* Subtle Pattern */}
-  <div className="absolute inset-0 opacity-10 bg-[url('/pattern.svg')]"></div>
+      <h2 className="text-3xl md:text-5xl font-extrabold leading-tight mb-6">
+        Don't Take Chances <br /> With Your Foundation.
+      </h2>
 
-  <div className="relative max-w-5xl mx-auto text-center text-white">
+      <p className="text-white/90 mb-8 text-base md:text-lg">
+        Book a <span className="font-semibold">Free Test</span> of your current steel supply. <br />
+        Our Mobile Testing Vehicle will arrive within 48 hours.
+      </p>
 
-    {/* Heading */}
-    <h2 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-wide">
-      KAAVERI TMT
-    </h2>
+      {/* CALL BOX */}
+      <div className="flex items-center gap-4">
+        
+        <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-white/10 border border-white/20">
+          📞
+        </div>
 
-    {/* Tagline */}
-    <p className="text-white/90 text-base md:text-lg mb-6">
-      Tested. Certified. Trusted.
-    </p>
+        <div>
+          <p className="text-xs tracking-widest text-white/70">
+            CALL NOW FOR FREE TEST
+          </p>
+          <p className="text-xl md:text-2xl font-bold">
+            +91 88558 24555
+          </p>
+        </div>
 
-    {/* Divider */}
-    <div className="w-16 h-1 bg-white mx-auto mb-6 rounded-full"></div>
+      </div>
 
-    {/* Call Text */}
-    <p className="text-white/90 mb-2 text-sm md:text-base">
-      For Free Test, Call Us
-    </p>
+    </div>
 
-    {/* Phone */}
-    <p className="text-2xl md:text-4xl font-bold mb-8 tracking-wide">
-      +91 88558 24555
-    </p>
+    {/* RIGHT FORM */}
+    <div className="bg-white/10 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/20 shadow-lg">
 
-    {/* CTA Buttons */}
-    <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+      <form className="space-y-4">
 
-      <Link
-        href="/contact-us"
-        className="bg-white text-red-700 px-8 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg hover:bg-gray-100 transition"
-      >
-        Contact Now
-      </Link>
+        <input
+          type="text"
+          placeholder="Full Name"
+          className="w-full px-4 py-3 rounded-md bg-white text-gray-800 outline-none"
+        />
 
-      <a
-        href="tel:+918855824555"
-        className="border border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-red-700 transition"
-      >
-        Call Now
-      </a>
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          className="w-full px-4 py-3 rounded-md bg-white text-gray-800 outline-none"
+        />
+
+        <input
+          type="text"
+          placeholder="Site Location"
+          className="w-full px-4 py-3 rounded-md bg-white text-gray-800 outline-none"
+        />
+
+        <button
+          type="submit"
+          className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3 rounded-md tracking-wide transition"
+        >
+          BOOK FREE ON-SITE TEST
+        </button>
+
+      </form>
 
     </div>
 
   </div>
 
 </section>
-
     </main>
   );
 }
