@@ -136,55 +136,75 @@ export default function TrustOnSitePage() {
 
 
       {/* 📞 CTA */}
-     <section className="relative py-16 px-6 md:px-12 overflow-hidden">
+  <section className="relative py-16 px-4 md:px-10 overflow-hidden">
 
   {/* Background Gradient */}
-  <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-500"></div>
+  <div className="absolute inset-0 bg-gradient-to-br from-red-800 via-red-700 to-red-600"></div>
 
-  {/* Subtle Pattern */}
-  <div className="absolute inset-0 opacity-10 bg-[url('/pattern.svg')]"></div>
+  {/* Decorative Glow */}
+  <div className="absolute -top-20 -left-20 w-72 h-72 bg-red-500 opacity-30 blur-3xl rounded-full"></div>
+  <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-yellow-400 opacity-20 blur-3xl rounded-full"></div>
 
-  <div className="relative max-w-5xl mx-auto text-center text-white">
+  {/* Content Wrapper */}
+  <div className="relative max-w-6xl mx-auto bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-10">
 
-    {/* Heading */}
-    <h2 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-wide">
-      KAAVERI TMT
-    </h2>
+    {/* Left Content */}
+    <div className="text-white max-w-lg">
 
-    {/* Tagline */}
-    <p className="text-white/90 text-base md:text-lg mb-6">
-      Tested. Certified. Trusted.
-    </p>
+      <h2 className="text-3xl md:text-5xl font-extrabold leading-tight mb-4">
+        Don’t Take Chances <br /> With Your Foundation.
+      </h2>
 
-    {/* Divider */}
-    <div className="w-16 h-1 bg-white mx-auto mb-6 rounded-full"></div>
+      <p className="text-white/80 text-sm md:text-base mb-6">
+        Book a <span className="font-semibold text-white">Free Test</span> of your current steel supply.
+        Our Mobile Testing Vehicle will arrive within 48 hours.
+      </p>
 
-    {/* Call Text */}
-    <p className="text-white/90 mb-2 text-sm md:text-base">
-      For Free Test, Call Us
-    </p>
+      {/* Phone CTA */}
+      <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10 w-fit">
+        <div className="w-12 h-12 flex items-center justify-center bg-yellow-400 text-red-800 rounded-lg text-xl font-bold">
+          ☎
+        </div>
+        <div>
+          <p className="text-xs text-white/70 tracking-wide">
+            CALL NOW FOR FREE TEST
+          </p>
+          <p className="text-xl md:text-2xl font-bold tracking-wide">
+            +91 88558 24555
+          </p>
+        </div>
+      </div>
 
-    {/* Phone */}
-    <p className="text-2xl md:text-4xl font-bold mb-8 tracking-wide">
-      +91 88558 24555
-    </p>
+    </div>
 
-    {/* CTA Buttons */}
-    <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+    {/* Right Form */}
+    <div className="w-full max-w-md bg-white/10 backdrop-blur-md p-6 rounded-xl border border-white/20 shadow-xl">
 
-      <Link
-        href="/contact-us"
-        className="bg-white text-red-700 px-8 py-3 rounded-lg font-semibold shadow-md hover:shadow-lg hover:bg-gray-100 transition"
-      >
-        Contact Now
-      </Link>
+      <div className="flex flex-col gap-4">
 
-      <a
-        href="tel:+918855824555"
-        className="border border-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-red-700 transition"
-      >
-        Call Now
-      </a>
+        <input
+          type="text"
+          placeholder="Full Name"
+          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
+        />
+
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
+        />
+
+        <input
+          type="text"
+          placeholder="Site Location"
+          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
+        />
+
+        <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-red-900 font-semibold py-3 rounded-md tracking-wide transition duration-300 shadow-md hover:shadow-lg">
+          BOOK FREE ON-SITE TEST
+        </button>
+
+      </div>
 
     </div>
 
