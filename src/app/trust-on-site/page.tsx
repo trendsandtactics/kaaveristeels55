@@ -13,7 +13,7 @@ export default function TrustOnSitePage() {
   {/* 🌆 Background Image */}
   <div className="absolute inset-0">
     <img
-      src="/bg1.jpg"   // your background image
+      src="/bg1.png"   // your background image
       alt="background"
       className="w-full h-full object-cover"
     />
