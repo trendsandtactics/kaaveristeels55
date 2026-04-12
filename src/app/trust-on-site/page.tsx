@@ -144,7 +144,7 @@ export default function TrustOnSitePage() {
   <section className="relative py-16 px-4 md:px-10 overflow-hidden">
 
   {/* Background Gradient */}
-  <div className="absolute inset-0 bg-gradient-to-br from-red-800 via-red-700 to-red-600"></div>
+  <div className="absolute inset-0 bg-gradient-to-br from-red-800 via-white to-white"></div>
 
   {/* Decorative Glow */}
   <div className="absolute -top-20 -left-20 w-72 h-72 bg-red-500 opacity-30 blur-3xl rounded-full"></div>
