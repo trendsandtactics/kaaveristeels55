@@ -59,7 +59,7 @@ export default function MapEmbed() {
           <p className="text-sm md:text-base uppercase tracking-[0.28em] text-accent-red font-semibold">
             Our Locations
           </p>
-          <h2 className="mt-4 text-4xl md:text-5xl font-heading font-bold text-black leading-tight">
+          <h2 className="mt-4 text-4xl md:text-5xl font-sans font-bold text-black leading-tight">
             Visit Our Office & Manufacturing Units
           </h2>
           <p className="mt-5 text-base md:text-lg text-black/65 leading-relaxed">
@@ -108,7 +108,7 @@ export default function MapEmbed() {
                   </span>
                 </div>
 
-                <h3 className="text-3xl md:text-4xl font-heading font-bold text-black mb-6">
+                <h3 className="text-3xl md:text-4xl font-sans font-bold text-black mb-6">
                   {activeLocation.title}
                 </h3>
 

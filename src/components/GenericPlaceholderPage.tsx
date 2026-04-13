@@ -38,7 +38,7 @@ const GenericPlaceholderPage: React.FC<GenericPlaceholderPageProps> = ({
                         className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-6"
                     >
                         <div className={`w-12 h-[2px] bg-black`} />
-                        <h2 className={`font-body uppercase tracking-[0.2em] font-bold text-sm text-black`}>{subtitle}</h2>
+                        <h2 className={`font-sans uppercase tracking-[0.2em] font-bold text-sm text-black`}>{subtitle}</h2>
                         <div className={`w-12 h-[2px] bg-black`} />
                     </motion.div>
 
@@ -46,7 +46,7 @@ const GenericPlaceholderPage: React.FC<GenericPlaceholderPageProps> = ({
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="font-heading text-5xl md:text-7xl mb-6 text-black drop-shadow-md"
+                        className="font-sans text-5xl md:text-7xl mb-6 text-black drop-shadow-md"
                     >
                         {title}
                     </motion.h1>
@@ -55,7 +55,7 @@ const GenericPlaceholderPage: React.FC<GenericPlaceholderPageProps> = ({
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="font-body text-black/80 max-w-2xl mx-auto text-lg leading-relaxed font-medium"
+                        className="font-sans text-black/80 max-w-2xl mx-auto text-lg leading-relaxed font-medium"
                     >
                         {description}
                     </motion.p>
@@ -72,9 +72,9 @@ const GenericPlaceholderPage: React.FC<GenericPlaceholderPageProps> = ({
                     <div className={`w-24 h-24 mb-8 rounded-full border flex flex-col items-center justify-center text-4xl ${isYellow ? 'border-accent-yellow/20 bg-accent-yellow/5' : 'border-accent-red/20 bg-accent-red/5'}`}>
                         <span>{icon}</span>
                     </div>
-                    <h3 className={`font-heading text-3xl text-black mb-4 transition-colors ${isYellow ? 'group-hover:text-accent-yellow' : 'group-hover:text-accent-red'}`}>Under Construction</h3>
-                    <p className="font-body text-black/60 mb-8 max-w-lg text-center font-medium">We are currently forging beautiful new content for this section. Check back shortly!</p>
-                    <Link href="/" className={`px-8 py-3 bg-black text-white font-body text-xs uppercase tracking-widest transition-colors font-bold shadow-lg ${isYellow ? 'hover:bg-accent-yellow hover:text-black' : 'hover:bg-accent-red'}`}>
+                    <h3 className={`font-sans text-3xl text-black mb-4 transition-colors ${isYellow ? 'group-hover:text-accent-yellow' : 'group-hover:text-accent-red'}`}>Under Construction</h3>
+                    <p className="font-sans text-black/60 mb-8 max-w-lg text-center font-medium">We are currently forging beautiful new content for this section. Check back shortly!</p>
+                    <Link href="/" className={`px-8 py-3 bg-black text-white font-sans text-xs uppercase tracking-widest transition-colors font-bold shadow-lg ${isYellow ? 'hover:bg-accent-yellow hover:text-black' : 'hover:bg-accent-red'}`}>
                         Return to Home
                     </Link>
                 </div>

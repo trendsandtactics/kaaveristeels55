@@ -311,7 +311,7 @@ export default function AdminContentManager() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
       <aside className="lg:col-span-3 rounded-2xl border border-black/10 bg-white p-4 shadow-sm h-fit lg:sticky lg:top-28">
-        <h2 className="font-heading text-xl mb-3">Modules</h2>
+        <h2 className="font-sans text-xl mb-3">Modules</h2>
         <div className="space-y-2">
           {MODULES.map((module) => (
             <button
@@ -335,7 +335,7 @@ export default function AdminContentManager() {
 
         {activeDef.kind === "content" ? (
           <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-            <h3 className="font-heading text-2xl mb-1">{editingId ? "Edit" : "Create"} {activeDef.label}</h3>
+            <h3 className="font-sans text-2xl mb-1">{editingId ? "Edit" : "Create"} {activeDef.label}</h3>
             <p className="text-sm text-black/60 mb-4">{activeDef.description}</p>
 
             <form onSubmit={submitForm} className="grid md:grid-cols-2 gap-3">
@@ -385,7 +385,7 @@ export default function AdminContentManager() {
         {activeDef.kind !== "certifications" ? (
           <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-              <h3 className="font-heading text-2xl">{activeDef.label}</h3>
+              <h3 className="font-sans text-2xl">{activeDef.label}</h3>
               {activeDef.kind === "content" ? (
                 <div className="flex flex-wrap gap-2 items-center">
                   {activeModule === "products" && (

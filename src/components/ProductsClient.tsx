@@ -50,10 +50,10 @@ export default function ProductsClient({ categories, products }: ProductsClientP
             {/* 1. Category Overview Tabs */}
             <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
                 <div className="flex flex-col items-center text-center mb-12">
-                    <h2 className="font-body text-accent-red uppercase tracking-[0.2em] font-bold text-sm mb-4">
+                    <h2 className="font-sans text-accent-red uppercase tracking-[0.2em] font-bold text-sm mb-4">
                         Our Portfolio
                     </h2>
-                    <h3 className="font-heading text-4xl md:text-5xl text-black font-extrabold mb-8">
+                    <h3 className="font-sans text-4xl md:text-5xl text-black font-extrabold mb-8">
                         Explore Our Categories
                     </h3>
                     
@@ -61,7 +61,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                     <div className="flex flex-wrap justify-center gap-3">
                         <button
                             onClick={() => setActiveTab("all")}
-                            className={`px-6 py-3 rounded-sm font-body text-sm font-bold uppercase tracking-widest transition-all duration-300 border ${
+                            className={`px-6 py-3 rounded-sm font-sans text-sm font-bold uppercase tracking-widest transition-all duration-300 border ${
                                 activeTab === "all"
                                     ? "bg-accent-red text-white border-accent-red"
                                     : "bg-white text-black/60 border-black/10 hover:border-accent-red hover:text-accent-red"
@@ -73,7 +73,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                             <button
                                 key={cat.id}
                                 onClick={() => setActiveTab(cat.id)}
-                                className={`px-6 py-3 rounded-sm font-body text-sm font-bold uppercase tracking-widest transition-all duration-300 border ${
+                                className={`px-6 py-3 rounded-sm font-sans text-sm font-bold uppercase tracking-widest transition-all duration-300 border ${
                                     activeTab === cat.id
                                         ? "bg-accent-red text-white border-accent-red"
                                         : "bg-white text-black/60 border-black/10 hover:border-accent-red hover:text-accent-red"
@@ -90,7 +90,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                     {filteredProducts.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-20 border border-dashed border-black/10 bg-black/5 rounded-sm">
                             <Settings className="w-12 h-12 text-black/30 mb-4 animate-spin-slow" />
-                            <p className="font-body text-black/60 font-medium text-lg">
+                            <p className="font-sans text-black/60 font-medium text-lg">
                                 Products for this category are being updated.
                             </p>
                         </div>
@@ -131,10 +131,10 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                                             <span className="text-accent-red text-xs font-bold uppercase tracking-widest mb-2 block">
                                                 {product.expand?.category?.name || "Product"}
                                             </span>
-                                            <h4 className="font-heading text-2xl text-black font-bold mb-3">
+                                            <h4 className="font-sans text-2xl text-black font-bold mb-3">
                                                 {product.title}
                                             </h4>
-                                            <p className="font-body text-black/70 mb-6 flex-grow font-medium text-sm leading-relaxed">
+                                            <p className="font-sans text-black/70 mb-6 flex-grow font-medium text-sm leading-relaxed">
                                                 {product.shortDescription}
                                             </p>
                                             
@@ -155,18 +155,18 @@ export default function ProductsClient({ categories, products }: ProductsClientP
             <section className="w-full bg-[#f8f9fa] py-20 px-6 md:px-12 border-t border-black/5">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 md:gap-20 items-center">
                     <div className="w-full md:w-1/2">
-                        <h2 className="font-body text-accent-red uppercase tracking-[0.2em] font-bold text-sm mb-4">
+                        <h2 className="font-sans text-accent-red uppercase tracking-[0.2em] font-bold text-sm mb-4">
                             Flagship Product
                         </h2>
-                        <h3 className="font-heading text-4xl md:text-5xl text-black font-extrabold mb-6">
+                        <h3 className="font-sans text-4xl md:text-5xl text-black font-extrabold mb-6">
                             KAAVERI TMT Bars
                         </h3>
-                        <p className="font-body text-black/70 text-lg leading-relaxed mb-8 font-medium">
+                        <p className="font-sans text-black/70 text-lg leading-relaxed mb-8 font-medium">
                             Engineered with advanced quenching and self-tempering technology, KAAVERI TMT Bars deliver unmatched ductility, bendability, and earthquake resistance. Built to secure your legacy.
                         </p>
                         
                         <div className="mb-8">
-                            <h4 className="font-heading text-xl text-black font-bold mb-4">Available Sizes</h4>
+                            <h4 className="font-sans text-xl text-black font-bold mb-4">Available Sizes</h4>
                             <div className="flex flex-wrap gap-2">
                                 {tmtSizes.map(size => (
                                     <span key={size} className="bg-white border border-black/10 text-black px-4 py-2 text-sm font-bold shadow-sm rounded-sm">{size}</span>
@@ -175,7 +175,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                         </div>
 
                         <div>
-                            <h4 className="font-heading text-xl text-black font-bold mb-4">Available Grades</h4>
+                            <h4 className="font-sans text-xl text-black font-bold mb-4">Available Grades</h4>
                             <div className="flex flex-wrap gap-2">
                                 {tmtGrades.map(grade => (
                                     <span key={grade} className="bg-black text-white px-4 py-2 text-sm font-bold shadow-sm rounded-sm">{grade}</span>
@@ -187,7 +187,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                         <Image src="/tmtbar1.png" alt="TMT Bars" fill className="object-cover" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                         <div className="absolute bottom-8 left-8 right-8">
-                            <p className="text-white text-xl font-heading font-bold">The Backbone of Modern Construction</p>
+                            <p className="text-white text-xl font-sans font-bold">The Backbone of Modern Construction</p>
                         </div>
                     </div>
                 </div>
@@ -196,10 +196,10 @@ export default function ProductsClient({ categories, products }: ProductsClientP
             {/* 4. Structural Steel Detailed Section */}
             <section className="w-full bg-white py-20 px-6 md:px-12">
                 <div className="max-w-7xl mx-auto text-center">
-                    <h2 className="font-body text-accent-red uppercase tracking-[0.2em] font-bold text-sm mb-4">
+                    <h2 className="font-sans text-accent-red uppercase tracking-[0.2em] font-bold text-sm mb-4">
                         Versatile Solutions
                     </h2>
-                    <h3 className="font-heading text-4xl md:text-5xl text-black font-extrabold mb-12">
+                    <h3 className="font-sans text-4xl md:text-5xl text-black font-extrabold mb-12">
                         Structural Steel Range
                     </h3>
                     
@@ -209,7 +209,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                                 <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 group-hover:bg-accent-red group-hover:text-white transition-colors duration-300">
                                     <Settings size={20} />
                                 </div>
-                                <span className="font-body font-bold text-black/80 text-sm">{type}</span>
+                                <span className="font-sans font-bold text-black/80 text-sm">{type}</span>
                             </div>
                         ))}
                     </div>
@@ -222,8 +222,8 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                 
                 <div className="max-w-7xl mx-auto relative z-10">
                     <div className="text-center mb-16">
-                        <h3 className="font-heading text-4xl md:text-5xl font-extrabold mb-4">Why Choose KAAVERI?</h3>
-                        <p className="font-body text-white/70 max-w-2xl mx-auto text-lg">Uncompromising standards at every step of the manufacturing process.</p>
+                        <h3 className="font-sans text-4xl md:text-5xl font-extrabold mb-4">Why Choose KAAVERI?</h3>
+                        <p className="font-sans text-white/70 max-w-2xl mx-auto text-lg">Uncompromising standards at every step of the manufacturing process.</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -237,8 +237,8 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                             return (
                                 <div key={i} className="bg-white/5 border border-white/10 p-8 rounded-sm hover:bg-white/10 transition-colors">
                                     <Icon className="w-10 h-10 text-accent-red mb-6" />
-                                    <h4 className="font-heading text-xl font-bold mb-3">{feature.title}</h4>
-                                    <p className="font-body text-white/60 text-sm leading-relaxed">{feature.desc}</p>
+                                    <h4 className="font-sans text-xl font-bold mb-3">{feature.title}</h4>
+                                    <p className="font-sans text-white/60 text-sm leading-relaxed">{feature.desc}</p>
                                 </div>
                             )
                         })}
@@ -249,14 +249,14 @@ export default function ProductsClient({ categories, products }: ProductsClientP
             {/* 6. Enquiry CTA */}
             <section className="w-full bg-accent-yellow py-16 px-6 md:px-12">
                 <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
-                    <h3 className="font-heading text-3xl md:text-5xl text-black font-extrabold mb-6">
+                    <h3 className="font-sans text-3xl md:text-5xl text-black font-extrabold mb-6">
                         Ready to Build the Future?
                     </h3>
-                    <p className="font-body text-black/80 font-medium text-lg mb-8 max-w-2xl">
+                    <p className="font-sans text-black/80 font-medium text-lg mb-8 max-w-2xl">
                         Get in touch with our experts to find the right steel solutions for your specific project requirements.
                     </p>
                     <Link href="/contact-us">
-                        <button className="px-10 py-4 bg-black text-white font-body text-sm uppercase tracking-[0.2em] font-bold hover:bg-accent-red transition-colors duration-300 shadow-xl rounded-sm">
+                        <button className="px-10 py-4 bg-black text-white font-sans text-sm uppercase tracking-[0.2em] font-bold hover:bg-accent-red transition-colors duration-300 shadow-xl rounded-sm">
                             Request a Quote
                         </button>
                     </Link>

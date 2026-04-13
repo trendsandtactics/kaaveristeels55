@@ -97,7 +97,7 @@ export default function DynamicModulePage({
           <p className="text-xs uppercase tracking-[0.2em] font-semibold text-black/70">
             Dynamic Module
           </p>
-          <h1 className="font-heading text-5xl md:text-7xl text-black mt-3 drop-shadow-md">
+          <h1 className="font-sans text-5xl md:text-7xl text-black mt-3 drop-shadow-md">
             {heading}
           </h1>
           <p className="text-black/80 mt-3 max-w-2xl font-medium">{subtitle}</p>
@@ -136,7 +136,7 @@ export default function DynamicModulePage({
 
         {featured.length > 0 ? (
           <div className="mb-10">
-            <h2 className="font-heading text-2xl text-black mb-4">Featured</h2>
+            <h2 className="font-sans text-2xl text-black mb-4">Featured</h2>
 
             <div className="grid md:grid-cols-3 gap-5">
               {featured.map((item) => {
@@ -164,7 +164,7 @@ export default function DynamicModulePage({
                       <p className="text-[10px] uppercase tracking-[0.18em] text-black/50 font-semibold">
                         Featured
                       </p>
-                      <h3 className="font-heading text-2xl mt-2 text-black">{item.title}</h3>
+                      <h3 className="font-sans text-2xl mt-2 text-black">{item.title}</h3>
                       <p className="text-sm text-black/65 mt-2 line-clamp-3">
                         {item.short_description}
                       </p>
@@ -203,7 +203,7 @@ export default function DynamicModulePage({
                 </div>
 
                 <div className="p-5">
-                  <h3 className="font-heading text-2xl text-black group-hover:text-accent-red transition-colors">
+                  <h3 className="font-sans text-2xl text-black group-hover:text-accent-red transition-colors">
                     {item.title}
                   </h3>
                   <p className="text-sm text-black/65 mt-2 line-clamp-3">
