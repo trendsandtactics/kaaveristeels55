@@ -25,12 +25,12 @@ export default function SustainabilityPage() {
                 <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
                     <div className="flex items-center justify-center gap-4 mb-6">
                         <div className="w-12 h-[2px] bg-black" />
-                        <h1 className="font-body uppercase tracking-[0.2em] font-bold text-sm text-black">
+                        <h1 className="font-sans uppercase tracking-[0.2em] font-bold text-sm text-black">
                             Sustainability
                         </h1>
                         <div className="w-12 h-[2px] bg-black" />
                     </div>
-                    <h2 className="font-heading text-5xl md:text-7xl mb-6 text-black font-extrabold drop-shadow-md">
+                    <h2 className="font-sans text-5xl md:text-7xl mb-6 text-black font-extrabold drop-shadow-md">
                         Building a Greener Future with <span className="text-black/70">Responsible Steel</span>
                     </h2>
                 </div>

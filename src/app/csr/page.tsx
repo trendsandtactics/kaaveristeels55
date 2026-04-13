@@ -41,17 +41,17 @@ export default function CSRPage() {
         <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-6">
             <div className="w-12 h-[2px] bg-black" />
-            <h2 className="font-body uppercase tracking-[0.2em] font-bold text-sm text-black">
+            <h2 className="font-sans uppercase tracking-[0.2em] font-bold text-sm text-black">
               Empowering Communities
             </h2>
             <div className="w-12 h-[2px] bg-black" />
           </div>
 
-          <h1 className="font-heading text-5xl md:text-7xl mb-6 text-black drop-shadow-md">
+          <h1 className="font-sans text-5xl md:text-7xl mb-6 text-black drop-shadow-md">
             Corporate Social Responsibility
           </h1>
 
-          <p className="font-body text-black/80 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
+          <p className="font-sans text-black/80 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
             Building strong foundations isn&apos;t just about steel. It&apos;s about giving back to the community and ensuring sustainable development.
           </p>
         </div>

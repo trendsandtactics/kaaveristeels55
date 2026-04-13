@@ -21,7 +21,7 @@ export default function Footer() {
                             className="object-contain drop-shadow-md"
                         />
                     </Link>
-                    <p className="font-sans text-white/70 text-sm leading-relaxed mb-6 font-medium">
+                    <p className="font-body text-white/70 text-sm leading-relaxed mb-6 font-medium">
                         Leading the future of construction with premium TMT bars and structural steel products. Engineered for maximum strength and sustainability.
                     </p>
                     <div className="w-12 h-1 bg-accent-red" />
@@ -29,13 +29,13 @@ export default function Footer() {
 
                 {/* Quick Links */}
                 <div>
-                    <h3 className="font-sans text-xl mb-6 text-white tracking-wider">Navigation</h3>
+                    <h3 className="font-heading text-xl mb-6 text-white tracking-wider">Navigation</h3>
                     <ul className="space-y-4">
                         {["About Us", "Products", "Infrastructure", "Projects", "Sustainability", "Contact"].map((item) => (
                             <li key={item}>
                                 <Link
                                     href={item === "Contact" ? "/contact-us" : `/${item.toLowerCase().replace(" ", "-")}`}
-                                    className="font-sans text-white/70 hover:text-accent-red text-sm uppercase tracking-widest transition-colors flex items-center gap-2 font-medium"
+                                    className="font-body text-white/70 hover:text-accent-red text-sm uppercase tracking-widest transition-colors flex items-center gap-2 font-medium"
                                 >
                                     <span className="w-1 h-1 rounded-full bg-accent-red" />
                                     {item}
@@ -47,8 +47,8 @@ export default function Footer() {
 
                 {/* Contact Info */}
                 <div>
-                    <h3 className="font-sans text-xl mb-6 text-white tracking-wider">Contact Us</h3>
-                    <ul className="space-y-4 font-sans text-white/70 text-sm font-medium">
+                    <h3 className="font-heading text-xl mb-6 text-white tracking-wider">Contact Us</h3>
+                    <ul className="space-y-4 font-body text-white/70 text-sm font-medium">
                         <li className="flex items-start gap-3">
                             <span className="text-accent-red mt-1">📍</span>
                             <span>No.7/1 & 4/3, Komal Road,<br />Maruthur Village, Therizhandur Post,<br />Kuttalam Taluk, Mayiladuthurai<br />District - 609 808</span>
@@ -70,12 +70,12 @@ export default function Footer() {
 
                 {/* Certifications or Call to Action */}
                 <div>
-                    <h3 className="font-sans text-xl mb-6 text-white tracking-wider">Certifications</h3>
+                    <h3 className="font-heading text-xl mb-6 text-white tracking-wider">Certifications</h3>
                     <div className="flex flex-col gap-4">
-                        <div className="w-full h-16 bg-white/5 border border-white/10 flex items-center justify-center font-sans text-xs text-white/60 uppercase tracking-widest font-bold">
+                        <div className="w-full h-16 bg-white/5 border border-white/10 flex items-center justify-center font-body text-xs text-white/60 uppercase tracking-widest font-bold">
                             ISO 9001:2015 Approved
                         </div>
-                        <div className="w-full h-16 bg-white/5 border border-white/10 flex items-center justify-center font-sans text-xs text-white/60 uppercase tracking-widest font-bold">
+                        <div className="w-full h-16 bg-white/5 border border-white/10 flex items-center justify-center font-body text-xs text-white/60 uppercase tracking-widest font-bold">
                             Green Steel Certified
                         </div>
                     </div>
@@ -84,12 +84,12 @@ export default function Footer() {
 
             {/* Bottom Bar */}
             <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 relative z-10">
-                <p className="font-sans text-white/50 text-xs tracking-widest uppercase font-bold">
+                <p className="font-body text-white/50 text-xs tracking-widest uppercase font-bold">
                     &copy; {new Date().getFullYear()} KAAVERI Steel. All Rights Reserved.
                 </p>
                 <div className="flex gap-6">
-                    <Link href="#" className="font-sans text-white/50 hover:text-accent-red text-xs tracking-widest uppercase transition-colors font-bold">Privacy Policy</Link>
-                    <Link href="#" className="font-sans text-white/50 hover:text-accent-red text-xs tracking-widest uppercase transition-colors font-bold">Terms of Service</Link>
+                    <Link href="#" className="font-body text-white/50 hover:text-accent-red text-xs tracking-widest uppercase transition-colors font-bold">Privacy Policy</Link>
+                    <Link href="#" className="font-body text-white/50 hover:text-accent-red text-xs tracking-widest uppercase transition-colors font-bold">Terms of Service</Link>
                 </div>
             </div>
         </footer>

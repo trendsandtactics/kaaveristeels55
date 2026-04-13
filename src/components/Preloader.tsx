@@ -13,7 +13,7 @@ export default function Preloader({ progress }: PreloaderProps) {
         >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(185,28,28,0.2),transparent_60%)] pointer-events-none" />
             <div className="flex flex-col items-center w-full max-w-sm px-6">
-                <h1 className="font-sans text-2xl mb-8 tracking-wider text-white uppercase text-center flex gap-2">
+                <h1 className="font-heading text-2xl mb-8 tracking-wider text-white uppercase text-center flex gap-2">
                     Igniting the <span className="text-accent-orange">Forge</span>
                 </h1>
                 <div className="w-full h-1 bg-accent-blue/30 relative overflow-hidden rounded-full shadow-[0_0_15px_rgba(255,107,0,0.1)]">
@@ -24,7 +24,7 @@ export default function Preloader({ progress }: PreloaderProps) {
                         transition={{ ease: "linear", duration: 0.1 }}
                     />
                 </div>
-                <div className="mt-6 flex justify-between w-full font-sans text-xs text-white/50 font-medium tracking-widest uppercase">
+                <div className="mt-6 flex justify-between w-full font-body text-xs text-white/50 font-medium tracking-widest uppercase">
                     <span>Loading Sequence</span>
                     <span className="text-white/80">{Math.round(progress)}%</span>
                 </div>

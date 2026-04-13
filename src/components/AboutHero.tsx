@@ -39,11 +39,11 @@ export default function AboutHero() {
                     </div>
 
                     <div className="w-full md:w-1/2">
-                        <h2 className="font-sans text-black uppercase tracking-[0.2em] font-bold text-sm mb-4">Our Mission</h2>
-                        <h3 className="font-sans text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                        <h2 className="font-body text-black uppercase tracking-[0.2em] font-bold text-sm mb-4">Our Mission</h2>
+                        <h3 className="font-heading text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
                             Building a Stronger, Sustainable Future
                         </h3>
-                        <p className="font-sans text-black/80 text-lg leading-relaxed mix-blend-multiply font-medium">
+                        <p className="font-body text-black/80 text-lg leading-relaxed mix-blend-multiply font-medium">
                             At KAAVERI, our mission is to manufacture and supply superior TMT bars and structural steel products that contribute to the safety, durability, and sustainability of construction projects worldwide. We are dedicated to maintaining the highest standards of quality in all our products, ensuring they meet the rigorous demands of the construction industry. By leveraging advanced technology and innovative manufacturing processes, we strive to provide cost-effective and reliable steel solutions that support the growth and development of communities, ensuring that every structure built with our products stands strong and secure.
                         </p>
                     </div>
@@ -62,11 +62,11 @@ export default function AboutHero() {
                     </div>
 
                     <div className="w-full md:w-1/2">
-                        <h2 className="font-sans text-black uppercase tracking-[0.2em] font-bold text-sm mb-4">Vision</h2>
-                        <h3 className="font-sans text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                        <h2 className="font-body text-black uppercase tracking-[0.2em] font-bold text-sm mb-4">Vision</h2>
+                        <h3 className="font-heading text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
                             Leading the Steel Industry with Quality, Innovation, and Trust
                         </h3>
-                        <p className="font-sans text-black/80 text-lg leading-relaxed font-medium">
+                        <p className="font-body text-black/80 text-lg leading-relaxed font-medium">
                             Our vision is to be the most trusted and respected manufacturer in the steel industry, renowned for our unwavering commitment to quality, innovation, and customer satisfaction. We aim to set new standards in steel manufacturing by embracing cutting-edge technology, promoting sustainable practices, and continuously exceeding the expectations of our customers, thereby contributing to the construction of a safer, more sustainable world.
                         </p>
                     </div>

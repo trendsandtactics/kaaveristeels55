@@ -101,18 +101,18 @@ export default function HomeAbout() {
         >
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-[2px] bg-accent-red" />
-            <h2 className="font-sans text-accent-red uppercase tracking-[0.2em] font-bold text-sm">
+          <h2 className="font-body text-accent-red uppercase tracking-[0.2em] font-bold text-sm">
               About KAAVERI
             </h2>
           </div>
 
-          <h3 className="font-sans text-4xl md:text-5xl lg:text-6xl text-foreground mb-8 leading-tight">
+          <h3 className="font-heading text-4xl md:text-5xl lg:text-6xl text-foreground mb-8 leading-tight">
             Strength That
             <br />
             <span className="text-accent-red">Supports The Future</span>
           </h3>
 
-          <p className="font-sans text-foreground/80 text-lg leading-relaxed mb-6 font-medium">
+          <p className="font-body text-foreground/80 text-lg leading-relaxed mb-6 font-medium">
             At KAAVERI, we are passionate about steel and dedicated to
             excellence. As a leading manufacturer of TMT bars and structural
             steel products, we are committed to providing the construction
@@ -120,7 +120,7 @@ export default function HomeAbout() {
             safety, and sustainability.
           </p>
 
-          <p className="font-sans text-foreground/80 text-lg leading-relaxed mb-10 font-medium">
+          <p className="font-body text-foreground/80 text-lg leading-relaxed mb-10 font-medium">
             Our state-of-the-art manufacturing processes and rigorous quality
             control ensure that every product leaving our facility meets the
             highest global standards, empowering builders to create structures
@@ -128,7 +128,7 @@ export default function HomeAbout() {
           </p>
 
           <Link href="/about-us">
-            <button className="relative px-8 py-4 bg-accent-red text-white font-sans text-xs md:text-sm uppercase tracking-[0.2em] font-bold overflow-hidden group border-2 border-accent-red shadow-lg">
+            <button className="relative px-8 py-4 bg-accent-red text-white font-body text-xs md:text-sm uppercase tracking-[0.2em] font-bold overflow-hidden group border-2 border-accent-red shadow-lg">
               <span className="relative z-10 transition-colors duration-300 group-hover:text-accent-red">
                 Discover Our Story
               </span>

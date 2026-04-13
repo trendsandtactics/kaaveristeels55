@@ -224,7 +224,7 @@ export default function AdminCertificationsPanel() {
   return (
     <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-5 gap-8">
       <section className="lg:col-span-2 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-        <h1 className="font-sans text-3xl text-black mb-2">Certifications Admin</h1>
+        <h1 className="font-heading text-3xl text-black mb-2">Certifications Admin</h1>
         <p className="text-sm text-black/65 mb-6">
           Full CRUD for certificates with image/file URL preview support.
         </p>
@@ -311,7 +311,7 @@ export default function AdminCertificationsPanel() {
       </section>
 
       <section className="lg:col-span-3 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-        <h2 className="font-sans text-2xl text-black mb-4">Uploaded Certificates</h2>
+        <h2 className="font-heading text-2xl text-black mb-4">Uploaded Certificates</h2>
 
         <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
           {items.length > 0 ? (

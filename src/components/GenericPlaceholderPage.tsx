@@ -72,9 +72,9 @@ const GenericPlaceholderPage: React.FC<GenericPlaceholderPageProps> = ({
                     <div className={`w-24 h-24 mb-8 rounded-full border flex flex-col items-center justify-center text-4xl ${isYellow ? 'border-accent-yellow/20 bg-accent-yellow/5' : 'border-accent-red/20 bg-accent-red/5'}`}>
                         <span>{icon}</span>
                     </div>
-                    <h3 className={`font-sans text-3xl text-black mb-4 transition-colors ${isYellow ? 'group-hover:text-accent-yellow' : 'group-hover:text-accent-red'}`}>Under Construction</h3>
-                    <p className="font-sans text-black/60 mb-8 max-w-lg text-center font-medium">We are currently forging beautiful new content for this section. Check back shortly!</p>
-                    <Link href="/" className={`px-8 py-3 bg-black text-white font-sans text-xs uppercase tracking-widest transition-colors font-bold shadow-lg ${isYellow ? 'hover:bg-accent-yellow hover:text-black' : 'hover:bg-accent-red'}`}>
+                <h3 className={`font-heading text-3xl text-black mb-4 transition-colors ${isYellow ? 'group-hover:text-accent-yellow' : 'group-hover:text-accent-red'}`}>Under Construction</h3>
+                <p className="font-body text-black/60 mb-8 max-w-lg text-center font-medium">We are currently forging beautiful new content for this section. Check back shortly!</p>
+                <Link href="/" className={`px-8 py-3 bg-black text-white font-body text-xs uppercase tracking-widest transition-colors font-bold shadow-lg ${isYellow ? 'hover:bg-accent-yellow hover:text-black' : 'hover:bg-accent-red'}`}>
                         Return to Home
                     </Link>
                 </div>
