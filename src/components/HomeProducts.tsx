@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 const products = [
@@ -9,24 +10,19 @@ const products = [
         name: "TMT Bars",
         image: "/tmtbar1.png",
         description: "High-strength ribbed TMT bars built for maximum durability, flexibility, and earthquake resistance. The foundation of modern construction.",
-<<<<<<< HEAD
-=======
         href: "/products?category=TMT",
->>>>>>> a8b0249 (j)
     },
     {
         name: "Structural Steels",
         image: "/structuralbar 1.png",
         description: "Premium structural steel beams crafted for heavy-duty load bearing. Ensuring structural integrity and flawless execution for mega-projects.",
-<<<<<<< HEAD
+        href: "/products?category=Structural",
     },
     {
         name: "Billets",
         image: "/squarebar.png",
         description: "High-quality steel billets manufactured with precision. The perfect raw material for forging superior steel products.",
-=======
-        href: "/products?category=Structural",
->>>>>>> a8b0249 (j)
+        href: "/products",
     }
 ];
 
@@ -81,6 +77,7 @@ export default function HomeProducts() {
                             transition={{ duration: 0.7, delay: index * 0.2 }}
                             className="group relative bg-white border border-gray-100 shadow-xl overflow-hidden rounded-sm"
                         >
+                            <Link href={product.href} className="absolute inset-0 z-30 cursor-pointer" aria-label={`View ${product.name}`} />
                             <div className="relative w-full h-[320px] md:h-[400px] overflow-hidden">
                                 <Image
                                     src={product.image}
