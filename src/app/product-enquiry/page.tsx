@@ -47,21 +47,17 @@ export default function ProductEnquiryPage() {
 
   return (
     <main
-      className="min-h-screen flex items-center justify-center px-6 py-12 bg-cover bg-center relative"
+      className="min-h-screen flex items-center justify-center px-6 py-12 bg-cover bg-center"
       style={{
-        backgroundImage:
-          "url('/bg.jpg')", // replace with your image path
+        backgroundImage: "url('/bg.jpg')",
       }}
     >
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/60"></div>
-
       {/* Form Container */}
-      <div className="relative z-10 w-full max-w-3xl backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-8 shadow-xl">
-        <h1 className="text-4xl font-bold text-white">
+      <div className="w-full max-w-3xl bg-white/90 rounded-2xl p-8 shadow-xl">
+        <h1 className="text-4xl font-bold text-gray-900">
           Product / Sales Enquiry
         </h1>
-        <p className="text-white/70 mt-2 text-sm">
+        <p className="text-gray-600 mt-2 text-sm">
           Share your requirement and our team will respond quickly.
         </p>
 
@@ -94,8 +90,10 @@ export default function ProductEnquiryPage() {
                 setForm((s) => ({ ...s, phone: e.target.value }))
               }
             />
+
+            {/* Updated Dropdown */}
             <select
-              className="input"
+              className="input text-black"
               value={form.enquiry_type}
               onChange={(e) =>
                 setForm((s) => ({
@@ -104,8 +102,12 @@ export default function ProductEnquiryPage() {
                 }))
               }
             >
-              <option value="product">Product Enquiry</option>
-              <option value="other">Sales Enquiry</option>
+              <option value="product" className="text-black">
+                Product Enquiry
+              </option>
+              <option value="other" className="text-black">
+                Sales Enquiry
+              </option>
             </select>
           </div>
 
@@ -136,27 +138,27 @@ export default function ProductEnquiryPage() {
         </form>
 
         {message && (
-          <p className="text-sm mt-4 text-white/80">{message}</p>
+          <p className="text-sm mt-4 text-gray-700">{message}</p>
         )}
       </div>
 
       {/* Tailwind reusable input style */}
       <style jsx>{`
         .input {
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          color: white;
+          background: #ffffff;
+          border: 1px solid #d1d5db;
+          color: #111827; /* ensures black text everywhere */
           padding: 10px;
           border-radius: 8px;
           font-size: 14px;
           outline: none;
         }
         .input::placeholder {
-          color: rgba(255, 255, 255, 0.6);
+          color: #6b7280;
         }
         .input:focus {
           border-color: #ef4444;
-          background: rgba(255, 255, 255, 0.15);
+          background: #ffffff;
         }
       `}</style>
     </main>
