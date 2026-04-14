@@ -17,12 +17,6 @@ const products = [
         image: "/structuralbar 1.png",
         description: "Premium structural steel beams crafted for heavy-duty load bearing. Ensuring structural integrity and flawless execution for mega-projects.",
         href: "/products?category=Structural",
-    },
-    {
-        name: "Billets",
-        image: "/squarebar.png",
-        description: "High-quality steel billets manufactured with precision. The perfect raw material for forging superior steel products.",
-        href: "/products",
     }
 ];
 
@@ -67,7 +61,7 @@ export default function HomeProducts() {
                     </motion.p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                     {products.map((product, index) => (
                         <motion.div
                             key={product.name}
