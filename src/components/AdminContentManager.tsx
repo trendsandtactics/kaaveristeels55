@@ -204,6 +204,11 @@ export default function AdminContentManager() {
   };
 
   const uploadFromDevice = async (file: File, target: "cover_image" | "file_url" | "video_url") => {
+    if (file.size > 4 * 1024 * 1024) {
+      setMessage("Upload failed: The file is too large. Please keep it under 4 MB.");
+      return;
+    }
+
     const body = new FormData();
     body.append("file", file);
 
