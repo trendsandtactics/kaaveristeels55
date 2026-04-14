@@ -30,11 +30,20 @@ interface ProductsClientProps {
 }
 
 export default function ProductsClient({ categories, products }: ProductsClientProps) {
-    const [activeTab, setActiveTab] = useState<string>(categories[0]?.id || "all");
+    const sortedCategories = [...categories].sort((a, b) => {
+        const aName = a.name.toLowerCase();
+        const bName = b.name.toLowerCase();
+        if (aName.includes("structural") && !bName.includes("structural")) return -1;
+        if (!aName.includes("structural") && bName.includes("structural")) return 1;
+        if (aName.includes("tmt") && !bName.includes("tmt")) return -1;
+        if (!aName.includes("tmt") && bName.includes("tmt")) return 1;
+        return 0;
+    });
 
-    const filteredProducts = activeTab === "all" 
-        ? products 
-        : products.filter(p => p.category === activeTab);
+    const initialTab = sortedCategories.length > 0 ? sortedCategories[0].id : "";
+    const [activeTab, setActiveTab] = useState<string>(initialTab);
+
+    const filteredProducts = products.filter(p => p.category === activeTab);
 
     const structuralTypes = [
         "Round Bars", "Square Bars", "Flats", "Angles", "C Channels", 
@@ -59,17 +68,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                     
                     {/* Tabs */}
                     <div className="flex flex-wrap justify-center gap-3">
-                        <button
-                            onClick={() => setActiveTab("all")}
-                            className={`px-6 py-3 rounded-sm font-body text-sm font-bold uppercase tracking-widest transition-all duration-300 border ${
-                                activeTab === "all"
-                                    ? "bg-accent-red text-white border-accent-red"
-                                    : "bg-white text-black/60 border-black/10 hover:border-accent-red hover:text-accent-red"
-                            }`}
-                        >
-                            All Products
-                        </button>
-                        {categories.map((cat) => (
+                        {sortedCategories.map((cat) => (
                             <button
                                 key={cat.id}
                                 onClick={() => setActiveTab(cat.id)}

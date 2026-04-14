@@ -353,14 +353,14 @@ export default function AdminContentManager() {
 
               <div className="space-y-2">
                 <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Cover image URL" value={form.cover_image} onChange={(e) => setForm((s) => ({ ...s, cover_image: e.target.value }))} />
-                <input type="file" accept="image/*" className="w-full border rounded-lg px-3 py-2 text-sm" onChange={(e) => {
+                <input type="file" accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg" className="w-full border rounded-lg px-3 py-2 text-sm" onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) uploadFromDevice(file, "cover_image");
                 }} />
               </div>
               <div className="space-y-2">
                 <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="File URL (PDF, Document, etc.)" value={form.file_url} onChange={(e) => setForm((s) => ({ ...s, file_url: e.target.value }))} />
-                <input type="file" accept="image/*,video/*,application/pdf,.doc,.docx" className="w-full border rounded-lg px-3 py-2 text-sm" onChange={(e) => {
+                <input type="file" accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg,video/*,application/pdf,.doc,.docx" className="w-full border rounded-lg px-3 py-2 text-sm" onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) uploadFromDevice(file, "file_url");
                 }} />
