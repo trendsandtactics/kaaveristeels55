@@ -50,7 +50,7 @@ export default function ProductEnquiryPage() {
       className="min-h-screen flex items-center justify-center px-6 py-12 bg-cover bg-center relative"
       style={{
         backgroundImage:
-          "url('/images/steel-bg.jpg')", // replace with your image path
+          "url('/bg3.png')", // replace with your image path
       }}
     >
       {/* Dark overlay */}
