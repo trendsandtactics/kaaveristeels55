@@ -14,7 +14,7 @@ type Certification = {
   fileType?: string | null;
 };
 
-const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
 async function readApiResponse(
   response: Response
@@ -140,25 +140,37 @@ export default function AdminCertificationsPanel() {
   };
 
   const optimizeImageFile = async (rawFile: File): Promise<File> => {
-    if (rawFile.type !== "image/png" && rawFile.type !== "image/webp") return rawFile;
+    const isPngOrWebp = rawFile.type === "image/png" || rawFile.type === "image/webp" || rawFile.name.toLowerCase().endsWith(".png");
+    if (!isPngOrWebp) return rawFile;
     
     return new Promise<File>((resolve) => {
       const img = new window.Image();
       img.onload = () => {
         const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
+        let width = img.width;
+        let height = img.height;
+        const MAX_DIM = 1920;
+        
+        if (width > MAX_DIM || height > MAX_DIM) {
+          const ratio = Math.min(MAX_DIM / width, MAX_DIM / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
         const ctx = canvas.getContext("2d");
         if (!ctx) return resolve(rawFile);
         
         ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0);
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
         
         canvas.toBlob((blob) => {
           if (!blob) return resolve(rawFile);
-          resolve(new File([blob], rawFile.name.replace(/\.[^/.]+$/, ".jpg"), { type: "image/jpeg", lastModified: Date.now() }));
-        }, "image/jpeg", 0.9);
+          const baseName = rawFile.name.includes('.') ? rawFile.name.substring(0, rawFile.name.lastIndexOf('.')) : rawFile.name;
+          resolve(new File([blob], `${baseName}.jpg`, { type: "image/jpeg", lastModified: Date.now() }));
+        }, "image/jpeg", 0.85);
       };
       img.onerror = () => resolve(rawFile);
       img.src = URL.createObjectURL(rawFile);
@@ -175,7 +187,7 @@ export default function AdminCertificationsPanel() {
       if (finalFile) {
         finalFile = await optimizeImageFile(finalFile);
         if (finalFile.size > MAX_UPLOAD_BYTES) {
-          setMessage("File is too large. Please upload a file smaller than 4 MB.");
+          setMessage("File is too large. Please upload a file smaller than 10 MB.");
           setLoading(false);
           return;
         }
@@ -296,7 +308,7 @@ export default function AdminCertificationsPanel() {
               setFile(nextFile);
 
               if (nextFile && nextFile.size > MAX_UPLOAD_BYTES) {
-                setMessage("Selected file is larger than 4 MB. Please choose a smaller file.");
+              setMessage("Selected file is larger than 10 MB. Please choose a smaller file.");
               } else {
                 setMessage("");
               }

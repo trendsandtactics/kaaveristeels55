@@ -207,49 +207,65 @@ export default function AdminContentManager() {
     setMessage("Preparing upload...");
     let file = rawFile;
 
-    // Automatically convert PNG/WEBP to JPEG before sending to bypass backend restrictions
-    if (file.type === "image/png" || file.type === "image/webp") {
+    // Automatically convert PNG/WEBP to JPEG and downscale to bypass backend size/type restrictions
+    const isPngOrWebp = file.type === "image/png" || file.type === "image/webp" || file.name.toLowerCase().endsWith(".png");
+    if (isPngOrWebp) {
       file = await new Promise<File>((resolve) => {
         const img = new window.Image();
         img.onload = () => {
           const canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          canvas.height = img.height;
+          let width = img.width;
+          let height = img.height;
+          const MAX_DIM = 1920;
+          
+          if (width > MAX_DIM || height > MAX_DIM) {
+            const ratio = Math.min(MAX_DIM / width, MAX_DIM / height);
+            width = Math.round(width * ratio);
+            height = Math.round(height * ratio);
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
           const ctx = canvas.getContext("2d");
           if (!ctx) return resolve(rawFile);
           
           ctx.fillStyle = "#ffffff";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, 0, 0);
+          ctx.fillRect(0, 0, width, height);
+          ctx.drawImage(img, 0, 0, width, height);
           
           canvas.toBlob((blob) => {
             if (!blob) return resolve(rawFile);
-            resolve(new File([blob], rawFile.name.replace(/\.[^/.]+$/, ".jpg"), { type: "image/jpeg", lastModified: Date.now() }));
-          }, "image/jpeg", 0.9);
+            const baseName = rawFile.name.includes('.') ? rawFile.name.substring(0, rawFile.name.lastIndexOf('.')) : rawFile.name;
+            resolve(new File([blob], `${baseName}.jpg`, { type: "image/jpeg", lastModified: Date.now() }));
+          }, "image/jpeg", 0.85);
         };
         img.onerror = () => resolve(rawFile);
         img.src = URL.createObjectURL(rawFile);
       });
     }
 
-    if (file.size > 4 * 1024 * 1024) {
-      setMessage("Upload failed: The file is too large. Please keep it under 4 MB.");
+    if (file.size > 10 * 1024 * 1024) {
+      setMessage("Upload failed: The file is too large. Please keep it under 10 MB.");
       return;
     }
 
     const body = new FormData();
     body.append("file", file);
 
-    const response = await fetch("/api/uploads", { method: "POST", body });
-    const data = await response.json();
+    try {
+      const response = await fetch("/api/uploads", { method: "POST", body });
+      const data = await response.json();
 
-    if (!response.ok) {
-      setMessage(data.error ?? "Upload failed.");
-      return;
+      if (!response.ok) {
+        setMessage(data.error ?? "Upload failed.");
+        return;
+      }
+
+      setForm((state) => ({ ...state, [target]: data.url }));
+      setMessage("File uploaded successfully.");
+    } catch (e) {
+      setMessage("Upload failed due to a network error.");
     }
-
-    setForm((state) => ({ ...state, [target]: data.url }));
-    setMessage("File uploaded successfully.");
   };
 
   const renderModuleSpecificFields = () => {
