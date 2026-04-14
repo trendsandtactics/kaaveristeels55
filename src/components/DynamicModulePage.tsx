@@ -31,7 +31,7 @@ export default function DynamicModulePage({
   const [items, setItems] = useState<DynamicItem[]>([]);
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [activeCategory, setActiveCategory] = useState<string>(module === "products" ? "Structural" : "All");
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -117,7 +117,7 @@ export default function DynamicModulePage({
         {module === "products" && (
           <div className="flex justify-center mb-10">
             <div className="inline-flex flex-wrap gap-2 bg-gray-200/60 p-1.5 rounded-xl border border-black/5">
-              {["TMT", "Structural"].map((tab) => (
+              {["Structural", "TMT"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveCategory(tab)}

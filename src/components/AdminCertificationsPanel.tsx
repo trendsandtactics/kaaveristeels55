@@ -266,7 +266,7 @@ export default function AdminCertificationsPanel() {
           <input
             id="certificate-file"
             type="file"
-            accept=".pdf,.png,.jpg,.jpeg,.webp"
+            accept="image/*,application/pdf,.pdf,.png,.jpg,.jpeg,.webp,.gif,.svg"
             onChange={(event) => {
               const nextFile = event.target.files?.[0] ?? null;
               setFile(nextFile);
