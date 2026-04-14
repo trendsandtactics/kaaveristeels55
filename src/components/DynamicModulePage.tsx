@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation"; // ✅ added
 import { resolveMediaUrl } from "@/lib/media";
 
 type DynamicItem = {
@@ -24,35 +23,26 @@ export default function DynamicModulePage({
   module,
   heading,
   subtitle,
+  initialCategory, // ✅ NEW
 }: {
   module: string;
   heading: string;
   subtitle: string;
+  initialCategory?: string;
 }) {
-  const searchParams = useSearchParams(); // ✅ added
-
   const [items, setItems] = useState<DynamicItem[]>([]);
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
 
-  // ✅ UPDATED: category from URL
-  const [activeCategory, setActiveCategory] = useState<string>(() => {
-    if (module !== "products") return "All";
-    return searchParams.get("category") || "Structural";
-  });
+  // ✅ Use category from URL (passed as prop)
+  const [activeCategory, setActiveCategory] = useState<string>(
+    module === "products"
+      ? initialCategory || "Structural"
+      : "All"
+  );
 
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-
-  // ✅ Sync category if URL changes
-  useEffect(() => {
-    if (module === "products") {
-      const category = searchParams.get("category");
-      if (category) {
-        setActiveCategory(category);
-      }
-    }
-  }, [searchParams, module]);
 
   // Search debounce
   useEffect(() => {
@@ -77,21 +67,19 @@ export default function DynamicModulePage({
       .then((res) => res.json())
       .then((data) => setItems(data.data ?? []))
       .catch((error) => {
-        if (error.name !== "AbortError") {
-          setItems([]);
-        }
+        if (error.name !== "AbortError") setItems([]);
       })
       .finally(() => setLoading(false));
 
     return () => controller.abort();
   }, [module, debouncedQ]);
 
-  // Reset page when tab changes
+  // Reset page on tab change
   useEffect(() => {
     setCurrentPage(1);
   }, [activeCategory]);
 
-  // Filter items
+  // Filter
   const displayedItems = useMemo(() => {
     if (module !== "products") return items;
 
@@ -118,87 +106,66 @@ export default function DynamicModulePage({
   const totalPages = Math.ceil(displayedItems.length / ITEMS_PER_PAGE);
 
   const paginatedItems = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return displayedItems.slice(
-      startIndex,
-      startIndex + ITEMS_PER_PAGE
-    );
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return displayedItems.slice(start, start + ITEMS_PER_PAGE);
   }, [displayedItems, currentPage]);
 
   return (
     <main className="min-h-screen pt-24 bg-gray-50">
       {/* Header */}
-      <section className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow py-20 px-6 relative overflow-hidden shadow-sm border-b border-black/10">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <h1 className="text-5xl md:text-7xl text-black mt-3">
-            {heading}
-          </h1>
-          <p className="text-black/80 mt-3 max-w-2xl">
-            {subtitle}
-          </p>
+      <section className="py-20 px-6">
+        <h1 className="text-5xl">{heading}</h1>
+        <p className="mt-2">{subtitle}</p>
 
-          <div className="mt-6">
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search"
-              className="w-full max-w-md rounded-xl border px-4 py-3"
-            />
-          </div>
-        </div>
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search"
+          className="mt-6 border px-4 py-2"
+        />
       </section>
 
-      {/* Tabs */}
       <section className="max-w-7xl mx-auto px-6 py-12">
+        {/* Tabs */}
         {module === "products" && (
           <div className="flex justify-center mb-10">
-            <div className="inline-flex gap-2 bg-gray-200 p-1.5 rounded-xl">
-              {["Structural", "TMT"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveCategory(tab)}
-                  className={`px-6 py-2 rounded-lg font-bold ${
-                    activeCategory === tab
-                      ? "bg-white text-red-600"
-                      : "text-black/60"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
+            {["Structural", "TMT"].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveCategory(tab)}
+                className={`px-6 py-2 mx-2 ${
+                  activeCategory === tab
+                    ? "bg-black text-white"
+                    : "bg-gray-200"
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
           </div>
         )}
 
         {/* Featured */}
         {featured.length > 0 && (
-          <div className="mb-10">
-            <h2 className="text-2xl mb-4">Featured</h2>
-            <div className="grid md:grid-cols-3 gap-5">
-              {featured.map((item) => {
-                const imageSrc = resolveMediaUrl(
-                  item.cover_image || item.file_url || "",
-                  ""
-                );
+          <div className="grid md:grid-cols-3 gap-5 mb-10">
+            {featured.map((item) => {
+              const imageSrc = resolveMediaUrl(
+                item.cover_image || item.file_url || "",
+                ""
+              );
 
-                return (
-                  <div key={item.id} className="bg-white rounded shadow">
-                    <img
-                      src={imageSrc}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="p-4">
-                      <h3 className="text-xl">{item.title}</h3>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+              return (
+                <div key={item.id} className="bg-white p-4">
+                  <img src={imageSrc} alt={item.title} />
+                  <h3>{item.title}</h3>
+                </div>
+              );
+            })}
           </div>
         )}
 
-        {/* Products */}
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {/* Items */}
+        <div className="grid md:grid-cols-3 gap-6">
           {paginatedItems.map((item) => {
             const imageSrc = resolveMediaUrl(
               item.cover_image || item.file_url || "",
@@ -206,17 +173,10 @@ export default function DynamicModulePage({
             );
 
             return (
-              <div key={item.id} className="bg-white rounded shadow">
-                <img
-                  src={imageSrc}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-xl">{item.title}</h3>
-                  <p className="text-sm mt-2">
-                    {item.short_description}
-                  </p>
-                </div>
+              <div key={item.id} className="bg-white p-4">
+                <img src={imageSrc} alt={item.title} />
+                <h3>{item.title}</h3>
+                <p>{item.short_description}</p>
               </div>
             );
           })}
@@ -224,14 +184,13 @@ export default function DynamicModulePage({
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="mt-12 flex justify-center gap-4">
+          <div className="mt-10 flex justify-center gap-4">
             <button
               onClick={() =>
                 setCurrentPage((p) => Math.max(1, p - 1))
               }
-              disabled={currentPage === 1}
             >
-              Previous
+              Prev
             </button>
 
             <span>
@@ -244,15 +203,10 @@ export default function DynamicModulePage({
                   Math.min(totalPages, p + 1)
                 )
               }
-              disabled={currentPage === totalPages}
             >
               Next
             </button>
           </div>
-        )}
-
-        {!loading && !displayedItems.length && (
-          <p>No records found</p>
         )}
 
         {loading && <p>Loading...</p>}
