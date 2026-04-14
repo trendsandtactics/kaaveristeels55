@@ -117,7 +117,7 @@ export default function DynamicModulePage({
         {module === "products" && (
           <div className="flex justify-center mb-10">
             <div className="inline-flex flex-wrap gap-2 bg-gray-200/60 p-1.5 rounded-xl border border-black/5">
-              {["All", "TMT", "Structural"].map((tab) => (
+              {["TMT", "Structural"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveCategory(tab)}
