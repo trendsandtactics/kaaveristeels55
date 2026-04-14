@@ -6,17 +6,6 @@ import { MapPin, Building2, Factory } from "lucide-react";
 
 const locations = [
   {
-    title: "Head Office",
-    icon: Building2,
-    label: "Corporate Office",
-    address: [
-      "No-1, Shyam’s Court,",
-      "16/19 Judge Jambulingam Street,",
-      "Mylapore, Chennai - 600004",
-    ],
-    map: "https://maps.google.com/maps?q=No-1%20Shyams%20Court%20Judge%20Jambulingam%20Street%20Mylapore%20Chennai%20600004&t=&z=14&ie=UTF8&iwloc=&output=embed",
-  },
-  {
     title: "Unit 1",
     icon: Factory,
     label: "Manufacturing Facility",
