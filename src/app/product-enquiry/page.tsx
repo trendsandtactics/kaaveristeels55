@@ -50,7 +50,7 @@ export default function ProductEnquiryPage() {
       className="min-h-screen flex items-center justify-center px-6 py-12 bg-cover bg-center relative"
       style={{
         backgroundImage:
-          "url('/bg3.png')", // replace with your image path
+          "url('/bg.jpg')", // replace with your image path
       }}
     >
       {/* Dark overlay */}
@@ -59,7 +59,7 @@ export default function ProductEnquiryPage() {
       {/* Form Container */}
       <div className="relative z-10 w-full max-w-3xl backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-8 shadow-xl">
         <h1 className="text-4xl font-bold text-white">
-          Product / Other Enquiry
+          Product / Sales Enquiry
         </h1>
         <p className="text-white/70 mt-2 text-sm">
           Share your requirement and our team will respond quickly.
@@ -105,7 +105,7 @@ export default function ProductEnquiryPage() {
               }
             >
               <option value="product">Product Enquiry</option>
-              <option value="other">Other Enquiry</option>
+              <option value="other">Sales Enquiry</option>
             </select>
           </div>
 
