@@ -263,7 +263,7 @@ export default function AdminContentManager() {
 
       setForm((state) => ({ ...state, [target]: data.url }));
       setMessage("File uploaded successfully.");
-    } catch (e) {
+    } catch {
       setMessage("Upload failed due to a network error.");
     }
   };

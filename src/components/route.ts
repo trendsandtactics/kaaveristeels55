@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 
-export async function POST(request: Request) {
+export async function POST() {
   try {
     // 1. Define where your uploaded files are stored locally
     // (Adjust this if your files are in a different folder, e.g., 'public/media')
