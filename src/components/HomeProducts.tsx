@@ -9,16 +9,24 @@ const products = [
         name: "TMT Bars",
         image: "/tmtbar1.png",
         description: "High-strength ribbed TMT bars built for maximum durability, flexibility, and earthquake resistance. The foundation of modern construction.",
+<<<<<<< HEAD
+=======
+        href: "/products?category=TMT",
+>>>>>>> a8b0249 (j)
     },
     {
         name: "Structural Steels",
         image: "/structuralbar 1.png",
         description: "Premium structural steel beams crafted for heavy-duty load bearing. Ensuring structural integrity and flawless execution for mega-projects.",
+<<<<<<< HEAD
     },
     {
         name: "Billets",
         image: "/squarebar.png",
         description: "High-quality steel billets manufactured with precision. The perfect raw material for forging superior steel products.",
+=======
+        href: "/products?category=Structural",
+>>>>>>> a8b0249 (j)
     }
 ];
 

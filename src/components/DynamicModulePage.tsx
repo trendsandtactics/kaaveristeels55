@@ -36,6 +36,16 @@ export default function DynamicModulePage({
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const categoryParam = params.get("category");
+      if (categoryParam === "TMT" || categoryParam === "Structural" || categoryParam === "All") {
+        setActiveCategory(categoryParam);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     const timeout = setTimeout(() => setDebouncedQ(q), 250);
     return () => clearTimeout(timeout);
   }, [q]);
