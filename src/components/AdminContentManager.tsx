@@ -203,7 +203,35 @@ export default function AdminContentManager() {
     setForm((state) => ({ ...state, content: richEditorRef.current?.innerHTML ?? "" }));
   };
 
-  const uploadFromDevice = async (file: File, target: "cover_image" | "file_url" | "video_url") => {
+  const uploadFromDevice = async (rawFile: File, target: "cover_image" | "file_url" | "video_url") => {
+    setMessage("Preparing upload...");
+    let file = rawFile;
+
+    // Automatically convert PNG/WEBP to JPEG before sending to bypass backend restrictions
+    if (file.type === "image/png" || file.type === "image/webp") {
+      file = await new Promise<File>((resolve) => {
+        const img = new window.Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return resolve(rawFile);
+          
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0);
+          
+          canvas.toBlob((blob) => {
+            if (!blob) return resolve(rawFile);
+            resolve(new File([blob], rawFile.name.replace(/\.[^/.]+$/, ".jpg"), { type: "image/jpeg", lastModified: Date.now() }));
+          }, "image/jpeg", 0.9);
+        };
+        img.onerror = () => resolve(rawFile);
+        img.src = URL.createObjectURL(rawFile);
+      });
+    }
+
     if (file.size > 4 * 1024 * 1024) {
       setMessage("Upload failed: The file is too large. Please keep it under 4 MB.");
       return;

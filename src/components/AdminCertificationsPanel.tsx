@@ -139,12 +139,48 @@ export default function AdminCertificationsPanel() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const optimizeImageFile = async (rawFile: File): Promise<File> => {
+    if (rawFile.type !== "image/png" && rawFile.type !== "image/webp") return rawFile;
+    
+    return new Promise<File>((resolve) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return resolve(rawFile);
+        
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        
+        canvas.toBlob((blob) => {
+          if (!blob) return resolve(rawFile);
+          resolve(new File([blob], rawFile.name.replace(/\.[^/.]+$/, ".jpg"), { type: "image/jpeg", lastModified: Date.now() }));
+        }, "image/jpeg", 0.9);
+      };
+      img.onerror = () => resolve(rawFile);
+      img.src = URL.createObjectURL(rawFile);
+    });
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    setMessage("");
+    setMessage("Preparing upload...");
 
     try {
+      let finalFile = file;
+      if (finalFile) {
+        finalFile = await optimizeImageFile(finalFile);
+        if (finalFile.size > MAX_UPLOAD_BYTES) {
+          setMessage("File is too large. Please upload a file smaller than 4 MB.");
+          setLoading(false);
+          return;
+        }
+      }
+
       if (isEditing && editingId !== null) {
         const formData = new FormData();
         formData.append("title", title);
@@ -152,14 +188,8 @@ export default function AdminCertificationsPanel() {
         formData.append("issuedBy", issuedBy);
         formData.append("issueDate", issueDate);
 
-        if (file) {
-          if (file.size > MAX_UPLOAD_BYTES) {
-            setMessage("File is too large. Please upload a file smaller than 4 MB.");
-            setLoading(false);
-            return;
-          }
-
-          formData.append("file", file);
+        if (finalFile) {
+          formData.append("file", finalFile);
         }
 
         const response = await fetch(`/api/certifications/${editingId}`, {
@@ -180,14 +210,8 @@ export default function AdminCertificationsPanel() {
         return;
       }
 
-      if (!file) {
+      if (!finalFile) {
         setMessage("Select certificate file.");
-        setLoading(false);
-        return;
-      }
-
-      if (file.size > MAX_UPLOAD_BYTES) {
-        setMessage("File is too large. Please upload a file smaller than 4 MB.");
         setLoading(false);
         return;
       }
@@ -197,7 +221,7 @@ export default function AdminCertificationsPanel() {
       formData.append("description", description);
       formData.append("issuedBy", issuedBy);
       formData.append("issueDate", issueDate);
-      formData.append("file", file);
+      formData.append("file", finalFile);
 
       const response = await fetch("/api/certifications", {
         method: "POST",
