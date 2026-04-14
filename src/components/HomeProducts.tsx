@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 const products = [
@@ -9,16 +10,13 @@ const products = [
         name: "TMT Bars",
         image: "/tmtbar1.png",
         description: "High-strength ribbed TMT bars built for maximum durability, flexibility, and earthquake resistance. The foundation of modern construction.",
+        href: "/products",
     },
     {
         name: "Structural Steels",
         image: "/structuralbar 1.png",
         description: "Premium structural steel beams crafted for heavy-duty load bearing. Ensuring structural integrity and flawless execution for mega-projects.",
-    },
-    {
-        name: "Billets",
-        image: "/squarebar.png",
-        description: "High-quality steel billets manufactured with precision. The perfect raw material for forging superior steel products.",
+        href: "/products",
     }
 ];
 
@@ -63,39 +61,40 @@ export default function HomeProducts() {
                     </motion.p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-5xl mx-auto">
                     {products.map((product, index) => (
-                        <motion.div
-                            key={product.name}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.7, delay: index * 0.2 }}
-                            className="group relative bg-white border border-gray-100 shadow-xl overflow-hidden rounded-sm"
-                        >
-                            <div className="relative w-full h-[320px] md:h-[400px] overflow-hidden">
-                                <Image
-                                    src={product.image}
-                                    alt={product.name}
-                                    fill
-                                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+                        <Link href={product.href} key={product.name} className="block w-full">
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-50px" }}
+                                transition={{ duration: 0.7, delay: index * 0.2 }}
+                                className="group relative bg-white border border-gray-100 shadow-xl overflow-hidden rounded-sm h-full flex flex-col"
+                            >
+                                <div className="relative w-full h-[320px] md:h-[400px] overflow-hidden">
+                                    <Image
+                                        src={product.image}
+                                        alt={product.name}
+                                        fill
+                                        className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
 
-                                {/* Hover overlay effects */}
-                                <div className="absolute inset-0 border-4 border-transparent group-hover:border-accent-red/20 transition-colors duration-500 z-20 pointer-events-none" />
-                            </div>
+                                    {/* Hover overlay effects */}
+                                    <div className="absolute inset-0 border-4 border-transparent group-hover:border-accent-red/20 transition-colors duration-500 z-20 pointer-events-none" />
+                                </div>
 
-                            <div className="absolute bottom-0 left-0 w-full p-8 z-20 flex flex-col justify-end translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                                <div className="w-10 h-1 bg-accent-red mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 transform -translate-x-4 group-hover:translate-x-0" />
-                                <h4 className="font-heading text-3xl text-white mb-2 drop-shadow-md">
-                                    {product.name}
-                                </h4>
-                                <p className="font-body text-white/90 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                                    {product.description}
-                                </p>
-                            </div>
-                        </motion.div>
+                                <div className="absolute bottom-0 left-0 w-full p-8 z-20 flex flex-col justify-end translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                                    <div className="w-10 h-1 bg-accent-red mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 transform -translate-x-4 group-hover:translate-x-0" />
+                                    <h4 className="font-heading text-3xl text-white mb-2 drop-shadow-md">
+                                        {product.name}
+                                    </h4>
+                                    <p className="font-body text-white/90 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                                        {product.description}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        </Link>
                     ))}
                 </div>
             </div>
