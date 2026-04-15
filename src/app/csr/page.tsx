@@ -1,110 +1,64 @@
 import React from "react";
+import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
-import { Heart, BookOpen, TreePine, Users } from "lucide-react";
+import { getPublicModuleItemBySlug } from "@/lib/dynamic-cms";
+import { resolveMediaUrl } from "@/lib/media";
 
-export const metadata = {
-  title: "Corporate Social Responsibility | KAAVERI Steels",
-  description: "Our commitment to sustainable development, community welfare, and environmental stewardship.",
-};
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const event = await getPublicModuleItemBySlug("csr", params.slug);
+  if (!event) return { title: "Event Not Found" };
+  return {
+    title: `${event.title} | CSR | KAAVERI Steels`,
+    description: event.short_description || "Read more about our Corporate Social Responsibility initiatives.",
+  };
+}
 
-const csrFeatures = [
-  {
-    icon: <BookOpen className="w-8 h-8 text-red-600" />,
-    title: "Education Initiatives",
-    description: "Supporting local schools and providing scholarships to empower the next generation of builders and leaders.",
-  },
-  {
-    icon: <Heart className="w-8 h-8 text-red-600" />,
-    title: "Healthcare Support",
-    description: "Organizing health camps and upgrading medical facilities for communities around our manufacturing units.",
-  },
-  {
-    icon: <TreePine className="w-8 h-8 text-red-600" />,
-    title: "Environmental Stewardship",
-    description: "Implementing green manufacturing processes and engaging in large-scale tree plantation drives.",
-  },
-  {
-    icon: <Users className="w-8 h-8 text-red-600" />,
-    title: "Community Development",
-    description: "Investing in local infrastructure, clean water access, and skill development programs for rural empowerment.",
+export default async function CsrEventDetailPage({ params }: { params: { slug: string } }) {
+  // Fetch the specific event based on the URL slug
+  const event = await getPublicModuleItemBySlug("csr", params.slug);
+
+  if (!event) {
+    notFound();
   }
-];
 
-export default function CSRPage() {
+  let extraData: Record<string, string> = {};
+  try {
+    extraData = typeof event.extra_data === "string" ? JSON.parse(event.extra_data) : (event.extra_data || {});
+  } catch (e) {
+    // Ignore JSON parsing errors
+  }
+
+  const eventDate = extraData?.event_date;
+  const coverImage = event.cover_image ? resolveMediaUrl(event.cover_image, "") : "";
+
   return (
-    <main className="flex flex-col min-h-screen w-full relative pt-24 bg-gray-50 overflow-hidden transition-colors duration-500">
-      {/* Hero Section */}
-      <div className="w-full py-24 md:py-32 bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow text-black relative overflow-hidden shadow-2xl group border-b-4 border-black">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
+    <main className="min-h-screen pt-28 pb-20 bg-white">
+      <article className="max-w-4xl mx-auto px-6">
+        <Link href="/csr" className="inline-flex items-center text-sm font-semibold text-red-600 hover:text-red-700 mb-8 transition-colors">
+          <span className="mr-2">←</span> Back to CSR Initiatives
+        </Link>
 
-        <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-6">
-            <div className="w-12 h-[2px] bg-black" />
-            <h2 className="font-sans uppercase tracking-[0.2em] font-bold text-sm text-black">
-              Empowering Communities
-            </h2>
-            <div className="w-12 h-[2px] bg-black" />
-          </div>
-
-          <h1 className="font-sans text-5xl md:text-7xl mb-6 text-black drop-shadow-md">
-            Corporate Social Responsibility
-          </h1>
-
-          <p className="font-sans text-black/80 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
-            Building strong foundations isn&apos;t just about steel. It&apos;s about giving back to the community and ensuring sustainable development.
-          </p>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <section className="px-6 py-16 md:py-24 max-w-7xl mx-auto w-full z-10 relative">
-        <div className="text-center mb-16">
-          <h2 className="font-heading text-4xl text-black mb-4">Our Core Initiatives</h2>
-          <p className="font-body text-black/70 max-w-2xl mx-auto">
-            We are deeply committed to making a positive impact on society through targeted, long-term welfare programs.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {csrFeatures.map((item, index) => (
-            <div 
-              key={index} 
-              className="bg-white p-8 rounded-2xl shadow-sm border border-black/10 hover:shadow-lg hover:-translate-y-1 hover:border-black/20 transition-all duration-300 flex flex-col sm:flex-row gap-6 items-start"
-            >
-              <div className="w-16 h-16 shrink-0 bg-red-50 rounded-xl flex items-center justify-center border border-red-100">
-                {item.icon}
-              </div>
-              <div>
-                <h3 className="font-heading text-2xl font-bold text-black mb-3">
-                  {item.title}
-                </h3>
-                <p className="font-body text-black/70 leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
+        <header className="mb-10">
+          {eventDate && (
+            <div className="text-sm font-bold text-red-600 mb-4 uppercase tracking-widest">
+              {new Date(eventDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
             </div>
-          ))}
-        </div>
-      </section>
+          )}
+          <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl text-black mb-6 leading-tight">{event.title}</h1>
+        </header>
 
-      {/* Certifications & Bottom Banner */}
-      <section className="w-full bg-black text-white py-16 md:py-20 border-t-4 border-red-600">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="font-heading text-3xl md:text-5xl mb-6">
-            Join Our Mission
-          </h2>
-          <p className="font-body text-white/80 text-lg mb-8 max-w-2xl mx-auto">
-            Discover more about how we are working towards a better, greener, and more equitable tomorrow.
-          </p>
-          <Link 
-            href="/contact-us"
-            className="inline-flex items-center justify-center px-8 py-4 bg-red-600 text-white font-body font-bold uppercase tracking-wider text-sm hover:bg-red-700 transition-colors rounded-lg"
-          >
-            Get In Touch
-          </Link>
-        </div>
-      </section>
+        {coverImage && (
+          <div className="relative w-full aspect-[21/9] rounded-2xl overflow-hidden mb-12 shadow-md bg-gray-100">
+            <Image src={coverImage} alt={event.title} fill className="object-cover" priority />
+          </div>
+        )}
+
+        <div 
+          className="prose prose-lg max-w-none text-black/80 font-body prose-headings:font-heading prose-a:text-red-600"
+          dangerouslySetInnerHTML={{ __html: event.content || event.short_description || "" }}
+        />
+      </article>
     </main>
   );
 }
