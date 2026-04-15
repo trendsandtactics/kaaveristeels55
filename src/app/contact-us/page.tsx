@@ -2,6 +2,7 @@
 
 import React from "react";
 import MapEmbed from "@/components/MapEmbed";
+import EnquiryForm from "@/components/EnquiryForm";
 
 export default function ContactUsPage() {
     return (
@@ -28,6 +29,7 @@ export default function ContactUsPage() {
 
             <div className="w-full flex-grow py-8">
                 <MapEmbed />
+                <EnquiryForm />
             </div>
         </main>
     );
