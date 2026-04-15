@@ -102,7 +102,7 @@ export default function AdminContentManager() {
   }, [activeModule]);
 
   useEffect(() => {
-    if (activeModule === "blogs" && richEditorRef.current) {
+    if ((activeModule === "blogs" || activeModule === "csr") && richEditorRef.current) {
       richEditorRef.current.innerHTML = form.content || "";
     }
   }, [activeModule, form.content]);
@@ -197,6 +197,7 @@ export default function AdminContentManager() {
       video_url: String(row.video_url ?? ""),
       extra_data: extra ?? {},
     });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const applyRich = (command: string, value?: string) => {
@@ -288,23 +289,29 @@ export default function AdminContentManager() {
           </>
         );
       case "blogs":
+      case "csr":
         return (
-          <div className="md:col-span-2 space-y-2">
-            <div className="flex gap-2 flex-wrap">
-              <button type="button" className="border rounded px-2 py-1 text-xs" onClick={() => applyRich("bold")}>Bold</button>
-              <button type="button" className="border rounded px-2 py-1 text-xs" onClick={() => applyRich("italic")}>Italic</button>
-              <button type="button" className="border rounded px-2 py-1 text-xs" onClick={() => applyRich("formatBlock", "h2")}>H2</button>
-              <button type="button" className="border rounded px-2 py-1 text-xs" onClick={() => applyRich("insertUnorderedList")}>List</button>
+          <>
+            {activeModule === "csr" ? (
+              <input className="md:col-span-2 border rounded-lg px-3 py-2 text-sm" placeholder="Event Date (YYYY-MM-DD)" value={form.extra_data.event_date ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, event_date: e.target.value } }))} />
+            ) : null}
+            <div className="md:col-span-2 space-y-2">
+              <div className="flex gap-2 flex-wrap">
+                <button type="button" className="border rounded px-2 py-1 text-xs" onClick={() => applyRich("bold")}>Bold</button>
+                <button type="button" className="border rounded px-2 py-1 text-xs" onClick={() => applyRich("italic")}>Italic</button>
+                <button type="button" className="border rounded px-2 py-1 text-xs" onClick={() => applyRich("formatBlock", "h2")}>H2</button>
+                <button type="button" className="border rounded px-2 py-1 text-xs" onClick={() => applyRich("insertUnorderedList")}>List</button>
+              </div>
+              <div
+                ref={richEditorRef}
+                contentEditable
+                className="min-h-40 rounded-lg border px-3 py-2 text-sm"
+                onInput={() => setForm((s) => ({ ...s, content: richEditorRef.current?.innerHTML ?? "" }))}
+                suppressContentEditableWarning
+              />
+              <p className="text-xs text-black/50">Rich editor for {activeModule} content.</p>
             </div>
-            <div
-              ref={richEditorRef}
-              contentEditable
-              className="min-h-40 rounded-lg border px-3 py-2 text-sm"
-              onInput={() => setForm((s) => ({ ...s, content: richEditorRef.current?.innerHTML ?? "" }))}
-              suppressContentEditableWarning
-            />
-            <p className="text-xs text-black/50">Rich editor for blog content.</p>
-          </div>
+          </>
         );
       case "dealers":
         return (
@@ -342,7 +349,6 @@ export default function AdminContentManager() {
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Employment Type" value={form.extra_data.employment_type ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, employment_type: e.target.value } }))} />
           </>
         );
-      case "csr":
       case "mediaEvents":
         return <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Event Date (YYYY-MM-DD)" value={form.extra_data.event_date ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, event_date: e.target.value } }))} />;
       case "projects":
@@ -398,7 +404,7 @@ export default function AdminContentManager() {
 
               <textarea className="md:col-span-2 border rounded-lg px-3 py-2 text-sm min-h-20" placeholder="Short description" value={form.short_description} onChange={(e) => setForm((s) => ({ ...s, short_description: e.target.value }))} />
 
-              {activeModule !== "blogs" ? (
+              {activeModule !== "blogs" && activeModule !== "csr" ? (
                 <textarea className="md:col-span-2 border rounded-lg px-3 py-2 text-sm min-h-32" placeholder="Content" value={form.content} onChange={(e) => setForm((s) => ({ ...s, content: e.target.value }))} />
               ) : null}
 
