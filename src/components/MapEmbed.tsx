@@ -36,34 +36,34 @@ export default function MapEmbed() {
   const Icon = activeLocation.icon;
 
   return (
-    <section className="relative w-full py-20 md:py-28 px-6 md:px-12 bg-gradient-to-b from-white to-[#f8f8f8] overflow-hidden">
+    <section className="relative w-full py-12 md:py-16 px-6 md:px-12 bg-gradient-to-b from-white to-[#f8f8f8] overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Heading */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="max-w-3xl mx-auto text-center mb-12 md:mb-16"
+          transition={{ duration: 0.6 }}
+          className="max-w-3xl mx-auto text-center mb-8 md:mb-10"
         >
-          <h2 className="mt-4 text-4xl md:text-5xl font-bold text-black">
+          <h2 className="text-3xl md:text-5xl font-bold text-black">
             Our Locations
           </h2>
-          <p className="mt-5 text-base md:text-lg text-black/65">
+          <p className="mt-3 text-base md:text-lg text-black/65">
             Explore our corporate office and production facilities across Tamil Nadu.
           </p>
         </motion.div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-10 md:mb-12">
+        <div className="flex flex-wrap justify-center gap-3 mb-6 md:mb-8">
           {locations.map((loc, index) => (
             <button
               key={index}
               onClick={() => setActiveTab(index)}
-              className={`px-5 md:px-7 py-3 rounded-full text-sm md:text-base font-semibold transition-all duration-300 border ${
+              className={`px-5 md:px-6 py-2.5 rounded-full text-sm md:text-base font-semibold transition-all duration-300 border ${
                 activeTab === index
-                  ? "bg-red-700 text-white border-red-700 shadow-lg"
+                  ? "bg-red-700 text-white border-red-700 shadow-md"
                   : "bg-white text-black/70 border-black/10 hover:border-red-500 hover:text-red-600"
               }`}
             >
@@ -73,50 +73,50 @@ export default function MapEmbed() {
         </div>
 
         {/* Content */}
-        <div className="relative overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+        <div className="relative overflow-hidden rounded-[24px] border border-black/10 bg-white shadow-[0_15px_40px_rgba(0,0,0,0.06)]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              initial={{ opacity: 0, x: 40 }}
+              initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -40 }}
-              transition={{ duration: 0.4 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.35 }}
               className="grid grid-cols-1 lg:grid-cols-2"
             >
               
               {/* Left Content */}
-              <div className="flex flex-col justify-center p-8 md:p-12 lg:p-14">
+              <div className="flex flex-col justify-center p-6 md:p-10 lg:p-12">
                 
-                <div className="inline-flex items-center gap-3 mb-5">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-700">
-                    <Icon size={22} />
+                <div className="inline-flex items-center gap-3 mb-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-700">
+                    <Icon size={20} />
                   </div>
 
-                  <span className="rounded-full bg-black/5 px-4 py-2 text-xs md:text-sm font-semibold uppercase tracking-[0.2em] text-black/60">
+                  <span className="rounded-full bg-black/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-black/60">
                     {activeLocation.label}
                   </span>
                 </div>
 
-                <h3 className="text-3xl md:text-4xl font-bold text-black mb-6">
+                <h3 className="text-2xl md:text-3xl font-bold text-black mb-4">
                   {activeLocation.title}
                 </h3>
 
-                <div className="space-y-3 text-black/70 text-lg">
+                <div className="space-y-2 text-black/70 text-base md:text-lg">
                   {activeLocation.address.map((line, i) => (
                     <p key={i}>{line}</p>
                   ))}
                 </div>
 
-                <div className="mt-8 flex items-center gap-3 text-red-700 font-semibold">
-                  <MapPin size={18} />
-                  <span>Find us on Google Maps</span>
+                <div className="mt-6 flex items-center gap-2 text-red-700 font-semibold">
+                  <MapPin size={16} />
+                  <span className="text-sm">Find us on Google Maps</span>
                 </div>
 
-                <div className="mt-8 h-[3px] w-24 rounded-full bg-red-500" />
+                <div className="mt-5 h-[2px] w-16 rounded-full bg-red-500" />
               </div>
 
               {/* Map */}
-              <div className="relative min-h-[320px] md:min-h-[420px] bg-[#f3f3f3]">
+              <div className="relative min-h-[280px] md:min-h-[360px] bg-[#f3f3f3]">
                 <iframe
                   src={activeLocation.map}
                   className="absolute inset-0 w-full h-full border-0"
