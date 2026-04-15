@@ -20,39 +20,52 @@ export default function EnquiryForm() {
     setLoading(true);
     setStatusMessage("");
 
-    const response = await fetch("/api/enquiries", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    try {
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!response.ok) {
-      setStatusMessage(data.error ?? "Submission failed.");
-      setLoading(false);
-      return;
+      if (!response.ok) {
+        setStatusMessage(data.error ?? "Submission failed.");
+        setLoading(false);
+        return;
+      }
+
+      setStatusMessage("Enquiry submitted successfully.");
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        enquiry_type: "product",
+        product_name: "",
+        message: "",
+      });
+    } catch (error) {
+      setStatusMessage("Something went wrong. Please try again.");
     }
-
-    setStatusMessage("Enquiry submitted successfully.");
-    setForm({
-      name: "",
-      email: "",
-      phone: "",
-      enquiry_type: "product",
-      product_name: "",
-      message: "",
-    });
 
     setLoading(false);
   };
 
   return (
-    <section className="w-full py-12 md:py-16 px-6 md:px-12 bg-gradient-to-b from-white to-[#f8f8f8]">
-      <div className="max-w-3xl mx-auto bg-white rounded-2xl p-8 shadow-lg border border-black/10">
+    <section
+      className="relative w-full py-12 md:py-16 px-6 md:px-12 bg-cover bg-center"
+      style={{
+        backgroundImage: "url('/bg3.png')",
+      }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
+
+      {/* Content */}
+      <div className="relative max-w-3xl mx-auto bg-white/90 rounded-2xl p-8 shadow-xl border border-black/10">
         
         {/* Heading */}
-        <div className="mb-6">
+        <div className="mb-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-black">
             Product / Sales Enquiry
           </h2>
@@ -64,6 +77,7 @@ export default function EnquiryForm() {
         {/* Form */}
         <form onSubmit={submit} className="space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
+            
             <input
               required
               placeholder="Name"
@@ -107,6 +121,7 @@ export default function EnquiryForm() {
               <option value="product">Product Enquiry</option>
               <option value="other">Sales Enquiry</option>
             </select>
+
           </div>
 
           <input
@@ -135,9 +150,11 @@ export default function EnquiryForm() {
           </button>
         </form>
 
-        {/* Status */}
+        {/* Status Message */}
         {statusMessage && (
-          <p className="text-sm mt-4 text-black/70">{statusMessage}</p>
+          <p className="text-sm mt-4 text-black/70 text-center">
+            {statusMessage}
+          </p>
         )}
 
         {/* Reusable Input Styles */}
@@ -150,6 +167,7 @@ export default function EnquiryForm() {
             border-radius: 8px;
             font-size: 14px;
             outline: none;
+            width: 100%;
           }
           .input::placeholder {
             color: #6b7280;
