@@ -27,7 +27,7 @@ const GenericPlaceholderPage: React.FC<GenericPlaceholderPageProps> = ({
     return (
         <main className="flex min-h-screen flex-col w-full relative pt-24 bg-background overflow-hidden hover:bg-black/5 transition-colors duration-[2000ms]">
             {/* Dark Aesthetic Hero Area */}
-            <div className={`w-full py-24 md:py-32 bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow text-black relative overflow-hidden shadow-2xl group border-b-4 border-black`}>
+            <div className={`w-full py-10 md:py-12 bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow text-black relative overflow-hidden shadow-2xl group border-b-4 border-black`}>
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
 

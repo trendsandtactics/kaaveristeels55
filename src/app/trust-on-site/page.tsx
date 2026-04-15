@@ -8,7 +8,7 @@ export default function TrustOnSitePage() {
     <main className="w-full bg-[#f3f4f6]">
 
       {/* 🌟 HERO SECTION */}
-    <section className="relative pt-28 md:pt-32 pb-20 overflow-hidden">
+    <section className="relative pt-28 pb-10 md:pb-12 overflow-hidden">
 
   {/* 🌆 Background Image */}
   <div className="absolute inset-0">
