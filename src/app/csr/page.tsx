@@ -4,6 +4,9 @@ import Image from "next/image";
 import { listModuleItems } from "@/lib/dynamic-cms";
 import { resolveMediaUrl } from "@/lib/media";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata = {
   title: "Corporate Social Responsibility | KAAVERI Steels",
   description: "Building a better tomorrow, together. Explore our commitment to social and environmental well-being.",
