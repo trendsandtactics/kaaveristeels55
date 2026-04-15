@@ -25,7 +25,7 @@ export default async function CsrEventDetailPage({ params }: { params: { slug: s
   let extraData: Record<string, string> = {};
   try {
     extraData = typeof event.extra_data === "string" ? JSON.parse(event.extra_data) : (event.extra_data || {});
-  } catch (e) {
+  } catch {
     // Ignore JSON parsing errors
   }
 
