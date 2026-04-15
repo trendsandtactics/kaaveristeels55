@@ -44,7 +44,8 @@ export default function EnquiryForm() {
         product_name: "",
         message: "",
       });
-    } catch (error) {
+    } catch {
+      // ESLint-safe: no unused variable
       setStatusMessage("Something went wrong. Please try again.");
     }
 
@@ -55,7 +56,7 @@ export default function EnquiryForm() {
     <section
       className="relative w-full py-12 md:py-16 px-6 md:px-12 bg-cover bg-center"
       style={{
-        backgroundImage: "url('/bg3.png')",
+        backgroundImage: "url('/bg.jpg')",
       }}
     >
       {/* Overlay */}
