@@ -103,9 +103,11 @@ export default function AdminContentManager() {
 
   useEffect(() => {
     if ((activeModule === "blogs" || activeModule === "csr") && richEditorRef.current) {
-      richEditorRef.current.innerHTML = form.content || "";
+      if (richEditorRef.current.innerHTML !== (form.content || "")) {
+        richEditorRef.current.innerHTML = form.content || "";
+      }
     }
-  }, [activeModule, form.content]);
+  }, [activeModule, editingId]);
 
   const resetForm = () => {
     setForm(initialForm());
