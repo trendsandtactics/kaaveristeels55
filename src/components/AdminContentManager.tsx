@@ -3,7 +3,7 @@
 import AdminCertificationsPanel from "@/components/AdminCertificationsPanel";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups";
+type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr";
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
 type ModuleName = ContentModuleName | SupportModuleName | "certifications";
 
@@ -34,6 +34,7 @@ const MODULES: ModuleDef[] = [
   { key: "galleries", label: "Photo/Video Gallery", kind: "content", description: "Visual media and showcase assets" },
   { key: "brochures", label: "Brochures", kind: "content", description: "Downloadable product brochures/PDFs" },
   { key: "popups", label: "Popups", kind: "content", description: "Homepage event/offer popup controls" },
+  { key: "csr", label: "CSR", kind: "content", description: "Manage Corporate Social Responsibility events and initiatives" },
   { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries" },
   { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue" },
   { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes" },
@@ -341,6 +342,7 @@ export default function AdminContentManager() {
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Employment Type" value={form.extra_data.employment_type ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, employment_type: e.target.value } }))} />
           </>
         );
+      case "csr":
       case "mediaEvents":
         return <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Event Date (YYYY-MM-DD)" value={form.extra_data.event_date ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, event_date: e.target.value } }))} />;
       case "projects":
