@@ -69,9 +69,6 @@ export default async function CSRPage() {
                     {event.short_description && (
                       <p className="font-body text-black/70 mb-4 line-clamp-3">{event.short_description}</p>
                     )}
-                    <div className="mt-auto pt-4 text-sm font-bold text-black uppercase tracking-widest flex items-center gap-2 group-hover:text-red-600 transition-colors">
-                      Read More <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-                    </div>
                   </div>
                 </Link>
               );
