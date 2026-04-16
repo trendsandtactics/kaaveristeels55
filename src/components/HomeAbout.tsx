@@ -85,9 +85,7 @@ export default function HomeAbout() {
             <div className="absolute inset-0 border-[6px] md:border-8 border-white/20 pointer-events-none z-20" />
           </div>
 
-          {/* Glow Effects */}
-          {/* Yellow glow removed */}
-          <div className="absolute -top-6 -left-6 w-32 h-32 bg-accent-red/20 blur-2xl rounded-full z-0" />
+          {/* Clean Border Effect Only */}
           <div className="hidden md:block absolute -right-6 -bottom-6 w-full h-full border-2 border-accent-red/20 -z-10 rounded-sm" />
         </motion.div>
 
