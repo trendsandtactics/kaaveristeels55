@@ -52,7 +52,7 @@ return ( <section className="relative w-full py-16 px-6 md:px-12 overflow-hidden
                 alt="Video Thumbnail"
                 fill
                 priority
-                className="object-cover scale-100 group-hover:scale-105 transition duration-500"
+                className="object-cover transition duration-500 group-hover:scale-105"
                 onError={() => setThumbError(true)}
               />
             ) : (
@@ -61,7 +61,7 @@ return ( <section className="relative w-full py-16 px-6 md:px-12 overflow-hidden
                 alt="YouTube Video Thumbnail"
                 fill
                 unoptimized
-                className="object-cover scale-100 group-hover:scale-105 transition duration-500"
+                className="object-cover transition duration-500 group-hover:scale-105"
               />
             )}
 
@@ -78,9 +78,7 @@ return ( <section className="relative w-full py-16 px-6 md:px-12 overflow-hidden
         <div className="absolute inset-0 border-[6px] md:border-8 border-white/20 pointer-events-none z-20" />
       </div>
 
-      {/* Removed Glow Effects */}
-      {/* Removed gradient/glow circles completely */}
-
+      {/* Decorative Border (kept minimal) */}
       <div className="hidden md:block absolute -right-6 -bottom-6 w-full h-full border-2 border-accent-red/20 -z-10 rounded-sm" />
     </motion.div>
 
@@ -106,18 +104,17 @@ return ( <section className="relative w-full py-16 px-6 md:px-12 overflow-hidden
       </h3>
 
       <p className="font-body text-foreground/80 text-lg leading-relaxed mb-6 font-medium">
-        At KAAVERI, we are passionate about steel and dedicated to
-        excellence. As a leading manufacturer of TMT bars and structural
-        steel products, we are committed to providing the construction
-        industry with the highest quality materials that ensure strength,
-        safety, and sustainability.
+        At KAAVERI, we are passionate about steel and dedicated to excellence.
+        As a leading manufacturer of TMT bars and structural steel products,
+        we are committed to providing the construction industry with the highest
+        quality materials that ensure strength, safety, and sustainability.
       </p>
 
       <p className="font-body text-foreground/80 text-lg leading-relaxed mb-10 font-medium">
         Our state-of-the-art manufacturing processes and rigorous quality
-        control ensure that every product leaving our facility meets the
-        highest global standards, empowering builders to create structures
-        that stand the test of time.
+        control ensure that every product leaving our facility meets the highest
+        global standards, empowering builders to create structures that stand
+        the test of time.
       </p>
 
       <Link href="/about-us">
