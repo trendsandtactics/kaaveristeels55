@@ -20,12 +20,12 @@ export default function AboutHero() {
                     
                     {/* Welcome Section */}
                     <div className="text-center max-w-4xl mx-auto">
-                        <h2 className="font-body text-white/90 uppercase tracking-[0.2em] font-bold text-sm mb-4">
+                        <h2 className="font-sans text-white/90 uppercase tracking-[0.2em] font-bold text-sm mb-4">
                             About Us
                         </h2>
 
                         <h1 className="font-heading text-5xl md:text-7xl text-white mb-8 leading-tight drop-shadow-lg">
-                            Welcome to <span className="font-extrabold text-4xl md:text-5xl">KAAVERI</span><br />
+                            Welcome to KAAVERI<br />
                             <span className="text-white font-extrabold text-4xl md:text-5xl block mt-2">
                                 TMT & STRUCTURAL
                             </span>
