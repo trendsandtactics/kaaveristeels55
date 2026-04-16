@@ -10,18 +10,44 @@ export default function AboutHero() {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
 
-                <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-                    {/* Welcome Section */}
-                    <div className="text-center max-w-4xl mx-auto">
-                        <h2 className="font-sans text-black uppercase tracking-[0.2em] font-bold text-sm mb-4">About Us</h2>
-                        <h1 className="font-sans text-5xl md:text-7xl text-black mb-8 leading-tight drop-shadow-md">
-                            Welcome to <span className="font-extrabold">KAAVERI</span><br />
-                            <span className="text-black font-extrabold text-4xl md:text-5xl block mt-2">TMT & STRUCTURAL</span>
-                        </h1>
-                        <p className="font-sans text-black/80 text-lg md:text-xl leading-relaxed font-medium">
-                            At KAAVERI, we are passionate about steel and dedicated to excellence. Our company is a leading manufacturer of TMT bars and structural steel products, committed to providing the construction industry with the highest quality materials that ensure strength, safety, and sustainability.
-                        </p>
-                    </div>
+                <div className="relative w-full overflow-hidden bg-gradient-to-br from-yellow-400 via-yellow-300 to-yellow-500 py-16 md:py-24">
+  
+  {/* Soft overlay for depth */}
+  <div className="absolute inset-0 bg-black/5"></div>
+
+  <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
+    
+    {/* Welcome Section */}
+    <div className="text-center mx-auto">
+      
+      {/* Small Heading */}
+      <h2 className="text-black uppercase tracking-[0.3em] font-bold text-xs md:text-sm mb-4">
+        About Us
+      </h2>
+
+      {/* Main Heading */}
+      <h1 className="text-black font-extrabold leading-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6">
+        Welcome to{" "}
+        <span className="relative inline-block">
+          <span className="relative z-10">KAAVERI</span>
+          <span className="absolute left-0 bottom-1 w-full h-3 bg-black/10 z-0"></span>
+        </span>
+      </h1>
+
+      {/* Sub Heading */}
+      <h3 className="text-black font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-6 tracking-wide">
+        TMT & STRUCTURAL
+      </h3>
+
+      {/* Description */}
+      <p className="text-black/80 text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl mx-auto font-medium">
+        At KAAVERI, we are passionate about steel and dedicated to excellence. 
+        Our company is a leading manufacturer of TMT bars and structural steel products, 
+        committed to providing the construction industry with the highest quality materials 
+        that ensure strength, safety, and sustainability.
+      </p>
+
+    </div>
                 </div>
             </div>
 
