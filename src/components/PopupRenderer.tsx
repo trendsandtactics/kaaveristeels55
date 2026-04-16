@@ -51,72 +51,56 @@ export default function PopupRenderer() {
   if (!popup || !open) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-[2px] flex items-center justify-center p-4 sm:p-6 overflow-hidden">
-      <div className="relative w-full h-full max-h-full flex items-center justify-center">
-        <div
-          className="
-            relative
-            w-full
-            max-w-[340px]
-            sm:max-w-[420px]
-            md:max-w-[500px]
-            lg:max-w-[560px]
-            xl:max-w-[620px]
-            max-h-full
-            flex
-            flex-col
-            justify-center
-          "
-        >
-          <button
-            onClick={() => setOpen(false)}
-            aria-label="Close popup"
-            className="
-              absolute
-              top-2
-              right-2
-              sm:top-3
-              sm:right-3
-              z-20
-              h-10
-              w-10
-              rounded-full
-              bg-black/85
-              text-white
-              flex
-              items-center
-              justify-center
-              text-xl
-              leading-none
-              shadow-lg
-            "
-          >
-            ✕
-          </button>
+    <div 
+      className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-[2px] flex items-center justify-center p-2 sm:p-6 overflow-hidden"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setOpen(false);
+      }}
+    >
+      <button
+        onClick={() => setOpen(false)}
+        aria-label="Close popup"
+        className="
+          absolute
+          top-3
+          right-3
+          md:top-5
+          md:right-5
+          z-[110]
+          h-10
+          w-10
+          rounded-full
+          bg-white/10
+          hover:bg-white/20
+          text-white
+          flex
+          items-center
+          justify-center
+          text-xl
+          leading-none
+          shadow-lg
+          transition-colors
+        "
+      >
+        ✕
+      </button>
 
-          <div
-            className="w-full max-h-full min-h-0 overflow-hidden rounded-2xl bg-white shadow-2xl"
-            style={{ aspectRatio: "210 / 297" }}
-          >
-            {isPdf ? (
-              <iframe
-                src={imageSrc}
-                title="Certificate"
-                className="h-full w-full bg-white"
-              />
-            ) : (
-          <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imageSrc}
-              alt={popup.title || "Popup"}
-              className="h-full w-full object-contain bg-white"
-              onError={(e) => { e.currentTarget.style.display = 'none'; }}
-            />
-          </>
-            )}
-          </div>
-        </div>
+      <div className="relative w-full h-full max-w-5xl flex items-center justify-center pointer-events-none">
+        {isPdf ? (
+          <iframe
+            src={imageSrc}
+            title="Certificate"
+            className="w-full h-full max-h-[90vh] rounded-xl bg-white shadow-2xl pointer-events-auto"
+          />
+        ) : (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={imageSrc}
+            alt={popup.title || "Popup"}
+            className="max-w-full max-h-full object-contain drop-shadow-2xl pointer-events-auto"
+            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+          />
+        )}
       </div>
     </div>
   );
