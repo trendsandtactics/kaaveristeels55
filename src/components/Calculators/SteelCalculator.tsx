@@ -69,77 +69,82 @@ export default function SteelCalculator() {
   };
 
   return (
-
     <motion.section
       initial={{opacity:0,y:15}}
       animate={{opacity:1,y:0}}
-      className="mx-auto w-full max-w-6xl rounded-xl border border-gray-200 bg-white shadow-lg"
+      className="mx-auto w-full max-w-6xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_20px_70px_-25px_rgba(15,23,42,0.35)]"
     >
 
       {/* Header */}
 
-      <div className="border-b border-gray-200 p-5 text-center">
-
-        <h2 className="text-2xl font-bold">
-          Steel <span className="text-red-600">Calculator</span>
+      <div className="relative border-b border-slate-200 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 p-6 text-center text-white md:p-8">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(239,68,68,0.28),transparent_40%)]" />
+        <p className="relative text-xs font-semibold uppercase tracking-[0.22em] text-white/70">
+          Precision Planning Tool
+        </p>
+        <h2 className="relative mt-2 text-2xl font-bold md:text-3xl">
+          Steel <span className="text-red-400">Calculator</span>
         </h2>
-
+        <p className="relative mt-2 text-sm text-white/75 md:text-base">
+          Premium estimation workflow for site planning, procurement, and execution.
+        </p>
       </div>
 
 
       {/* Lead Inputs */}
 
-      <div className="grid md:grid-cols-2 gap-3 p-4 border-b border-gray-200">
+      <div className="border-b border-slate-200 bg-slate-50/80 p-4 md:p-6">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Contact Details</p>
+        <div className="grid gap-3 md:grid-cols-2">
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e)=>setName(e.target.value)}
+            className="rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-800 outline-none ring-red-500/30 transition focus:ring-2"
+          />
 
-        <input
-          type="text"
-          placeholder="Your Name"
-          value={name}
-          onChange={(e)=>setName(e.target.value)}
-          className="border p-3 rounded-lg"
-        />
-
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          value={phone}
-          onChange={(e)=>setPhone(e.target.value)}
-          className="border p-3 rounded-lg"
-        />
-
+          <input
+            type="tel"
+            placeholder="Phone Number"
+            value={phone}
+            onChange={(e)=>setPhone(e.target.value)}
+            className="rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-800 outline-none ring-red-500/30 transition focus:ring-2"
+          />
+        </div>
       </div>
 
 
       {/* Tabs */}
 
-      <div className="flex border-b border-gray-200">
+      <div className="border-b border-slate-200 bg-white p-3 md:p-4">
+        <div className="grid grid-cols-2 rounded-xl bg-slate-100 p-1">
+          <button
+            onClick={()=>setActiveTab("construction")}
+            className={`rounded-lg px-3 py-2.5 text-sm font-semibold transition md:text-base ${
+              activeTab==="construction"
+              ? "bg-white text-slate-900 shadow-sm"
+              : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            Construction Steel
+          </button>
 
-        <button
-          onClick={()=>setActiveTab("construction")}
-          className={`flex-1 py-3 font-semibold ${
-            activeTab==="construction"
-            ? "bg-black text-white"
-            : "bg-gray-100 text-gray-600"
-          }`}
-        >
-          Construction Steel
-        </button>
-
-        <button
-          onClick={()=>setActiveTab("weight")}
-          className={`flex-1 py-3 font-semibold ${
-            activeTab==="weight"
-            ? "bg-black text-white"
-            : "bg-gray-100 text-gray-600"
-          }`}
-        >
-          Weight & Bundle
-        </button>
-
+          <button
+            onClick={()=>setActiveTab("weight")}
+            className={`rounded-lg px-3 py-2.5 text-sm font-semibold transition md:text-base ${
+              activeTab==="weight"
+              ? "bg-white text-slate-900 shadow-sm"
+              : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            Weight & Bundle
+          </button>
+        </div>
       </div>
 
 
-      <div className="p-5">
+      <div className="bg-gradient-to-b from-white to-slate-50/70 p-5 md:p-7">
 
         <AnimatePresence mode="wait">
 
@@ -154,13 +159,16 @@ export default function SteelCalculator() {
             exit={{opacity:0}}
             className="space-y-4"
           >
+            <p className="text-sm text-slate-600">
+              Estimate total steel requirement based on project type, built-up area, and number of floors.
+            </p>
 
             <div className="grid md:grid-cols-3 gap-3">
 
               <select
                 value={structureType}
                 onChange={(e)=>setStructureType(e.target.value)}
-                className="border p-3 rounded-lg"
+                className="rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-800 outline-none ring-red-500/30 transition focus:ring-2"
               >
                 <option value="residential">Residential</option>
                 <option value="commercial">Commercial</option>
@@ -172,7 +180,7 @@ export default function SteelCalculator() {
                 placeholder="Area (sq.ft)"
                 value={area}
                 onChange={(e)=>setArea(e.target.value)}
-                className="border p-3 rounded-lg"
+                className="rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-800 outline-none ring-red-500/30 transition focus:ring-2"
               />
 
               <input
@@ -180,29 +188,30 @@ export default function SteelCalculator() {
                 placeholder="Floors"
                 value={floors}
                 onChange={(e)=>setFloors(e.target.value)}
-                className="border p-3 rounded-lg"
+                className="rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-800 outline-none ring-red-500/30 transition focus:ring-2"
               />
 
             </div>
 
             <button
               onClick={calculateConstruction}
-              className="w-full bg-black text-white py-3 rounded-lg font-semibold"
+              className="w-full rounded-xl bg-gradient-to-r from-slate-900 to-slate-700 py-3 font-semibold text-white shadow-lg shadow-slate-300 transition hover:brightness-110"
             >
               Calculate Steel
             </button>
 
             {estimatedSteel && (
 
-              <div className="bg-gray-100 p-5 rounded-lg text-center">
+              <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-white p-5 text-center md:p-7">
 
-                <p className="text-gray-500">
-                  Estimated Steel
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700/80">
+                  Estimated Steel Requirement
                 </p>
 
-                <p className="text-3xl font-bold">
+                <p className="mt-2 text-3xl font-bold text-emerald-900 md:text-4xl">
                   {estimatedSteel.toLocaleString()} kg
                 </p>
+                <p className="mt-2 text-sm text-emerald-800/80">Use this estimate to shortlist procurement quantity and delivery scheduling.</p>
 
               </div>
 
@@ -224,13 +233,16 @@ export default function SteelCalculator() {
             exit={{opacity:0}}
             className="space-y-4"
           >
+            <p className="text-sm text-slate-600">
+              Compute total bar weight and estimated bundle count using diameter, length, and quantity.
+            </p>
 
             <div className="grid md:grid-cols-4 gap-3">
 
               <select
                 value={diameter}
                 onChange={(e)=>setDiameter(e.target.value)}
-                className="border p-3 rounded-lg"
+                className="rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-800 outline-none ring-red-500/30 transition focus:ring-2"
               >
                 {[8,10,12,16,20,25,32].map(d=>(
                   <option key={d} value={d}>{d} mm</option>
@@ -241,7 +253,7 @@ export default function SteelCalculator() {
                 type="number"
                 value={length}
                 onChange={(e)=>setLength(e.target.value)}
-                className="border p-3 rounded-lg"
+                className="rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-800 outline-none ring-red-500/30 transition focus:ring-2"
               />
 
               <input
@@ -249,12 +261,12 @@ export default function SteelCalculator() {
                 placeholder="Quantity"
                 value={quantity}
                 onChange={(e)=>setQuantity(e.target.value)}
-                className="border p-3 rounded-lg"
+                className="rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-800 outline-none ring-red-500/30 transition focus:ring-2"
               />
 
               <button
                 onClick={calculateWeight}
-                className="bg-black text-white rounded-lg"
+                className="rounded-xl bg-gradient-to-r from-slate-900 to-slate-700 text-sm font-semibold text-white shadow-lg shadow-slate-300 transition hover:brightness-110"
               >
                 Calculate
               </button>
@@ -265,25 +277,25 @@ export default function SteelCalculator() {
 
               <div className="grid md:grid-cols-2 gap-3">
 
-                <div className="bg-gray-100 p-5 rounded-lg text-center">
+                <div className="rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-white p-5 text-center">
 
-                  <p className="text-gray-500">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-700/80">
                     Total Weight
                   </p>
 
-                  <p className="text-3xl font-bold">
+                  <p className="mt-2 text-3xl font-bold text-blue-900">
                     {estimatedWeight.toFixed(2)} kg
                   </p>
 
                 </div>
 
-                <div className="bg-gray-100 p-5 rounded-lg text-center">
+                <div className="rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 to-white p-5 text-center">
 
-                  <p className="text-gray-500">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-violet-700/80">
                     Bundles
                   </p>
 
-                  <p className="text-3xl font-bold">
+                  <p className="mt-2 text-3xl font-bold text-violet-900">
                     {bundleCount}
                   </p>
 
