@@ -259,7 +259,7 @@ export default function AdminCertificationsPanel() {
 
   return (
     <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-5">
-      <section className="rounded-2xl border border-slate-200 bg-white/95 p-6 shadow-lg shadow-slate-200/60 lg:col-span-2">
+      <section className="rounded-2xl border border-slate-200 bg-white/95 p-6 shadow-lg shadow-slate-200/60 lg:sticky lg:top-28 lg:col-span-2 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
         <h1 className="mb-2 font-heading text-3xl text-slate-900">Certifications Admin</h1>
         <p className="mb-6 text-sm text-slate-600">
           Full CRUD for certificates with image/file URL preview support.
@@ -348,8 +348,9 @@ export default function AdminCertificationsPanel() {
 
       <section className="rounded-2xl border border-slate-200 bg-white/95 p-6 shadow-lg shadow-slate-200/60 lg:col-span-3">
         <h2 className="mb-4 font-heading text-2xl text-slate-900">Uploaded Certificates</h2>
+        <p className="mb-4 text-xs text-slate-500">Tip: Keep this list open while editing from the left panel to reduce page scrolling.</p>
 
-        <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
+        <div className="space-y-4 max-h-[72vh] overflow-y-auto pr-2">
           {items.length > 0 ? (
             items.map((item) => {
               const fileUrl = item.fileUrl || `/api/certifications/${item.id}/file`;
