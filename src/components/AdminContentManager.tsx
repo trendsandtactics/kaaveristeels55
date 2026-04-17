@@ -368,9 +368,9 @@ export default function AdminContentManager() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      <aside className="lg:col-span-3 rounded-2xl border border-black/10 bg-white p-4 shadow-sm h-fit lg:sticky lg:top-28">
-        <h2 className="font-heading text-xl mb-3">Modules</h2>
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+      <aside className="h-fit rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-lg shadow-slate-200/60 backdrop-blur lg:sticky lg:top-28 lg:col-span-3">
+        <h2 className="mb-3 font-heading text-xl text-slate-900">Modules</h2>
         <div className="space-y-2">
           {MODULES.map((module) => (
             <button
@@ -381,7 +381,7 @@ export default function AdminContentManager() {
                 setProductCategoryTab("All");
                 resetForm();
               }}
-              className={`w-full text-left rounded-xl px-3 py-2 text-sm font-semibold ${activeModule === module.key ? "bg-black text-white" : "bg-gray-100 text-black hover:bg-gray-200"}`}
+              className={`w-full rounded-xl px-3 py-2 text-left text-sm font-semibold transition ${activeModule === module.key ? "bg-gradient-to-r from-slate-900 to-slate-700 text-white shadow-md" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
             >
               {module.label}
             </button>
@@ -393,115 +393,117 @@ export default function AdminContentManager() {
         {activeDef.kind === "certifications" ? <AdminCertificationsPanel /> : null}
 
         {activeDef.kind === "content" ? (
-          <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-            <h3 className="font-heading text-2xl mb-1">{editingId ? "Edit" : "Create"} {activeDef.label}</h3>
-            <p className="text-sm text-black/60 mb-4">{activeDef.description}</p>
+          <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-lg shadow-slate-200/60">
+            <h3 className="mb-1 font-heading text-2xl text-slate-900">{editingId ? "Edit" : "Create"} {activeDef.label}</h3>
+            <p className="mb-4 text-sm text-slate-600">{activeDef.description}</p>
 
             <form onSubmit={submitForm} className="grid md:grid-cols-2 gap-3">
-              <input required className="border rounded-lg px-3 py-2 text-sm" placeholder="Title" value={form.title} onChange={(e) => setForm((s) => ({ ...s, title: e.target.value }))} />
-              <select className="border rounded-lg px-3 py-2 text-sm" value={form.status} onChange={(e) => setForm((s) => ({ ...s, status: e.target.value }))}>
+              <input required className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Title" value={form.title} onChange={(e) => setForm((s) => ({ ...s, title: e.target.value }))} />
+              <select className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" value={form.status} onChange={(e) => setForm((s) => ({ ...s, status: e.target.value }))}>
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
               </select>
 
-              <textarea className="md:col-span-2 border rounded-lg px-3 py-2 text-sm min-h-20" placeholder="Short description" value={form.short_description} onChange={(e) => setForm((s) => ({ ...s, short_description: e.target.value }))} />
+              <textarea className="min-h-20 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Short description" value={form.short_description} onChange={(e) => setForm((s) => ({ ...s, short_description: e.target.value }))} />
 
               {activeModule !== "blogs" && activeModule !== "csr" ? (
-                <textarea className="md:col-span-2 border rounded-lg px-3 py-2 text-sm min-h-32" placeholder="Content" value={form.content} onChange={(e) => setForm((s) => ({ ...s, content: e.target.value }))} />
+                <textarea className="min-h-32 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Content" value={form.content} onChange={(e) => setForm((s) => ({ ...s, content: e.target.value }))} />
               ) : null}
 
               <div className="space-y-2">
-                <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Cover image URL" value={form.cover_image} onChange={(e) => setForm((s) => ({ ...s, cover_image: e.target.value }))} />
-                <input type="file" accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg" className="w-full border rounded-lg px-3 py-2 text-sm" onChange={(e) => {
+                <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Cover image URL" value={form.cover_image} onChange={(e) => setForm((s) => ({ ...s, cover_image: e.target.value }))} />
+                <input type="file" accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg" className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold" onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) uploadFromDevice(file, "cover_image");
                 }} />
               </div>
               <div className="space-y-2">
-                <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="File URL (PDF, Document, etc.)" value={form.file_url} onChange={(e) => setForm((s) => ({ ...s, file_url: e.target.value }))} />
-                <input type="file" accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg,video/*,application/pdf,.doc,.docx" className="w-full border rounded-lg px-3 py-2 text-sm" onChange={(e) => {
+                <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="File URL (PDF, Document, etc.)" value={form.file_url} onChange={(e) => setForm((s) => ({ ...s, file_url: e.target.value }))} />
+                <input type="file" accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg,video/*,application/pdf,.doc,.docx" className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold" onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) uploadFromDevice(file, "file_url");
                 }} />
               </div>
               <div className="space-y-2 md:col-span-2">
-                <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Video URL (YouTube/Vimeo)" value={form.video_url} onChange={(e) => setForm((s) => ({ ...s, video_url: e.target.value }))} />
+                <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Video URL (YouTube/Vimeo)" value={form.video_url} onChange={(e) => setForm((s) => ({ ...s, video_url: e.target.value }))} />
               </div>
 
               {renderModuleSpecificFields()}
 
-              <input type="number" className="border rounded-lg px-3 py-2 text-sm" placeholder="Sort order" value={form.sort_order} onChange={(e) => setForm((s) => ({ ...s, sort_order: Number(e.target.value) }))} />
-              <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.featured} onChange={(e) => setForm((s) => ({ ...s, featured: e.target.checked }))} /> Featured</label>
+              <input type="number" className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Sort order" value={form.sort_order} onChange={(e) => setForm((s) => ({ ...s, sort_order: Number(e.target.value) }))} />
+              <label className="flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" checked={form.featured} onChange={(e) => setForm((s) => ({ ...s, featured: e.target.checked }))} /> Featured</label>
 
               <div className="md:col-span-2 flex gap-2">
-                <button className="rounded-lg bg-black text-white px-4 py-2 text-sm font-semibold">{editingId ? "Update" : "Create"}</button>
-                {editingId ? <button type="button" onClick={resetForm} className="rounded-lg border border-gray-300 px-4 py-2 text-sm">Cancel</button> : null}
+                <button className="rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-rose-400/30">{editingId ? "Update" : "Create"}</button>
+                {editingId ? <button type="button" onClick={resetForm} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700">Cancel</button> : null}
               </div>
             </form>
           </div>
         ) : null}
 
         {activeDef.kind !== "certifications" ? (
-          <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-lg shadow-slate-200/60">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-              <h3 className="font-heading text-2xl">{activeDef.label}</h3>
+              <h3 className="font-heading text-2xl text-slate-900">{activeDef.label}</h3>
               {activeDef.kind === "content" ? (
                 <div className="flex flex-wrap gap-2 items-center">
                   {activeModule === "products" && (
-                    <div className="flex bg-gray-100 p-1 rounded-lg mr-2">
+                    <div className="mr-2 flex rounded-lg bg-slate-100 p-1">
                       <button
                         onClick={() => setProductCategoryTab("All")}
-                        className={`px-3 py-1 text-sm rounded-md transition-colors ${productCategoryTab === "All" ? "bg-white shadow-sm font-semibold" : "text-gray-600 hover:text-black"}`}
+                        className={`rounded-md px-3 py-1 text-sm transition-colors ${productCategoryTab === "All" ? "bg-white font-semibold shadow-sm" : "text-slate-600 hover:text-black"}`}
                       >
                         All
                       </button>
                       <button
                         onClick={() => setProductCategoryTab("TMT")}
-                        className={`px-3 py-1 text-sm rounded-md transition-colors ${productCategoryTab === "TMT" ? "bg-white shadow-sm font-semibold" : "text-gray-600 hover:text-black"}`}
+                        className={`rounded-md px-3 py-1 text-sm transition-colors ${productCategoryTab === "TMT" ? "bg-white font-semibold shadow-sm" : "text-slate-600 hover:text-black"}`}
                       >
                         TMT
                       </button>
                       <button
                         onClick={() => setProductCategoryTab("Structural")}
-                        className={`px-3 py-1 text-sm rounded-md transition-colors ${productCategoryTab === "Structural" ? "bg-white shadow-sm font-semibold" : "text-gray-600 hover:text-black"}`}
+                        className={`rounded-md px-3 py-1 text-sm transition-colors ${productCategoryTab === "Structural" ? "bg-white font-semibold shadow-sm" : "text-slate-600 hover:text-black"}`}
                       >
                         Structural
                       </button>
                     </div>
                   )}
-                  <input value={search} onChange={(e) => setSearch(e.target.value)} className="border rounded-lg px-3 py-2 text-sm" placeholder="Search" />
-                  <button onClick={fetchItems} className="rounded-lg bg-gray-900 text-white px-3 py-2 text-sm" type="button">Apply</button>
+                  <input value={search} onChange={(e) => setSearch(e.target.value)} className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Search" />
+                  <button onClick={fetchItems} className="rounded-lg bg-slate-900 px-3 py-2 text-sm text-white transition hover:bg-slate-800" type="button">Apply</button>
                 </div>
               ) : null}
             </div>
 
-            <div className="overflow-auto">
+            <div className="overflow-auto rounded-xl border border-slate-200">
               <table className="min-w-full text-sm">
                 <thead>
-                  <tr className="text-left border-b text-black/60">
-                    <th className="py-2 pr-3">Title / Name</th>
-                    <th className="py-2 pr-3">Status</th>
-                    <th className="py-2 pr-3">Updated</th>
-                    <th className="py-2">Actions</th>
+                  <tr className="border-b bg-slate-50 text-left text-slate-600">
+                    <th className="px-3 py-2 pr-3">Title / Name</th>
+                    <th className="px-3 py-2 pr-3">Status</th>
+                    <th className="px-3 py-2 pr-3">Updated</th>
+                    <th className="px-3 py-2">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {displayedItems.map((row) => (
-                    <tr key={row.id} className="border-b last:border-b-0">
-                      <td className="py-3 pr-3">
-                        <div className="font-semibold">{String(row.title ?? row.name ?? `#${row.id}`)}</div>
-                        {row.slug ? <div className="text-xs text-black/50">/{String(row.slug)}</div> : null}
+                    <tr key={row.id} className="border-b last:border-b-0 odd:bg-white even:bg-slate-50/50">
+                      <td className="px-3 py-3 pr-3">
+                        <div className="font-semibold text-slate-900">{String(row.title ?? row.name ?? `#${row.id}`)}</div>
+                        {row.slug ? <div className="text-xs text-slate-500">/{String(row.slug)}</div> : null}
                       </td>
-                      <td className="py-3 pr-3">{String(row.status ?? "-")}</td>
-                      <td className="py-3 pr-3">{row.updated_at ? new Date(String(row.updated_at)).toLocaleDateString() : "-"}</td>
-                      <td className="py-3">
+                      <td className="px-3 py-3 pr-3">
+                        <span className="inline-flex rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold capitalize text-slate-700">{String(row.status ?? "-")}</span>
+                      </td>
+                      <td className="px-3 py-3 pr-3 text-slate-600">{row.updated_at ? new Date(String(row.updated_at)).toLocaleDateString() : "-"}</td>
+                      <td className="px-3 py-3">
                         {activeDef.kind === "content" ? (
                           <div className="space-x-3">
-                            <button onClick={() => editRow(row)} className="text-blue-700 font-semibold">Edit</button>
-                            <button onClick={() => deleteRow(row.id)} className="text-red-700 font-semibold">Delete</button>
+                            <button onClick={() => editRow(row)} className="font-semibold text-blue-700 hover:underline">Edit</button>
+                            <button onClick={() => deleteRow(row.id)} className="font-semibold text-red-700 hover:underline">Delete</button>
                           </div>
                         ) : (
-                          <span className="text-xs text-black/50">Read only</span>
+                          <span className="text-xs text-slate-500">Read only</span>
                         )}
                       </td>
                     </tr>
@@ -510,9 +512,9 @@ export default function AdminContentManager() {
               </table>
             </div>
 
-            {!loading && !displayedItems.length ? <p className="mt-4 text-sm text-black/50">No records found.</p> : null}
-            {loading ? <p className="mt-4 text-sm text-black/50">Loading...</p> : null}
-            {message ? <p className="mt-3 text-sm text-black/70">{message}</p> : null}
+            {!loading && !displayedItems.length ? <p className="mt-4 text-sm text-slate-500">No records found.</p> : null}
+            {loading ? <p className="mt-4 text-sm text-slate-500">Loading...</p> : null}
+            {message ? <p className="mt-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">{message}</p> : null}
           </div>
         ) : null}
       </section>
