@@ -16,9 +16,7 @@ const navLinks = [
 
 const mediaSupportLinks = [
   { name: "Photo Gallery", href: "/photo-gallery" },
-  { name: "Photo / Video / Project Gallery", href: "/photo-video-project-gallery" },
-  { name: "Construction Steel Calculator", href: "/construction-steel-calculator" },
-  { name: "Weight & Bundle Calculator", href: "/weight-bundle-calculator" },
+  { name: "Steel Calculator", href: "/construction-steel-calculator" },
   { name: "Media & Events", href: "/media-events" },
   { name: "Find Dealers", href: "/dealers" },
   { name: "Blogs", href: "/blogs" },
