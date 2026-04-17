@@ -110,8 +110,15 @@ export default function DynamicModulePage({
     return displayedItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [displayedItems, currentPage]);
 
+  const brochurePdfUrlForItem = (item: DynamicItem): string => {
+    const fileCandidate = resolveMediaUrl(item.file_url, "");
+    if (fileCandidate) return fileCandidate;
+    return resolveMediaUrl(item.cover_image, "");
+  };
+
   const openFlipbook = (item: DynamicItem) => {
-    if (!item.file_url) return;
+    const brochureUrl = brochurePdfUrlForItem(item);
+    if (!brochureUrl) return;
     setActiveFlipbook(item);
     setFlipPage(1);
   };
@@ -121,7 +128,7 @@ export default function DynamicModulePage({
     setFlipPage(1);
   };
 
-  const flipbookPdfUrl = activeFlipbook?.file_url ? resolveMediaUrl(activeFlipbook.file_url, "") : "";
+  const flipbookPdfUrl = activeFlipbook ? brochurePdfUrlForItem(activeFlipbook) : "";
 
   return (
     <main className="min-h-screen pt-24 bg-gray-50">
@@ -257,7 +264,7 @@ export default function DynamicModulePage({
                     {module === "brochures" ? (
                       <button
                         onClick={() => openFlipbook(item)}
-                        disabled={!item.file_url}
+                        disabled={!brochurePdfUrlForItem(item)}
                         className="text-sm font-semibold text-accent-red hover:text-accent-red/80 disabled:cursor-not-allowed disabled:text-black/35"
                       >
                         Open Flipbook
@@ -267,9 +274,9 @@ export default function DynamicModulePage({
                         View Details
                       </Link>
                     )}
-                    {item.file_url ? (
+                    {brochurePdfUrlForItem(item) ? (
                       <a
-                        href={item.file_url}
+                        href={brochurePdfUrlForItem(item)}
                         target="_blank"
                         rel="noreferrer"
                         className="text-sm font-semibold text-black/70 hover:text-black"
