@@ -258,10 +258,10 @@ export default function AdminCertificationsPanel() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-5 gap-8">
-      <section className="lg:col-span-2 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-        <h1 className="font-heading text-3xl text-black mb-2">Certifications Admin</h1>
-        <p className="text-sm text-black/65 mb-6">
+    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-5">
+      <section className="rounded-2xl border border-slate-200 bg-white/95 p-6 shadow-lg shadow-slate-200/60 lg:sticky lg:top-28 lg:col-span-2 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
+        <h1 className="mb-2 font-heading text-3xl text-slate-900">Certifications Admin</h1>
+        <p className="mb-6 text-sm text-slate-600">
           Full CRUD for certificates with image/file URL preview support.
         </p>
 
@@ -271,7 +271,7 @@ export default function AdminCertificationsPanel() {
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             placeholder="Certificate title"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2"
             required
           />
 
@@ -280,7 +280,7 @@ export default function AdminCertificationsPanel() {
             value={issuedBy}
             onChange={(event) => setIssuedBy(event.target.value)}
             placeholder="Issued by"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2"
             required
           />
 
@@ -288,14 +288,14 @@ export default function AdminCertificationsPanel() {
             type="date"
             value={issueDate}
             onChange={(event) => setIssueDate(event.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2"
           />
 
           <textarea
             value={description}
             onChange={(event) => setDescription(event.target.value)}
             placeholder="Description"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm min-h-24"
+            className="min-h-24 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2"
             required
           />
 
@@ -313,14 +313,14 @@ export default function AdminCertificationsPanel() {
                 setMessage("");
               }
             }}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+            className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold"
           />
 
           <div className="flex gap-3">
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 rounded-lg bg-black text-white px-4 py-2 text-sm font-semibold disabled:opacity-60"
+              className="flex-1 rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-rose-400/30 disabled:opacity-60"
             >
               {loading
                 ? isEditing
@@ -335,7 +335,7 @@ export default function AdminCertificationsPanel() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-black"
+                className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700"
               >
                 Cancel
               </button>
@@ -343,13 +343,14 @@ export default function AdminCertificationsPanel() {
           </div>
         </form>
 
-        {message ? <p className="mt-4 text-sm text-black/75">{message}</p> : null}
+        {message ? <p className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">{message}</p> : null}
       </section>
 
-      <section className="lg:col-span-3 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-        <h2 className="font-heading text-2xl text-black mb-4">Uploaded Certificates</h2>
+      <section className="rounded-2xl border border-slate-200 bg-white/95 p-6 shadow-lg shadow-slate-200/60 lg:col-span-3">
+        <h2 className="mb-4 font-heading text-2xl text-slate-900">Uploaded Certificates</h2>
+        <p className="mb-4 text-xs text-slate-500">Tip: Keep this list open while editing from the left panel to reduce page scrolling.</p>
 
-        <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
+        <div className="space-y-4 max-h-[72vh] overflow-y-auto pr-2">
           {items.length > 0 ? (
             items.map((item) => {
               const fileUrl = item.fileUrl || `/api/certifications/${item.id}/file`;
@@ -358,11 +359,11 @@ export default function AdminCertificationsPanel() {
                 /\.(png|jpg|jpeg|webp)$/i.test(item.fileName || fileUrl);
 
               return (
-                <article key={item.id} className="border border-gray-200 rounded-xl p-4">
+                <article key={item.id} className="rounded-xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="font-semibold text-black">{item.title}</h3>
-                      <p className="text-xs text-black/55 mt-1">ID: {item.id}</p>
+                      <h3 className="font-semibold text-slate-900">{item.title}</h3>
+                      <p className="mt-1 text-xs text-slate-500">ID: {item.id}</p>
                     </div>
 
                     <div className="flex items-center gap-3 flex-wrap justify-end">
@@ -403,9 +404,9 @@ export default function AdminCertificationsPanel() {
                     </div>
                   </div>
 
-                  <p className="text-sm text-black/70 mt-2">{item.description}</p>
+                  <p className="mt-2 text-sm text-slate-700">{item.description}</p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3 text-xs text-black/60">
+                  <div className="mt-3 grid grid-cols-1 gap-2 text-xs text-slate-600 sm:grid-cols-2">
                     <p>Issued by: {item.issuedBy}</p>
                     <p>Issue date: {formatDate(item.issueDate)}</p>
                     <p>Created: {formatDate(item.createdAt)}</p>
@@ -418,7 +419,7 @@ export default function AdminCertificationsPanel() {
                       <img
                         src={fileUrl}
                         alt={item.title}
-                        className="w-full max-h-56 object-cover rounded-lg border border-gray-200"
+                        className="max-h-56 w-full rounded-lg border border-slate-200 object-cover"
                       />
                     </div>
                   ) : null}
@@ -426,7 +427,7 @@ export default function AdminCertificationsPanel() {
               );
             })
           ) : (
-            <p className="text-sm text-black/60">No certificates uploaded yet.</p>
+            <p className="text-sm text-slate-600">No certificates uploaded yet.</p>
           )}
         </div>
       </section>
