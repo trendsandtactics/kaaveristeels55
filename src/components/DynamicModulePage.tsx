@@ -47,6 +47,7 @@ export default function DynamicModulePage({
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFlipbook, setActiveFlipbook] = useState<DynamicItem | null>(null);
   const [flipPage, setFlipPage] = useState(1);
+  const [siteOrigin, setSiteOrigin] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -55,6 +56,7 @@ export default function DynamicModulePage({
       if (categoryParam === "TMT" || categoryParam === "Structural" || categoryParam === "All") {
         setActiveCategory(categoryParam);
       }
+      setSiteOrigin(window.location.origin);
     }
   }, []);
 
@@ -111,9 +113,28 @@ export default function DynamicModulePage({
   }, [displayedItems, currentPage]);
 
   const brochurePdfUrlForItem = (item: DynamicItem): string => {
-    const fileCandidate = resolveMediaUrl(item.file_url, "");
-    if (fileCandidate) return fileCandidate;
-    return resolveMediaUrl(item.cover_image, "");
+    const directCandidates: unknown[] = [item.file_url, item.cover_image];
+
+    if (item.extra_data) {
+      try {
+        const parsedExtra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
+        if (parsedExtra && typeof parsedExtra === "object") {
+          const extra = parsedExtra as Record<string, unknown>;
+          directCandidates.push(extra.pdf_url, extra.file, extra.file_url, extra.document_url, extra.brochure_url, extra.url);
+        }
+      } catch {
+        // ignore invalid extra_data payloads
+      }
+    }
+
+    for (const candidate of directCandidates) {
+      const resolved = resolveMediaUrl(candidate, "");
+      if (resolved) return resolved;
+    }
+
+    const contentSource = typeof item.content === "string" ? item.content : "";
+    const pdfMatch = contentSource.match(/https?:\/\/[^\s"']+\.pdf|\/api\/uploads\/\d+|\/[^\s"']+\.pdf/i);
+    return pdfMatch ? resolveMediaUrl(pdfMatch[0], "") : "";
   };
 
   const openFlipbook = (item: DynamicItem) => {
@@ -129,6 +150,7 @@ export default function DynamicModulePage({
   };
 
   const flipbookPdfUrl = activeFlipbook ? brochurePdfUrlForItem(activeFlipbook) : "";
+  const absoluteFlipbookPdfUrl = flipbookPdfUrl.startsWith("http") ? flipbookPdfUrl : siteOrigin ? `${siteOrigin}${flipbookPdfUrl}` : flipbookPdfUrl;
 
   return (
     <main className="min-h-screen pt-24 bg-gray-50">
@@ -341,7 +363,7 @@ export default function DynamicModulePage({
                 {flipbookPdfUrl ? (
                   <iframe
                     title={`${activeFlipbook.title} left page`}
-                    src={`${flipbookPdfUrl}#toolbar=0&navpanes=0&scrollbar=0&page=${Math.max(1, flipPage)}`}
+                    src={`https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteFlipbookPdfUrl)}#page=${Math.max(1, flipPage)}`}
                     className="h-full min-h-[280px] w-full"
                   />
                 ) : (
@@ -355,7 +377,7 @@ export default function DynamicModulePage({
                 {flipbookPdfUrl ? (
                   <iframe
                     title={`${activeFlipbook.title} right page`}
-                    src={`${flipbookPdfUrl}#toolbar=0&navpanes=0&scrollbar=0&page=${Math.max(1, flipPage + 1)}`}
+                    src={`https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteFlipbookPdfUrl)}#page=${Math.max(1, flipPage + 1)}`}
                     className="h-full min-h-[280px] w-full"
                   />
                 ) : (
@@ -384,7 +406,7 @@ export default function DynamicModulePage({
               </div>
               <p className="text-sm text-white/70">Showing pages {flipPage} & {flipPage + 1}</p>
               <a
-                href={flipbookPdfUrl}
+                href={absoluteFlipbookPdfUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-200"
