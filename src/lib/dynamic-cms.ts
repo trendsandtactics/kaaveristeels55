@@ -341,6 +341,23 @@ export async function listModuleItems(moduleName: string, options?: { status?: s
   return queryModuleItems(moduleName, { ...options, limit });
 }
 
+export async function getAdminModuleItemById(moduleName: string, id: number): Promise<ContentRow | null> {
+  await ensureDynamicCmsTables();
+
+  if (moduleName === "dealers") {
+    const [rows] = await getPool().query<ContentRow[]>(
+      `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,NULL as meta_title,NULL as meta_description, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE id = ? LIMIT 1`,
+      [id],
+    );
+    return rows[0] ?? null;
+  }
+
+  const moduleKey = safeModule(moduleName);
+  const table = MODULE_TABLES[moduleKey];
+  const [rows] = await getPool().query<ContentRow[]>(`SELECT * FROM ${table} WHERE id = ? LIMIT 1`, [id]);
+  return rows[0] ?? null;
+}
+
 export async function createModuleItem(moduleName: string, input: ContentInput): Promise<number> {
   await ensureDynamicCmsTables();
 
