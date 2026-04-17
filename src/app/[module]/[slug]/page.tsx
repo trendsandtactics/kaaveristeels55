@@ -4,7 +4,7 @@ import Image from "next/image";
 import { getPublicModuleItemBySlug } from "@/lib/dynamic-cms";
 import { resolveMediaUrl } from "@/lib/media";
 
-const ALLOWED_MODULES = new Set(["products", "mediaEvents", "blogs", "projects", "careers", "dealers", "galleries", "brochures", "popups"]);
+const ALLOWED_MODULES = new Set(["products", "mediaEvents", "blogs", "projects", "careers", "dealers", "galleries", "brochures", "popups", "csr"]);
 
 export default async function ModuleDetailPage({ params }: { params: Promise<{ module: string; slug: string }> }) {
   const { module, slug } = await params;

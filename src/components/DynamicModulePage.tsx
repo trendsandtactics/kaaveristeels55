@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { resolveMediaUrl } from "@/lib/media";
 
 type DynamicItem = {
@@ -178,6 +179,11 @@ export default function DynamicModulePage({
                       <p className="text-sm text-black/65 mt-2 line-clamp-3">
                         {item.short_description}
                       </p>
+                      <div className="mt-4">
+                        <Link href={`/${module}/${item.slug}`} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
+                          View Details
+                        </Link>
+                      </div>
                     </div>
                   </article>
                 );
@@ -220,8 +226,11 @@ export default function DynamicModulePage({
                     {item.short_description}
                   </p>
 
-                  {item.file_url && (
-                    <div className="mt-4 flex items-center justify-end">
+                  <div className="mt-4 flex items-center justify-between gap-2">
+                    <Link href={`/${module}/${item.slug}`} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
+                      View Details
+                    </Link>
+                    {item.file_url ? (
                       <a
                         href={item.file_url}
                         target="_blank"
@@ -230,8 +239,8 @@ export default function DynamicModulePage({
                       >
                         Download
                       </a>
-                    </div>
-                  )}
+                    ) : null}
+                  </div>
                 </div>
               </article>
             );
