@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { resolveMediaUrl } from "@/lib/media";
 
@@ -16,15 +16,6 @@ type DynamicItem = {
   featured?: number | boolean;
   created_at?: string;
   extra_data?: string | Record<string, string> | null;
-};
-
-type PdfDocument = {
-  numPages: number;
-  getPage: (pageNumber: number) => Promise<{
-    getViewport: (params: { scale: number }) => { width: number; height: number };
-    render: (params: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => { promise: Promise<void> };
-  }>;
-  destroy?: () => void;
 };
 
 const ITEMS_PER_PAGE = 9;
@@ -56,11 +47,6 @@ export default function DynamicModulePage({
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFlipbook, setActiveFlipbook] = useState<DynamicItem | null>(null);
   const [flipPage, setFlipPage] = useState(1);
-  const [pdfDocument, setPdfDocument] = useState<PdfDocument | null>(null);
-  const [totalPdfPages, setTotalPdfPages] = useState(0);
-  const [isPdfLoading, setIsPdfLoading] = useState(false);
-  const leftCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const rightCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -136,76 +122,6 @@ export default function DynamicModulePage({
   };
 
   const flipbookPdfUrl = activeFlipbook?.file_url ? resolveMediaUrl(activeFlipbook.file_url, "") : "";
-
-  useEffect(() => {
-    if (!activeFlipbook || !flipbookPdfUrl) return;
-
-    let isCancelled = false;
-    setIsPdfLoading(true);
-
-    const loadPdf = async () => {
-      const pdfjs = await import("pdfjs-dist");
-      pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-      const loadingTask = pdfjs.getDocument(flipbookPdfUrl);
-      const loadedPdf = await loadingTask.promise;
-
-      if (isCancelled) return;
-      setPdfDocument(loadedPdf as unknown as PdfDocument);
-      setTotalPdfPages(loadedPdf.numPages ?? 0);
-      setIsPdfLoading(false);
-    };
-
-    loadPdf().catch(() => {
-      if (!isCancelled) {
-        setPdfDocument(null);
-        setTotalPdfPages(0);
-        setIsPdfLoading(false);
-      }
-    });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [activeFlipbook, flipbookPdfUrl]);
-
-  useEffect(() => {
-    if (!activeFlipbook) return;
-    if (!pdfDocument) return;
-
-    const renderCanvasPage = async (canvas: HTMLCanvasElement | null, pageNumber: number) => {
-      if (!canvas) return;
-      const context = canvas.getContext("2d");
-      if (!context) return;
-
-      if (pageNumber < 1 || pageNumber > totalPdfPages) {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        return;
-      }
-
-      const page = await pdfDocument.getPage(pageNumber);
-      const viewport = page.getViewport({ scale: 1.15 });
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      await page.render({ canvasContext: context, viewport }).promise;
-    };
-
-    const paint = async () => {
-      await Promise.all([
-        renderCanvasPage(leftCanvasRef.current, flipPage),
-        renderCanvasPage(rightCanvasRef.current, flipPage + 1),
-      ]);
-    };
-
-    paint().catch(() => undefined);
-  }, [activeFlipbook, pdfDocument, flipPage, totalPdfPages]);
-
-  useEffect(() => {
-    if (activeFlipbook) return;
-    if (pdfDocument?.destroy) pdfDocument.destroy();
-    setPdfDocument(null);
-    setTotalPdfPages(0);
-    setIsPdfLoading(false);
-  }, [activeFlipbook, pdfDocument]);
 
   return (
     <main className="min-h-screen pt-24 bg-gray-50">
@@ -415,12 +331,12 @@ export default function DynamicModulePage({
 
             <div className="grid flex-1 gap-3 bg-[radial-gradient(circle_at_center,rgba(148,163,184,0.22),transparent_55%)] p-3 md:grid-cols-[1fr_auto_1fr] md:p-6">
               <div className="relative overflow-hidden rounded-xl border border-white/15 bg-white shadow-[8px_0_30px_-18px_rgba(0,0,0,0.65)]">
-                {flipbookPdfUrl && !isPdfLoading ? (
-                  <canvas ref={leftCanvasRef} className="h-full min-h-[280px] w-full" />
-                ) : isPdfLoading ? (
-                  <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
-                    Loading PDF pages...
-                  </div>
+                {flipbookPdfUrl ? (
+                  <iframe
+                    title={`${activeFlipbook.title} left page`}
+                    src={`${flipbookPdfUrl}#toolbar=0&navpanes=0&scrollbar=0&page=${Math.max(1, flipPage)}`}
+                    className="h-full min-h-[280px] w-full"
+                  />
                 ) : (
                   <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
                     PDF preview unavailable.
@@ -429,12 +345,12 @@ export default function DynamicModulePage({
               </div>
               <div className="hidden w-[2px] bg-gradient-to-b from-transparent via-white/30 to-transparent md:block" />
               <div className="relative overflow-hidden rounded-xl border border-white/15 bg-white shadow-[-8px_0_30px_-18px_rgba(0,0,0,0.65)]">
-                {flipbookPdfUrl && !isPdfLoading ? (
-                  <canvas ref={rightCanvasRef} className="h-full min-h-[280px] w-full" />
-                ) : isPdfLoading ? (
-                  <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
-                    Loading PDF pages...
-                  </div>
+                {flipbookPdfUrl ? (
+                  <iframe
+                    title={`${activeFlipbook.title} right page`}
+                    src={`${flipbookPdfUrl}#toolbar=0&navpanes=0&scrollbar=0&page=${Math.max(1, flipPage + 1)}`}
+                    className="h-full min-h-[280px] w-full"
+                  />
                 ) : (
                   <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
                     PDF preview unavailable.
@@ -454,18 +370,17 @@ export default function DynamicModulePage({
                 </button>
                 <button
                   onClick={() => setFlipPage((page) => page + 2)}
-                  disabled={totalPdfPages ? flipPage + 1 >= totalPdfPages : false}
                   className="rounded-lg border border-white/20 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10"
                 >
                   Next
                 </button>
               </div>
-              <p className="text-sm text-white/70">Showing pages {flipPage} & {Math.min(flipPage + 1, Math.max(1, totalPdfPages))}{totalPdfPages ? ` of ${totalPdfPages}` : ""}</p>
+              <p className="text-sm text-white/70">Showing pages {flipPage} & {flipPage + 1}</p>
               <a
                 href={flipbookPdfUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-200"
               >
                 Open Full PDF
               </a>
