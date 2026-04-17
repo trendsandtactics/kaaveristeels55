@@ -4,12 +4,13 @@ import AdminContentManager from "@/components/AdminContentManager";
 
 export default function AdminModulesPage() {
   return (
-    <div className="min-h-screen bg-gray-50 px-6 pt-32 pb-12 md:px-12">
-      <div className="mx-auto max-w-7xl">
-        <header className="mb-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent-red">Admin CMS</p>
-          <h1 className="font-heading text-4xl text-black mt-2">Dynamic Modules Management</h1>
-          <p className="text-sm text-black/60 mt-2">Manage products, media/events, blogs, projects, careers, dealers, galleries, brochures and popup content.</p>
+    <div className="relative min-h-screen overflow-hidden bg-slate-100 px-6 pb-12 pt-32 md:px-12">
+      <div className="pointer-events-none absolute inset-0 opacity-40 [background:radial-gradient(circle_at_top_right,_#fda4af_0%,_transparent_38%),radial-gradient(circle_at_left,_#7dd3fc_0%,_transparent_28%)]" />
+      <div className="relative mx-auto max-w-7xl">
+        <header className="mb-8 rounded-2xl border border-white/70 bg-white/80 p-6 shadow-sm backdrop-blur">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-red">Admin CMS</p>
+          <h1 className="mt-2 font-heading text-4xl text-slate-900">Dynamic Modules Management</h1>
+          <p className="mt-2 text-sm text-slate-600">Manage products, media/events, blogs, projects, careers, dealers, galleries, brochures and popup content.</p>
         </header>
 
         <AdminContentManager />

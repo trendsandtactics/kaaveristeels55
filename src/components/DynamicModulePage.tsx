@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { resolveMediaUrl } from "@/lib/media";
 
 type DynamicItem = {
@@ -19,6 +20,15 @@ type DynamicItem = {
 
 const ITEMS_PER_PAGE = 9;
 
+function formatModuleLabel(module: string): string {
+  if (module === "mediaEvents") return "Media & Events";
+  if (module === "csr") return "Corporate Social Responsibility";
+  return module
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[-_]/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
 export default function DynamicModulePage({
   module,
   heading,
@@ -28,6 +38,7 @@ export default function DynamicModulePage({
   heading: string;
   subtitle: string;
 }) {
+  const moduleLabel = useMemo(() => formatModuleLabel(module), [module]);
   const [items, setItems] = useState<DynamicItem[]>([]);
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
@@ -105,18 +116,20 @@ export default function DynamicModulePage({
 
         <div className="max-w-7xl mx-auto relative z-10">
           <p className="text-xs uppercase tracking-[0.2em] font-semibold text-black/70">
-            Dynamic Module
+            {moduleLabel} Portfolio
           </p>
           <h1 className="font-sans text-5xl md:text-7xl text-black mt-3 drop-shadow-md">
             {heading}
           </h1>
-          <p className="text-black/80 mt-3 max-w-2xl font-medium">{subtitle}</p>
+          <p className="text-black/80 mt-3 max-w-3xl font-medium">
+            {subtitle}
+          </p>
 
           <div className="mt-6">
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Search"
+              placeholder={`Search ${moduleLabel} by title or keyword`}
               className="w-full max-w-md rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-black/20 focus:ring-2 focus:ring-black/5"
             />
           </div>
@@ -178,6 +191,11 @@ export default function DynamicModulePage({
                       <p className="text-sm text-black/65 mt-2 line-clamp-3">
                         {item.short_description}
                       </p>
+                      <div className="mt-4">
+                        <Link href={`/${module}/${item.slug}`} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
+                          View Details
+                        </Link>
+                      </div>
                     </div>
                   </article>
                 );
@@ -220,8 +238,11 @@ export default function DynamicModulePage({
                     {item.short_description}
                   </p>
 
-                  {item.file_url && (
-                    <div className="mt-4 flex items-center justify-end">
+                  <div className="mt-4 flex items-center justify-between gap-2">
+                    <Link href={`/${module}/${item.slug}`} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
+                      View Details
+                    </Link>
+                    {item.file_url ? (
                       <a
                         href={item.file_url}
                         target="_blank"
@@ -230,8 +251,8 @@ export default function DynamicModulePage({
                       >
                         Download
                       </a>
-                    </div>
-                  )}
+                    ) : null}
+                  </div>
                 </div>
               </article>
             );
