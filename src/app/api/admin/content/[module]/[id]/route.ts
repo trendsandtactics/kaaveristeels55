@@ -1,5 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { deleteModuleItem, updateModuleItem } from "@/lib/dynamic-cms";
+import { deleteModuleItem, getAdminModuleItemById, updateModuleItem } from "@/lib/dynamic-cms";
+
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ module: string; id: string }> }) {
+  try {
+    const { module, id } = await params;
+    const item = await getAdminModuleItemById(module, Number(id));
+
+    if (!item) {
+      return NextResponse.json({ error: "Record not found." }, { status: 404 });
+    }
+
+    return NextResponse.json({ data: item });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unable to fetch record.";
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
+}
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ module: string; id: string }> }) {
   try {

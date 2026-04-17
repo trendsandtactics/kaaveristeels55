@@ -1,6 +1,7 @@
 "use client";
 
 import AdminCertificationsPanel from "@/components/AdminCertificationsPanel";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr";
@@ -415,7 +416,13 @@ export default function AdminContentManager() {
             {displayedItems.map((row) => (
               <tr key={row.id} className="border-b last:border-b-0 odd:bg-white even:bg-slate-50/50">
                 <td className="px-3 py-3 pr-3">
-                  <div className="font-semibold text-slate-900">{String(row.title ?? row.name ?? `#${row.id}`)}</div>
+                  {activeDef.kind === "content" ? (
+                    <Link href={`/admin/modules/${activeModule}/${row.id}`} className="font-semibold text-slate-900 hover:underline">
+                      {String(row.title ?? row.name ?? `#${row.id}`)}
+                    </Link>
+                  ) : (
+                    <div className="font-semibold text-slate-900">{String(row.title ?? row.name ?? `#${row.id}`)}</div>
+                  )}
                   {row.slug ? <div className="text-xs text-slate-500">/{String(row.slug)}</div> : null}
                 </td>
                 <td className="px-3 py-3 pr-3">
@@ -425,6 +432,7 @@ export default function AdminContentManager() {
                 <td className="px-3 py-3">
                   {activeDef.kind === "content" ? (
                     <div className="space-x-3">
+                      <Link href={`/admin/modules/${activeModule}/${row.id}`} className="font-semibold text-slate-700 hover:underline">View</Link>
                       <button onClick={() => editRow(row)} className="font-semibold text-blue-700 hover:underline">Edit</button>
                       <button onClick={() => deleteRow(row.id)} className="font-semibold text-red-700 hover:underline">Delete</button>
                     </div>
