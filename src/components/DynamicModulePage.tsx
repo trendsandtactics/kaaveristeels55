@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { resolveMediaUrl } from "@/lib/media";
 
 type DynamicItem = {
@@ -17,7 +18,25 @@ type DynamicItem = {
   extra_data?: string | Record<string, string> | null;
 };
 
+type PdfDocument = {
+  numPages: number;
+  getPage: (pageNumber: number) => Promise<{
+    getViewport: (params: { scale: number }) => { width: number; height: number };
+    render: (params: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => { promise: Promise<void> };
+  }>;
+  destroy?: () => void;
+};
+
 const ITEMS_PER_PAGE = 9;
+
+function formatModuleLabel(module: string): string {
+  if (module === "mediaEvents") return "Media & Events";
+  if (module === "csr") return "Corporate Social Responsibility";
+  return module
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[-_]/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
 
 export default function DynamicModulePage({
   module,
@@ -28,12 +47,20 @@ export default function DynamicModulePage({
   heading: string;
   subtitle: string;
 }) {
+  const moduleLabel = useMemo(() => formatModuleLabel(module), [module]);
   const [items, setItems] = useState<DynamicItem[]>([]);
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>(module === "products" ? "Structural" : "All");
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeFlipbook, setActiveFlipbook] = useState<DynamicItem | null>(null);
+  const [flipPage, setFlipPage] = useState(1);
+  const [pdfDocument, setPdfDocument] = useState<PdfDocument | null>(null);
+  const [totalPdfPages, setTotalPdfPages] = useState(0);
+  const [isPdfLoading, setIsPdfLoading] = useState(false);
+  const leftCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const rightCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -97,6 +124,89 @@ export default function DynamicModulePage({
     return displayedItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [displayedItems, currentPage]);
 
+  const openFlipbook = (item: DynamicItem) => {
+    if (!item.file_url) return;
+    setActiveFlipbook(item);
+    setFlipPage(1);
+  };
+
+  const closeFlipbook = () => {
+    setActiveFlipbook(null);
+    setFlipPage(1);
+  };
+
+  const flipbookPdfUrl = activeFlipbook?.file_url ? resolveMediaUrl(activeFlipbook.file_url, "") : "";
+
+  useEffect(() => {
+    if (!activeFlipbook || !flipbookPdfUrl) return;
+
+    let isCancelled = false;
+    setIsPdfLoading(true);
+
+    const loadPdf = async () => {
+      const pdfjs = await import("pdfjs-dist");
+      pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+      const loadingTask = pdfjs.getDocument(flipbookPdfUrl);
+      const loadedPdf = await loadingTask.promise;
+
+      if (isCancelled) return;
+      setPdfDocument(loadedPdf as unknown as PdfDocument);
+      setTotalPdfPages(loadedPdf.numPages ?? 0);
+      setIsPdfLoading(false);
+    };
+
+    loadPdf().catch(() => {
+      if (!isCancelled) {
+        setPdfDocument(null);
+        setTotalPdfPages(0);
+        setIsPdfLoading(false);
+      }
+    });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [activeFlipbook, flipbookPdfUrl]);
+
+  useEffect(() => {
+    if (!activeFlipbook) return;
+    if (!pdfDocument) return;
+
+    const renderCanvasPage = async (canvas: HTMLCanvasElement | null, pageNumber: number) => {
+      if (!canvas) return;
+      const context = canvas.getContext("2d");
+      if (!context) return;
+
+      if (pageNumber < 1 || pageNumber > totalPdfPages) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        return;
+      }
+
+      const page = await pdfDocument.getPage(pageNumber);
+      const viewport = page.getViewport({ scale: 1.15 });
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      await page.render({ canvasContext: context, viewport }).promise;
+    };
+
+    const paint = async () => {
+      await Promise.all([
+        renderCanvasPage(leftCanvasRef.current, flipPage),
+        renderCanvasPage(rightCanvasRef.current, flipPage + 1),
+      ]);
+    };
+
+    paint().catch(() => undefined);
+  }, [activeFlipbook, pdfDocument, flipPage, totalPdfPages]);
+
+  useEffect(() => {
+    if (activeFlipbook) return;
+    if (pdfDocument?.destroy) pdfDocument.destroy();
+    setPdfDocument(null);
+    setTotalPdfPages(0);
+    setIsPdfLoading(false);
+  }, [activeFlipbook, pdfDocument]);
+
   return (
     <main className="min-h-screen pt-24 bg-gray-50">
       <section className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow py-10 md:py-12 px-6 relative overflow-hidden shadow-sm border-b border-black/10">
@@ -105,18 +215,20 @@ export default function DynamicModulePage({
 
         <div className="max-w-7xl mx-auto relative z-10">
           <p className="text-xs uppercase tracking-[0.2em] font-semibold text-black/70">
-            Dynamic Module
+            {moduleLabel} Portfolio
           </p>
           <h1 className="font-sans text-5xl md:text-7xl text-black mt-3 drop-shadow-md">
             {heading}
           </h1>
-          <p className="text-black/80 mt-3 max-w-2xl font-medium">{subtitle}</p>
+          <p className="text-black/80 mt-3 max-w-3xl font-medium">
+            {subtitle}
+          </p>
 
           <div className="mt-6">
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Search"
+              placeholder={`Search ${moduleLabel} by title or keyword`}
               className="w-full max-w-md rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-black/20 focus:ring-2 focus:ring-black/5"
             />
           </div>
@@ -178,6 +290,11 @@ export default function DynamicModulePage({
                       <p className="text-sm text-black/65 mt-2 line-clamp-3">
                         {item.short_description}
                       </p>
+                      <div className="mt-4">
+                        <Link href={`/${module}/${item.slug}`} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
+                          View Details
+                        </Link>
+                      </div>
                     </div>
                   </article>
                 );
@@ -220,8 +337,21 @@ export default function DynamicModulePage({
                     {item.short_description}
                   </p>
 
-                  {item.file_url && (
-                    <div className="mt-4 flex items-center justify-end">
+                  <div className="mt-4 flex items-center justify-between gap-2">
+                    {module === "brochures" ? (
+                      <button
+                        onClick={() => openFlipbook(item)}
+                        disabled={!item.file_url}
+                        className="text-sm font-semibold text-accent-red hover:text-accent-red/80 disabled:cursor-not-allowed disabled:text-black/35"
+                      >
+                        Open Flipbook
+                      </button>
+                    ) : (
+                      <Link href={`/${module}/${item.slug}`} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
+                        View Details
+                      </Link>
+                    )}
+                    {item.file_url ? (
                       <a
                         href={item.file_url}
                         target="_blank"
@@ -230,8 +360,8 @@ export default function DynamicModulePage({
                       >
                         Download
                       </a>
-                    </div>
-                  )}
+                    ) : null}
+                  </div>
                 </div>
               </article>
             );
@@ -266,6 +396,83 @@ export default function DynamicModulePage({
 
         {loading ? <p className="text-black/50 text-sm">Loading...</p> : null}
       </section>
+
+      {activeFlipbook && module === "brochures" ? (
+        <div className="fixed inset-0 z-[100] bg-black/70 p-4 backdrop-blur-sm md:p-8">
+          <div className="mx-auto flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-white/20 bg-slate-950 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-white/15 px-4 py-3 md:px-6">
+              <div>
+                <p className="text-xs uppercase tracking-[0.18em] text-white/60">Brochure Flipbook</p>
+                <h3 className="text-lg font-semibold text-white md:text-xl">{activeFlipbook.title}</h3>
+              </div>
+              <button
+                onClick={closeFlipbook}
+                className="rounded-md border border-white/25 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-white hover:bg-white/10"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="grid flex-1 gap-3 bg-[radial-gradient(circle_at_center,rgba(148,163,184,0.22),transparent_55%)] p-3 md:grid-cols-[1fr_auto_1fr] md:p-6">
+              <div className="relative overflow-hidden rounded-xl border border-white/15 bg-white shadow-[8px_0_30px_-18px_rgba(0,0,0,0.65)]">
+                {flipbookPdfUrl && !isPdfLoading ? (
+                  <canvas ref={leftCanvasRef} className="h-full min-h-[280px] w-full" />
+                ) : isPdfLoading ? (
+                  <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
+                    Loading PDF pages...
+                  </div>
+                ) : (
+                  <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
+                    PDF preview unavailable.
+                  </div>
+                )}
+              </div>
+              <div className="hidden w-[2px] bg-gradient-to-b from-transparent via-white/30 to-transparent md:block" />
+              <div className="relative overflow-hidden rounded-xl border border-white/15 bg-white shadow-[-8px_0_30px_-18px_rgba(0,0,0,0.65)]">
+                {flipbookPdfUrl && !isPdfLoading ? (
+                  <canvas ref={rightCanvasRef} className="h-full min-h-[280px] w-full" />
+                ) : isPdfLoading ? (
+                  <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
+                    Loading PDF pages...
+                  </div>
+                ) : (
+                  <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
+                    PDF preview unavailable.
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/15 px-4 py-3 md:px-6">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setFlipPage((page) => Math.max(1, page - 2))}
+                  disabled={flipPage <= 1}
+                  className="rounded-lg border border-white/20 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10"
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={() => setFlipPage((page) => page + 2)}
+                  disabled={totalPdfPages ? flipPage + 1 >= totalPdfPages : false}
+                  className="rounded-lg border border-white/20 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10"
+                >
+                  Next
+                </button>
+              </div>
+              <p className="text-sm text-white/70">Showing pages {flipPage} & {Math.min(flipPage + 1, Math.max(1, totalPdfPages))}{totalPdfPages ? ` of ${totalPdfPages}` : ""}</p>
+              <a
+                href={flipbookPdfUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Open Full PDF
+              </a>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }
