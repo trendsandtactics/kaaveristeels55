@@ -111,6 +111,7 @@ export default function DynamicModulePage({
   }, [displayedItems, currentPage]);
 
   const openFlipbook = (item: DynamicItem) => {
+    if (!item.file_url) return;
     setActiveFlipbook(item);
     setFlipPage(1);
   };
@@ -119,6 +120,8 @@ export default function DynamicModulePage({
     setActiveFlipbook(null);
     setFlipPage(1);
   };
+
+  const flipbookPdfUrl = activeFlipbook?.file_url ? resolveMediaUrl(activeFlipbook.file_url, "") : "";
 
   return (
     <main className="min-h-screen pt-24 bg-gray-50">
@@ -252,7 +255,11 @@ export default function DynamicModulePage({
 
                   <div className="mt-4 flex items-center justify-between gap-2">
                     {module === "brochures" ? (
-                      <button onClick={() => openFlipbook(item)} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
+                      <button
+                        onClick={() => openFlipbook(item)}
+                        disabled={!item.file_url}
+                        className="text-sm font-semibold text-accent-red hover:text-accent-red/80 disabled:cursor-not-allowed disabled:text-black/35"
+                      >
                         Open Flipbook
                       </button>
                     ) : (
@@ -324,19 +331,31 @@ export default function DynamicModulePage({
 
             <div className="grid flex-1 gap-3 bg-[radial-gradient(circle_at_center,rgba(148,163,184,0.22),transparent_55%)] p-3 md:grid-cols-[1fr_auto_1fr] md:p-6">
               <div className="relative overflow-hidden rounded-xl border border-white/15 bg-white shadow-[8px_0_30px_-18px_rgba(0,0,0,0.65)]">
-                <iframe
-                  title={`${activeFlipbook.title} left page`}
-                  src={`${resolveMediaUrl(activeFlipbook.file_url || activeFlipbook.cover_image || "", "")}#toolbar=0&navpanes=0&scrollbar=0&page=${Math.max(1, flipPage)}`}
-                  className="h-full min-h-[280px] w-full"
-                />
+                {flipbookPdfUrl ? (
+                  <embed
+                    src={`${flipbookPdfUrl}#toolbar=0&navpanes=0&scrollbar=0&page=${Math.max(1, flipPage)}`}
+                    type="application/pdf"
+                    className="h-full min-h-[280px] w-full"
+                  />
+                ) : (
+                  <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
+                    PDF preview unavailable.
+                  </div>
+                )}
               </div>
               <div className="hidden w-[2px] bg-gradient-to-b from-transparent via-white/30 to-transparent md:block" />
               <div className="relative overflow-hidden rounded-xl border border-white/15 bg-white shadow-[-8px_0_30px_-18px_rgba(0,0,0,0.65)]">
-                <iframe
-                  title={`${activeFlipbook.title} right page`}
-                  src={`${resolveMediaUrl(activeFlipbook.file_url || activeFlipbook.cover_image || "", "")}#toolbar=0&navpanes=0&scrollbar=0&page=${Math.max(1, flipPage + 1)}`}
-                  className="h-full min-h-[280px] w-full"
-                />
+                {flipbookPdfUrl ? (
+                  <embed
+                    src={`${flipbookPdfUrl}#toolbar=0&navpanes=0&scrollbar=0&page=${Math.max(1, flipPage + 1)}`}
+                    type="application/pdf"
+                    className="h-full min-h-[280px] w-full"
+                  />
+                ) : (
+                  <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
+                    PDF preview unavailable.
+                  </div>
+                )}
               </div>
             </div>
 
@@ -357,10 +376,10 @@ export default function DynamicModulePage({
               </div>
               <p className="text-sm text-white/70">Showing pages {flipPage} & {flipPage + 1}</p>
               <a
-                href={resolveMediaUrl(activeFlipbook.file_url || activeFlipbook.cover_image || "", "")}
+                href={flipbookPdfUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-200"
+                className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 Open Full PDF
               </a>
