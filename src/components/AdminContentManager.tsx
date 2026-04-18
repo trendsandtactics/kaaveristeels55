@@ -108,6 +108,7 @@ export default function AdminContentManager() {
         richEditorRef.current.innerHTML = form.content || "";
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeModule, editingId]);
 
   const resetForm = () => {

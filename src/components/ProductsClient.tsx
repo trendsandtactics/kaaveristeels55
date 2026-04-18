@@ -19,7 +19,7 @@ export interface Product {
     shortDescription: string;
     image: string;
     isFeatured?: boolean;
-    extra_data?: string | Record<string, any> | null;
+    extra_data?: string | Record<string, unknown> | null;
     expand?: {
         category?: ProductCategory;
     };
