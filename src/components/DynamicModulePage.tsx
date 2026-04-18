@@ -296,16 +296,6 @@ export default function DynamicModulePage({
                         View Details
                       </Link>
                     )}
-                    {brochurePdfUrlForItem(item) ? (
-                      <a
-                        href={brochurePdfUrlForItem(item)}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-sm font-semibold text-black/70 hover:text-black"
-                      >
-                        Download
-                      </a>
-                    ) : null}
                   </div>
                 </div>
               </article>
