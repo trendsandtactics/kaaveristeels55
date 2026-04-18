@@ -52,21 +52,12 @@ export default function ProductsClient({ categories, products }: ProductsClientP
         if (p.category !== activeTab) return false;
         
         if (isTmtTab && activeSubTab !== "All") {
-            let subcat = "Bars"; // Default to Bars if not explicitly "Rings"
-            
+            let subcat = "";
             if (p.extra_data) {
                 try {
                     const extra = typeof p.extra_data === "string" ? JSON.parse(p.extra_data) : p.extra_data;
-                    if (extra?.subcategory) {
-                        subcat = extra.subcategory;
-                    } else if (p.title.toLowerCase().includes("ring")) {
-                        subcat = "Rings";
-                    }
-                } catch {
-                    if (p.title.toLowerCase().includes("ring")) subcat = "Rings";
-                }
-            } else {
-                if (p.title.toLowerCase().includes("ring")) subcat = "Rings";
+                    subcat = extra?.subcategory || "";
+                } catch {}
             }
             return subcat === activeSubTab;
         }

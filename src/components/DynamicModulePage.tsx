@@ -90,20 +90,28 @@ export default function DynamicModulePage({
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeCategory]);
+  }, [activeCategory, activeSubCategory]);
 
   const displayedItems = useMemo(() => {
     if (module !== "products") return items;
     return items.filter((item) => {
       let category = "";
+      let subcategory = "";
       try {
         const extra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
         category = extra?.category || "";
+        subcategory = extra?.subcategory || "";
       } catch {}
       
-      return activeCategory === "All" || category === activeCategory;
+      if (activeCategory !== "All" && category !== activeCategory) return false;
+
+      if (activeCategory === "TMT" && activeSubCategory !== "All") {
+        return subcategory === activeSubCategory;
+      }
+
+      return true;
     });
-  }, [items, module, activeCategory]);
+  }, [items, module, activeCategory, activeSubCategory]);
 
   const featured = useMemo(() => displayedItems.filter((item) => item.featured).slice(0, 3), [displayedItems]);
 
