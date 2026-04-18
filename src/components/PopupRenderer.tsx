@@ -65,7 +65,7 @@ export default function PopupRenderer() {
             className="w-full h-full max-h-[90vh] rounded-xl bg-white shadow-2xl"
           />
         ) : (
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={imageSrc}
             alt={popup.title || "Popup"}
