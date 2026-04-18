@@ -36,9 +36,16 @@ export default function MapEmbed() {
   const Icon = activeLocation.icon;
 
   return (
-    <section className="relative w-full py-12 md:py-16 px-6 md:px-12 bg-gradient-to-b from-white to-[#f8f8f8] overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+    <section
+      className="relative w-full py-12 md:py-16 px-6 md:px-12 overflow-hidden bg-cover bg-center"
+      style={{
+        backgroundImage: "url('/images/factory-bg.jpg')", // place image in public/images
+      }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-white/85 backdrop-blur-sm"></div>
 
+      <div className="relative max-w-7xl mx-auto">
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -50,7 +57,7 @@ export default function MapEmbed() {
           <h2 className="text-3xl md:text-5xl font-bold text-black">
             Our Locations
           </h2>
-          <p className="mt-3 text-base md:text-lg text-black/65">
+          <p className="mt-3 text-base md:text-lg text-black/70">
             Explore our corporate office and production facilities across Tamil Nadu.
           </p>
         </motion.div>
@@ -83,10 +90,8 @@ export default function MapEmbed() {
               transition={{ duration: 0.35 }}
               className="grid grid-cols-1 lg:grid-cols-2"
             >
-              
               {/* Left Content */}
               <div className="flex flex-col justify-center p-6 md:p-10 lg:p-12">
-                
                 <div className="inline-flex items-center gap-3 mb-4">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-700">
                     <Icon size={20} />
@@ -124,11 +129,9 @@ export default function MapEmbed() {
                 />
                 <div className="pointer-events-none absolute inset-0 ring-1 ring-black/10" />
               </div>
-
             </motion.div>
           </AnimatePresence>
         </div>
-
       </div>
     </section>
   );
