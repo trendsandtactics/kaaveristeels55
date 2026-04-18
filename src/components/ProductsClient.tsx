@@ -43,7 +43,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
 
     const initialTab = sortedCategories.length > 0 ? sortedCategories[0].id : "";
     const [activeTab, setActiveTab] = useState<string>(initialTab);
-    const [activeSubTab, setActiveSubTab] = useState<string>("All");
+    const [activeSubTab, setActiveSubTab] = useState<string>("Bars");
 
     const activeCategoryObj = sortedCategories.find(c => c.id === activeTab);
     const isTmtTab = activeCategoryObj?.name.toLowerCase().includes("tmt");
@@ -51,7 +51,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
     const filteredProducts = products.filter(p => {
         if (p.category !== activeTab) return false;
         
-        if (isTmtTab && activeSubTab !== "All") {
+        if (isTmtTab) {
             let subcat = "";
             if (p.extra_data) {
                 try {
@@ -92,7 +92,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                                 key={cat.id}
                                 onClick={() => {
                                     setActiveTab(cat.id);
-                                    setActiveSubTab("All");
+                                    setActiveSubTab("Bars");
                                 }}
                                 className={`px-6 py-3 rounded-sm font-body text-sm font-bold uppercase tracking-widest transition-all duration-300 border ${
                                     activeTab === cat.id
@@ -108,7 +108,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                     {/* Sub Tabs for TMT */}
                     {isTmtTab && (
                         <div className="flex flex-wrap justify-center gap-2 mt-6">
-                            {["All", "Bars", "Rings"].map((subcat) => (
+                            {["Bars", "Rings"].map((subcat) => (
                                 <button
                                     key={subcat}
                                     onClick={() => setActiveSubTab(subcat)}
