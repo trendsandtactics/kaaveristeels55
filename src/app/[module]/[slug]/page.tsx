@@ -49,11 +49,6 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
         <div className="relative w-full rounded-2xl border border-black/10 h-[360px] overflow-hidden"><Image src={image} alt={title} fill className="object-cover" sizes="100vw" /></div>
         <article className="mt-8 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: String(item.content ?? "") }} />
-          {item.file_url ? (
-            <a href={String(item.file_url)} target="_blank" rel="noreferrer" className="inline-flex mt-6 rounded-lg bg-black text-white px-4 py-2 text-sm font-semibold">
-              Download Attachment
-            </a>
-          ) : null}
         </article>
 
         <div className="mt-6">
