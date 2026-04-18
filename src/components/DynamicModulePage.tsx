@@ -43,6 +43,7 @@ export default function DynamicModulePage({
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>(module === "products" ? "Structural" : "All");
+  const [activeSubCategory, setActiveSubCategory] = useState<string>("All");
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFlipbook, setActiveFlipbook] = useState<DynamicItem | null>(null);
@@ -182,8 +183,8 @@ export default function DynamicModulePage({
 
       <section className="max-w-7xl mx-auto px-6 py-12">
         {module === "products" && (
-          <div className="flex justify-center mb-10">
-            <div className="inline-flex flex-wrap gap-2 bg-gray-200/60 p-1.5 rounded-xl border border-black/5">
+          <div className="flex flex-col items-center justify-center mb-10 gap-4">
+            <div className="inline-flex flex-wrap justify-center gap-2 bg-gray-200/60 p-1.5 rounded-xl border border-black/5">
               {["Structural", "TMT"].map((tab) => (
                 <button
                   key={tab}
@@ -198,6 +199,24 @@ export default function DynamicModulePage({
                 </button>
               ))}
             </div>
+            
+            {activeCategory === "TMT" && (
+              <div className="inline-flex flex-wrap justify-center gap-2 bg-gray-100 p-1 rounded-xl border border-black/5">
+                {["All", "Bars", "Rings"].map((subtab) => (
+                  <button
+                    key={subtab}
+                    onClick={() => setActiveSubCategory(subtab)}
+                    className={`px-4 py-1.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all duration-300 ${
+                      activeSubCategory === subtab
+                        ? "bg-black text-white shadow-sm"
+                        : "text-black/60 hover:text-black hover:bg-gray-200"
+                    }`}
+                  >
+                    {subtab}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

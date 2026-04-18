@@ -19,6 +19,7 @@ export interface Product {
     shortDescription: string;
     image: string;
     isFeatured?: boolean;
+    extra_data?: string | Record<string, any> | null;
     expand?: {
         category?: ProductCategory;
     };
@@ -42,8 +43,35 @@ export default function ProductsClient({ categories, products }: ProductsClientP
 
     const initialTab = sortedCategories.length > 0 ? sortedCategories[0].id : "";
     const [activeTab, setActiveTab] = useState<string>(initialTab);
+    const [activeSubTab, setActiveSubTab] = useState<string>("All");
 
-    const filteredProducts = products.filter(p => p.category === activeTab);
+    const activeCategoryObj = sortedCategories.find(c => c.id === activeTab);
+    const isTmtTab = activeCategoryObj?.name.toLowerCase().includes("tmt");
+
+    const filteredProducts = products.filter(p => {
+        if (p.category !== activeTab) return false;
+        
+        if (isTmtTab && activeSubTab !== "All") {
+            let subcat = "Bars"; // Default to Bars if not explicitly "Rings"
+            
+            if (p.extra_data) {
+                try {
+                    const extra = typeof p.extra_data === "string" ? JSON.parse(p.extra_data) : p.extra_data;
+                    if (extra?.subcategory) {
+                        subcat = extra.subcategory;
+                    } else if (p.title.toLowerCase().includes("ring")) {
+                        subcat = "Rings";
+                    }
+                } catch {
+                    if (p.title.toLowerCase().includes("ring")) subcat = "Rings";
+                }
+            } else {
+                if (p.title.toLowerCase().includes("ring")) subcat = "Rings";
+            }
+            return subcat === activeSubTab;
+        }
+        return true;
+    });
 
     const structuralTypes = [
         "Round Bars", "Square Bars", "Flats", "Angles", "C Channels", 
@@ -71,7 +99,10 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                         {sortedCategories.map((cat) => (
                             <button
                                 key={cat.id}
-                                onClick={() => setActiveTab(cat.id)}
+                                onClick={() => {
+                                    setActiveTab(cat.id);
+                                    setActiveSubTab("All");
+                                }}
                                 className={`px-6 py-3 rounded-sm font-body text-sm font-bold uppercase tracking-widest transition-all duration-300 border ${
                                     activeTab === cat.id
                                         ? "bg-accent-red text-white border-accent-red"
@@ -82,6 +113,25 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                             </button>
                         ))}
                     </div>
+
+                    {/* Sub Tabs for TMT */}
+                    {isTmtTab && (
+                        <div className="flex flex-wrap justify-center gap-2 mt-6">
+                            {["All", "Bars", "Rings"].map((subcat) => (
+                                <button
+                                    key={subcat}
+                                    onClick={() => setActiveSubTab(subcat)}
+                                    className={`px-4 py-2 rounded-sm font-body text-xs font-bold uppercase tracking-wider transition-all duration-300 border ${
+                                        activeSubTab === subcat
+                                            ? "bg-black text-white border-black"
+                                            : "bg-gray-50 text-black/60 border-black/10 hover:border-black hover:text-black"
+                                    }`}
+                                >
+                                    {subcat}
+                                </button>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 {/* 2. Dynamic Product Listing */}

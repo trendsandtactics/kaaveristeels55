@@ -289,6 +289,19 @@ export default function AdminContentManager() {
                 <option value="Structural">Structural</option>
               </select>
             </div>
+            {form.extra_data.category === "TMT" && (
+              <div className="md:col-span-2">
+                <select
+                  className="w-full border rounded-lg px-3 py-2 text-sm mt-2"
+                  value={form.extra_data.subcategory ?? ""}
+                  onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, subcategory: e.target.value } }))}
+                >
+                  <option value="" disabled>Select Subcategory (Optional)</option>
+                  <option value="Bars">Bars</option>
+                  <option value="Rings">Rings</option>
+                </select>
+              </div>
+            )}
           </>
         );
       case "blogs":
