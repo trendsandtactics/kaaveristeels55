@@ -210,7 +210,7 @@ export default function DynamicModulePage({
             
             {activeCategory === "TMT" && (
               <div className="inline-flex flex-wrap justify-center gap-2 bg-gray-100 p-1 rounded-xl border border-black/5">
-                {["All", "Bars", "Rings"].map((subtab) => (
+                {["Bars", "Rings"].map((subtab) => (
                   <button
                     key={subtab}
                     onClick={() => setActiveSubCategory(subtab)}
