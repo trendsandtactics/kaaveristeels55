@@ -39,7 +39,7 @@ export default function MapEmbed() {
     <section
       className="relative w-full py-12 md:py-16 px-6 md:px-12 overflow-hidden bg-cover bg-center"
       style={{
-        backgroundImage: "url('/images/factory-bg.jpg')", // place image in public/images
+        backgroundImage: "url('/bg5.png')", // place image in public/images
       }}
     >
       {/* Overlay */}
