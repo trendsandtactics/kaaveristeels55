@@ -42,8 +42,8 @@ export default function DynamicModulePage({
   const [items, setItems] = useState<DynamicItem[]>([]);
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string>(module === "products" ? "Structural" : "All");
-  const [activeSubCategory, setActiveSubCategory] = useState<string>("All");
+  const [activeCategory, setActiveCategory] = useState<string>(module === "products" ? "TMT" : "All");
+  const [activeSubCategory, setActiveSubCategory] = useState<string>("Bars");
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFlipbook, setActiveFlipbook] = useState<DynamicItem | null>(null);
@@ -105,7 +105,7 @@ export default function DynamicModulePage({
       
       if (activeCategory !== "All" && category !== activeCategory) return false;
 
-      if (activeCategory === "TMT" && activeSubCategory !== "All") {
+      if (activeCategory === "TMT") {
         return subcategory === activeSubCategory;
       }
 
@@ -193,10 +193,13 @@ export default function DynamicModulePage({
         {module === "products" && (
           <div className="flex flex-col items-center justify-center mb-10 gap-4">
             <div className="inline-flex flex-wrap justify-center gap-2 bg-gray-200/60 p-1.5 rounded-xl border border-black/5">
-              {["Structural", "TMT"].map((tab) => (
+              {["TMT", "Structural"].map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => setActiveCategory(tab)}
+                  onClick={() => {
+                    setActiveCategory(tab);
+                    if (tab === "TMT") setActiveSubCategory("Bars");
+                  }}
                   className={`px-6 py-2 rounded-lg text-sm font-bold tracking-wider uppercase transition-all duration-300 ${
                     activeCategory === tab
                       ? "bg-white text-accent-red shadow-md"

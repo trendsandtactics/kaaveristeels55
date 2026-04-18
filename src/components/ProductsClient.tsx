@@ -34,10 +34,10 @@ export default function ProductsClient({ categories, products }: ProductsClientP
     const sortedCategories = [...categories].sort((a, b) => {
         const aName = a.name.toLowerCase();
         const bName = b.name.toLowerCase();
-        if (aName.includes("structural") && !bName.includes("structural")) return -1;
-        if (!aName.includes("structural") && bName.includes("structural")) return 1;
         if (aName.includes("tmt") && !bName.includes("tmt")) return -1;
         if (!aName.includes("tmt") && bName.includes("tmt")) return 1;
+        if (aName.includes("structural") && !bName.includes("structural")) return -1;
+        if (!aName.includes("structural") && bName.includes("structural")) return 1;
         return 0;
     });
 
