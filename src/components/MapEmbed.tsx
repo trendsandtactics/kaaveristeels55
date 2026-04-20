@@ -36,7 +36,20 @@ export default function MapEmbed() {
   const Icon = activeLocation.icon;
 
   return (
-    <section className="relative w-full py-12 md:py-16 px-6 md:px-12 bg-gradient-to-b from-white to-[#f8f8f8] overflow-hidden">
+    <section className="relative w-full py-12 md:py-16 px-6 md:px-12 overflow-hidden">
+
+      {/* Background Image */}
+      <div className="absolute inset-0 -z-10">
+        <img
+          src="/map.jpg"
+          alt="background"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Optional overlay for readability */}
+      <div className="absolute inset-0 -z-10 bg-white/80" />
+
       <div className="max-w-7xl mx-auto">
 
         {/* Heading */}
@@ -50,7 +63,7 @@ export default function MapEmbed() {
           <h2 className="text-3xl md:text-5xl font-bold text-black">
             Our Locations
           </h2>
-          <p className="mt-3 text-base md:text-lg text-black/65">
+          <p className="mt-3 text-base md:text-lg text-black/70">
             Explore our corporate office and production facilities across Tamil Nadu.
           </p>
         </motion.div>
@@ -73,7 +86,7 @@ export default function MapEmbed() {
         </div>
 
         {/* Content */}
-        <div className="relative overflow-hidden rounded-[24px] border border-black/10 bg-white shadow-[0_15px_40px_rgba(0,0,0,0.06)]">
+        <div className="relative overflow-hidden rounded-[24px] border border-black/10 bg-white/95 backdrop-blur shadow-[0_15px_40px_rgba(0,0,0,0.06)]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -116,7 +129,7 @@ export default function MapEmbed() {
               </div>
 
               {/* Map */}
-              <div className="relative min-h-[280px] md:min-h-[360px] bg-[#f3f3f3]">
+              <div className="relative min-h-[280px] md:min-h-[360px]">
                 <iframe
                   src={activeLocation.map}
                   className="absolute inset-0 w-full h-full border-0"
