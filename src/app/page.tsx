@@ -4,6 +4,7 @@ import GreenSteel from "@/components/GreenSteel";
 import HomeProducts from "@/components/HomeProducts";
 import SteelCalculator from "@/components/Calculators/SteelCalculator";
 import MapEmbed from "@/components/MapEmbed";
+import TrustOnsite from "@/components/trustonsite";
 
 export default function Home() {
   return (
@@ -44,6 +45,7 @@ export default function Home() {
         </div>
 
       </section>
+      <TrustOnsite />
 
       {/* Map Section (moved here before footer) */}
       <MapEmbed />
