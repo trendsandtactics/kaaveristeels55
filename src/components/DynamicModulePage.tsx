@@ -261,7 +261,7 @@ export default function DynamicModulePage({
                       <p className="text-[10px] uppercase tracking-[0.18em] text-black/50 font-semibold">
                         Featured
                       </p>
-                      <h3 className="font-heading text-2xl mt-2 text-black">{item.title}</h3>
+                      <h3 className="font-['Open_Sans'] text-2xl mt-2 text-black">{item.title}</h3>
                       <p className="text-sm text-black/65 mt-2 line-clamp-3">
                         {item.short_description}
                       </p>
@@ -305,7 +305,7 @@ export default function DynamicModulePage({
                 </div>
 
                 <div className="p-5">
-                  <h3 className="font-heading text-2xl text-black group-hover:text-accent-red transition-colors">
+                  <h3 className="font-['Open_Sans'] text-2xl text-black group-hover:text-accent-red transition-colors">
                     {item.title}
                   </h3>
                   <p className="text-sm text-black/65 mt-2 line-clamp-3">
