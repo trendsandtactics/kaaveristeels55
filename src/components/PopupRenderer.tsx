@@ -69,7 +69,7 @@ export default function PopupRenderer() {
           <img
             src={imageSrc}
             alt={popup.title || "Popup"}
-            className="max-w-full max-h-full object-contain rounded-xl shadow-2xl"
+            className="max-w-[90vw] max-h-[90vh] object-contain rounded-xl shadow-2xl"
           />
         )}
       </div>

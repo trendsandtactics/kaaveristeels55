@@ -419,7 +419,7 @@ export default function AdminCertificationsPanel() {
                       <img
                         src={fileUrl}
                         alt={item.title}
-                        className="max-h-56 w-full rounded-lg border border-slate-200 object-cover"
+                        className="max-h-56 w-full rounded-lg border border-slate-200 object-contain bg-slate-50"
                       />
                     </div>
                   ) : null}

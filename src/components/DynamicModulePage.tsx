@@ -249,7 +249,7 @@ export default function DynamicModulePage({
                       <img
                         src={imageSrc}
                         alt={item.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-contain bg-white transition-transform duration-500 group-hover:scale-105"
                         onError={(e) => {
                           e.currentTarget.style.display = "none";
                         }}
@@ -292,7 +292,7 @@ export default function DynamicModulePage({
                   <img
                     src={imageSrc}
                     alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-contain bg-white transition-transform duration-500 group-hover:scale-105"
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
                     }}

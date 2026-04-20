@@ -153,7 +153,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                                                     src={product.image}
                                                     alt={product.title}
                                                     fill
-                                                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                                                    className="object-contain bg-white object-center group-hover:scale-105 transition-transform duration-700"
                                                 />
                                             ) : (
                                                 <div className="absolute inset-0 flex items-center justify-center">
