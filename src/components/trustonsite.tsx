@@ -34,20 +34,23 @@ export default function MapEmbed() {
           transparency, and engineering excellence.
         </p>
 
-        {/* 🚚 VEHICLE HERO */}
-        <div className="relative flex justify-center mb-12">
-          <Image
-            src="/vehicle.png"
-            alt="vehicle"
-            width={1024}
-            height={500}
-            priority
-            className="w-full max-w-5xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
-          />
+        {/* 🚚 VEHICLE HERO (FULL IMAGE VISIBLE FIXED) */}
+        <div className="relative w-full flex justify-center mb-12">
+          <div className="relative w-full h-[280px] sm:h-[360px] md:h-[460px] lg:h-[520px]">
+
+            <Image
+              src="/vehicle.png"
+              alt="vehicle"
+              fill
+              priority
+              className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.3)]"
+            />
+
+          </div>
         </div>
 
         {/* CTA */}
-        <div className="flex justify-center mt-10">
+        <div className="flex justify-center mt-6 md:mt-10">
           <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 md:py-4 text-sm md:text-base font-semibold tracking-wide rounded-lg shadow-md hover:shadow-lg transition duration-300">
             Book an Appointment
           </button>
