@@ -46,7 +46,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
       </section>
 
       <section className="max-w-5xl mx-auto px-6 py-10">
-        <div className="relative w-full rounded-2xl border border-black/10 h-[360px] overflow-hidden"><Image src={image} alt={title} fill className="object-cover" sizes="100vw" /></div>
+        <div className="relative w-full rounded-2xl border border-black/10 h-[360px] overflow-hidden bg-gray-100"><Image src={image} alt={title} fill className="object-contain" sizes="100vw" /></div>
         <article className="mt-8 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: String(item.content ?? "") }} />
         </article>
