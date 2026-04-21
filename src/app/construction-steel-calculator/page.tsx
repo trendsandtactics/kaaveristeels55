@@ -72,15 +72,7 @@ export default function SteelCalculator() {
 
         <div className="w-full max-w-7xl mx-auto px-4 md:px-10 grid md:grid-cols-2 gap-10 items-center">
 
-          {/* LEFT CONTENT */}
-          <div className="text-white hidden md:block">
-            <h1 className="text-5xl font-bold leading-tight">
-              Build Strong <br /> With Precision Steel
-            </h1>
-            <p className="mt-4 text-lg opacity-90 max-w-md">
-              Accurate steel estimation for smarter construction planning and cost control.
-            </p>
-          </div>
+
 
           {/* RIGHT CALCULATOR */}
           <motion.div
