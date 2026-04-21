@@ -25,13 +25,34 @@ export default function SteelCalculator() {
     return true;
   };
 
+  const saveEnquiry = async (message: string) => {
+    try {
+      await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          phone,
+          enquiry_type: "calculator",
+          message,
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to save enquiry", err);
+    }
+  };
+
   const calculateConstruction = () => {
     if (!validateLead()) return;
     let multiplier = 4;
     if (structureType === "commercial") multiplier = 5;
     if (structureType === "infrastructure") multiplier = 6;
     const totalArea = Number(area) * Number(floors);
-    if (totalArea > 0) setEstimatedSteel(totalArea * multiplier);
+    if (totalArea > 0) {
+      const steel = totalArea * multiplier;
+      setEstimatedSteel(steel);
+      saveEnquiry(`Construction Calculator Details:\n- Structure Type: ${structureType}\n- Area: ${area} sqft\n- Floors: ${floors}\n- Total Area: ${totalArea} sqft\n- Estimated Steel: ${steel} kg`);
+    }
   };
 
   const calculateWeight = () => {
@@ -54,7 +75,9 @@ export default function SteelCalculator() {
         case 20: barsPerBundle = 2; break;
         default: barsPerBundle = 1;
       }
-      setBundleCount(Math.ceil(q / barsPerBundle));
+      const bundles = Math.ceil(q / barsPerBundle);
+      setBundleCount(bundles);
+      saveEnquiry(`Weight Calculator Details:\n- Diameter: ${d} mm\n- Length: ${l} m\n- Quantity: ${q} pieces\n- Estimated Weight: ${totalWeight.toFixed(2)} kg\n- Estimated Bundles: ${bundles}`);
     }
   };
 

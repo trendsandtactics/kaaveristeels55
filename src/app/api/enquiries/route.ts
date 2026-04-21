@@ -12,13 +12,13 @@ export async function POST(request: NextRequest) {
   try {
     await ensureDynamicCmsTables();
     const body = await request.json();
-    if (!body.name || !body.email || !body.enquiry_type) {
-      return NextResponse.json({ error: "name, email, and enquiry_type are required." }, { status: 400 });
+    if (!body.name || (!body.email && !body.phone) || !body.enquiry_type) {
+      return NextResponse.json({ error: "name, enquiry_type, and either email or phone are required." }, { status: 400 });
     }
 
     await getPool().query(
       "INSERT INTO enquiries (name, email, phone, enquiry_type, product_name, message) VALUES (?, ?, ?, ?, ?, ?)",
-      [body.name, body.email, body.phone ?? null, body.enquiry_type, body.product_name ?? null, body.message ?? null],
+      [body.name, body.email ?? null, body.phone ?? null, body.enquiry_type, body.product_name ?? null, body.message ?? null],
     );
 
     return NextResponse.json({ ok: true }, { status: 201 });
