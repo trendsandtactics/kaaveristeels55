@@ -15,7 +15,7 @@ export default function SteelCalculatorHero() {
 
       {/* BACKGROUND IMAGE */}
       <img
-        src="/steel.png"
+        src="/steel3.png"
         alt="steel"
         className="absolute inset-0 w-full h-full object-cover"
       />
