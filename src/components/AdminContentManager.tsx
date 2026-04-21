@@ -67,6 +67,7 @@ export default function AdminContentManager() {
   const [form, setForm] = useState<FormState>(initialForm());
   const [editingId, setEditingId] = useState<number | null>(null);
   const [productCategoryTab, setProductCategoryTab] = useState<"All" | "TMT" | "Structural">("All");
+  const [viewingItem, setViewingItem] = useState<Item | null>(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const richEditorRef = useRef<HTMLDivElement | null>(null);
@@ -382,6 +383,38 @@ export default function AdminContentManager() {
     }
   };
 
+  const renderViewingModal = () => {
+    if (!viewingItem) return null;
+
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm" onClick={() => setViewingItem(null)}>
+        <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div className="mb-4 flex items-start justify-between">
+            <div>
+              <h3 className="font-heading text-2xl text-slate-900">Enquiry Details</h3>
+              <p className="text-sm text-slate-500">
+                Received on {viewingItem.created_at ? new Date(String(viewingItem.created_at)).toLocaleString() : "N/A"}
+              </p>
+            </div>
+            <button onClick={() => setViewingItem(null)} className="text-slate-500 hover:text-slate-800">&times;</button>
+          </div>
+
+          <div className="space-y-3 border-t border-slate-200 pt-4 text-sm">
+            <p><strong>ID:</strong> {viewingItem.id}</p>
+            <p><strong>Name:</strong> {String(viewingItem.name ?? "N/A")}</p>
+            <p><strong>Email:</strong> {String(viewingItem.email && String(viewingItem.email) !== 'no-email@provided.com' ? viewingItem.email : "N/A")}</p>
+            <p><strong>Phone:</strong> {String(viewingItem.phone ?? "N/A")}</p>
+            <p><strong>Type:</strong> <span className="font-semibold uppercase">{String(viewingItem.enquiry_type ?? "N/A")}</span></p>
+            {viewingItem.product_name && <p><strong>Product:</strong> {String(viewingItem.product_name)}</p>}
+            <p className="font-semibold">Message:</p>
+            <div className="max-h-60 overflow-y-auto whitespace-pre-wrap rounded-lg border bg-slate-50 p-3 text-slate-800">{String(viewingItem.message ?? "No message provided.")}</div>
+          </div>
+          <button onClick={() => setViewingItem(null)} className="mt-6 rounded-lg bg-slate-800 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700">Close</button>
+        </div>
+      </div>
+    );
+  };
+
   const renderListPanel = () => (
     <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-lg shadow-slate-200/60">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -423,7 +456,7 @@ export default function AdminContentManager() {
               <th className="px-3 py-2 pr-3">{activeDef.kind === 'support' ? 'Contact Details' : 'Title / Name'}</th>
               <th className="px-3 py-2 pr-3">{activeDef.kind === 'support' ? 'Type / Subject' : 'Status'}</th>
               <th className="px-3 py-2 pr-3">{activeDef.kind === 'support' ? 'Message' : 'Updated'}</th>
-              <th className="px-3 py-2">{activeDef.kind === 'support' ? 'Date' : 'Actions'}</th>
+              <th className="px-3 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -469,7 +502,7 @@ export default function AdminContentManager() {
                       <button onClick={() => deleteRow(row.id)} className="font-semibold text-red-700 hover:underline">Delete</button>
                     </div>
                   ) : (
-                    <span className="text-xs text-slate-500 whitespace-nowrap">{row.created_at ? new Date(String(row.created_at)).toLocaleString() : "-"}</span>
+                    <button onClick={() => setViewingItem(row)} className="font-semibold text-blue-700 hover:underline">View</button>
                   )}
                 </td>
               </tr>
@@ -508,6 +541,8 @@ export default function AdminContentManager() {
 
       <section className="lg:col-span-9 space-y-6">
         {activeDef.kind === "certifications" ? <AdminCertificationsPanel /> : null}
+
+        {renderViewingModal()}
 
         {activeDef.kind === "content" ? (
           <div className="grid gap-6 xl:grid-cols-2">
