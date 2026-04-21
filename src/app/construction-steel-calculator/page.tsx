@@ -36,20 +36,19 @@ export default function SteelCalculator() {
   return (
     <section className="relative w-full h-screen overflow-hidden">
 
-      {/* BACKGROUND IMAGE */}
+      {/* BACKGROUND */}
       <img
         src="/steel.png"
         alt="steel"
         className="absolute inset-0 w-full h-full object-cover"
       />
 
-      {/* OVERLAY CONTENT */}
-      <div className="relative z-10 w-full h-full flex items-center justify-end px-6 md:px-16">
+      {/* CENTERED CONTENT */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center px-6">
 
-        {/* RIGHT SIDE CALCULATOR */}
         <motion.div
-          initial={{ opacity: 0, x: 80 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
           className="w-full max-w-md"
         >
           <div className="rounded-3xl bg-white shadow-2xl overflow-hidden">
@@ -63,7 +62,6 @@ export default function SteelCalculator() {
             {/* BODY */}
             <div className="p-5 space-y-4">
 
-              {/* INPUTS */}
               <div className="grid grid-cols-2 gap-3">
                 <input
                   placeholder="Name"
@@ -79,11 +77,10 @@ export default function SteelCalculator() {
                 />
               </div>
 
-              {/* TABS */}
               <div className="grid grid-cols-2 bg-gray-200 rounded-xl p-1">
                 <button
                   onClick={() => setActiveTab("construction")}
-                  className={`py-2 rounded-lg font-medium ${
+                  className={`py-2 rounded-lg ${
                     activeTab === "construction" ? "bg-white" : ""
                   }`}
                 >
@@ -91,7 +88,7 @@ export default function SteelCalculator() {
                 </button>
                 <button
                   onClick={() => setActiveTab("weight")}
-                  className={`py-2 rounded-lg font-medium ${
+                  className={`py-2 rounded-lg ${
                     activeTab === "weight" ? "bg-white" : ""
                   }`}
                 >
@@ -100,11 +97,8 @@ export default function SteelCalculator() {
               </div>
 
               <AnimatePresence mode="wait">
-
-                {/* CONSTRUCTION */}
                 {activeTab === "construction" && (
                   <motion.div key="c" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-
                     <div className="grid grid-cols-3 gap-3">
                       <select
                         value={structureType}
@@ -143,10 +137,8 @@ export default function SteelCalculator() {
                         <p className="text-2xl font-bold">{estimatedSteel} kg</p>
                       </div>
                     )}
-
                   </motion.div>
                 )}
-
               </AnimatePresence>
 
             </div>
