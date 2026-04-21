@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { ensureDynamicCmsTables } from "@/lib/dynamic-cms";
 import { getPool } from "@/lib/mysql";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   await ensureDynamicCmsTables();
   const [rows] = await getPool().query("SELECT * FROM enquiries ORDER BY created_at DESC LIMIT 500");
