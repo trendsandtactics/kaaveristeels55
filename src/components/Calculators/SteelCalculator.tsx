@@ -2,23 +2,24 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function SteelCalculator() {
-  const [activeTab, setActiveTab] = useState("construction");
+  const [activeTab, setActiveTab] = useState<"construction" | "weight">("construction");
 
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [name, setName] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
 
-  const [structureType, setStructureType] = useState("residential");
-  const [area, setArea] = useState("");
-  const [floors, setFloors] = useState("1");
-  const [estimatedSteel, setEstimatedSteel] = useState(null);
+  const [structureType, setStructureType] = useState<string>("residential");
+  const [area, setArea] = useState<string>("");
+  const [floors, setFloors] = useState<string>("1");
+  const [estimatedSteel, setEstimatedSteel] = useState<number | null>(null);
 
-  const [diameter, setDiameter] = useState("8");
-  const [length, setLength] = useState("12");
-  const [quantity, setQuantity] = useState("");
-  const [estimatedWeight, setEstimatedWeight] = useState(null);
-  const [bundleCount, setBundleCount] = useState(null);
+  const [diameter, setDiameter] = useState<string>("8");
+  const [length, setLength] = useState<string>("12");
+  const [quantity, setQuantity] = useState<string>("");
+  const [estimatedWeight, setEstimatedWeight] = useState<number | null>(null);
+  const [bundleCount, setBundleCount] = useState<number | null>(null);
 
   const validateLead = () => {
     if (!name || !phone) {
@@ -36,7 +37,9 @@ export default function SteelCalculator() {
     if (structureType === "infrastructure") multiplier = 6;
 
     const totalArea = Number(area) * Number(floors);
-    if (totalArea > 0) setEstimatedSteel(totalArea * multiplier);
+    if (totalArea > 0) {
+      setEstimatedSteel(totalArea * multiplier);
+    }
   };
 
   const calculateWeight = () => {
@@ -62,6 +65,7 @@ export default function SteelCalculator() {
         case 25: barsPerBundle = 1; break;
         case 32: barsPerBundle = 1; break;
       }
+
       setBundleCount(Math.ceil(q / barsPerBundle));
     }
   };
@@ -69,20 +73,22 @@ export default function SteelCalculator() {
   return (
     <section className="relative w-full min-h-screen overflow-hidden">
 
-      {/* BACKGROUND */}
-      <img
+      {/* BACKGROUND IMAGE */}
+      <Image
         src="/steel.png"
         alt="steel"
-        className="absolute inset-0 w-full h-full object-cover scale-110"
+        fill
+        priority
+        className="object-cover scale-110"
       />
 
-      {/* DARK OVERLAY (reduces empty look) */}
+      {/* OVERLAY */}
       <div className="absolute inset-0 bg-black/30" />
 
-      {/* MAIN CONTENT */}
+      {/* MAIN GRID */}
       <div className="relative z-10 min-h-screen grid grid-cols-1 md:grid-cols-2 items-center px-4 md:px-12 gap-6">
 
-        {/* LEFT SIDE CONTENT (fills empty space) */}
+        {/* LEFT CONTENT */}
         <div className="hidden md:flex flex-col text-white max-w-xl">
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
             Strong Foundation.
@@ -94,7 +100,7 @@ export default function SteelCalculator() {
           </p>
         </div>
 
-        {/* RIGHT SIDE CALCULATOR */}
+        {/* RIGHT CALCULATOR */}
         <motion.div
           initial={{ opacity: 0, x: 80 }}
           animate={{ opacity: 1, x: 0 }}
@@ -137,7 +143,6 @@ export default function SteelCalculator() {
                 >
                   Construction
                 </button>
-
                 <button
                   onClick={() => setActiveTab("weight")}
                   className={`py-2 rounded-lg ${
@@ -186,7 +191,7 @@ export default function SteelCalculator() {
                       Calculate Steel
                     </button>
 
-                    {estimatedSteel && (
+                    {estimatedSteel !== null && (
                       <div className="mt-4 text-center bg-green-50 p-4 rounded-xl">
                         <p className="text-2xl font-bold">{estimatedSteel} kg</p>
                       </div>
@@ -197,7 +202,6 @@ export default function SteelCalculator() {
                 {/* WEIGHT */}
                 {activeTab === "weight" && (
                   <motion.div key="w" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       <select
                         value={diameter}
@@ -232,7 +236,7 @@ export default function SteelCalculator() {
                       </button>
                     </div>
 
-                    {estimatedWeight && (
+                    {estimatedWeight !== null && (
                       <div className="grid grid-cols-2 gap-3 mt-4 text-center">
                         <div className="bg-blue-50 p-4 rounded-xl">
                           <p className="text-sm text-gray-500">Total Weight</p>
@@ -240,6 +244,7 @@ export default function SteelCalculator() {
                             {estimatedWeight.toFixed(2)} kg
                           </p>
                         </div>
+
                         <div className="bg-purple-50 p-4 rounded-xl">
                           <p className="text-sm text-gray-500">Bundles</p>
                           <p className="font-bold text-xl text-purple-700">
