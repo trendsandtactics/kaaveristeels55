@@ -62,25 +62,26 @@ export default function SteelCalculator() {
   };
 
   return (
-    <section className="relative w-full min-h-[100dvh] flex items-center overflow-hidden bg-gray-900">
-      {/* BACKGROUND IMAGE - Optimized with an overlay for better readability */}
+    <section className="relative w-full py-10 md:py-16 flex items-center overflow-hidden bg-gray-900">
+      
+      {/* BACKGROUND */}
       <div className="absolute inset-0 z-0">
         <img
           src="/steel.png"
           alt="Steel background"
-          className="w-full h-full object-cover object-center md:object-left"
+          className="w-full h-full object-cover object-left"
         />
         <div className="absolute inset-0 bg-black/20 md:bg-transparent" />
       </div>
 
-      {/* CONTENT WRAPPER */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex justify-center md:justify-end">
+      {/* CONTENT */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex justify-center md:justify-end">
         
-        {/* CALCULATOR CARD */}
+        {/* CARD */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-md lg:max-w-lg" // Controlled width to prevent stretching
+          className="w-full max-w-sm md:max-w-md"
         >
           <div className="rounded-3xl bg-white/95 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20">
             
@@ -90,40 +91,44 @@ export default function SteelCalculator() {
               <p className="text-sm font-medium opacity-90">Fast & Accurate Estimation</p>
             </div>
 
-            {/* FORM BODY */}
-            <div className="p-6 md:p-8 space-y-5">
+            {/* BODY */}
+            <div className="p-6 space-y-5">
               
-              {/* Lead Gen Inputs */}
+              {/* NAME + PHONE */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input
                   placeholder="Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                  className="p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 outline-none"
                 />
                 <input
                   placeholder="Phone"
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                  className="p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 outline-none"
                 />
               </div>
 
-              {/* Tab Switcher */}
-              <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1.5 p-1">
+              {/* TABS */}
+              <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1">
                 <button
                   onClick={() => setActiveTab("construction")}
-                  className={`py-2.5 rounded-lg text-sm font-semibold transition-all ${
-                    activeTab === "construction" ? "bg-white shadow-sm text-orange-600" : "text-gray-500"
+                  className={`py-2.5 rounded-lg text-sm font-semibold ${
+                    activeTab === "construction"
+                      ? "bg-white shadow-sm text-orange-600"
+                      : "text-gray-500"
                   }`}
                 >
                   Construction
                 </button>
                 <button
                   onClick={() => setActiveTab("weight")}
-                  className={`py-2.5 rounded-lg text-sm font-semibold transition-all ${
-                    activeTab === "weight" ? "bg-white shadow-sm text-orange-600" : "text-gray-500"
+                  className={`py-2.5 rounded-lg text-sm font-semibold ${
+                    activeTab === "weight"
+                      ? "bg-white shadow-sm text-orange-600"
+                      : "text-gray-500"
                   }`}
                 >
                   Weight
@@ -132,23 +137,19 @@ export default function SteelCalculator() {
 
               <AnimatePresence mode="wait">
                 {activeTab === "construction" ? (
-                  <motion.div 
-                    key="c" 
-                    initial={{ opacity: 0, x: -10 }} 
-                    animate={{ opacity: 1, x: 0 }} 
-                    exit={{ opacity: 0, x: 10 }}
-                    className="space-y-4"
-                  >
+                  <motion.div key="c" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
+                    
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <select
                         value={structureType}
                         onChange={(e) => setStructureType(e.target.value)}
-                        className="p-3 border border-gray-200 rounded-xl bg-white text-sm"
+                        className="p-3 border border-gray-200 rounded-xl text-sm"
                       >
                         <option value="residential">Residential</option>
                         <option value="commercial">Commercial</option>
                         <option value="infrastructure">Infrastructure</option>
                       </select>
+
                       <input
                         placeholder="Area (sqft)"
                         type="number"
@@ -156,6 +157,7 @@ export default function SteelCalculator() {
                         onChange={(e) => setArea(e.target.value)}
                         className="p-3 border border-gray-200 rounded-xl text-sm"
                       />
+
                       <input
                         placeholder="Floors"
                         type="number"
@@ -164,87 +166,64 @@ export default function SteelCalculator() {
                         className="p-3 border border-gray-200 rounded-xl text-sm"
                       />
                     </div>
+
                     <button
                       onClick={calculateConstruction}
-                      className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl shadow-lg transition-transform active:scale-[0.98]"
+                      className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl"
                     >
                       Calculate Steel
                     </button>
+
                     {estimatedSteel && (
                       <div className="bg-orange-50 border border-orange-100 p-4 rounded-xl text-center">
-                        <span className="block text-xs uppercase text-orange-600 font-bold mb-1">Estimated Requirement</span>
-                        <p className="text-3xl font-black text-orange-700">{estimatedSteel.toLocaleString()} kg</p>
+                        <span className="text-xs text-orange-600 font-bold">Estimated</span>
+                        <p className="text-2xl font-bold text-orange-700">
+                          {estimatedSteel.toLocaleString()} kg
+                        </p>
                       </div>
                     )}
                   </motion.div>
                 ) : (
-                  <motion.div 
-                    key="w" 
-                    initial={{ opacity: 0, x: 10 }} 
-                    animate={{ opacity: 1, x: 0 }} 
-                    exit={{ opacity: 0, x: -10 }}
-                    className="space-y-4"
-                  >
+                  <motion.div key="w" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
+                    
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase ml-1">Diameter</label>
-                        <select
-                          value={diameter}
-                          onChange={(e) => setDiameter(e.target.value)}
-                          className="p-3 border border-gray-200 rounded-xl bg-white text-sm"
-                        >
-                          {[8, 10, 12, 16, 20, 25, 32].map((d) => (
-                            <option key={d} value={d}>{d} mm</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase ml-1">Length (m)</label>
-                        <input
-                          type="number"
-                          value={length}
-                          onChange={(e) => setLength(e.target.value)}
-                          className="p-3 border border-gray-200 rounded-xl text-sm"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-1 col-span-2 sm:col-span-1">
-                        <label className="text-[10px] font-bold text-gray-400 uppercase ml-1">Quantity (Pcs)</label>
-                        <input
-                          type="number"
-                          placeholder="e.g. 50"
-                          value={quantity}
-                          onChange={(e) => setQuantity(e.target.value)}
-                          className="p-3 border border-gray-200 rounded-xl text-sm"
-                        />
-                      </div>
-                      <div className="flex items-end col-span-2 sm:col-span-1">
-                        <button
-                          onClick={calculateWeight}
-                          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl shadow-md transition-all active:scale-[0.98]"
-                        >
-                          Calculate
-                        </button>
-                      </div>
+                      <select
+                        value={diameter}
+                        onChange={(e) => setDiameter(e.target.value)}
+                        className="p-3 border border-gray-200 rounded-xl text-sm"
+                      >
+                        {[8, 10, 12, 16, 20, 25, 32].map((d) => (
+                          <option key={d} value={d}>{d} mm</option>
+                        ))}
+                      </select>
+
+                      <input
+                        type="number"
+                        value={length}
+                        onChange={(e) => setLength(e.target.value)}
+                        className="p-3 border border-gray-200 rounded-xl text-sm"
+                      />
+
+                      <input
+                        type="number"
+                        placeholder="Quantity"
+                        value={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
+                        className="p-3 border border-gray-200 rounded-xl text-sm"
+                      />
+
+                      <button
+                        onClick={calculateWeight}
+                        className="bg-orange-500 text-white font-bold rounded-xl"
+                      >
+                        Calculate
+                      </button>
                     </div>
 
                     {estimatedWeight && (
-                      <div className="space-y-3">
-                        <div className="grid grid-cols-2 gap-3">
-                          <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl text-center">
-                            <span className="text-[10px] font-bold text-blue-600 uppercase block mb-1">Total Weight</span>
-                            <span className="font-black text-blue-800 text-xl">{estimatedWeight.toFixed(2)} kg</span>
-                          </div>
-                          <div className="bg-purple-50 border border-purple-100 p-4 rounded-2xl text-center">
-                            <span className="text-[10px] font-bold text-purple-600 uppercase block mb-1">Est. Bundles</span>
-                            <span className="font-black text-purple-800 text-xl">{bundleCount}</span>
-                          </div>
-                        </div>
-                        <div className="bg-gray-50 border border-gray-100 p-3 rounded-xl text-[11px] text-gray-500 leading-relaxed">
-                          <p><strong>Note:</strong> Standard bundle size for {diameter}mm TMT is {
-                            diameter === "8" ? "10" : diameter === "10" ? "7" : diameter === "12" ? "5" : diameter === "16" ? "3" : diameter === "20" ? "2" : "1"
-                          } pieces.</p>
-                          <p className="mt-1">Approximate weight per piece ({length}m): <strong>{(((Number(diameter) * Number(diameter)) / 162) * Number(length)).toFixed(2)} kg</strong>.</p>
-                        </div>
+                      <div className="bg-gray-50 p-4 rounded-xl text-center">
+                        <p className="font-bold">{estimatedWeight.toFixed(2)} kg</p>
+                        <p className="text-sm text-gray-500">{bundleCount} bundles</p>
                       </div>
                     )}
                   </motion.div>
