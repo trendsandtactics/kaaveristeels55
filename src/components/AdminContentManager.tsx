@@ -420,10 +420,10 @@ export default function AdminContentManager() {
         <table className="min-w-full text-sm">
           <thead className="sticky top-0 z-10">
             <tr className="border-b bg-slate-50 text-left text-slate-600">
-              <th className="px-3 py-2 pr-3">Title / Name</th>
-              <th className="px-3 py-2 pr-3">Status</th>
-              <th className="px-3 py-2 pr-3">Updated</th>
-              <th className="px-3 py-2">Actions</th>
+              <th className="px-3 py-2 pr-3">{activeDef.kind === 'support' ? 'Contact Details' : 'Title / Name'}</th>
+              <th className="px-3 py-2 pr-3">{activeDef.kind === 'support' ? 'Type / Subject' : 'Status'}</th>
+              <th className="px-3 py-2 pr-3">{activeDef.kind === 'support' ? 'Message' : 'Updated'}</th>
+              <th className="px-3 py-2">{activeDef.kind === 'support' ? 'Date' : 'Actions'}</th>
             </tr>
           </thead>
           <tbody>
@@ -431,18 +431,36 @@ export default function AdminContentManager() {
               <tr key={row.id} className="border-b last:border-b-0 odd:bg-white even:bg-slate-50/50">
                 <td className="px-3 py-3 pr-3">
                   {activeDef.kind === "content" ? (
-                    <Link href={`/admin/modules/${activeModule}/${row.id}`} className="font-semibold text-slate-900 hover:underline">
-                      {String(row.title ?? row.name ?? `#${row.id}`)}
-                    </Link>
+                    <>
+                      <Link href={`/admin/modules/${activeModule}/${row.id}`} className="font-semibold text-slate-900 hover:underline">
+                        {String(row.title ?? row.name ?? `#${row.id}`)}
+                      </Link>
+                      {row.slug ? <div className="text-xs text-slate-500">/{String(row.slug)}</div> : null}
+                    </>
                   ) : (
-                    <div className="font-semibold text-slate-900">{String(row.title ?? row.name ?? `#${row.id}`)}</div>
+                    <div className="min-w-[120px]">
+                      <div className="font-semibold text-slate-900">{String(row.name ?? `#${row.id}`)}</div>
+                      {row.email && row.email !== "no-email@provided.com" ? <div className="text-xs text-slate-500">{String(row.email)}</div> : null}
+                      {row.phone ? <div className="text-xs text-slate-600 font-medium">{String(row.phone)}</div> : null}
+                    </div>
                   )}
-                  {row.slug ? <div className="text-xs text-slate-500">/{String(row.slug)}</div> : null}
                 </td>
                 <td className="px-3 py-3 pr-3">
-                  <span className="inline-flex rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold capitalize text-slate-700">{String(row.status ?? "-")}</span>
+                  {activeDef.kind === "content" ? (
+                    <span className="inline-flex rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold capitalize text-slate-700">{String(row.status ?? "-")}</span>
+                  ) : (
+                    <span className="inline-flex rounded-full bg-blue-100 text-blue-700 px-2.5 py-1 text-xs font-bold uppercase tracking-wider">{String(row.enquiry_type ?? row.subject ?? "enquiry")}</span>
+                  )}
                 </td>
-                <td className="px-3 py-3 pr-3 text-slate-600">{row.updated_at ? new Date(String(row.updated_at)).toLocaleDateString() : "-"}</td>
+                <td className="px-3 py-3 pr-3 text-slate-600">
+                  {activeDef.kind === "content" ? (
+                    row.updated_at ? new Date(String(row.updated_at)).toLocaleDateString() : "-"
+                  ) : (
+                    <div className="text-xs max-h-32 overflow-y-auto whitespace-pre-wrap min-w-[200px] max-w-[400px] border border-gray-100 p-2 rounded-lg bg-slate-50 text-slate-700">
+                      {String(row.message ?? row.notes ?? "No message provided")}
+                    </div>
+                  )}
+                </td>
                 <td className="px-3 py-3">
                   {activeDef.kind === "content" ? (
                     <div className="space-x-3">
@@ -451,7 +469,7 @@ export default function AdminContentManager() {
                       <button onClick={() => deleteRow(row.id)} className="font-semibold text-red-700 hover:underline">Delete</button>
                     </div>
                   ) : (
-                    <span className="text-xs text-slate-500">Read only</span>
+                    <span className="text-xs text-slate-500 whitespace-nowrap">{row.created_at ? new Date(String(row.created_at)).toLocaleString() : "-"}</span>
                   )}
                 </td>
               </tr>

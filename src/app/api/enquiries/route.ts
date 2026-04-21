@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
     await getPool().query(
       "INSERT INTO enquiries (name, email, phone, enquiry_type, product_name, message) VALUES (?, ?, ?, ?, ?, ?)",
-      [body.name, body.email ?? null, body.phone ?? null, body.enquiry_type, body.product_name ?? null, body.message ?? null],
+      [body.name, body.email || "no-email@provided.com", body.phone || "", body.enquiry_type, body.product_name || "", body.message || ""],
     );
 
     return NextResponse.json({ ok: true }, { status: 201 });
