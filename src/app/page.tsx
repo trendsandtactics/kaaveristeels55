@@ -37,10 +37,6 @@ export default function Home() {
 
         {/* Interactive Modules */}
         <div className="w-full max-w-6xl mx-auto z-10">
-          <div className="mb-12 text-center">
-            <h3 className="font-heading text-3xl text-foreground mb-4">Engineering Suite</h3>
-            <div className="w-16 h-1 bg-accent-red mx-auto rounded-full" />
-          </div>
           <SteelCalculator />
         </div>
 
