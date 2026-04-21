@@ -11,6 +11,7 @@ export default function SteelCalculator() {
   const [area, setArea] = useState("");
   const [floors, setFloors] = useState("1");
   const [estimatedSteel, setEstimatedSteel] = useState<number | null>(null);
+
   const [diameter, setDiameter] = useState("8");
   const [length, setLength] = useState("12");
   const [quantity, setQuantity] = useState("");
@@ -19,7 +20,7 @@ export default function SteelCalculator() {
 
   const validateLead = () => {
     if (!name || !phone) {
-      alert("Please enter both Name and Phone number to proceed.");
+      alert("Enter Name & Phone");
       return false;
     }
     return true;
@@ -27,6 +28,7 @@ export default function SteelCalculator() {
 
   const calculateConstruction = () => {
     if (!validateLead()) return;
+
     let multiplier = 4;
     if (structureType === "commercial") multiplier = 5;
     if (structureType === "infrastructure") multiplier = 6;
@@ -62,60 +64,62 @@ export default function SteelCalculator() {
 
   return (
     <section className="relative w-full overflow-hidden bg-gray-900 pt-20 md:pt-24">
-      
-      {/* BACKGROUND IMAGE */}
+
+      {/* BACKGROUND */}
       <div className="absolute inset-0 z-0">
         <img
           src="/steel.png"
           alt="Steel background"
-          className="w-full h-full object-cover object-[30%_center] md:object-left"
+          className="w-full h-full object-cover object-[30%_center]"
         />
-        <div className="absolute inset-0 bg-black/10 md:bg-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent" />
       </div>
 
-      {/* CONTENT WRAPPER */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 
-                      min-h-[700px] md:min-h-[850px] 
-                      flex justify-center md:justify-end items-center">
-        
-        {/* CALCULATOR CARD */}
+      {/* CONTENT */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 
+                      min-h-[650px] md:min-h-[850px] 
+                      flex items-center justify-center md:justify-end">
+
+        {/* CARD */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-md"
         >
-          <div className="rounded-3xl bg-white/95 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20">
-            
+          <div className="rounded-3xl bg-white/90 backdrop-blur-xl 
+                          shadow-[0_25px_80px_rgba(0,0,0,0.35)] 
+                          border border-white/20 overflow-hidden">
+
             {/* HEADER */}
-            <div className="bg-orange-600 p-6 text-white text-center">
-              <h2 className="text-xl font-bold">Steel Calculator</h2>
-              <p className="text-[10px] uppercase tracking-widest">Fast & Accurate Estimation</p>
+            <div className="bg-gradient-to-r from-orange-600 to-orange-500 p-6 text-white text-center">
+              <h2 className="text-2xl font-extrabold">Steel Calculator</h2>
+              <p className="text-xs tracking-widest opacity-90">FAST & ACCURATE ESTIMATION</p>
             </div>
 
-            {/* FORM */}
-            <div className="p-6 md:p-8 space-y-4">
+            {/* BODY */}
+            <div className="p-6 md:p-8 space-y-5">
 
               {/* NAME + PHONE */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input
                   placeholder="Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="p-3 text-sm rounded-xl border border-gray-200 focus:border-orange-500 outline-none"
+                  className="p-3 rounded-xl border border-gray-200 focus:border-orange-500 outline-none text-sm shadow-sm"
                 />
                 <input
                   placeholder="Phone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="p-3 text-sm rounded-xl border border-gray-200 focus:border-orange-500 outline-none"
+                  className="p-3 rounded-xl border border-gray-200 focus:border-orange-500 outline-none text-sm shadow-sm"
                 />
               </div>
 
               {/* TABS */}
-              <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1">
+              <div className="flex bg-gray-100 rounded-xl p-1">
                 <button
                   onClick={() => setActiveTab("construction")}
-                  className={`py-2 text-xs font-bold rounded-lg ${
+                  className={`flex-1 py-2 text-xs font-bold rounded-lg transition ${
                     activeTab === "construction"
                       ? "bg-white text-orange-600 shadow"
                       : "text-gray-500"
@@ -125,7 +129,7 @@ export default function SteelCalculator() {
                 </button>
                 <button
                   onClick={() => setActiveTab("weight")}
-                  className={`py-2 text-xs font-bold rounded-lg ${
+                  className={`flex-1 py-2 text-xs font-bold rounded-lg transition ${
                     activeTab === "weight"
                       ? "bg-white text-orange-600 shadow"
                       : "text-gray-500"
@@ -139,11 +143,11 @@ export default function SteelCalculator() {
                 {activeTab === "construction" ? (
                   <motion.div key="c" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
 
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <select
                         value={structureType}
                         onChange={(e) => setStructureType(e.target.value)}
-                        className="p-3 border rounded-xl text-xs"
+                        className="p-3 rounded-xl border text-xs shadow-sm"
                       >
                         <option value="residential">Residential</option>
                         <option value="commercial">Commercial</option>
@@ -151,11 +155,11 @@ export default function SteelCalculator() {
                       </select>
 
                       <input
-                        placeholder="Area"
+                        placeholder="Area (sqft)"
                         type="number"
                         value={area}
                         onChange={(e) => setArea(e.target.value)}
-                        className="p-3 border rounded-xl text-xs"
+                        className="p-3 rounded-xl border text-xs shadow-sm"
                       />
 
                       <input
@@ -163,20 +167,23 @@ export default function SteelCalculator() {
                         type="number"
                         value={floors}
                         onChange={(e) => setFloors(e.target.value)}
-                        className="p-3 border rounded-xl text-xs"
+                        className="p-3 rounded-xl border text-xs shadow-sm"
                       />
                     </div>
 
                     <button
                       onClick={calculateConstruction}
-                      className="w-full bg-orange-500 text-white py-3 rounded-xl font-bold"
+                      className="w-full bg-gradient-to-r from-orange-500 to-orange-600 
+                                 hover:from-orange-600 hover:to-orange-700 
+                                 text-white font-bold py-3.5 rounded-xl 
+                                 shadow-lg transition-all active:scale-95"
                     >
                       Calculate Steel
                     </button>
 
                     {estimatedSteel && (
-                      <div className="text-center bg-orange-50 p-4 rounded-xl">
-                        <p className="text-sm text-orange-600">Estimated Steel</p>
+                      <div className="bg-orange-50 border border-orange-100 p-4 rounded-xl text-center">
+                        <p className="text-xs text-orange-600">Estimated Steel</p>
                         <p className="text-2xl font-bold text-orange-700">
                           {estimatedSteel.toLocaleString()} kg
                         </p>
@@ -186,14 +193,14 @@ export default function SteelCalculator() {
                 ) : (
                   <motion.div key="w" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <select
                         value={diameter}
                         onChange={(e) => setDiameter(e.target.value)}
-                        className="p-3 border rounded-xl text-xs"
+                        className="p-3 rounded-xl border text-xs shadow-sm"
                       >
                         {[8, 10, 12, 16, 20, 25, 32].map((d) => (
-                          <option key={d}>{d} mm</option>
+                          <option key={d} value={d}>{d} mm</option>
                         ))}
                       </select>
 
@@ -201,20 +208,24 @@ export default function SteelCalculator() {
                         type="number"
                         value={length}
                         onChange={(e) => setLength(e.target.value)}
-                        className="p-3 border rounded-xl text-xs"
+                        className="p-3 rounded-xl border text-xs shadow-sm"
                       />
 
                       <input
                         placeholder="Quantity"
+                        type="number"
                         value={quantity}
                         onChange={(e) => setQuantity(e.target.value)}
-                        className="p-3 border rounded-xl text-xs col-span-2"
+                        className="p-3 rounded-xl border text-xs shadow-sm sm:col-span-2"
                       />
                     </div>
 
                     <button
                       onClick={calculateWeight}
-                      className="w-full bg-orange-500 text-white py-3 rounded-xl font-bold"
+                      className="w-full bg-gradient-to-r from-orange-500 to-orange-600 
+                                 hover:from-orange-600 hover:to-orange-700 
+                                 text-white font-bold py-3.5 rounded-xl 
+                                 shadow-lg transition-all active:scale-95"
                     >
                       Calculate Weight
                     </button>
