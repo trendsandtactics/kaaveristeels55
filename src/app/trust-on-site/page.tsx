@@ -49,14 +49,6 @@ export default function TrustOnSitePage() {
       />
     </div>
 
-    <div className="flex justify-center mt-10">
-  <button
-    className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 md:py-4 text-sm md:text-base font-semibold tracking-wide rounded-lg shadow-md hover:shadow-lg transition duration-300"
-  >
-    Book an Appointment
-  </button>
-</div>
-
   </div>
 </section>
 
@@ -216,6 +208,18 @@ export default function TrustOnSitePage() {
   </div>
 
 </section>
+
+      {/* CTA SECTION */}
+      <section className="w-full bg-white py-16 px-6 md:px-12">
+        <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+          <h3 className="font-heading text-3xl md:text-4xl text-black font-extrabold mb-6">
+            Ready to experience our quality on-site?
+          </h3>
+          <button className="bg-red-600 hover:bg-red-700 text-white px-8 md:px-10 py-3 md:py-4 text-sm md:text-base font-semibold tracking-wide rounded-lg shadow-md hover:shadow-lg transition duration-300">
+            Book an Appointment
+          </button>
+        </div>
+      </section>
 
     </main>
   );

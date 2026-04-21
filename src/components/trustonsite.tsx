@@ -5,6 +5,7 @@ import Image from "next/image";
 
 export default function MapEmbed() {
   return (
+    <>
     <section className="relative w-full min-h-screen flex items-center overflow-hidden">
 
       {/* 🌆 Background */}
@@ -55,15 +56,21 @@ export default function MapEmbed() {
 
         </div>
 
-        {/* CTA */}
-        <div className="flex justify-center mt-2 md:mt-4">
+      </div>
+
+    </section>
+
+      {/* CTA SECTION */}
+      <section className="w-full bg-white py-16 px-6 md:px-12 border-t border-black/5">
+        <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+          <h3 className="font-heading text-3xl md:text-4xl text-black font-extrabold mb-6">
+            Ready to experience our quality on-site?
+          </h3>
           <button className="bg-red-600 hover:bg-red-700 text-white px-8 md:px-10 py-3 md:py-4 text-sm md:text-base font-semibold rounded-xl shadow-lg hover:shadow-xl transition">
             Book an Appointment
           </button>
         </div>
-
-      </div>
-
-    </section>
+      </section>
+    </>
   );
 }
