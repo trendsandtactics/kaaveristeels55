@@ -1,9 +1,59 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 export default function TrustOnSitePage() {
+  const [ctaTitle, setCtaTitle] = useState("Don’t Take Chances \nWith Your Foundation.");
+  const [ctaDesc, setCtaDesc] = useState("Book a Free Test of your current steel supply. Our Mobile Testing Vehicle will arrive within 48 hours.");
+  
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [location, setLocation] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+
+  // Automatically fetch the latest "Pages Content" from the Admin Panel to populate the CTA
+  useEffect(() => {
+    fetch("/api/public/content/pages?limit=1")
+      .then((res) => res.json())
+      .then((data) => {
+        const ctaData = data.data?.[0];
+        if (ctaData) {
+          if (ctaData.title) setCtaTitle(ctaData.title);
+          if (ctaData.short_description) setCtaDesc(ctaData.short_description);
+        }
+      })
+      .catch(console.error);
+  }, []);
+
+  const submitSiteVisit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !phone) return;
+    setLoading(true);
+    setSuccess("");
+
+    try {
+      await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          phone,
+          enquiry_type: "site_visit",
+          message: `Requested a Trust On Site visit at: ${location || "No location provided"}`,
+        }),
+      });
+      setSuccess("Request submitted! Our team will contact you shortly.");
+      setName("");
+      setPhone("");
+      setLocation("");
+    } catch (err) {
+      console.error("Failed to submit site visit", err);
+    }
+    setLoading(false);
+  };
+
   return (
     <main className="w-full bg-[#f3f4f6]">
 
@@ -157,13 +207,12 @@ export default function TrustOnSitePage() {
     {/* Left Content */}
     <div className="text-white max-w-lg">
 
-      <h2 className="text-3xl md:text-5xl font-extrabold leading-tight mb-4">
-        Don’t Take Chances <br /> With Your Foundation.
+      <h2 className="text-3xl md:text-5xl font-extrabold leading-tight mb-4 whitespace-pre-wrap">
+        {ctaTitle}
       </h2>
 
-      <p className="text-white/80 text-sm md:text-base mb-6">
-        Book a <span className="font-semibold text-white">Free Test</span> of your current steel supply.
-        Our Mobile Testing Vehicle will arrive within 48 hours.
+      <p className="text-white/80 text-sm md:text-base mb-6 whitespace-pre-wrap">
+        {ctaDesc}
       </p>
 
       {/* Phone CTA */}
@@ -186,31 +235,41 @@ export default function TrustOnSitePage() {
     {/* Right Form */}
     <div className="w-full max-w-md bg-white/10 backdrop-blur-lg p-6 rounded-xl border border-white/20 shadow-xl">
 
-      <div className="flex flex-col gap-4">
+      <form onSubmit={submitSiteVisit} className="flex flex-col gap-4">
 
         <input
           type="text"
           placeholder="Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
           className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
         />
 
         <input
           type="tel"
           placeholder="Phone Number"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          required
           className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
         />
 
         <input
           type="text"
           placeholder="Site Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
           className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
         />
 
-        <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-red-900 font-semibold py-3 rounded-md tracking-wide transition duration-300 shadow-md hover:shadow-lg">
-          BOOK FREE ON-SITE TEST
+        <button type="submit" disabled={loading} className="w-full bg-yellow-400 hover:bg-yellow-300 text-red-900 font-semibold py-3 rounded-md tracking-wide transition duration-300 shadow-md hover:shadow-lg disabled:opacity-70">
+          {loading ? "SUBMITTING..." : "BOOK FREE ON-SITE TEST"}
         </button>
 
-      </div>
+        {success && <p className="text-green-300 text-sm text-center font-medium mt-2">{success}</p>}
+
+      </form>
 
     </div>
 
