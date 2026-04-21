@@ -40,13 +40,13 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
       <section className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow py-16 px-6 border-b border-black/10">
         <div className="max-w-5xl mx-auto">
           <p className="text-xs uppercase tracking-[0.18em] text-black/60 font-semibold">{moduleTitle}</p>
-          <h1 className="font-heading text-4xl md:text-6xl text-black mt-3">{title}</h1>
+          <h1 className="font-['Open_Sans'] text-4xl md:text-6xl text-black mt-3">{title}</h1>
           <p className="text-black/75 mt-3 max-w-3xl">{description}</p>
         </div>
       </section>
 
       <section className="max-w-5xl mx-auto px-6 py-10">
-        <div className="relative w-full rounded-2xl border border-black/10 h-[360px] overflow-hidden bg-gray-100"><Image src={image} alt={title} fill className="object-contain" sizes="100vw" /></div>
+        <div className="relative w-full h-[360px]"><Image src={image} alt={title} fill className="object-contain" sizes="100vw" /></div>
         <article className="mt-8 rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: String(item.content ?? "") }} />
         </article>
