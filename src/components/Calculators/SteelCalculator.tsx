@@ -62,7 +62,7 @@ export default function SteelCalculator() {
 
       {/* FULL BACKGROUND IMAGE */}
       <img
-        src="/images/steel-workers.png"
+        src="/steel.png"
         alt="steel"
         className="absolute inset-0 w-full h-full object-cover"
       />
