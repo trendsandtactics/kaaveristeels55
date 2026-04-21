@@ -9,6 +9,7 @@ import TrustOnsite from "@/components/trustonsite";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between w-full relative pt-20 md:pt-24">
+      
       {/* Scrollytelling Hero Area */}
       <SteelScroll />
 
@@ -21,15 +22,15 @@ export default function Home() {
       {/* Green Steel Certification Section */}
       <GreenSteel />
 
-    
+      {/* Calculator Section */}
       <SteelCalculator />
-       
 
-      </section>
+      {/* Trust Section */}
       <TrustOnsite />
 
-      {/* Map Section (moved here before footer) */}
+      {/* Map Section */}
       <MapEmbed />
+
     </main>
   );
 }
