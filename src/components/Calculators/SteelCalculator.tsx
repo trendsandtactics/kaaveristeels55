@@ -67,9 +67,6 @@ export default function SteelCalculator() {
         className="absolute inset-0 w-full h-full object-cover"
       />
 
-      {/* DARK OVERLAY (for better readability) */}
-      <div className="absolute inset-0 bg-black/40"></div>
-
       {/* CONTENT */}
       <div className="relative z-10 min-h-screen flex items-center justify-end px-4 md:px-10">
 
@@ -82,7 +79,7 @@ export default function SteelCalculator() {
           <div className="rounded-3xl bg-white/95 backdrop-blur-xl shadow-2xl overflow-hidden">
 
             {/* HEADER */}
-            <div className="bg-gradient-to-r from-orange-600 to-orange-500 p-6 text-white text-center">
+            <div className="bg-orange-600 p-6 text-white text-center">
               <h2 className="text-2xl font-bold">Steel Calculator</h2>
               <p className="text-sm opacity-90">Fast & Accurate Estimation</p>
             </div>
@@ -90,7 +87,6 @@ export default function SteelCalculator() {
             {/* BODY */}
             <div className="p-5 space-y-4">
 
-              {/* NAME + PHONE */}
               <div className="grid grid-cols-2 gap-3">
                 <input
                   placeholder="Name"
@@ -106,7 +102,6 @@ export default function SteelCalculator() {
                 />
               </div>
 
-              {/* TABS */}
               <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1">
                 <button
                   onClick={() => setActiveTab("construction")}
@@ -129,13 +124,8 @@ export default function SteelCalculator() {
 
               <AnimatePresence mode="wait">
 
-                {/* CONSTRUCTION TAB */}
                 {activeTab === "construction" && (
-                  <motion.div
-                    key="c"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  >
+                  <motion.div key="c" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     <div className="grid grid-cols-3 gap-3">
                       <select
                         value={structureType}
@@ -164,7 +154,7 @@ export default function SteelCalculator() {
 
                     <button
                       onClick={calculateConstruction}
-                      className="mt-4 w-full bg-orange-500 text-white py-3 rounded-xl hover:brightness-110"
+                      className="mt-4 w-full bg-orange-500 text-white py-3 rounded-xl"
                     >
                       Calculate Steel
                     </button>
@@ -177,13 +167,8 @@ export default function SteelCalculator() {
                   </motion.div>
                 )}
 
-                {/* WEIGHT TAB */}
                 {activeTab === "weight" && (
-                  <motion.div
-                    key="w"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  >
+                  <motion.div key="w" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     <div className="grid grid-cols-4 gap-3">
                       <select
                         value={diameter}
