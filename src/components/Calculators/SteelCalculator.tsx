@@ -5,15 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function SteelCalculator() {
   const [activeTab, setActiveTab] = useState<"construction" | "weight">("construction");
-
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-
   const [structureType, setStructureType] = useState("residential");
   const [area, setArea] = useState("");
   const [floors, setFloors] = useState("1");
   const [estimatedSteel, setEstimatedSteel] = useState<number | null>(null);
-
   const [diameter, setDiameter] = useState("8");
   const [length, setLength] = useState("12");
   const [quantity, setQuantity] = useState("");
@@ -62,73 +59,68 @@ export default function SteelCalculator() {
   };
 
   return (
-    <section className="relative w-full py-10 md:py-16 flex items-center overflow-hidden bg-gray-900">
+    <section className="relative w-full overflow-hidden bg-gray-900">
       
-      {/* BACKGROUND */}
+      {/* BACKGROUND IMAGE */}
       <div className="absolute inset-0 z-0">
         <img
           src="/steel.png"
           alt="Steel background"
-          className="w-full h-full object-cover object-left"
+          className="w-full h-full object-cover object-center md:object-left"
         />
-        <div className="absolute inset-0 bg-black/20 md:bg-transparent" />
+        {/* Subtle overlay to help white text/inputs pop if needed */}
+        <div className="absolute inset-0 bg-black/5 md:bg-transparent" />
       </div>
 
-      {/* CONTENT */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex justify-center md:justify-end">
+      {/* CONTENT WRAPPER - Increased padding to increase overall section height */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 md:py-40 flex justify-center md:justify-end items-center">
         
-        {/* CARD */}
+        {/* CALCULATOR CARD */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-sm md:max-w-md"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-md"
         >
-          <div className="rounded-3xl bg-white/95 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20">
+          <div className="rounded-3xl bg-white/95 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20">
             
             {/* HEADER */}
             <div className="bg-orange-600 p-6 text-white text-center">
-              <h2 className="text-2xl font-bold tracking-tight">Steel Calculator</h2>
-              <p className="text-sm font-medium opacity-90">Fast & Accurate Estimation</p>
+              <h2 className="text-xl font-bold tracking-tight">Steel Calculator</h2>
+              <p className="text-[10px] font-medium opacity-90 uppercase tracking-widest">Fast & Accurate Estimation</p>
             </div>
 
-            {/* BODY */}
-            <div className="p-6 space-y-5">
+            {/* FORM BODY */}
+            <div className="p-6 md:p-8 space-y-4">
               
-              {/* NAME + PHONE */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 <input
                   placeholder="Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 outline-none"
+                  className="p-3 text-sm rounded-xl border border-gray-200 focus:border-orange-500 outline-none transition-all placeholder:text-gray-400"
                 />
                 <input
                   placeholder="Phone"
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="p-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 outline-none"
+                  className="p-3 text-sm rounded-xl border border-gray-200 focus:border-orange-500 outline-none transition-all placeholder:text-gray-400"
                 />
               </div>
 
-              {/* TABS */}
               <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1">
                 <button
                   onClick={() => setActiveTab("construction")}
-                  className={`py-2.5 rounded-lg text-sm font-semibold ${
-                    activeTab === "construction"
-                      ? "bg-white shadow-sm text-orange-600"
-                      : "text-gray-500"
+                  className={`py-2.5 rounded-lg text-xs font-bold transition-all ${
+                    activeTab === "construction" ? "bg-white shadow-sm text-orange-600" : "text-gray-500"
                   }`}
                 >
                   Construction
                 </button>
                 <button
                   onClick={() => setActiveTab("weight")}
-                  className={`py-2.5 rounded-lg text-sm font-semibold ${
-                    activeTab === "weight"
-                      ? "bg-white shadow-sm text-orange-600"
-                      : "text-gray-500"
+                  className={`py-2.5 rounded-lg text-xs font-bold transition-all ${
+                    activeTab === "weight" ? "bg-white shadow-sm text-orange-600" : "text-gray-500"
                   }`}
                 >
                   Weight
@@ -137,93 +129,108 @@ export default function SteelCalculator() {
 
               <AnimatePresence mode="wait">
                 {activeTab === "construction" ? (
-                  <motion.div key="c" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <motion.div 
+                    key="c" 
+                    initial={{ opacity: 0, y: 5 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    exit={{ opacity: 0, y: -5 }}
+                    className="space-y-4"
+                  >
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       <select
                         value={structureType}
                         onChange={(e) => setStructureType(e.target.value)}
-                        className="p-3 border border-gray-200 rounded-xl text-sm"
+                        className="p-3 border border-gray-200 rounded-xl bg-white text-xs text-gray-600 cursor-pointer"
                       >
                         <option value="residential">Residential</option>
                         <option value="commercial">Commercial</option>
                         <option value="infrastructure">Infrastructure</option>
                       </select>
-
                       <input
                         placeholder="Area (sqft)"
                         type="number"
                         value={area}
                         onChange={(e) => setArea(e.target.value)}
-                        className="p-3 border border-gray-200 rounded-xl text-sm"
+                        className="p-3 border border-gray-200 rounded-xl text-xs outline-none focus:border-orange-500"
                       />
-
                       <input
                         placeholder="Floors"
                         type="number"
                         value={floors}
                         onChange={(e) => setFloors(e.target.value)}
-                        className="p-3 border border-gray-200 rounded-xl text-sm"
+                        className="p-3 border border-gray-200 rounded-xl text-xs outline-none focus:border-orange-500"
                       />
                     </div>
-
                     <button
                       onClick={calculateConstruction}
-                      className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl"
+                      className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all active:scale-[0.97]"
                     >
                       Calculate Steel
                     </button>
-
                     {estimatedSteel && (
-                      <div className="bg-orange-50 border border-orange-100 p-4 rounded-xl text-center">
-                        <span className="text-xs text-orange-600 font-bold">Estimated</span>
-                        <p className="text-2xl font-bold text-orange-700">
-                          {estimatedSteel.toLocaleString()} kg
-                        </p>
+                      <div className="bg-orange-50 border border-orange-100 p-4 rounded-2xl text-center">
+                         <span className="text-[10px] text-orange-600 font-bold block uppercase mb-1">Total Estimated Steel</span>
+                        <p className="text-2xl font-black text-orange-700">{estimatedSteel.toLocaleString()} kg</p>
                       </div>
                     )}
                   </motion.div>
                 ) : (
-                  <motion.div key="w" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-                    
+                  <motion.div 
+                    key="w" 
+                    initial={{ opacity: 0, y: 5 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    exit={{ opacity: 0, y: -5 }}
+                    className="space-y-4"
+                  >
                     <div className="grid grid-cols-2 gap-3">
-                      <select
-                        value={diameter}
-                        onChange={(e) => setDiameter(e.target.value)}
-                        className="p-3 border border-gray-200 rounded-xl text-sm"
-                      >
-                        {[8, 10, 12, 16, 20, 25, 32].map((d) => (
-                          <option key={d} value={d}>{d} mm</option>
-                        ))}
-                      </select>
-
-                      <input
-                        type="number"
-                        value={length}
-                        onChange={(e) => setLength(e.target.value)}
-                        className="p-3 border border-gray-200 rounded-xl text-sm"
-                      />
-
-                      <input
-                        type="number"
-                        placeholder="Quantity"
-                        value={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
-                        className="p-3 border border-gray-200 rounded-xl text-sm"
-                      />
-
-                      <button
-                        onClick={calculateWeight}
-                        className="bg-orange-500 text-white font-bold rounded-xl"
-                      >
-                        Calculate
-                      </button>
+                       <div className="flex flex-col gap-1">
+                        <label className="text-[9px] font-bold text-gray-400 uppercase ml-1">Diameter</label>
+                        <select
+                          value={diameter}
+                          onChange={(e) => setDiameter(e.target.value)}
+                          className="p-3 border border-gray-200 rounded-xl bg-white text-xs text-gray-600"
+                        >
+                          {[8, 10, 12, 16, 20, 25, 32].map((d) => (
+                            <option key={d} value={d}>{d} mm</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[9px] font-bold text-gray-400 uppercase ml-1">Length (m)</label>
+                        <input
+                          type="number"
+                          value={length}
+                          onChange={(e) => setLength(e.target.value)}
+                          className="p-3 border border-gray-200 rounded-xl text-xs outline-none focus:border-orange-500"
+                        />
+                      </div>
+                      <div className="col-span-2">
+                         <label className="text-[9px] font-bold text-gray-400 uppercase ml-1">Quantity (Pieces)</label>
+                         <input
+                          type="number"
+                          placeholder="e.g. 100"
+                          value={quantity}
+                          onChange={(e) => setQuantity(e.target.value)}
+                          className="p-3 border border-gray-200 rounded-xl text-xs w-full outline-none focus:border-orange-500"
+                        />
+                      </div>
                     </div>
-
+                    <button
+                      onClick={calculateWeight}
+                      className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl transition-all shadow-md active:scale-[0.97]"
+                    >
+                      Calculate Weight
+                    </button>
                     {estimatedWeight && (
-                      <div className="bg-gray-50 p-4 rounded-xl text-center">
-                        <p className="font-bold">{estimatedWeight.toFixed(2)} kg</p>
-                        <p className="text-sm text-gray-500">{bundleCount} bundles</p>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl text-center">
+                          <span className="text-[9px] text-blue-600 font-bold block uppercase mb-1">Weight</span>
+                          <span className="font-black text-blue-800 text-lg">{estimatedWeight.toFixed(2)} kg</span>
+                        </div>
+                        <div className="bg-purple-50 border border-purple-100 p-4 rounded-2xl text-center">
+                          <span className="text-[9px] text-purple-600 font-bold block uppercase mb-1">Bundles</span>
+                          <span className="font-black text-purple-800 text-lg">{bundleCount}</span>
+                        </div>
                       </div>
                     )}
                   </motion.div>
