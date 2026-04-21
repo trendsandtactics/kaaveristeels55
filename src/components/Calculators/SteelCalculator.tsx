@@ -58,175 +58,189 @@ export default function SteelCalculator() {
   };
 
   return (
-    <section className="relative w-full min-h-screen">
+    <section className="relative w-full min-h-screen overflow-hidden">
 
-      {/* BACKGROUND IMAGE */}
+      {/* FULL BACKGROUND IMAGE */}
       <img
-        src="/steel.png"
-        alt="background"
+        src="/images/steel-workers.png"
+        alt="steel"
         className="absolute inset-0 w-full h-full object-cover"
       />
 
-      {/* DARK OVERLAY */}
-      <div className="absolute inset-0 bg-black/40"></div>
+      {/* CONTENT LAYER */}
+      <div className="relative z-10 min-h-screen flex items-center">
 
-      {/* CONTENT */}
-      <div className="relative z-10 flex items-center justify-end min-h-screen px-4 md:px-10">
+        <div className="w-full max-w-7xl mx-auto px-4 md:px-10 grid md:grid-cols-2 gap-10 items-center">
 
-        {/* CALCULATOR CARD */}
-        <motion.div
-          initial={{ opacity: 0, x: 80 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="w-full max-w-xl bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden"
-        >
-
-          {/* HEADER */}
-          <div className="bg-gradient-to-r from-orange-600 to-orange-500 p-6 text-white text-center">
-            <h2 className="text-2xl font-bold">Steel Calculator</h2>
-            <p className="text-sm opacity-90">Fast & Accurate Estimation</p>
+          {/* LEFT CONTENT */}
+          <div className="text-white hidden md:block">
+            <h1 className="text-5xl font-bold leading-tight">
+              Build Strong <br /> With Precision Steel
+            </h1>
+            <p className="mt-4 text-lg opacity-90 max-w-md">
+              Accurate steel estimation for smarter construction planning and cost control.
+            </p>
           </div>
 
-          {/* INPUTS */}
-          <div className="p-5 space-y-4">
+          {/* RIGHT CALCULATOR */}
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="w-full max-w-xl ml-auto"
+          >
+            <div className="rounded-3xl bg-white/95 backdrop-blur-xl shadow-2xl overflow-hidden">
 
-            <div className="grid grid-cols-2 gap-3">
-              <input
-                placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="p-3 rounded-xl border"
-              />
-              <input
-                placeholder="Phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="p-3 rounded-xl border"
-              />
-            </div>
+              {/* HEADER */}
+              <div className="bg-gradient-to-r from-orange-600 to-orange-500 p-6 text-white text-center">
+                <h2 className="text-2xl font-bold">Steel Calculator</h2>
+                <p className="text-sm opacity-90">Fast & Accurate Estimation</p>
+              </div>
 
-            {/* TABS */}
-            <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1">
-              <button
-                onClick={() => setActiveTab("construction")}
-                className={`py-2 rounded-lg ${
-                  activeTab === "construction" ? "bg-white shadow" : ""
-                }`}
-              >
-                Construction
-              </button>
-              <button
-                onClick={() => setActiveTab("weight")}
-                className={`py-2 rounded-lg ${
-                  activeTab === "weight" ? "bg-white shadow" : ""
-                }`}
-              >
-                Weight
-              </button>
-            </div>
+              {/* BODY */}
+              <div className="p-5 space-y-4">
 
-            <AnimatePresence mode="wait">
+                {/* INPUTS */}
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="p-3 rounded-xl border"
+                  />
+                  <input
+                    placeholder="Phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="p-3 rounded-xl border"
+                  />
+                </div>
 
-              {/* CONSTRUCTION */}
-              {activeTab === "construction" && (
-                <motion.div key="c" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-
-                  <div className="grid grid-cols-3 gap-3">
-                    <select
-                      value={structureType}
-                      onChange={(e) => setStructureType(e.target.value)}
-                      className="p-3 border rounded-xl"
-                    >
-                      <option value="residential">Residential</option>
-                      <option value="commercial">Commercial</option>
-                      <option value="infrastructure">Infrastructure</option>
-                    </select>
-
-                    <input
-                      placeholder="Area"
-                      value={area}
-                      onChange={(e) => setArea(e.target.value)}
-                      className="p-3 border rounded-xl"
-                    />
-
-                    <input
-                      placeholder="Floors"
-                      value={floors}
-                      onChange={(e) => setFloors(e.target.value)}
-                      className="p-3 border rounded-xl"
-                    />
-                  </div>
-
+                {/* TABS */}
+                <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1">
                   <button
-                    onClick={calculateConstruction}
-                    className="mt-4 w-full bg-orange-500 text-white py-3 rounded-xl"
+                    onClick={() => setActiveTab("construction")}
+                    className={`py-2 rounded-lg ${
+                      activeTab === "construction" ? "bg-white shadow" : ""
+                    }`}
                   >
-                    Calculate
+                    Construction
                   </button>
 
-                  {estimatedSteel && (
-                    <div className="mt-4 text-center bg-green-50 p-4 rounded-xl">
-                      <p className="text-2xl font-bold">{estimatedSteel} kg</p>
-                    </div>
+                  <button
+                    onClick={() => setActiveTab("weight")}
+                    className={`py-2 rounded-lg ${
+                      activeTab === "weight" ? "bg-white shadow" : ""
+                    }`}
+                  >
+                    Weight
+                  </button>
+                </div>
+
+                <AnimatePresence mode="wait">
+
+                  {/* CONSTRUCTION */}
+                  {activeTab === "construction" && (
+                    <motion.div key="c" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+
+                      <div className="grid grid-cols-3 gap-3">
+                        <select
+                          value={structureType}
+                          onChange={(e) => setStructureType(e.target.value)}
+                          className="p-3 border rounded-xl"
+                        >
+                          <option value="residential">Residential</option>
+                          <option value="commercial">Commercial</option>
+                          <option value="infrastructure">Infrastructure</option>
+                        </select>
+
+                        <input
+                          placeholder="Area"
+                          value={area}
+                          onChange={(e) => setArea(e.target.value)}
+                          className="p-3 border rounded-xl"
+                        />
+
+                        <input
+                          placeholder="Floors"
+                          value={floors}
+                          onChange={(e) => setFloors(e.target.value)}
+                          className="p-3 border rounded-xl"
+                        />
+                      </div>
+
+                      <button
+                        onClick={calculateConstruction}
+                        className="mt-4 w-full bg-orange-500 text-white py-3 rounded-xl hover:brightness-110"
+                      >
+                        Calculate Steel
+                      </button>
+
+                      {estimatedSteel && (
+                        <div className="mt-4 text-center bg-green-50 p-4 rounded-xl">
+                          <p className="text-2xl font-bold">{estimatedSteel} kg</p>
+                        </div>
+                      )}
+
+                    </motion.div>
                   )}
 
-                </motion.div>
-              )}
+                  {/* WEIGHT */}
+                  {activeTab === "weight" && (
+                    <motion.div key="w" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
 
-              {/* WEIGHT */}
-              {activeTab === "weight" && (
-                <motion.div key="w" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                      <div className="grid grid-cols-4 gap-3">
+                        <select
+                          value={diameter}
+                          onChange={(e) => setDiameter(e.target.value)}
+                          className="p-3 border rounded-xl"
+                        >
+                          {[8, 10, 12, 16, 20, 25].map((d) => (
+                            <option key={d}>{d}</option>
+                          ))}
+                        </select>
 
-                  <div className="grid grid-cols-4 gap-3">
-                    <select
-                      value={diameter}
-                      onChange={(e) => setDiameter(e.target.value)}
-                      className="p-3 border rounded-xl"
-                    >
-                      {[8, 10, 12, 16, 20, 25].map((d) => (
-                        <option key={d}>{d}</option>
-                      ))}
-                    </select>
+                        <input
+                          value={length}
+                          onChange={(e) => setLength(e.target.value)}
+                          className="p-3 border rounded-xl"
+                        />
 
-                    <input
-                      value={length}
-                      onChange={(e) => setLength(e.target.value)}
-                      className="p-3 border rounded-xl"
-                    />
+                        <input
+                          placeholder="Qty"
+                          value={quantity}
+                          onChange={(e) => setQuantity(e.target.value)}
+                          className="p-3 border rounded-xl"
+                        />
 
-                    <input
-                      placeholder="Qty"
-                      value={quantity}
-                      onChange={(e) => setQuantity(e.target.value)}
-                      className="p-3 border rounded-xl"
-                    />
-
-                    <button
-                      onClick={calculateWeight}
-                      className="bg-orange-500 text-white rounded-xl"
-                    >
-                      Go
-                    </button>
-                  </div>
-
-                  {estimatedWeight && (
-                    <div className="grid grid-cols-2 gap-3 mt-4 text-center">
-                      <div className="bg-blue-50 p-4 rounded-xl">
-                        {estimatedWeight.toFixed(2)} kg
+                        <button
+                          onClick={calculateWeight}
+                          className="bg-orange-500 text-white rounded-xl"
+                        >
+                          Go
+                        </button>
                       </div>
-                      <div className="bg-purple-50 p-4 rounded-xl">
-                        {bundleCount}
-                      </div>
-                    </div>
+
+                      {estimatedWeight && (
+                        <div className="grid grid-cols-2 gap-3 mt-4 text-center">
+                          <div className="bg-blue-50 p-4 rounded-xl">
+                            {estimatedWeight.toFixed(2)} kg
+                          </div>
+                          <div className="bg-purple-50 p-4 rounded-xl">
+                            {bundleCount}
+                          </div>
+                        </div>
+                      )}
+
+                    </motion.div>
                   )}
 
-                </motion.div>
-              )}
+                </AnimatePresence>
 
-            </AnimatePresence>
+              </div>
+            </div>
+          </motion.div>
 
-          </div>
-        </motion.div>
-
+        </div>
       </div>
     </section>
   );
