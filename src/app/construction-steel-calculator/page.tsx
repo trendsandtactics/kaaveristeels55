@@ -30,12 +30,14 @@ export default function SteelCalculator() {
     let multiplier = 4;
     if (structureType === "commercial") multiplier = 5;
     if (structureType === "infrastructure") multiplier = 6;
+
     const totalArea = Number(area) * Number(floors);
     if (totalArea > 0) setEstimatedSteel(totalArea * multiplier);
   };
 
   const calculateWeight = () => {
     if (!validateLead()) return;
+
     const d = Number(diameter);
     const l = Number(length);
     const q = Number(quantity);
@@ -59,21 +61,22 @@ export default function SteelCalculator() {
   };
 
   return (
-    <section className="relative w-full overflow-hidden bg-gray-900">
+    <section className="relative w-full overflow-hidden bg-gray-900 pt-20 md:pt-24">
       
       {/* BACKGROUND IMAGE */}
       <div className="absolute inset-0 z-0">
         <img
           src="/steel.png"
           alt="Steel background"
-          className="w-full h-full object-cover object-center md:object-left"
+          className="w-full h-full object-cover object-[30%_center] md:object-left"
         />
-        {/* Subtle overlay to help white text/inputs pop if needed */}
-        <div className="absolute inset-0 bg-black/5 md:bg-transparent" />
+        <div className="absolute inset-0 bg-black/10 md:bg-transparent" />
       </div>
 
-      {/* CONTENT WRAPPER - Increased padding to increase overall section height */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 md:py-40 flex justify-center md:justify-end items-center">
+      {/* CONTENT WRAPPER */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 
+                      min-h-[700px] md:min-h-[850px] 
+                      flex justify-center md:justify-end items-center">
         
         {/* CALCULATOR CARD */}
         <motion.div
@@ -85,42 +88,47 @@ export default function SteelCalculator() {
             
             {/* HEADER */}
             <div className="bg-orange-600 p-6 text-white text-center">
-              <h2 className="text-xl font-bold tracking-tight">Steel Calculator</h2>
-              <p className="text-[10px] font-medium opacity-90 uppercase tracking-widest">Fast & Accurate Estimation</p>
+              <h2 className="text-xl font-bold">Steel Calculator</h2>
+              <p className="text-[10px] uppercase tracking-widest">Fast & Accurate Estimation</p>
             </div>
 
-            {/* FORM BODY */}
+            {/* FORM */}
             <div className="p-6 md:p-8 space-y-4">
-              
+
+              {/* NAME + PHONE */}
               <div className="grid grid-cols-2 gap-3">
                 <input
                   placeholder="Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="p-3 text-sm rounded-xl border border-gray-200 focus:border-orange-500 outline-none transition-all placeholder:text-gray-400"
+                  className="p-3 text-sm rounded-xl border border-gray-200 focus:border-orange-500 outline-none"
                 />
                 <input
                   placeholder="Phone"
-                  type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="p-3 text-sm rounded-xl border border-gray-200 focus:border-orange-500 outline-none transition-all placeholder:text-gray-400"
+                  className="p-3 text-sm rounded-xl border border-gray-200 focus:border-orange-500 outline-none"
                 />
               </div>
 
+              {/* TABS */}
               <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1">
                 <button
                   onClick={() => setActiveTab("construction")}
-                  className={`py-2.5 rounded-lg text-xs font-bold transition-all ${
-                    activeTab === "construction" ? "bg-white shadow-sm text-orange-600" : "text-gray-500"
+                  className={`py-2 text-xs font-bold rounded-lg ${
+                    activeTab === "construction"
+                      ? "bg-white text-orange-600 shadow"
+                      : "text-gray-500"
                   }`}
                 >
                   Construction
                 </button>
                 <button
                   onClick={() => setActiveTab("weight")}
-                  className={`py-2.5 rounded-lg text-xs font-bold transition-all ${
-                    activeTab === "weight" ? "bg-white shadow-sm text-orange-600" : "text-gray-500"
+                  className={`py-2 text-xs font-bold rounded-lg ${
+                    activeTab === "weight"
+                      ? "bg-white text-orange-600 shadow"
+                      : "text-gray-500"
                   }`}
                 >
                   Weight
@@ -129,113 +137,104 @@ export default function SteelCalculator() {
 
               <AnimatePresence mode="wait">
                 {activeTab === "construction" ? (
-                  <motion.div 
-                    key="c" 
-                    initial={{ opacity: 0, y: 5 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    exit={{ opacity: 0, y: -5 }}
-                    className="space-y-4"
-                  >
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <motion.div key="c" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+
+                    <div className="grid grid-cols-3 gap-2">
                       <select
                         value={structureType}
                         onChange={(e) => setStructureType(e.target.value)}
-                        className="p-3 border border-gray-200 rounded-xl bg-white text-xs text-gray-600 cursor-pointer"
+                        className="p-3 border rounded-xl text-xs"
                       >
                         <option value="residential">Residential</option>
                         <option value="commercial">Commercial</option>
                         <option value="infrastructure">Infrastructure</option>
                       </select>
+
                       <input
-                        placeholder="Area (sqft)"
+                        placeholder="Area"
                         type="number"
                         value={area}
                         onChange={(e) => setArea(e.target.value)}
-                        className="p-3 border border-gray-200 rounded-xl text-xs outline-none focus:border-orange-500"
+                        className="p-3 border rounded-xl text-xs"
                       />
+
                       <input
                         placeholder="Floors"
                         type="number"
                         value={floors}
                         onChange={(e) => setFloors(e.target.value)}
-                        className="p-3 border border-gray-200 rounded-xl text-xs outline-none focus:border-orange-500"
+                        className="p-3 border rounded-xl text-xs"
                       />
                     </div>
+
                     <button
                       onClick={calculateConstruction}
-                      className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all active:scale-[0.97]"
+                      className="w-full bg-orange-500 text-white py-3 rounded-xl font-bold"
                     >
                       Calculate Steel
                     </button>
+
                     {estimatedSteel && (
-                      <div className="bg-orange-50 border border-orange-100 p-4 rounded-2xl text-center">
-                         <span className="text-[10px] text-orange-600 font-bold block uppercase mb-1">Total Estimated Steel</span>
-                        <p className="text-2xl font-black text-orange-700">{estimatedSteel.toLocaleString()} kg</p>
+                      <div className="text-center bg-orange-50 p-4 rounded-xl">
+                        <p className="text-sm text-orange-600">Estimated Steel</p>
+                        <p className="text-2xl font-bold text-orange-700">
+                          {estimatedSteel.toLocaleString()} kg
+                        </p>
                       </div>
                     )}
                   </motion.div>
                 ) : (
-                  <motion.div 
-                    key="w" 
-                    initial={{ opacity: 0, y: 5 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    exit={{ opacity: 0, y: -5 }}
-                    className="space-y-4"
-                  >
+                  <motion.div key="w" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+
                     <div className="grid grid-cols-2 gap-3">
-                       <div className="flex flex-col gap-1">
-                        <label className="text-[9px] font-bold text-gray-400 uppercase ml-1">Diameter</label>
-                        <select
-                          value={diameter}
-                          onChange={(e) => setDiameter(e.target.value)}
-                          className="p-3 border border-gray-200 rounded-xl bg-white text-xs text-gray-600"
-                        >
-                          {[8, 10, 12, 16, 20, 25, 32].map((d) => (
-                            <option key={d} value={d}>{d} mm</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[9px] font-bold text-gray-400 uppercase ml-1">Length (m)</label>
-                        <input
-                          type="number"
-                          value={length}
-                          onChange={(e) => setLength(e.target.value)}
-                          className="p-3 border border-gray-200 rounded-xl text-xs outline-none focus:border-orange-500"
-                        />
-                      </div>
-                      <div className="col-span-2">
-                         <label className="text-[9px] font-bold text-gray-400 uppercase ml-1">Quantity (Pieces)</label>
-                         <input
-                          type="number"
-                          placeholder="e.g. 100"
-                          value={quantity}
-                          onChange={(e) => setQuantity(e.target.value)}
-                          className="p-3 border border-gray-200 rounded-xl text-xs w-full outline-none focus:border-orange-500"
-                        />
-                      </div>
+                      <select
+                        value={diameter}
+                        onChange={(e) => setDiameter(e.target.value)}
+                        className="p-3 border rounded-xl text-xs"
+                      >
+                        {[8, 10, 12, 16, 20, 25, 32].map((d) => (
+                          <option key={d}>{d} mm</option>
+                        ))}
+                      </select>
+
+                      <input
+                        type="number"
+                        value={length}
+                        onChange={(e) => setLength(e.target.value)}
+                        className="p-3 border rounded-xl text-xs"
+                      />
+
+                      <input
+                        placeholder="Quantity"
+                        value={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
+                        className="p-3 border rounded-xl text-xs col-span-2"
+                      />
                     </div>
+
                     <button
                       onClick={calculateWeight}
-                      className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl transition-all shadow-md active:scale-[0.97]"
+                      className="w-full bg-orange-500 text-white py-3 rounded-xl font-bold"
                     >
                       Calculate Weight
                     </button>
+
                     {estimatedWeight && (
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl text-center">
-                          <span className="text-[9px] text-blue-600 font-bold block uppercase mb-1">Weight</span>
-                          <span className="font-black text-blue-800 text-lg">{estimatedWeight.toFixed(2)} kg</span>
+                      <div className="grid grid-cols-2 gap-3 text-center">
+                        <div className="bg-blue-50 p-3 rounded-xl">
+                          <p className="text-xs">Weight</p>
+                          <p className="font-bold">{estimatedWeight.toFixed(2)} kg</p>
                         </div>
-                        <div className="bg-purple-50 border border-purple-100 p-4 rounded-2xl text-center">
-                          <span className="text-[9px] text-purple-600 font-bold block uppercase mb-1">Bundles</span>
-                          <span className="font-black text-purple-800 text-lg">{bundleCount}</span>
+                        <div className="bg-purple-50 p-3 rounded-xl">
+                          <p className="text-xs">Bundles</p>
+                          <p className="font-bold">{bundleCount}</p>
                         </div>
                       </div>
                     )}
                   </motion.div>
                 )}
               </AnimatePresence>
+
             </div>
           </div>
         </motion.div>
