@@ -266,7 +266,7 @@ export default function DynamicModulePage({
                         {item.short_description}
                       </p>
                       <div className="mt-4">
-                        <Link href={`/${module}/${item.slug}`} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
+                      <Link href={`/${module}/${item.slug}`} prefetch={true} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
                           View Details
                         </Link>
                       </div>
@@ -322,7 +322,7 @@ export default function DynamicModulePage({
                         Open Flipbook
                       </button>
                     ) : (
-                      <Link href={`/${module}/${item.slug}`} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
+                      <Link href={`/${module}/${item.slug}`} prefetch={true} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
                         View Details
                       </Link>
                     )}
