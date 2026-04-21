@@ -52,7 +52,16 @@ export default function SteelCalculator() {
 
       setEstimatedWeight(totalWeight);
 
-      const barsPerBundle = d <= 10 ? 10 : d <= 16 ? 5 : 3;
+      let barsPerBundle = 1;
+      switch (d) {
+        case 8: barsPerBundle = 10; break;
+        case 10: barsPerBundle = 7; break;
+        case 12: barsPerBundle = 5; break;
+        case 16: barsPerBundle = 3; break;
+        case 20: barsPerBundle = 2; break;
+        case 25: barsPerBundle = 1; break;
+        case 32: barsPerBundle = 1; break;
+      }
       setBundleCount(Math.ceil(q / barsPerBundle));
     }
   };
@@ -180,45 +189,70 @@ export default function SteelCalculator() {
                   {activeTab === "weight" && (
                     <motion.div key="w" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
 
-                      <div className="grid grid-cols-4 gap-3">
-                        <select
-                          value={diameter}
-                          onChange={(e) => setDiameter(e.target.value)}
-                          className="p-3 border rounded-xl"
-                        >
-                          {[8, 10, 12, 16, 20, 25].map((d) => (
-                            <option key={d}>{d}</option>
-                          ))}
-                        </select>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div className="flex flex-col">
+                          <label className="text-xs text-gray-500 ml-1 mb-1">Diameter</label>
+                          <select
+                            value={diameter}
+                            onChange={(e) => setDiameter(e.target.value)}
+                            className="p-3 border rounded-xl bg-white"
+                          >
+                            {[8, 10, 12, 16, 20, 25, 32].map((d) => (
+                              <option key={d} value={d}>{d} mm</option>
+                            ))}
+                          </select>
+                        </div>
 
-                        <input
-                          value={length}
-                          onChange={(e) => setLength(e.target.value)}
-                          className="p-3 border rounded-xl"
-                        />
+                        <div className="flex flex-col">
+                          <label className="text-xs text-gray-500 ml-1 mb-1">Length (m)</label>
+                          <input
+                            type="number"
+                            value={length}
+                            onChange={(e) => setLength(e.target.value)}
+                            className="p-3 border rounded-xl bg-white"
+                          />
+                        </div>
 
-                        <input
-                          placeholder="Qty"
-                          value={quantity}
-                          onChange={(e) => setQuantity(e.target.value)}
-                          className="p-3 border rounded-xl"
-                        />
+                        <div className="flex flex-col">
+                          <label className="text-xs text-gray-500 ml-1 mb-1">Qty (Pieces)</label>
+                          <input
+                            type="number"
+                            placeholder="E.g. 100"
+                            value={quantity}
+                            onChange={(e) => setQuantity(e.target.value)}
+                            className="p-3 border rounded-xl bg-white"
+                          />
+                        </div>
 
-                        <button
-                          onClick={calculateWeight}
-                          className="bg-orange-500 text-white rounded-xl"
-                        >
-                          Go
-                        </button>
+                        <div className="flex flex-col justify-end">
+                          <button
+                            onClick={calculateWeight}
+                            className="w-full bg-orange-500 text-white p-3 rounded-xl hover:bg-orange-600 transition-colors"
+                          >
+                            Calculate
+                          </button>
+                        </div>
                       </div>
 
                       {estimatedWeight && (
-                        <div className="grid grid-cols-2 gap-3 mt-4 text-center">
-                          <div className="bg-blue-50 p-4 rounded-xl">
-                            {estimatedWeight.toFixed(2)} kg
+                        <div className="grid grid-cols-2 gap-3 mt-4 text-center text-sm md:text-base">
+                          <div className="bg-blue-50 p-4 rounded-xl flex flex-col justify-center">
+                            <span className="text-gray-500 text-xs uppercase tracking-wider mb-1">Total Weight</span>
+                            <span className="font-bold text-blue-700 text-xl">{estimatedWeight.toFixed(2)} kg</span>
                           </div>
-                          <div className="bg-purple-50 p-4 rounded-xl">
-                            {bundleCount}
+                          <div className="bg-purple-50 p-4 rounded-xl flex flex-col justify-center">
+                            <span className="text-gray-500 text-xs uppercase tracking-wider mb-1">Est. Bundles</span>
+                            <span className="font-bold text-purple-700 text-xl">{bundleCount}</span>
+                          </div>
+                          <div className="col-span-2 bg-gray-50 p-3 rounded-xl text-gray-600 text-xs text-left">
+                            <p><strong>Note:</strong> Standard bundle size for {diameter}mm TMT is {
+                              diameter === "8" ? "10" :
+                              diameter === "10" ? "7" :
+                              diameter === "12" ? "5" :
+                              diameter === "16" ? "3" :
+                              diameter === "20" ? "2" : "1"
+                            } pieces.</p>
+                            <p className="mt-1">Approximate weight per piece ({length}m): <strong>{(((Number(diameter) * Number(diameter)) / 162) * Number(length)).toFixed(2)} kg</strong>.</p>
                           </div>
                         </div>
                       )}
