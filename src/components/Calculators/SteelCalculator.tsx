@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -86,10 +87,12 @@ export default function SteelCalculator() {
       
       {/* BACKGROUND IMAGE */}
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src="/steel.png"
           alt="Steel background"
-          className="w-full h-full object-cover object-center md:object-left"
+          fill
+          priority
+          className="object-cover object-center md:object-left"
         />
         {/* Subtle overlay to help white text/inputs pop if needed */}
         <div className="absolute inset-0 bg-black/5 md:bg-transparent" />

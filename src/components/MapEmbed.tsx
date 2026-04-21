@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Factory } from "lucide-react";
@@ -40,10 +41,11 @@ export default function MapEmbed() {
 
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
-        <img
+        <Image
           src="/map.jpg"
           alt="background"
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
         />
       </div>
 

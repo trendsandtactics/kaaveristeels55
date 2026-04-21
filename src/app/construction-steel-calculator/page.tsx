@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -90,10 +91,12 @@ export default function SteelCalculator() {
 
       {/* BACKGROUND */}
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src="/steel.png"
           alt="Steel background"
-          className="w-full h-full object-cover object-[30%_center]"
+          fill
+          priority
+          className="object-cover object-[30%_center]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent" />
       </div>

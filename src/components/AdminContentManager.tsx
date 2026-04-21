@@ -405,7 +405,7 @@ export default function AdminContentManager() {
             <p><strong>Email:</strong> {String(viewingItem.email && String(viewingItem.email) !== 'no-email@provided.com' ? viewingItem.email : "N/A")}</p>
             <p><strong>Phone:</strong> {String(viewingItem.phone ?? "N/A")}</p>
             <p><strong>Type:</strong> <span className="font-semibold uppercase">{String(viewingItem.enquiry_type ?? "N/A")}</span></p>
-            {viewingItem.product_name && <p><strong>Product:</strong> {String(viewingItem.product_name)}</p>}
+            {viewingItem.product_name ? <p><strong>Product:</strong> {String(viewingItem.product_name)}</p> : null}
             <p className="font-semibold">Message:</p>
             <div className="max-h-60 overflow-y-auto whitespace-pre-wrap rounded-lg border bg-slate-50 p-3 text-slate-800">{String(viewingItem.message ?? "No message provided.")}</div>
           </div>
