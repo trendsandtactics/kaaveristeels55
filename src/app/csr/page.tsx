@@ -18,14 +18,14 @@ export default async function CSRPage() {
   return (
     <main className="min-h-screen pt-24 bg-gray-50 pb-20">
       {/* Hero Section */}
-      <section className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow py-10 md:py-12 px-6 relative overflow-hidden shadow-sm border-b border-black/10">
+      <section className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow py-8 md:py-10 px-6 relative overflow-hidden shadow-sm border-b border-black/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
         <div className="max-w-7xl mx-auto relative z-10">
           <p className="text-xs uppercase tracking-[0.2em] font-semibold text-black/70">Initiatives</p>
-          <h1 className="font-sans text-5xl md:text-7xl text-black mt-3 drop-shadow-md">
+          <h1 className="font-sans text-5xl md:text-7xl text-black mt-2 drop-shadow-md">
             Corporate Social Responsibility
           </h1>
-          <p className="text-black/80 mt-3 max-w-2xl font-medium">
+          <p className="text-black/80 mt-2 max-w-2xl font-medium">
             Building a better tomorrow, together. Explore our commitment to social and environmental well-being.
           </p>
         </div>

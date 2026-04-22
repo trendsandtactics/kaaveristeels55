@@ -75,12 +75,12 @@ export default function CertificationsPage() {
   return (
     <main className="min-h-screen bg-[#f6f6f6]">
       {/* Hero Section */}
-      <section className="relative w-full overflow-hidden bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow py-24 text-black shadow-2xl md:py-32">
+      <section className="relative w-full overflow-hidden bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow py-10 text-black shadow-2xl md:py-12">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] mix-blend-overlay" />
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] opacity-30 mix-blend-overlay" />
 
         <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
-          <div className="mb-6 flex items-center justify-center gap-4">
+          <div className="mb-4 flex items-center justify-center gap-4">
             <div className="h-[2px] w-12 bg-black" />
             <h1 className="font-body text-sm font-bold uppercase tracking-[0.2em] text-black">
               Verified Certificates
@@ -94,7 +94,7 @@ export default function CertificationsPage() {
             Proven Standards.
           </h2>
 
-          <p className="mx-auto mt-6 max-w-3xl text-base leading-7 text-black/75 md:text-lg">
+          <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-black/75 md:text-lg">
             Explore KAAVERI certifications published directly from the admin
             panel for complete public transparency, trust, and quality
             assurance.
