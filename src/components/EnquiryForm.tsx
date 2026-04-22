@@ -54,7 +54,7 @@ export default function EnquiryForm() {
 
   return (
     <section
-      className="relative w-full py-12 md:py-16 px-6 md:px-12 bg-cover bg-center"
+      className="relative w-full pt-28 pb-8 md:pt-32 md:pb-10 px-6 md:px-12 bg-cover bg-center"
       style={{
         backgroundImage: "url('/bg.jpg')",
       }}

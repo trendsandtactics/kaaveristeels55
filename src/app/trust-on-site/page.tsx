@@ -58,7 +58,7 @@ export default function TrustOnSitePage() {
     <main className="w-full bg-[#f3f4f6]">
 
       {/* 🌟 HERO SECTION */}
-    <section className="relative pt-24 pb-4 md:pb-6 overflow-hidden">
+    <section className="relative pt-28 pb-6 md:pt-32 md:pb-8 overflow-hidden">
 
   {/* 🌆 Background Image */}
   <div className="absolute inset-0">

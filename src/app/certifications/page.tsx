@@ -73,9 +73,9 @@ export default function CertificationsPage() {
   }, [items]);
 
   return (
-    <main className="min-h-screen pt-20 md:pt-24 bg-[#f6f6f6]">
+    <main className="min-h-screen bg-[#f6f6f6]">
       {/* Hero Section */}
-      <section className="relative w-full overflow-hidden bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow py-4 md:py-6 text-black shadow-2xl">
+      <section className="relative w-full overflow-hidden bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-28 pb-6 md:pt-32 md:pb-8 text-black shadow-2xl">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] mix-blend-overlay" />
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] opacity-30 mix-blend-overlay" />
 

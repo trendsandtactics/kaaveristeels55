@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function MapEmbed() {
   return (
-    <section className="relative w-full pt-20 md:pt-24 pb-6 flex items-center overflow-hidden">
+    <section className="relative w-full pt-28 pb-8 md:pt-32 md:pb-10 flex items-center overflow-hidden">
 
       {/* 🌆 Background */}
       <div className="absolute inset-0">
