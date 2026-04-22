@@ -73,7 +73,7 @@ export default function EnquiryForm() {
             Get in Touch
           </h2>
           <p className="text-black/60 mt-2">
-            Have a question or a project in mind? Let's talk.
+            Have a question or a project in mind? Let&apos;s talk.
           </p>
         </div>
 
