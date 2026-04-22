@@ -5,7 +5,7 @@ export default function AboutHero() {
     return (
         <div className="w-full bg-white">
             {/* Hero Background Section - Maroon Gradient */}
-            <div className="w-full bg-gradient-to-r from-[#800000] via-[#a52a2a] to-[#800000] pt-32 pb-20 relative overflow-hidden shadow-sm">
+            <div className="w-full bg-gradient-to-r from-[#800000] via-[#a52a2a] to-[#800000] pt-24 pb-8 md:pb-10 relative overflow-hidden shadow-sm">
                 
                 {/* Depth Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10 pointer-events-none" />
