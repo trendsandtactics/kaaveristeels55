@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from "react";
 
+const baseInputClasses = "w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-800 placeholder-gray-500 outline-none transition focus:ring-2 focus:ring-red-500";
+
 export default function EnquiryForm() {
   const [form, setForm] = useState({
     name: "",
@@ -68,10 +70,10 @@ export default function EnquiryForm() {
         {/* Heading */}
         <div className="mb-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-black">
-            Product / Sales Enquiry
+            Get in Touch
           </h2>
-          <p className="text-black/60 mt-2 text-sm">
-            Share your requirement and our team will respond quickly.
+          <p className="text-black/60 mt-2">
+            Have a question or a project in mind? Let's talk.
           </p>
         </div>
 
@@ -82,7 +84,7 @@ export default function EnquiryForm() {
             <input
               required
               placeholder="Name"
-              className="input"
+              className={baseInputClasses}
               value={form.name}
               onChange={(e) =>
                 setForm((s) => ({ ...s, name: e.target.value }))
@@ -93,7 +95,7 @@ export default function EnquiryForm() {
               required
               type="email"
               placeholder="Email"
-              className="input"
+              className={baseInputClasses}
               value={form.email}
               onChange={(e) =>
                 setForm((s) => ({ ...s, email: e.target.value }))
@@ -102,7 +104,7 @@ export default function EnquiryForm() {
 
             <input
               placeholder="Phone"
-              className="input"
+              className={baseInputClasses}
               value={form.phone}
               onChange={(e) =>
                 setForm((s) => ({ ...s, phone: e.target.value }))
@@ -110,7 +112,7 @@ export default function EnquiryForm() {
             />
 
             <select
-              className="input text-black"
+              className={baseInputClasses}
               value={form.enquiry_type}
               onChange={(e) =>
                 setForm((s) => ({
@@ -127,7 +129,7 @@ export default function EnquiryForm() {
 
           <input
             placeholder="Product name (optional)"
-            className="input w-full"
+            className={baseInputClasses}
             value={form.product_name}
             onChange={(e) =>
               setForm((s) => ({ ...s, product_name: e.target.value }))
@@ -136,7 +138,7 @@ export default function EnquiryForm() {
 
           <textarea
             placeholder="Message"
-            className="input w-full min-h-28"
+            className={`${baseInputClasses} min-h-28`}
             value={form.message}
             onChange={(e) =>
               setForm((s) => ({ ...s, message: e.target.value }))
@@ -157,26 +159,6 @@ export default function EnquiryForm() {
             {statusMessage}
           </p>
         )}
-
-        {/* Reusable Input Styles */}
-        <style jsx>{`
-          .input {
-            background: #ffffff;
-            border: 1px solid #d1d5db;
-            color: #111827;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-            width: 100%;
-          }
-          .input::placeholder {
-            color: #6b7280;
-          }
-          .input:focus {
-            border-color: #ef4444;
-          }
-        `}</style>
       </div>
     </section>
   );
