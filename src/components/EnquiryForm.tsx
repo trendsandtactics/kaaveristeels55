@@ -56,7 +56,7 @@ export default function EnquiryForm() {
 
   return (
     <section
-      className="relative w-full pt-28 pb-8 md:pt-32 md:pb-10 px-6 md:px-12 bg-cover bg-center"
+      className="relative w-full pt-24 pb-6 md:pt-28 md:pb-8 px-6 md:px-12 bg-cover bg-center"
       style={{
         backgroundImage: "url('/bg.jpg')",
       }}
@@ -65,10 +65,10 @@ export default function EnquiryForm() {
       <div className="absolute inset-0 bg-white/80 backdrop-blur-sm"></div>
 
       {/* Content */}
-      <div className="relative max-w-3xl mx-auto bg-white/90 rounded-2xl p-8 shadow-xl border border-black/10">
+      <div className="relative max-w-3xl mx-auto bg-white/90 rounded-2xl p-6 md:p-8 shadow-xl border border-black/10">
         
         {/* Heading */}
-        <div className="mb-6 text-center">
+        <div className="mb-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-black">
             Get in Touch
           </h2>
