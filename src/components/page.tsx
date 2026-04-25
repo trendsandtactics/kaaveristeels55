@@ -58,12 +58,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Body Section - 50/50 Split */}
+      {/* Body Section - Strict 50/50 Split */}
       <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
           
           {/* First 50%: Image */}
-          <div className="w-full">
+          <div className="w-full min-w-0">
             <div className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full rounded-2xl overflow-hidden shadow-xl border border-black/10 bg-white">
               {coverImage ? (
                 <Image 
@@ -83,7 +83,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           </div>
 
           {/* Next 50%: Content */}
-          <div className="w-full flex flex-col overflow-hidden">
+          <div className="w-full min-w-0 flex flex-col overflow-hidden">
             <h2 className="font-heading text-3xl md:text-4xl text-black font-bold mb-6">
               Product Overview
             </h2>
