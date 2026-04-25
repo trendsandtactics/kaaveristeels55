@@ -15,36 +15,31 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const events = await listModuleItems("csr", { status: "published" });
+  const products = await listModuleItems("products", { status: "published" });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const event = events.find((e: any) => e.slug === params.slug);
+  const product = products.find((p: any) => p.slug === params.slug);
 
-  if (!event) return { title: "Not Found | KAAVERI Steels" };
+  if (!product) return { title: "Not Found | KAAVERI Steels" };
 
   return {
-    title: `${event.title} | CSR | KAAVERI Steels`,
-    description: event.short_description || "Explore our corporate social responsibility initiatives.",
+    title: `${product.title} | Products | KAAVERI Steels`,
+    description: product.shortDescription || product.short_description || "Explore our products.",
   };
 }
 
-export default async function CSRDetailPage({ params }: PageProps) {
-  const events = await listModuleItems("csr", { status: "published" });
+export default async function ProductDetailPage({ params }: PageProps) {
+  const products = await listModuleItems("products", { status: "published" });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const event = events.find((e: any) => e.slug === params.slug);
+  const product = products.find((p: any) => p.slug === params.slug);
 
-  if (!event) {
+  if (!product) {
     notFound();
   }
-
-  let extraData: Record<string, string> = {};
-  try {
-    extraData = typeof event.extra_data === "string" ? JSON.parse(event.extra_data) : (event.extra_data || {});
-  } catch {
-    // Ignore JSON parsing errors
-  }
   
-  const eventDate = extraData?.event_date;
-  const coverImage = event.cover_image ? resolveMediaUrl(event.cover_image, "") : "";
+  // Use the image property (or cover_image fallback)
+  const coverImage = product.image 
+    ? resolveMediaUrl(product.image, "") 
+    : (product.cover_image ? resolveMediaUrl(product.cover_image, "") : "");
 
   return (
     <main className="min-h-screen bg-gray-50 pb-20">
@@ -54,31 +49,26 @@ export default async function CSRDetailPage({ params }: PageProps) {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
         
         <div className="max-w-7xl mx-auto relative z-10">
-          <Link href="/csr" className="text-sm font-bold text-black/60 hover:text-black uppercase tracking-widest mb-6 inline-flex items-center gap-2 transition-colors">
-            <span>&larr;</span> Back to Initiatives
+          <Link href="/products" className="text-sm font-bold text-black/60 hover:text-black uppercase tracking-widest mb-6 inline-flex items-center gap-2 transition-colors">
+            <span>&larr;</span> Back to Products
           </Link>
           <h1 className="font-heading text-4xl md:text-6xl text-black mt-2 drop-shadow-md font-extrabold max-w-4xl">
-            {event.title}
+            {product.title}
           </h1>
-          {eventDate && (
-            <p className="text-black/70 mt-4 font-bold tracking-widest uppercase text-sm">
-              {new Date(eventDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
-            </p>
-          )}
         </div>
       </section>
 
-      {/* Body Section - 50/50 Split */}
+      {/* Body Section - Strict 50/50 Split */}
       <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
+        <div className="flex flex-col md:flex-row w-full gap-12 md:gap-16 items-start">
           
           {/* First 50%: Image */}
-          <div className="w-full min-w-0">
+          <div className="w-full md:w-1/2 shrink-0">
             <div className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full rounded-2xl overflow-hidden shadow-xl border border-black/10 bg-white">
               {coverImage ? (
                 <Image 
                   src={coverImage} 
-                  alt={event.title} 
+                  alt={product.title} 
                   fill 
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -93,20 +83,26 @@ export default async function CSRDetailPage({ params }: PageProps) {
           </div>
 
           {/* Next 50%: Content */}
-          <div className="w-full min-w-0 flex flex-col overflow-hidden">
+          <div className="w-full md:w-1/2 flex flex-col overflow-hidden">
             <h2 className="font-heading text-3xl md:text-4xl text-black font-bold mb-6">
-              About The Initiative
+              Product Overview
             </h2>
             
-            <div className="prose prose-lg max-w-none text-black/80 font-body leading-relaxed">
-              {event.content ? (
-                <div dangerouslySetInnerHTML={{ __html: event.content }} />
+            <div className="prose prose-lg max-w-none text-black/80 font-body leading-relaxed break-words">
+              {product.content || product.description ? (
+                <div dangerouslySetInnerHTML={{ __html: product.content || product.description }} />
               ) : (
                 <>
-                  <p className="text-xl font-medium mb-4">{event.short_description}</p>
-                  <p>Detailed information about this corporate social responsibility initiative is currently being updated. Please check back later for more comprehensive details regarding our activities, community impact, and the positive changes we are bringing about.</p>
+                  <p className="text-xl font-medium mb-4">{product.shortDescription || product.short_description}</p>
+                  <p>Detailed specifications, features, and applications for this product are currently being updated. Please contact us for more comprehensive details regarding our inventory and custom manufacturing options.</p>
                 </>
               )}
+              
+              <div className="mt-10">
+                <Link href={`/contact-us?product=${product.slug}`} className="px-8 py-4 bg-black text-white font-body text-sm uppercase tracking-widest font-bold hover:bg-accent-red transition-colors duration-300 shadow-md rounded-sm inline-block">
+                  Enquire About This Product
+                </Link>
+              </div>
             </div>
           </div>
 
