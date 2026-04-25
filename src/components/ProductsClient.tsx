@@ -178,10 +178,15 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                                                 {product.shortDescription}
                                             </p>
                                             
-                                            <Link href={`/contact-us?product=${product.slug}`} className="inline-flex items-center gap-2 text-accent-red font-bold text-sm uppercase tracking-widest group-hover:text-black transition-colors">
-                                                Enquire Now
-                                                <span className="transform translate-x-0 group-hover:translate-x-2 transition-transform duration-300">→</span>
-                                            </Link>
+                                            <div className="flex flex-wrap items-center gap-5 mt-auto pt-2">
+                                                <Link href={`/products/${product.slug}`} className="px-5 py-2.5 bg-black text-white text-xs font-bold uppercase tracking-widest rounded-sm hover:bg-accent-red transition-colors shadow-sm">
+                                                    Read More
+                                                </Link>
+                                                <Link href={`/contact-us?product=${product.slug}`} className="inline-flex items-center gap-2 text-accent-red font-bold text-sm uppercase tracking-widest group-hover:text-black transition-colors">
+                                                    Enquire Now
+                                                    <span className="transform translate-x-0 group-hover:translate-x-2 transition-transform duration-300">→</span>
+                                                </Link>
+                                            </div>
                                         </div>
                                     </motion.div>
                                 ))}
