@@ -60,30 +60,28 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
       {/* Body Section - Strict 50/50 Split */}
       <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-        <div className="flex flex-col md:flex-row w-full gap-12 md:gap-16 items-start">
+        <div className="flex flex-col md:flex-row w-full bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-500 border border-black/5 items-stretch group">
           
           {/* First 50%: Image */}
-          <div className="w-full md:w-1/2 shrink-0">
-            <div className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full rounded-2xl overflow-hidden shadow-xl border border-black/10 bg-white">
-              {coverImage ? (
-                <Image 
-                  src={coverImage} 
-                  alt={product.title} 
-                  fill 
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  priority
-                />
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center bg-gray-100 text-black/40">
-                  <span className="font-body text-lg">No image available</span>
-                </div>
-              )}
-            </div>
+          <div className="w-full md:w-1/2 relative min-h-[400px] md:min-h-[500px] lg:min-h-[600px] shrink-0 overflow-hidden bg-gray-100">
+            {coverImage ? (
+              <Image 
+                src={coverImage} 
+                alt={product.title} 
+                fill 
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+              />
+            ) : (
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-black/40">
+                <span className="font-body text-lg">No image available</span>
+              </div>
+            )}
           </div>
 
           {/* Next 50%: Content */}
-          <div className="w-full md:w-1/2 flex flex-col overflow-hidden">
+          <div className="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 lg:p-16">
             <h2 className="font-heading text-3xl md:text-4xl text-black font-bold mb-6">
               Product Overview
             </h2>
