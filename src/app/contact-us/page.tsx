@@ -60,35 +60,33 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
       {/* Body Section - Strict 50/50 Split */}
       <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-        <div className="flex flex-col md:flex-row w-full gap-12 md:gap-16 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-500 border border-black/5 group">
           
-          {/* First 50%: Image */}
-          <div className="w-full md:w-1/2 shrink-0">
-            <div className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full rounded-2xl overflow-hidden shadow-xl border border-black/10 bg-white">
+          {/* Left 50%: Image */}
+          <div className="relative w-full h-full min-h-[400px] md:min-h-[500px] overflow-hidden bg-gray-100 min-w-0">
               {coverImage ? (
                 <Image 
                   src={coverImage} 
                   alt={item.title} 
                   fill 
-                  className="object-cover"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   priority
                 />
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center bg-gray-100 text-black/40">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-black/40">
                   <span className="font-body text-lg">No image available</span>
                 </div>
               )}
-            </div>
           </div>
 
-          {/* Next 50%: Content */}
-          <div className="w-full md:w-1/2 flex flex-col overflow-hidden">
+          {/* Right 50%: Content */}
+          <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16 min-w-0 overflow-hidden">
             <h2 className="font-heading text-3xl md:text-4xl text-black font-bold mb-6">
               Project Details
             </h2>
             
-            <div className="prose prose-lg max-w-none text-black/80 font-body leading-relaxed break-words">
+            <div className="prose prose-lg max-w-none prose-headings:font-heading prose-headings:font-bold prose-headings:text-black prose-p:text-black/80 prose-a:text-accent-red hover:prose-a:text-red-700 prose-li:marker:text-accent-red font-body leading-relaxed break-words overflow-hidden">
               {item.content ? (
                 <div dangerouslySetInnerHTML={{ __html: item.content }} />
               ) : (

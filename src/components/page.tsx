@@ -62,8 +62,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
       <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 w-full bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-500 border border-black/5 group">
           
-          {/* First 50%: Image */}
-          <div className="relative w-full h-full min-h-[400px] overflow-hidden bg-gray-100 min-w-0">
+          {/* Left 50%: Image */}
+          <div className="relative w-full h-full min-h-[400px] md:min-h-[500px] overflow-hidden bg-gray-100 min-w-0">
             {coverImage ? (
               <Image 
                 src={coverImage} 
@@ -80,7 +80,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             )}
           </div>
 
-          {/* Next 50%: Content */}
+          {/* Right 50%: Content */}
           <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16 min-w-0 overflow-hidden">
             <h2 className="font-heading text-3xl md:text-4xl text-black font-bold mb-6">
               Product Overview
