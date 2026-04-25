@@ -60,10 +60,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
       {/* Body Section - Strict 50/50 Split */}
       <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-        <div className="flex flex-col md:flex-row w-full bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-500 border border-black/5 items-stretch group">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-500 border border-black/5 group">
           
           {/* First 50%: Image */}
-          <div className="w-full md:w-1/2 relative min-h-[400px] md:min-h-[500px] lg:min-h-[600px] shrink-0 overflow-hidden bg-gray-100">
+          <div className="relative w-full h-full min-h-[400px] overflow-hidden bg-gray-100 min-w-0">
             {coverImage ? (
               <Image 
                 src={coverImage} 
@@ -81,12 +81,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
           </div>
 
           {/* Next 50%: Content */}
-          <div className="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-12 lg:p-16">
+          <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16 min-w-0 overflow-hidden">
             <h2 className="font-heading text-3xl md:text-4xl text-black font-bold mb-6">
               Product Overview
             </h2>
             
-            <div className="prose prose-lg max-w-none text-black/80 font-body leading-relaxed">
+            <div className="prose prose-lg max-w-none text-black/80 font-body leading-relaxed break-words overflow-hidden">
               {product.content || product.description ? (
                 <div dangerouslySetInnerHTML={{ __html: product.content || product.description }} />
               ) : (
