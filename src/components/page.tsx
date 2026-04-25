@@ -86,7 +86,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               Product Overview
             </h2>
             
-            <div className="prose prose-lg max-w-none text-black/80 font-body leading-relaxed break-words overflow-hidden">
+            <div className="prose prose-lg max-w-none prose-headings:font-heading prose-headings:font-bold prose-headings:text-black prose-p:text-black/80 prose-a:text-accent-red hover:prose-a:text-red-700 prose-li:marker:text-accent-red font-body leading-relaxed break-words overflow-hidden">
               {product.content || product.description ? (
                 <div dangerouslySetInnerHTML={{ __html: product.content || product.description }} />
               ) : (

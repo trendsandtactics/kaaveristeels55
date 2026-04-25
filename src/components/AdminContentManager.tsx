@@ -105,7 +105,7 @@ export default function AdminContentManager() {
   }, [activeModule]);
 
   useEffect(() => {
-    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "pages") && richEditorRef.current) {
+    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "pages" || activeModule === "products") && richEditorRef.current) {
       if (richEditorRef.current.innerHTML !== (form.content || "")) {
         richEditorRef.current.innerHTML = form.content || "";
       }
@@ -279,39 +279,39 @@ export default function AdminContentManager() {
   const renderModuleSpecificFields = () => {
     switch (activeModule) {
       case "products":
-        return (
-          <>
-            <div className="md:col-span-2">
-              <select
-                className="w-full border rounded-lg px-3 py-2 text-sm"
-                value={form.extra_data.category ?? ""}
-                onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, category: e.target.value } }))}
-              >
-                <option value="" disabled>Select Category</option>
-                <option value="TMT">TMT</option>
-                <option value="Structural">Structural</option>
-              </select>
-            </div>
-            {form.extra_data.category === "TMT" && (
-              <div className="md:col-span-2">
-                <select
-                  className="w-full border rounded-lg px-3 py-2 text-sm mt-2"
-                  value={form.extra_data.subcategory ?? ""}
-                  onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, subcategory: e.target.value } }))}
-                >
-                  <option value="" disabled>Select Subcategory (Optional)</option>
-                  <option value="Bars">Bars</option>
-                  <option value="Rings">Rings</option>
-                </select>
-              </div>
-            )}
-          </>
-        );
       case "blogs":
       case "csr":
   case "pages":
         return (
           <>
+            {activeModule === "products" ? (
+              <>
+                <div className="md:col-span-2">
+                  <select
+                    className="w-full border rounded-lg px-3 py-2 text-sm"
+                    value={form.extra_data.category ?? ""}
+                    onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, category: e.target.value } }))}
+                  >
+                    <option value="" disabled>Select Category</option>
+                    <option value="TMT">TMT</option>
+                    <option value="Structural">Structural</option>
+                  </select>
+                </div>
+                {form.extra_data.category === "TMT" && (
+                  <div className="md:col-span-2">
+                    <select
+                      className="w-full border rounded-lg px-3 py-2 text-sm mt-2"
+                      value={form.extra_data.subcategory ?? ""}
+                      onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, subcategory: e.target.value } }))}
+                    >
+                      <option value="" disabled>Select Subcategory (Optional)</option>
+                      <option value="Bars">Bars</option>
+                      <option value="Rings">Rings</option>
+                    </select>
+                  </div>
+                )}
+              </>
+            ) : null}
             {activeModule === "csr" ? (
               <input className="md:col-span-2 border rounded-lg px-3 py-2 text-sm" placeholder="Event Date (YYYY-MM-DD)" value={form.extra_data.event_date ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, event_date: e.target.value } }))} />
             ) : null}
@@ -562,7 +562,7 @@ export default function AdminContentManager() {
 
                 <textarea className="min-h-20 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Short description" value={form.short_description} onChange={(e) => setForm((s) => ({ ...s, short_description: e.target.value }))} />
 
-                {activeModule !== "blogs" && activeModule !== "csr" ? (
+                {activeModule !== "blogs" && activeModule !== "csr" && activeModule !== "pages" && activeModule !== "products" ? (
                   <textarea className="min-h-32 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Content" value={form.content} onChange={(e) => setForm((s) => ({ ...s, content: e.target.value }))} />
                 ) : null}
 
