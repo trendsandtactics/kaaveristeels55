@@ -235,22 +235,21 @@ export default function DynamicModulePage({
           <div className="mb-10">
             <h2 className="font-heading text-2xl text-black mb-4">Featured</h2>
 
-            <div className="grid grid-cols-1 gap-6">
+            <div className="grid md:grid-cols-3 gap-5">
               {featured.map((item) => {
                 const imageSrc = resolveMediaUrl(item.cover_image || item.file_url || "", "");
 
                 return (
                   <article
                     key={item.id}
-                    className="group flex flex-col md:flex-row rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+                    className="group rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
                   >
-                    {/* First 50%: Image */}
-                    <div className="relative w-full md:w-1/2 min-h-[250px] overflow-hidden bg-gray-100 shrink-0">
+                    <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imageSrc}
                         alt={item.title}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         onError={(e) => {
                           e.currentTarget.style.display = "none";
                         }}
@@ -258,17 +257,16 @@ export default function DynamicModulePage({
                       <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
                     </div>
 
-                    {/* Next 50%: Content */}
-                    <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+                    <div className="p-5">
                       <p className="text-[10px] uppercase tracking-[0.18em] text-black/50 font-semibold">
                         Featured
                       </p>
                       <h3 className="font-['Open_Sans'] text-2xl mt-2 text-black">{item.title}</h3>
-                      <p className="text-sm text-black/65 mt-3 line-clamp-3">
+                      <p className="text-sm text-black/65 mt-2 line-clamp-3">
                         {item.short_description}
                       </p>
-                      <div className="mt-6">
-                        <Link href={`/${module}/${item.slug}`} prefetch={true} className="inline-flex rounded-lg bg-black px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
+                      <div className="mt-4">
+                      <Link href={`/${module}/${item.slug}`} prefetch={true} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
                           View Details
                         </Link>
                       </div>
@@ -280,53 +278,51 @@ export default function DynamicModulePage({
           </div>
         ) : null}
 
-        <div className="grid grid-cols-1 gap-8">
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
           {paginatedItems.map((item) => {
             const imageSrc = resolveMediaUrl(item.cover_image || item.file_url || "", "");
 
             return (
               <article
                 key={item.id}
-                className="group flex flex-col md:flex-row rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+                className="group rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
               >
-                {/* First 50%: Image */}
-                <div className="relative w-full md:w-1/2 min-h-[250px] overflow-hidden bg-gray-100 shrink-0">
+                <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imageSrc}
                     alt={item.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
                     }}
                   />
 
                   <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
-                  <p className="absolute bottom-4 left-5 text-[10px] uppercase tracking-[0.18em] text-white font-semibold z-10">
+                  <p className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.18em] text-white font-semibold z-10">
                     {module}
                   </p>
                 </div>
 
-                {/* Next 50%: Content */}
-                <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
-                  <h3 className="font-['Open_Sans'] text-2xl md:text-3xl text-black group-hover:text-accent-red transition-colors">
+                <div className="p-5">
+                  <h3 className="font-['Open_Sans'] text-2xl text-black group-hover:text-accent-red transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-base text-black/70 mt-4 line-clamp-4 leading-relaxed">
+                  <p className="text-sm text-black/65 mt-2 line-clamp-3">
                     {item.short_description}
                   </p>
 
-                  <div className="mt-8 flex items-center justify-between gap-2">
+                  <div className="mt-4 flex items-center justify-between gap-2">
                     {module === "brochures" ? (
                       <button
                         onClick={() => openFlipbook(item)}
                         disabled={!brochurePdfUrlForItem(item)}
-                        className="inline-flex rounded-lg bg-black px-5 py-3 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="text-sm font-semibold text-accent-red hover:text-accent-red/80 disabled:cursor-not-allowed disabled:text-black/35"
                       >
                         Open Flipbook
                       </button>
                     ) : (
-                      <Link href={`/${module}/${item.slug}`} prefetch={true} className="inline-flex rounded-lg bg-black px-5 py-3 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
+                      <Link href={`/${module}/${item.slug}`} prefetch={true} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
                         View Details
                       </Link>
                     )}
