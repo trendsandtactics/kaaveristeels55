@@ -43,17 +43,17 @@ export default async function ProductDetailPage({ params }: PageProps) {
     : (product.cover_image ? resolveMediaUrl(product.cover_image, "") : "");
 
   return (
-    <main className="w-full bg-white">
+    <main className="w-screen relative left-1/2 -translate-x-1/2">
       <ClientFadeUp className="flex flex-col lg:flex-row w-full min-h-screen">
           
-          {/* Left 55%: Image Area - Full Size, No Box */}
-          <div className="relative w-full lg:w-[55%] min-h-[50vh] lg:min-h-screen bg-white flex items-center justify-center">
+          {/* Left 55%: Image Area - Transparent Background */}
+          <div className="relative w-full lg:w-[55%] min-h-[50vh] lg:min-h-screen flex items-center justify-center pt-24 lg:pt-0">
             {coverImage ? (
               <Image 
                 src={coverImage} 
                 alt={product.title} 
                 fill 
-                className="object-contain mix-blend-multiply hover:scale-105 transition-transform duration-1000 ease-out"
+                className="object-contain mix-blend-multiply hover:scale-[1.02] transition-transform duration-1000 ease-out lg:p-12"
                 sizes="(max-width: 1024px) 100vw, 55vw"
                 priority
               />
@@ -65,7 +65,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           </div>
 
           {/* Right 45%: Content Area */}
-          <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 py-16 lg:px-20 xl:px-28 bg-white">
+          <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 py-16 lg:px-20 xl:px-28 pt-8 lg:pt-32">
             <Link href="/products" className="text-xs font-bold text-gray-500 hover:text-black uppercase tracking-widest mb-12 inline-flex items-center gap-2 transition-colors">
               <span>&larr;</span> Back to Products
             </Link>
