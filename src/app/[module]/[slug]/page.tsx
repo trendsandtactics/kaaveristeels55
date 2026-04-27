@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getPublicModuleItemBySlug } from "@/lib/dynamic-cms";
 import { resolveMediaUrl } from "@/lib/media";
+import ClientFadeUp from "@/components/ClientFadeUp";
 
 const ALLOWED_MODULES = new Set(["products", "mediaEvents", "blogs", "projects", "careers", "dealers", "galleries", "brochures", "popups", "csr"]);
 const MODULE_TITLES: Record<string, string> = {
@@ -36,41 +37,49 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
   const moduleTitle = MODULE_TITLES[module] ?? module;
 
   return (
-    <main className="min-h-screen pt-24 bg-gray-50">
-      <section className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow py-16 px-6 border-b border-black/10">
-        <div className="max-w-5xl mx-auto">
-          <p className="text-xs uppercase tracking-[0.18em] text-black/60 font-semibold">{moduleTitle}</p>
-          <h1 className="font-['Open_Sans'] text-4xl md:text-6xl text-black mt-3">{title}</h1>
-          <p className="text-black/75 mt-3 max-w-3xl">{description}</p>
-        </div>
-      </section>
-
-      {/* Body Section - Strict 50/50 Split */}
-      <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 w-full bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-500 border border-black/5 group">
+    <main className="w-screen relative left-1/2 -translate-x-1/2 bg-white">
+      <ClientFadeUp className="flex flex-col lg:flex-row w-full min-h-screen">
           
-          {/* Left 50%: Image */}
-          <div className="relative w-full h-full min-h-[400px] md:min-h-[500px] overflow-hidden bg-gray-100 min-w-0">
-            <Image src={image} alt={title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" sizes="(max-width: 1024px) 100vw, 50vw" priority />
+          {/* Left 55%: Image Area - Transparent Background */}
+          <div className="relative w-full lg:w-[55%] min-h-[50vh] lg:min-h-screen flex items-center justify-center pt-24 lg:pt-0">
+            <Image 
+              src={image} 
+              alt={title} 
+              fill 
+              className="object-contain mix-blend-multiply hover:scale-[1.02] transition-transform duration-1000 ease-out lg:p-12"
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              priority
+            />
           </div>
 
-          {/* Right 50%: Content */}
-          <div className="flex flex-col justify-center p-8 md:p-12 lg:p-16 min-w-0 overflow-hidden">
-            <h2 className="font-heading text-3xl md:text-4xl text-black font-bold mb-6">
+          {/* Right 45%: Content Area */}
+          <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 py-16 lg:px-20 xl:px-28 pt-8 lg:pt-32">
+            <Link href={`/${module}`} className="text-xs font-bold text-gray-500 hover:text-black uppercase tracking-widest mb-12 inline-flex items-center gap-2 transition-colors">
+              <span>&larr;</span> Back to {moduleTitle}
+            </Link>
+            
+            <h1 className="font-heading text-5xl lg:text-6xl xl:text-7xl text-black mb-8 font-bold uppercase tracking-tighter">
+              {title}
+            </h1>
+            
+            <h2 className="text-xl lg:text-2xl font-light text-gray-900 mb-8 tracking-widest uppercase border-b border-gray-200 pb-6">
               Overview
             </h2>
-            <div className="prose prose-lg max-w-none prose-headings:font-heading prose-headings:font-bold prose-headings:text-black prose-p:text-black/80 prose-a:text-accent-red hover:prose-a:text-red-700 prose-li:marker:text-accent-red font-body leading-relaxed break-words overflow-hidden">
-              <div dangerouslySetInnerHTML={{ __html: String(item.content ?? description) }} />
-            </div>
             
-            <div className="mt-10">
-              <Link href={`/${module}`} className="px-8 py-4 bg-black text-white font-body text-sm uppercase tracking-widest font-bold hover:bg-accent-red transition-colors duration-300 shadow-md rounded-sm inline-block">
-                ← Back to {moduleTitle}
-              </Link>
+            <div className="prose prose-lg max-w-none prose-p:font-light prose-p:text-gray-600 prose-p:leading-relaxed prose-headings:font-light prose-headings:text-gray-900 prose-a:text-black hover:prose-a:text-gray-600 prose-li:text-gray-600 font-body space-y-8">
+              <div dangerouslySetInnerHTML={{ __html: String(item.content ?? description) }} />
+              
+              {module === "products" && (
+                <div className="pt-10">
+                  <Link href={`/contact-us?product=${slug}`} className="inline-flex items-center justify-center bg-black text-white px-12 py-5 text-sm font-medium tracking-widest uppercase hover:bg-gray-800 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 w-full sm:w-auto shadow-lg hover:shadow-xl">
+                    Enquire About This Product
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      </section>
+
+      </ClientFadeUp>
     </main>
   );
 }
