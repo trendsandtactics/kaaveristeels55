@@ -314,13 +314,25 @@ export default function DynamicModulePage({
 
                   <div className="mt-4 flex items-center justify-between gap-2">
                     {module === "brochures" ? (
-                      <button
-                        onClick={() => openFlipbook(item)}
-                        disabled={!brochurePdfUrlForItem(item)}
-                        className="text-sm font-semibold text-accent-red hover:text-accent-red/80 disabled:cursor-not-allowed disabled:text-black/35"
-                      >
-                        Open Flipbook
-                      </button>
+                      <div className="flex items-center gap-4">
+                        <button
+                          onClick={() => openFlipbook(item)}
+                          disabled={!brochurePdfUrlForItem(item)}
+                          className="text-sm font-semibold text-accent-red hover:text-accent-red/80 disabled:cursor-not-allowed disabled:text-black/35"
+                        >
+                          Open Flipbook
+                        </button>
+                        {brochurePdfUrlForItem(item) && (
+                          <a
+                            href={brochurePdfUrlForItem(item)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm font-semibold text-accent-red hover:text-accent-red/80"
+                          >
+                            View PDF
+                          </a>
+                        )}
+                      </div>
                     ) : (
                       <Link href={`/${module}/${item.slug}`} prefetch={true} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
                         View Details
