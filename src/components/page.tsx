@@ -43,17 +43,17 @@ export default async function ProductDetailPage({ params }: PageProps) {
     : (product.cover_image ? resolveMediaUrl(product.cover_image, "") : "");
 
   return (
-    <main className="min-h-screen bg-white">
-      <ClientFadeUp className="flex flex-col lg:flex-row w-full min-h-screen pt-20 lg:pt-0">
+    <main className="w-full bg-white">
+      <ClientFadeUp className="flex flex-col lg:flex-row w-full min-h-screen">
           
-          {/* Left 55%: Image Area - Seamless White, No Shadows */}
-          <div className="relative w-full lg:w-[55%] min-h-[50vh] lg:min-h-screen bg-white flex items-center justify-center p-8 lg:p-16">
+          {/* Left 55%: Image Area - Industrial Light Grey */}
+          <div className="relative w-full lg:w-[55%] min-h-[50vh] lg:min-h-screen bg-[#F3F4F6] flex items-center justify-center p-8 lg:p-16">
             {coverImage ? (
               <Image 
                 src={coverImage} 
                 alt={product.title} 
                 fill 
-                className="object-contain p-4 lg:p-12"
+                className="object-contain p-8 lg:p-20 mix-blend-multiply hover:scale-105 transition-transform duration-1000 ease-out"
                 sizes="(max-width: 1024px) 100vw, 55vw"
                 priority
               />
@@ -65,20 +65,20 @@ export default async function ProductDetailPage({ params }: PageProps) {
           </div>
 
           {/* Right 45%: Content Area */}
-          <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 py-16 lg:px-20 xl:px-28">
-            <Link href="/products" className="text-xs font-bold text-gray-500 hover:text-black uppercase tracking-widest mb-10 inline-flex items-center gap-2 transition-colors">
+          <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 py-16 lg:px-20 xl:px-28 bg-white">
+            <Link href="/products" className="text-xs font-bold text-gray-500 hover:text-black uppercase tracking-widest mb-12 inline-flex items-center gap-2 transition-colors">
               <span>&larr;</span> Back to Products
             </Link>
             
-            <h1 className="font-heading text-4xl lg:text-5xl xl:text-6xl text-black mb-6 font-bold uppercase tracking-tight">
+            <h1 className="font-heading text-5xl lg:text-6xl xl:text-7xl text-black mb-8 font-bold uppercase tracking-tighter">
               {product.title}
             </h1>
             
-            <h2 className="text-xl lg:text-2xl font-light text-gray-500 mb-10 tracking-wide uppercase border-b border-gray-200 pb-6">
+            <h2 className="text-xl lg:text-2xl font-light text-gray-900 mb-8 tracking-widest uppercase border-b border-gray-200 pb-6">
               Overview
             </h2>
             
-            <div className="prose prose-lg max-w-none prose-p:font-light prose-p:text-gray-600 prose-p:leading-relaxed prose-headings:font-light prose-headings:text-gray-900 prose-a:text-black hover:prose-a:text-gray-600 prose-li:text-gray-600 font-body space-y-6">
+            <div className="prose prose-lg max-w-none prose-p:font-light prose-p:text-gray-600 prose-p:leading-relaxed prose-headings:font-light prose-headings:text-gray-900 prose-a:text-black hover:prose-a:text-gray-600 prose-li:text-gray-600 font-body space-y-8">
               {product.content || product.description ? (
                 <div dangerouslySetInnerHTML={{ __html: product.content || product.description }} />
               ) : (
