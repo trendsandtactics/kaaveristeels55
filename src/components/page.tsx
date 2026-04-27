@@ -46,14 +46,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
     <main className="w-full bg-white">
       <ClientFadeUp className="flex flex-col lg:flex-row w-full min-h-screen">
           
-          {/* Left 55%: Image Area - Industrial Light Grey */}
-          <div className="relative w-full lg:w-[55%] min-h-[50vh] lg:min-h-screen bg-[#F3F4F6] flex items-center justify-center p-8 lg:p-16">
+          {/* Left 55%: Image Area - Full Size, No Box */}
+          <div className="relative w-full lg:w-[55%] min-h-[50vh] lg:min-h-screen bg-white flex items-center justify-center">
             {coverImage ? (
               <Image 
                 src={coverImage} 
                 alt={product.title} 
                 fill 
-                className="object-contain p-8 lg:p-20 mix-blend-multiply hover:scale-105 transition-transform duration-1000 ease-out"
+                className="object-contain mix-blend-multiply hover:scale-105 transition-transform duration-1000 ease-out"
                 sizes="(max-width: 1024px) 100vw, 55vw"
                 priority
               />
