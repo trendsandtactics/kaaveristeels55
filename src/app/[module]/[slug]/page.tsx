@@ -48,7 +48,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
           <Link href={`/${module}`} className="text-xs font-bold text-black/60 hover:text-black uppercase tracking-widest mb-6 inline-flex items-center gap-2 transition-colors">
             <span>&larr;</span> Back to {moduleTitle}
           </Link>
-          <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl text-black mt-2 drop-shadow-md font-extrabold max-w-4xl uppercase tracking-tight">
+          <h1 className="font-sans text-3xl md:text-4xl lg:text-5xl text-black mt-2 drop-shadow-md font-extrabold max-w-4xl uppercase tracking-tight">
             {title}
           </h1>
           {item.short_description && (
