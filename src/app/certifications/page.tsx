@@ -127,12 +127,11 @@ export default function CertificationsPage() {
                     className="flex h-full flex-col rounded-[30px] border border-black/10 bg-white p-6 shadow-[0_12px_35px_rgba(0,0,0,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(0,0,0,0.10)]"
                   >
                     <div className="mb-4 flex items-start justify-between gap-4">
-                      <h3 className="font-heading text-xl leading-snug text-black md:text-2xl">
+                      {/* UPDATED TITLE STYLE */}
+                      <h3 className="text-lg md:text-xl font-bold uppercase tracking-[0.08em] text-black">
                         {item.title}
                       </h3>
                     </div>
-
-                    {/* DESCRIPTION REMOVED */}
 
                     <button
                       type="button"
@@ -159,10 +158,9 @@ export default function CertificationsPage() {
         </div>
       </section>
 
-      {/* MODAL FIXED */}
+      {/* MODAL (FIXED) */}
       {selectedCertificate && (
         <div className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center">
-          {/* Close */}
           <button
             type="button"
             onClick={() => setSelectedCertificate(null)}
@@ -171,7 +169,6 @@ export default function CertificationsPage() {
             ✕
           </button>
 
-          {/* Full Image */}
           <img
             src={selectedCertificate.fileUrl}
             alt={selectedCertificate.title}
