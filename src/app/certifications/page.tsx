@@ -132,9 +132,7 @@ export default function CertificationsPage() {
                     </div>
 
                     {item.description ? (
-                      <p className="mb-3 text-sm leading-7 text-black/72 md:text-base">
-                        {item.description}
-                      </p>
+         
                     ) : null}
 
                     <button
