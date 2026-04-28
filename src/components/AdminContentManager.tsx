@@ -262,7 +262,17 @@ export default function AdminContentManager() {
 
     try {
       const response = await fetch("/api/uploads", { method: "POST", body });
-      const data = await response.json();
+
+      let data;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        console.error("Upload API returned non-JSON:", response.status, text);
+        setMessage(`Upload failed (${response.status}): Server returned invalid response. File may be too large for the environment.`);
+        return;
+      }
 
       if (!response.ok) {
         setMessage(data.error ?? "Upload failed.");
@@ -271,8 +281,9 @@ export default function AdminContentManager() {
 
       setForm((state) => ({ ...state, [target]: data.url }));
       setMessage("File uploaded successfully.");
-    } catch {
-      setMessage("Upload failed due to a network error.");
+    } catch (error) {
+      console.error("Upload fetch error:", error);
+      setMessage(`Upload failed: ${error instanceof Error ? error.message : "Network error"}`);
     }
   };
 
