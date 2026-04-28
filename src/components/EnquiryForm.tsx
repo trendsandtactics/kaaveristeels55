@@ -29,7 +29,7 @@ export default function EnquiryForm() {
         body: JSON.stringify(form),
       });
 
-      let data: any = {};
+      let data: { error?: string } = {};
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
         data = await response.json();
