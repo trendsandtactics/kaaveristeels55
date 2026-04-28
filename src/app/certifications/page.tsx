@@ -118,7 +118,8 @@ export default function CertificationsPage() {
           ) : (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
               {imageItems.map((item) => {
-                const fileUrl = item.fileUrl || `/api/certifications/${item.id}/file`;
+                const fileUrl =
+                  item.fileUrl || `/api/certifications/${item.id}/file`;
 
                 return (
                   <article
@@ -131,9 +132,12 @@ export default function CertificationsPage() {
                       </h3>
                     </div>
 
-                    {item.description ? (
-         
-                    ) : null}
+                    {/* FIXED: Proper JSX rendering */}
+                    {item.description && (
+                      <p className="mb-4 text-sm text-black/70 leading-relaxed">
+                        {item.description}
+                      </p>
+                    )}
 
                     <button
                       type="button"
