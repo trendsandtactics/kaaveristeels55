@@ -31,6 +31,10 @@ async function readApiResponse(
   }
 
   const text = await response.text();
+  if (response.status === 413) {
+    return { error: "Upload failed (413): The file is too large for the server environment." };
+  }
+  
   return { error: text || "Unexpected server response." };
 }
 

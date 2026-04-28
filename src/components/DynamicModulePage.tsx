@@ -133,8 +133,10 @@ export default function DynamicModulePage({
     }
 
     for (const candidate of directCandidates) {
-      const resolved = resolveMediaUrl(candidate, "");
-      if (resolved) return resolved;
+      if (typeof candidate === "string" && candidate.trim() !== "") {
+        const resolved = resolveMediaUrl(candidate, "");
+        if (resolved) return resolved;
+      }
     }
 
     const contentSource = typeof item.content === "string" ? item.content : "";
