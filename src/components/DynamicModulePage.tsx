@@ -154,7 +154,7 @@ export default function DynamicModulePage({
           <p className="text-xs uppercase tracking-[0.2em] font-semibold text-black/70">
             {moduleLabel} Portfolio
           </p>
-          <h1 className="font-sans font-bold text-5xl md:text-7xl text-black mt-3 drop-shadow-md">
+          <h1 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-black mt-3 drop-shadow-md">
             {heading}
           </h1>
           <p className="text-black/80 mt-3 max-w-3xl font-medium">
@@ -232,7 +232,7 @@ export default function DynamicModulePage({
                         <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-black/50">
                           Featured
                         </p>
-                        <h3 className="font-['Open_Sans'] text-2xl font-bold text-black mb-4">
+                        <h3 className="font-['Open_Sans'] text-xl md:text-2xl font-bold text-black mb-4 line-clamp-2">
                           {item.title}
                         </h3>
                       </div>
@@ -285,7 +285,9 @@ export default function DynamicModulePage({
                       <p className="text-[10px] uppercase tracking-[0.18em] text-black/50 font-semibold">
                         Featured
                       </p>
-                      <h3 className="font-['Open_Sans'] text-2xl mt-2 text-black">{item.title}</h3>
+                      <h3 className="font-['Open_Sans'] text-xl md:text-2xl font-bold mt-2 text-black line-clamp-2">
+                        {item.title}
+                      </h3>
                       <p className="text-sm text-black/65 mt-2 line-clamp-3">
                         {item.short_description}
                       </p>
@@ -312,7 +314,7 @@ export default function DynamicModulePage({
                   key={item.id}
                   className="group flex flex-col justify-between rounded-2xl border border-black/10 bg-white p-6 shadow-sm hover:shadow-xl transition-all duration-300"
                 >
-                  <h3 className="font-['Open_Sans'] text-xl font-bold text-black mb-4 transition-colors group-hover:text-accent-red">
+                  <h3 className="font-['Open_Sans'] text-lg md:text-xl font-bold text-black mb-4 transition-colors group-hover:text-accent-red line-clamp-2">
                     {item.title}
                   </h3>
                   <div className="mt-auto flex items-center gap-3">
@@ -365,7 +367,7 @@ export default function DynamicModulePage({
                 </div>
 
                 <div className="p-5">
-                  <h3 className="font-['Open_Sans'] text-2xl text-black group-hover:text-accent-red transition-colors">
+                  <h3 className="font-['Open_Sans'] text-lg md:text-xl font-bold text-black group-hover:text-accent-red transition-colors line-clamp-2">
                     {item.title}
                   </h3>
                   <p className="text-sm text-black/65 mt-2 line-clamp-3">
