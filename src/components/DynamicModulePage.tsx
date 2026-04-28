@@ -46,9 +46,6 @@ export default function DynamicModulePage({
   const [activeSubCategory, setActiveSubCategory] = useState<string>("Bars");
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeFlipbook, setActiveFlipbook] = useState<DynamicItem | null>(null);
-  const [flipPage, setFlipPage] = useState(1);
-  const [siteOrigin, setSiteOrigin] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -57,7 +54,6 @@ export default function DynamicModulePage({
       if (categoryParam === "TMT" || categoryParam === "Structural" || categoryParam === "All") {
         setActiveCategory(categoryParam);
       }
-      setSiteOrigin(window.location.origin);
     }
   }, []);
 
@@ -146,21 +142,6 @@ export default function DynamicModulePage({
     return pdfMatch ? resolveMediaUrl(pdfMatch[0], "") : "";
   };
 
-  const openFlipbook = (item: DynamicItem) => {
-    const brochureUrl = brochurePdfUrlForItem(item);
-    if (!brochureUrl) return;
-    setActiveFlipbook(item);
-    setFlipPage(1);
-  };
-
-  const closeFlipbook = () => {
-    setActiveFlipbook(null);
-    setFlipPage(1);
-  };
-
-  const flipbookPdfUrl = activeFlipbook ? brochurePdfUrlForItem(activeFlipbook) : "";
-  const absoluteFlipbookPdfUrl = flipbookPdfUrl.startsWith("http") ? flipbookPdfUrl : siteOrigin ? `${siteOrigin}${flipbookPdfUrl}` : flipbookPdfUrl;
-
   return (
     <main className="min-h-screen bg-gray-50">
       <section className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-28 pb-6 md:pt-32 md:pb-8 px-6 relative overflow-hidden shadow-sm border-b border-black/10">
@@ -239,6 +220,47 @@ export default function DynamicModulePage({
               {featured.map((item) => {
                 const imageSrc = resolveMediaUrl(item.cover_image || item.file_url || "", "");
 
+                if (module === "brochures") {
+                  return (
+                    <article
+                      key={item.id}
+                      className="group flex flex-col justify-between rounded-2xl border border-black/10 bg-white p-6 shadow-sm hover:shadow-xl transition-all duration-300"
+                    >
+                      <div>
+                        <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-black/50">
+                          Featured
+                        </p>
+                        <h3 className="font-['Open_Sans'] text-2xl font-bold text-black mb-4">
+                          {item.title}
+                        </h3>
+                      </div>
+                      <div className="mt-4 flex items-center gap-3">
+                        {brochurePdfUrlForItem(item) ? (
+                          <>
+                            <a
+                              href={brochurePdfUrlForItem(item)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 rounded-lg bg-black px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80"
+                            >
+                              View
+                            </a>
+                            <a
+                              href={`${brochurePdfUrlForItem(item)}${brochurePdfUrlForItem(item).includes('?') ? '&' : '?'}download=1`}
+                              download
+                              className="flex-1 rounded-lg border border-black/20 bg-gray-50 px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-black transition hover:bg-gray-200"
+                            >
+                              Download
+                            </a>
+                          </>
+                        ) : (
+                          <span className="text-xs italic text-black/50">PDF Unavailable</span>
+                        )}
+                      </div>
+                    </article>
+                  );
+                }
+
                 return (
                   <article
                     key={item.id}
@@ -282,6 +304,42 @@ export default function DynamicModulePage({
           {paginatedItems.map((item) => {
             const imageSrc = resolveMediaUrl(item.cover_image || item.file_url || "", "");
 
+            if (module === "brochures") {
+              return (
+                <article
+                  key={item.id}
+                  className="group flex flex-col justify-between rounded-2xl border border-black/10 bg-white p-6 shadow-sm hover:shadow-xl transition-all duration-300"
+                >
+                  <h3 className="font-['Open_Sans'] text-xl font-bold text-black mb-4 transition-colors group-hover:text-accent-red">
+                    {item.title}
+                  </h3>
+                  <div className="mt-auto flex items-center gap-3">
+                    {brochurePdfUrlForItem(item) ? (
+                      <>
+                        <a
+                          href={brochurePdfUrlForItem(item)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 rounded-lg bg-black px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80"
+                        >
+                          View
+                        </a>
+                        <a
+                          href={`${brochurePdfUrlForItem(item)}${brochurePdfUrlForItem(item).includes('?') ? '&' : '?'}download=1`}
+                          download
+                          className="flex-1 rounded-lg border border-black/20 bg-gray-50 px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-black transition hover:bg-gray-200"
+                        >
+                          Download
+                        </a>
+                      </>
+                    ) : (
+                      <span className="text-xs italic text-black/50">PDF Unavailable</span>
+                    )}
+                  </div>
+                </article>
+              );
+            }
+
             return (
               <article
                 key={item.id}
@@ -313,31 +371,9 @@ export default function DynamicModulePage({
                   </p>
 
                   <div className="mt-4 flex items-center justify-between gap-2">
-                    {module === "brochures" ? (
-                      <div className="flex items-center gap-4">
-                        <button
-                          onClick={() => openFlipbook(item)}
-                          disabled={!brochurePdfUrlForItem(item)}
-                          className="text-sm font-semibold text-accent-red hover:text-accent-red/80 disabled:cursor-not-allowed disabled:text-black/35"
-                        >
-                          Open Flipbook
-                        </button>
-                        {brochurePdfUrlForItem(item) && (
-                          <a
-                            href={brochurePdfUrlForItem(item)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm font-semibold text-accent-red hover:text-accent-red/80"
-                          >
-                            View PDF
-                          </a>
-                        )}
-                      </div>
-                    ) : (
-                      <Link href={`/${module}/${item.slug}`} prefetch={true} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
-                        View Details
-                      </Link>
-                    )}
+                    <Link href={`/${module}/${item.slug}`} prefetch={true} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
+                      View Details
+                    </Link>
                   </div>
                 </div>
               </article>
@@ -373,82 +409,6 @@ export default function DynamicModulePage({
 
         {loading ? <p className="text-black/50 text-sm">Loading...</p> : null}
       </section>
-
-      {activeFlipbook && module === "brochures" ? (
-        <div className="fixed inset-0 z-[100] bg-black/70 p-4 backdrop-blur-sm md:p-8">
-          <div className="mx-auto flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-white/20 bg-slate-950 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/15 px-4 py-3 md:px-6">
-              <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-white/60">Brochure Flipbook</p>
-                <h3 className="text-lg font-semibold text-white md:text-xl">{activeFlipbook.title}</h3>
-              </div>
-              <button
-                onClick={closeFlipbook}
-                className="rounded-md border border-white/25 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-white hover:bg-white/10"
-              >
-                Close
-              </button>
-            </div>
-
-            <div className="grid flex-1 gap-3 bg-[radial-gradient(circle_at_center,rgba(148,163,184,0.22),transparent_55%)] p-3 md:grid-cols-[1fr_auto_1fr] md:p-6">
-              <div className="relative overflow-hidden rounded-xl border border-white/15 bg-white shadow-[8px_0_30px_-18px_rgba(0,0,0,0.65)]">
-                {flipbookPdfUrl ? (
-                  <iframe
-                    title={`${activeFlipbook.title} left page`}
-                    src={`https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteFlipbookPdfUrl)}#page=${Math.max(1, flipPage)}`}
-                    className="h-full min-h-[280px] w-full"
-                  />
-                ) : (
-                  <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
-                    PDF preview unavailable.
-                  </div>
-                )}
-              </div>
-              <div className="hidden w-[2px] bg-gradient-to-b from-transparent via-white/30 to-transparent md:block" />
-              <div className="relative overflow-hidden rounded-xl border border-white/15 bg-white shadow-[-8px_0_30px_-18px_rgba(0,0,0,0.65)]">
-                {flipbookPdfUrl ? (
-                  <iframe
-                    title={`${activeFlipbook.title} right page`}
-                    src={`https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(absoluteFlipbookPdfUrl)}#page=${Math.max(1, flipPage + 1)}`}
-                    className="h-full min-h-[280px] w-full"
-                  />
-                ) : (
-                  <div className="flex h-full min-h-[280px] items-center justify-center p-6 text-center text-sm text-slate-600">
-                    PDF preview unavailable.
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/15 px-4 py-3 md:px-6">
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setFlipPage((page) => Math.max(1, page - 2))}
-                  disabled={flipPage <= 1}
-                  className="rounded-lg border border-white/20 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10"
-                >
-                  Previous
-                </button>
-                <button
-                  onClick={() => setFlipPage((page) => page + 2)}
-                  className="rounded-lg border border-white/20 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10"
-                >
-                  Next
-                </button>
-              </div>
-              <p className="text-sm text-white/70">Showing pages {flipPage} & {flipPage + 1}</p>
-              <a
-                href={absoluteFlipbookPdfUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-200"
-              >
-                Open Full PDF
-              </a>
-            </div>
-          </div>
-        </div>
-      ) : null}
     </main>
   );
 }
