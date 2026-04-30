@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
@@ -15,7 +14,6 @@ const navLinks = [
 ];
 
 export default function Header() {
-  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -26,7 +24,7 @@ export default function Header() {
   }, []);
 
   const navItem =
-    "text-sm font-semibold uppercase tracking-wide text-black hover:text-red-600 transition";
+    "text-sm font-semibold uppercase tracking-wide text-black hover:text-red-600 transition whitespace-nowrap";
 
   return (
     <header className="fixed top-0 left-0 w-full z-50">
@@ -39,20 +37,23 @@ export default function Header() {
         }`}
       />
 
+      {/* MAIN CONTAINER */}
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-10 py-3 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center">
+        
+        {/* LOGO */}
+        <Link href="/" className="flex items-center flex-shrink-0">
           <Image
             src="/logo4.png"
             alt="Kaaveri"
             width={180}
             height={60}
             className="h-12 w-auto object-contain"
+            priority
           />
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8 xl:gap-10">
+        {/* NAV CENTERED */}
+        <nav className="hidden lg:flex items-center justify-center flex-1 gap-8 xl:gap-10">
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} className={navItem}>
               {link.name}
@@ -68,17 +69,17 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* CTA */}
-        <div className="hidden lg:block">
+        {/* CTA RIGHT */}
+        <div className="hidden lg:flex items-center flex-shrink-0">
           <Link
             href="/product-enquiry"
-            className="bg-red-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-red-700 transition"
+            className="bg-red-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-red-700 transition"
           >
             Request Quote
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* MOBILE BUTTON */}
         <button
           className="lg:hidden text-2xl"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -87,7 +88,7 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
