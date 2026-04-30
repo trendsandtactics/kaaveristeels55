@@ -83,7 +83,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center z-50">
             <Image
-              src="/1.png"
+              src="/logo4.png"
               alt="Kaaveri TMT Bars & Structural"
               width={210}
               height={65}
