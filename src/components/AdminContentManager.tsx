@@ -663,19 +663,6 @@ export default function AdminContentManager() {
         {activeDef.kind === "certifications" ? <AdminCertificationsPanel /> : null}
 
         {activeDef.kind === "calculator" ? (
-          <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-            <h3 className="font-heading text-2xl mb-1">Calculator Assign</h3>
-            <p className="text-sm text-black/60 mb-6">Assign calculator options. No additional data is needed here.</p>
-            <div className="flex flex-col items-center justify-center p-12 border border-dashed rounded-xl bg-gray-50/50">
-              <p className="text-slate-600 mb-4 font-medium text-lg">Calculator has been assigned.</p>
-              <button type="button" className="rounded-lg bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-2 text-sm font-semibold text-white shadow-md hover:scale-105 transition-transform">
-                Assign Option
-              </button>
-            </div>
-          </div>
-        ) : null}
-
-        {activeDef.kind === "calculator" ? (
           <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm xl:sticky xl:top-28">
             <h3 className="font-heading text-2xl mb-1">Calculator Assign</h3>
             <p className="text-sm text-black/60 mb-6">Assign calculator options. No additional data is needed here.</p>
