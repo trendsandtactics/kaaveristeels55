@@ -37,7 +37,6 @@ const MODULES: ModuleDef[] = [
   { key: "popups", label: "Popups", kind: "content", description: "Homepage event/offer popup controls" },
   { key: "csr", label: "CSR", kind: "content", description: "Manage Corporate Social Responsibility events and initiatives" },
   { key: "pages", label: "Pages Content", kind: "content", description: "Manage page-specific dynamic sections like CTAs" },
-  { key: "calculators", label: "Calculators", kind: "content", description: "Manage formulas and parameters for calculators" },
   { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries" },
   { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue" },
   { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes" },
