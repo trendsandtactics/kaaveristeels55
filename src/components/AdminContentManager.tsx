@@ -405,7 +405,7 @@ export default function AdminContentManager() {
         let params: Record<string, any> = {};
         try {
           params = form.extra_data.parameters ? JSON.parse(form.extra_data.parameters) : {};
-        } catch (e) {
+        } catch {
           // Ignore invalid JSON on render
         }
 
