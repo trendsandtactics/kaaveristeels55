@@ -30,7 +30,7 @@ export default function SteelScroll() {
 
           {/* Button */}
           <Link href="/products">
-            <button className="relative px-8 py-4 bg-accent-red text-white font-body text-xs md:text-sm uppercase tracking-[0.2em] font-bold overflow-hidden group border-2 border-accent-red shadow-lg">
+            <button className="self-center relative px-8 py-4 bg-accent-red text-white font-body text-xs md:text-sm uppercase tracking-[0.2em] font-bold overflow-hidden group border-2 border-accent-red shadow-lg">
               <span className="relative z-10 transition-colors duration-300 group-hover:text-accent-red">
                 Explore Our Products
               </span>
