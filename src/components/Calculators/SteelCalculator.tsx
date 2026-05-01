@@ -17,6 +17,7 @@ export default function SteelCalculator() {
   const [quantity, setQuantity] = useState("");
   const [estimatedWeight, setEstimatedWeight] = useState<number | null>(null);
   const [bundleCount, setBundleCount] = useState<number | null>(null);
+  const [estimatedCost, setEstimatedCost] = useState<number | null>(null);
 
   // Dynamic configuration from CMS
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -125,12 +126,30 @@ export default function SteelCalculator() {
       const bundles = Math.ceil(q / barsPerBundle);
       setBundleCount(bundles);
 
+      // Cost Calculation
+      const pricePerKg = calcConfig?.parameters?.pricePerKg || 0;
+      let cost = totalWeight * pricePerKg; // default fallback
+
+      // Support dynamic cost formula execution 
+      if (calcConfig?.parameters?.costFormula && typeof calcConfig.parameters.costFormula === "string") {
+        try {
+          const expression = calcConfig.parameters.costFormula
+            .replace(/totalWeight/g, String(totalWeight))
+            .replace(/pricePerKg/g, String(pricePerKg))
+            .replace(/bundles/g, String(bundles));
+          cost = new Function("return " + expression)();
+        } catch (e) {
+          console.warn("Cost formula evaluation failed, falling back to default.", e);
+        }
+      }
+      setEstimatedCost(cost > 0 ? cost : null);
+
       saveEnquiry(`Weight Calculator Details:
 - Diameter: ${d} mm
 - Length: ${l} m
 - Quantity: ${q}
 - Weight: ${totalWeight} kg
-- Bundles: ${bundles}`);
+- Bundles: ${bundles}${cost > 0 ? `\n- Estimated Cost: ₹${cost.toFixed(2)}` : ''}`);
     }
   };
 
@@ -282,6 +301,12 @@ export default function SteelCalculator() {
                         <p className="text-red-800">Weight</p>
                         <p className="text-red-900 font-bold">{estimatedWeight} kg</p>
                         <p className="text-red-800">Bundles: {bundleCount}</p>
+                        {estimatedCost !== null && (
+                          <>
+                            <p className="text-red-800 mt-2">Estimated Cost</p>
+                            <p className="text-red-900 font-bold">₹{estimatedCost.toFixed(2)}</p>
+                          </>
+                        )}
                       </div>
                     )}
                   </motion.div>

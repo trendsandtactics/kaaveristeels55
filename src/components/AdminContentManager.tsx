@@ -409,7 +409,8 @@ export default function AdminContentManager() {
           // Ignore invalid JSON on render
         }
 
-        const updateParam = (path: string[], value: number) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const updateParam = (path: string[], value: any) => {
           const newParams = JSON.parse(JSON.stringify(params)); // Deep clone to avoid mutation
           let current = newParams;
           for (let i = 0; i < path.length - 1; i++) {
@@ -451,6 +452,15 @@ export default function AdminContentManager() {
                 <div>
                   <label className="mb-1 block text-xs font-semibold text-slate-600">Weight Divisor (Standard is 162)</label>
                   <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.weightDivisor ?? 162} onChange={(e) => updateParam(["weightDivisor"], Number(e.target.value))} />
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-slate-600">Base Price (per kg)</label>
+                  <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.pricePerKg ?? ""} placeholder="e.g. 55" onChange={(e) => updateParam(["pricePerKg"], Number(e.target.value))} />
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-slate-600">Cost Formula (Optional)</label>
+                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="totalWeight * pricePerKg" value={params?.costFormula ?? ""} onChange={(e) => updateParam(["costFormula"], e.target.value)} />
+                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>totalWeight</code>, <code>pricePerKg</code>, <code>bundles</code></p>
                 </div>
                 <div>
                   <label className="mb-2 block text-xs font-semibold text-slate-600">Bars Per Bundle</label>
