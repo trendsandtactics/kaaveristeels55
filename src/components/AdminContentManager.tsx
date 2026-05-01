@@ -6,9 +6,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators";
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
-type ModuleName = ContentModuleName | SupportModuleName | "certifications";
+type ModuleName = ContentModuleName | SupportModuleName | "certifications" | "calculator";
 
-type ModuleDef = { key: ModuleName; label: string; kind: "content" | "support" | "certifications"; description: string };
+type ModuleDef = { key: ModuleName; label: string; kind: "content" | "support" | "certifications" | "calculator"; description: string };
 type Item = Record<string, unknown> & { id: number; title?: string; slug?: string; status?: string; updated_at?: string };
 
 type FormState = {
@@ -41,6 +41,7 @@ const MODULES: ModuleDef[] = [
   { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries" },
   { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue" },
   { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes" },
+  { key: "calculator", label: "Calculator", kind: "calculator", description: "Calculator Assign Option" },
 ];
 
 const initialForm = (): FormState => ({
@@ -79,8 +80,8 @@ export default function AdminContentManager() {
   const activeDef = MODULES.find((module) => module.key === activeModule)!;
 
   const fetchItems = async () => {
-    // Prevent generic content fetching when the specialized Certifications panel is active
-    if (activeDef.kind === "certifications") return;
+    // Prevent generic content fetching when specialized panels are active
+    if (activeDef.kind === "certifications" || activeDef.kind === "calculator") return;
     
     setLoading(true);
     setMessage("");
@@ -657,6 +658,19 @@ export default function AdminContentManager() {
       <section className="lg:col-span-9 space-y-6">
         {activeDef.kind === "certifications" ? <AdminCertificationsPanel /> : null}
 
+        {activeDef.kind === "calculator" ? (
+          <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
+            <h3 className="font-heading text-2xl mb-1">Calculator Assign</h3>
+            <p className="text-sm text-black/60 mb-6">Assign calculator options. No additional data is needed here.</p>
+            <div className="flex flex-col items-center justify-center p-12 border border-dashed rounded-xl bg-gray-50/50">
+              <p className="text-slate-600 mb-4 font-medium text-lg">Calculator has been assigned.</p>
+              <button type="button" className="rounded-lg bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-2 text-sm font-semibold text-white shadow-md hover:scale-105 transition-transform">
+                Assign Option
+              </button>
+            </div>
+          </div>
+        ) : null}
+
         {renderViewingModal()}
 
         {activeDef.kind === "content" ? (
@@ -712,7 +726,7 @@ export default function AdminContentManager() {
           </div>
         ) : null}
 
-        {activeDef.kind !== "certifications" ? (
+        {activeDef.kind !== "certifications" && activeDef.kind !== "calculator" ? (
           activeDef.kind === "support" ? renderListPanel() : null
         ) : null}
       </section>
