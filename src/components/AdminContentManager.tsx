@@ -106,7 +106,7 @@ export default function AdminContentManager() {
   }, [activeModule]);
 
   useEffect(() => {
-    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "pages" || activeModule === "products") && richEditorRef.current) {
+    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "products") && richEditorRef.current) {
       if (richEditorRef.current.innerHTML !== (form.content || "")) {
         richEditorRef.current.innerHTML = form.content || "";
       }
@@ -299,7 +299,6 @@ export default function AdminContentManager() {
       case "products":
       case "blogs":
       case "csr":
-  case "pages":
         return (
           <>
             {activeModule === "products" ? (
