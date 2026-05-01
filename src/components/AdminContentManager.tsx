@@ -4,9 +4,13 @@ import AdminCertificationsPanel from "@/components/AdminCertificationsPanel";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+<<<<<<< HEAD
 type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators";
+=======
+type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages";
+>>>>>>> 88ad356 (KO)
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
-type ModuleName = ContentModuleName | SupportModuleName | "certifications" | "calculator";
+type ModuleName = ContentModuleName | SupportModuleName | "certifications" | "calculators";
 
 type ModuleDef = { key: ModuleName; label: string; kind: "content" | "support" | "certifications" | "calculator"; description: string };
 type Item = Record<string, unknown> & { id: number; title?: string; slug?: string; status?: string; updated_at?: string };
@@ -660,6 +664,19 @@ export default function AdminContentManager() {
 
         {activeDef.kind === "calculator" ? (
           <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
+            <h3 className="font-heading text-2xl mb-1">Calculator Assign</h3>
+            <p className="text-sm text-black/60 mb-6">Assign calculator options. No additional data is needed here.</p>
+            <div className="flex flex-col items-center justify-center p-12 border border-dashed rounded-xl bg-gray-50/50">
+              <p className="text-slate-600 mb-4 font-medium text-lg">Calculator has been assigned.</p>
+              <button type="button" className="rounded-lg bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-2 text-sm font-semibold text-white shadow-md hover:scale-105 transition-transform">
+                Assign Option
+              </button>
+            </div>
+          </div>
+        ) : null}
+
+        {activeDef.kind === "calculator" ? (
+          <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm xl:sticky xl:top-28">
             <h3 className="font-heading text-2xl mb-1">Calculator Assign</h3>
             <p className="text-sm text-black/60 mb-6">Assign calculator options. No additional data is needed here.</p>
             <div className="flex flex-col items-center justify-center p-12 border border-dashed rounded-xl bg-gray-50/50">
