@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function SteelScroll() {
   return (
     <section
@@ -27,9 +29,14 @@ export default function SteelScroll() {
           </h2>
 
           {/* Button */}
-          <button className="px-5 py-2.5 md:px-7 md:py-3 bg-[#7A1C1C] text-white font-semibold text-[10px] md:text-sm uppercase tracking-wider rounded-md shadow-[0_10px_40px_rgba(122,28,28,0.7)] hover:bg-[#5c1414] hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out whitespace-nowrap">
-            Explore Our Products
-          </button>
+          <Link href="/products">
+            <button className="relative px-8 py-4 bg-accent-red text-white font-body text-xs md:text-sm uppercase tracking-[0.2em] font-bold overflow-hidden group border-2 border-accent-red shadow-lg">
+              <span className="relative z-10 transition-colors duration-300 group-hover:text-accent-red">
+                Explore Our Products
+              </span>
+              <div className="absolute inset-0 bg-white transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 z-0" />
+            </button>
+          </Link>
 
         </div>
       </div>
