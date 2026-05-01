@@ -4,7 +4,7 @@ import AdminCertificationsPanel from "@/components/AdminCertificationsPanel";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators";
+type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr";
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
 type ModuleName = ContentModuleName | SupportModuleName | "certifications";
 
@@ -36,8 +36,6 @@ const MODULES: ModuleDef[] = [
   { key: "brochures", label: "Brochures", kind: "content", description: "Downloadable product brochures/PDFs" },
   { key: "popups", label: "Popups", kind: "content", description: "Homepage event/offer popup controls" },
   { key: "csr", label: "CSR", kind: "content", description: "Manage Corporate Social Responsibility events and initiatives" },
-  { key: "pages", label: "Pages Content", kind: "content", description: "Manage page-specific dynamic sections like CTAs" },
-  { key: "calculators", label: "Calculators", kind: "content", description: "Manage formulas and parameters for calculators" },
   { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries" },
   { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue" },
   { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes" },
@@ -400,99 +398,6 @@ export default function AdminContentManager() {
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="End DateTime" value={form.extra_data.ends_at ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, ends_at: e.target.value } }))} />
           </>
         );
-      case "calculators": {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let params: Record<string, any> = {};
-        try {
-          params = form.extra_data.parameters ? JSON.parse(form.extra_data.parameters) : {};
-        } catch {
-          // Ignore invalid JSON on render
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const updateParam = (path: string[], value: any) => {
-          const newParams = JSON.parse(JSON.stringify(params)); // Deep clone to avoid mutation
-          let current = newParams;
-          for (let i = 0; i < path.length - 1; i++) {
-            if (!current[path[i]]) current[path[i]] = {};
-            current = current[path[i]];
-          }
-          current[path[path.length - 1]] = value;
-          setForm((s) => ({ ...s, extra_data: { ...s.extra_data, parameters: JSON.stringify(newParams, null, 2) } }));
-        };
-
-        return (
-          <>
-            <div className="md:col-span-2 space-y-4">
-              <div className="space-y-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <h4 className="font-semibold text-slate-800">Construction Steel Calculator</h4>
-                <div className="grid grid-cols-3 gap-3">
-                  <div>
-                    <label className="mb-1 block text-xs font-semibold text-slate-600">Residential Multiplier</label>
-                    <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.multipliers?.residential ?? 4} onChange={(e) => updateParam(["multipliers", "residential"], Number(e.target.value))} />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-xs font-semibold text-slate-600">Commercial Multiplier</label>
-                    <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.multipliers?.commercial ?? 5} onChange={(e) => updateParam(["multipliers", "commercial"], Number(e.target.value))} />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-xs font-semibold text-slate-600">Infrastructure Multiplier</label>
-                    <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.multipliers?.infrastructure ?? 6} onChange={(e) => updateParam(["multipliers", "infrastructure"], Number(e.target.value))} />
-                  </div>
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Custom Math Expression (Optional)</label>
-                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="totalArea * multiplier" value={form.extra_data.formula ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, formula: e.target.value } }))} />
-                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>totalArea</code>, <code>multiplier</code></p>
-                </div>
-              </div>
-
-              <div className="space-y-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <h4 className="font-semibold text-slate-800">Weight & Bundle Calculator</h4>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Weight Divisor (Standard is 162)</label>
-                  <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.weightDivisor ?? 162} onChange={(e) => updateParam(["weightDivisor"], Number(e.target.value))} />
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Weight Formula (Optional)</label>
-                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="((d * d) / divisor) * l * q" value={params?.weightFormula ?? ""} onChange={(e) => updateParam(["weightFormula"], e.target.value)} />
-                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>d</code>, <code>l</code>, <code>q</code>, <code>divisor</code></p>
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Bundle Formula (Optional)</label>
-                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="Math.ceil(q / barsPerBundle)" value={params?.bundleFormula ?? ""} onChange={(e) => updateParam(["bundleFormula"], e.target.value)} />
-                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>q</code>, <code>barsPerBundle</code></p>
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Base Price (per kg)</label>
-                  <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.pricePerKg ?? ""} placeholder="e.g. 55" onChange={(e) => updateParam(["pricePerKg"], Number(e.target.value))} />
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Cost Formula (Optional)</label>
-                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="totalWeight * pricePerKg" value={params?.costFormula ?? ""} onChange={(e) => updateParam(["costFormula"], e.target.value)} />
-                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>totalWeight</code>, <code>pricePerKg</code>, <code>bundles</code></p>
-                </div>
-                <div>
-                  <label className="mb-2 block text-xs font-semibold text-slate-600">Bars Per Bundle</label>
-                  <div className="grid grid-cols-5 gap-3">
-                    {["8", "10", "12", "16", "20"].map((d) => (
-                      <div key={d}>
-                        <label className="mb-1 block text-xs text-slate-500">{d}mm</label>
-                        <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.barsPerBundle?.[d] ?? ""} placeholder="Qty" onChange={(e) => updateParam(["barsPerBundle", d], Number(e.target.value))} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                 <label className="mb-1 block text-xs font-semibold text-slate-600">Raw JSON Parameters (Advanced)</label>
-                 <textarea className="min-h-32 w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={form.extra_data.parameters ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, parameters: e.target.value } }))} />
-              </div>
-            </div>
-          </>
-        );
-      }
       default:
         return null;
     }
@@ -660,47 +565,45 @@ export default function AdminContentManager() {
         {renderViewingModal()}
 
         {activeDef.kind === "content" ? (
-          <div className="grid gap-6 xl:grid-cols-2">
-            <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-lg shadow-slate-200/60 xl:sticky xl:top-28 xl:max-h-[calc(100vh-8rem)] xl:overflow-y-auto">
-              <h3 className="mb-1 font-heading text-2xl text-slate-900">{editingId ? "Edit" : "Create"} {activeDef.label}</h3>
-              <p className="mb-2 text-sm text-slate-600">{activeDef.description}</p>
-              <p className="mb-4 text-xs text-slate-500">Tip: Use the table on the right to quickly edit or delete records without leaving this form.</p>
+          <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
+            <h3 className="font-heading text-2xl mb-1">{editingId ? "Edit" : "Create"} {activeDef.label}</h3>
+            <p className="text-sm text-black/60 mb-4">{activeDef.description}</p>
 
-              <form onSubmit={submitForm} className="grid gap-3 md:grid-cols-2">
-                <input required className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Title" value={form.title} onChange={(e) => setForm((s) => ({ ...s, title: e.target.value }))} />
-                <select className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" value={form.status} onChange={(e) => setForm((s) => ({ ...s, status: e.target.value }))}>
-                  <option value="draft">Draft</option>
-                  <option value="published">Published</option>
-                </select>
+            <form onSubmit={submitForm} className="grid md:grid-cols-2 gap-3">
+              <input required className="border rounded-lg px-3 py-2 text-sm" placeholder="Title" value={form.title} onChange={(e) => setForm((s) => ({ ...s, title: e.target.value }))} />
+              <select className="border rounded-lg px-3 py-2 text-sm" value={form.status} onChange={(e) => setForm((s) => ({ ...s, status: e.target.value }))}>
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+              </select>
 
-                <textarea className="min-h-20 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Short description" value={form.short_description} onChange={(e) => setForm((s) => ({ ...s, short_description: e.target.value }))} />
+              <textarea className="md:col-span-2 border rounded-lg px-3 py-2 text-sm min-h-20" placeholder="Short description" value={form.short_description} onChange={(e) => setForm((s) => ({ ...s, short_description: e.target.value }))} />
 
-                {activeModule !== "blogs" && activeModule !== "csr" && activeModule !== "pages" && activeModule !== "products" ? (
-                  <textarea className="min-h-32 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Content" value={form.content} onChange={(e) => setForm((s) => ({ ...s, content: e.target.value }))} />
-                ) : null}
+              {activeModule !== "blogs" && activeModule !== "csr" ? (
+                <textarea className="md:col-span-2 border rounded-lg px-3 py-2 text-sm min-h-32" placeholder="Content" value={form.content} onChange={(e) => setForm((s) => ({ ...s, content: e.target.value }))} />
+              ) : null}
 
-                <div className="space-y-2">
-                  <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Cover image URL" value={form.cover_image} onChange={(e) => setForm((s) => ({ ...s, cover_image: e.target.value }))} />
-                  <input type="file" ref={coverImageInputRef} accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg" className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold" onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) uploadFromDevice(file, "cover_image");
-                  }} />
-                </div>
-                <div className="space-y-2">
-                  <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="File URL (PDF, Document, etc.)" value={form.file_url} onChange={(e) => setForm((s) => ({ ...s, file_url: e.target.value }))} />
-                  <input type="file" ref={fileUrlInputRef} accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg,video/*,application/pdf,.doc,.docx" className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold" onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) uploadFromDevice(file, "file_url");
-                  }} />
-                </div>
-                <div className="space-y-2 md:col-span-2">
-                  <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Video URL (YouTube/Vimeo)" value={form.video_url} onChange={(e) => setForm((s) => ({ ...s, video_url: e.target.value }))} />
-                </div>
+              <div className="space-y-2">
+                <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Cover image URL" value={form.cover_image} onChange={(e) => setForm((s) => ({ ...s, cover_image: e.target.value }))} />
+                <input type="file" accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg" className="w-full border rounded-lg px-3 py-2 text-sm" onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) uploadFromDevice(file, "cover_image");
+                }} />
+              </div>
+              <div className="space-y-2">
+                <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="File URL (PDF, Document, etc.)" value={form.file_url} onChange={(e) => setForm((s) => ({ ...s, file_url: e.target.value }))} />
+                <input type="file" accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg,video/*,application/pdf,.doc,.docx" className="w-full border rounded-lg px-3 py-2 text-sm" onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) uploadFromDevice(file, "file_url");
+                }} />
+              </div>
+              <div className="space-y-2 md:col-span-2">
+                <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Video URL (YouTube/Vimeo)" value={form.video_url} onChange={(e) => setForm((s) => ({ ...s, video_url: e.target.value }))} />
+              </div>
 
                 {renderModuleSpecificFields()}
 
-                <input type="number" className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Sort order" value={form.sort_order} onChange={(e) => setForm((s) => ({ ...s, sort_order: Number(e.target.value) }))} />
-                <label className="flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" checked={form.featured} onChange={(e) => setForm((s) => ({ ...s, featured: e.target.checked }))} /> Featured</label>
+              <input type="number" className="border rounded-lg px-3 py-2 text-sm" placeholder="Sort order" value={form.sort_order} onChange={(e) => setForm((s) => ({ ...s, sort_order: Number(e.target.value) }))} />
+              <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.featured} onChange={(e) => setForm((s) => ({ ...s, featured: e.target.checked }))} /> Featured</label>
 
                 <div className="flex gap-2 md:col-span-2">
                   <button className="rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-rose-400/30">{editingId ? "Update" : "Create"}</button>
