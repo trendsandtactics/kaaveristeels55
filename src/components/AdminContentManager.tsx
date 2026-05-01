@@ -4,13 +4,9 @@ import AdminCertificationsPanel from "@/components/AdminCertificationsPanel";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-<<<<<<< HEAD
-type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators";
-=======
 type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages";
->>>>>>> 88ad356 (KO)
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
-type ModuleName = ContentModuleName | SupportModuleName | "certifications" | "calculators";
+type ModuleName = ContentModuleName | SupportModuleName | "certifications" | "calculator";
 
 type ModuleDef = { key: ModuleName; label: string; kind: "content" | "support" | "certifications" | "calculator"; description: string };
 type Item = Record<string, unknown> & { id: number; title?: string; slug?: string; status?: string; updated_at?: string };
@@ -405,99 +401,6 @@ export default function AdminContentManager() {
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="End DateTime" value={form.extra_data.ends_at ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, ends_at: e.target.value } }))} />
           </>
         );
-      case "calculators": {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let params: Record<string, any> = {};
-        try {
-          params = form.extra_data.parameters ? JSON.parse(form.extra_data.parameters) : {};
-        } catch {
-          // Ignore invalid JSON on render
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const updateParam = (path: string[], value: any) => {
-          const newParams = JSON.parse(JSON.stringify(params)); // Deep clone to avoid mutation
-          let current = newParams;
-          for (let i = 0; i < path.length - 1; i++) {
-            if (!current[path[i]]) current[path[i]] = {};
-            current = current[path[i]];
-          }
-          current[path[path.length - 1]] = value;
-          setForm((s) => ({ ...s, extra_data: { ...s.extra_data, parameters: JSON.stringify(newParams, null, 2) } }));
-        };
-
-        return (
-          <>
-            <div className="md:col-span-2 space-y-4">
-              <div className="space-y-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <h4 className="font-semibold text-slate-800">Construction Steel Calculator</h4>
-                <div className="grid grid-cols-3 gap-3">
-                  <div>
-                    <label className="mb-1 block text-xs font-semibold text-slate-600">Residential Multiplier</label>
-                    <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.multipliers?.residential ?? 4} onChange={(e) => updateParam(["multipliers", "residential"], Number(e.target.value))} />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-xs font-semibold text-slate-600">Commercial Multiplier</label>
-                    <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.multipliers?.commercial ?? 5} onChange={(e) => updateParam(["multipliers", "commercial"], Number(e.target.value))} />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-xs font-semibold text-slate-600">Infrastructure Multiplier</label>
-                    <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.multipliers?.infrastructure ?? 6} onChange={(e) => updateParam(["multipliers", "infrastructure"], Number(e.target.value))} />
-                  </div>
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Custom Math Expression (Optional)</label>
-                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="totalArea * multiplier" value={form.extra_data.formula ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, formula: e.target.value } }))} />
-                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>totalArea</code>, <code>multiplier</code></p>
-                </div>
-              </div>
-
-              <div className="space-y-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <h4 className="font-semibold text-slate-800">Weight & Bundle Calculator</h4>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Weight Divisor (Standard is 162)</label>
-                  <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.weightDivisor ?? 162} onChange={(e) => updateParam(["weightDivisor"], Number(e.target.value))} />
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Weight Formula (Optional)</label>
-                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="((d * d) / divisor) * l * q" value={params?.weightFormula ?? ""} onChange={(e) => updateParam(["weightFormula"], e.target.value)} />
-                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>d</code>, <code>l</code>, <code>q</code>, <code>divisor</code></p>
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Bundle Formula (Optional)</label>
-                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="Math.ceil(q / barsPerBundle)" value={params?.bundleFormula ?? ""} onChange={(e) => updateParam(["bundleFormula"], e.target.value)} />
-                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>q</code>, <code>barsPerBundle</code></p>
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Base Price (per kg)</label>
-                  <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.pricePerKg ?? ""} placeholder="e.g. 55" onChange={(e) => updateParam(["pricePerKg"], Number(e.target.value))} />
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-600">Cost Formula (Optional)</label>
-                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="totalWeight * pricePerKg" value={params?.costFormula ?? ""} onChange={(e) => updateParam(["costFormula"], e.target.value)} />
-                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>totalWeight</code>, <code>pricePerKg</code>, <code>bundles</code></p>
-                </div>
-                <div>
-                  <label className="mb-2 block text-xs font-semibold text-slate-600">Bars Per Bundle</label>
-                  <div className="grid grid-cols-5 gap-3">
-                    {["8", "10", "12", "16", "20"].map((d) => (
-                      <div key={d}>
-                        <label className="mb-1 block text-xs text-slate-500">{d}mm</label>
-                        <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.barsPerBundle?.[d] ?? ""} placeholder="Qty" onChange={(e) => updateParam(["barsPerBundle", d], Number(e.target.value))} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                 <label className="mb-1 block text-xs font-semibold text-slate-600">Raw JSON Parameters (Advanced)</label>
-                 <textarea className="min-h-32 w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={form.extra_data.parameters ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, parameters: e.target.value } }))} />
-              </div>
-            </div>
-          </>
-        );
-      }
       default:
         return null;
     }
