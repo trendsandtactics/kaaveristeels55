@@ -454,6 +454,16 @@ export default function AdminContentManager() {
                   <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.weightDivisor ?? 162} onChange={(e) => updateParam(["weightDivisor"], Number(e.target.value))} />
                 </div>
                 <div>
+                  <label className="mb-1 block text-xs font-semibold text-slate-600">Weight Formula (Optional)</label>
+                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="((d * d) / divisor) * l * q" value={params?.weightFormula ?? ""} onChange={(e) => updateParam(["weightFormula"], e.target.value)} />
+                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>d</code>, <code>l</code>, <code>q</code>, <code>divisor</code></p>
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-slate-600">Bundle Formula (Optional)</label>
+                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="Math.ceil(q / barsPerBundle)" value={params?.bundleFormula ?? ""} onChange={(e) => updateParam(["bundleFormula"], e.target.value)} />
+                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>q</code>, <code>barsPerBundle</code></p>
+                </div>
+                <div>
                   <label className="mb-1 block text-xs font-semibold text-slate-600">Base Price (per kg)</label>
                   <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.pricePerKg ?? ""} placeholder="e.g. 55" onChange={(e) => updateParam(["pricePerKg"], Number(e.target.value))} />
                 </div>

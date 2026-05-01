@@ -85,12 +85,9 @@ export default function SteelCalculator() {
       // Support dynamic expression formula execution 
       if (calcConfig?.formula && typeof calcConfig.formula === "string") {
         try {
-          const expression = calcConfig.formula
-            .replace(/totalArea/g, String(totalArea))
-            .replace(/multiplier/g, String(multiplier));
-            
-          // Use a simple restricted Function to evaluate the mathematical string
-          steel = new Function("return " + expression)();
+          // Use Function with parameters to safely evaluate the mathematical string
+          const fn = new Function("totalArea", "multiplier", "return " + calcConfig.formula);
+          steel = fn(totalArea, multiplier);
         } catch (e) {
           console.warn("Formula evaluation failed, falling back to default.", e);
         }
@@ -115,15 +112,32 @@ export default function SteelCalculator() {
     if (d > 0 && l > 0 && q > 0) {
       // Divisor is conventionally 162 but can be dynamic 
       const divisor = calcConfig?.parameters?.weightDivisor || 162;
-      const weightPerBar = ((d * d) / divisor) * l;
-      const totalWeight = weightPerBar * q;
+      let totalWeight = (((d * d) / divisor) * l) * q;
+
+      if (calcConfig?.parameters?.weightFormula && typeof calcConfig.parameters.weightFormula === "string") {
+        try {
+          const fn = new Function("d", "l", "q", "divisor", "return " + calcConfig.parameters.weightFormula);
+          totalWeight = fn(d, l, q, divisor);
+        } catch (e) {
+          console.warn("Weight formula evaluation failed, falling back to default.", e);
+        }
+      }
       setEstimatedWeight(totalWeight);
 
       const bundleDefaults: Record<string, number> = { "8": 10, "10": 7, "12": 5, "16": 3, "20": 2 };
       const bundleConfig = calcConfig?.parameters?.barsPerBundle || bundleDefaults;
       const barsPerBundle = bundleConfig[String(d)] || 1;
 
-      const bundles = Math.ceil(q / barsPerBundle);
+      let bundles = Math.ceil(q / barsPerBundle);
+
+      if (calcConfig?.parameters?.bundleFormula && typeof calcConfig.parameters.bundleFormula === "string") {
+        try {
+          const fn = new Function("q", "barsPerBundle", "return " + calcConfig.parameters.bundleFormula);
+          bundles = fn(q, barsPerBundle);
+        } catch (e) {
+          console.warn("Bundle formula evaluation failed, falling back to default.", e);
+        }
+      }
       setBundleCount(bundles);
 
       // Cost Calculation
@@ -133,11 +147,8 @@ export default function SteelCalculator() {
       // Support dynamic cost formula execution 
       if (calcConfig?.parameters?.costFormula && typeof calcConfig.parameters.costFormula === "string") {
         try {
-          const expression = calcConfig.parameters.costFormula
-            .replace(/totalWeight/g, String(totalWeight))
-            .replace(/pricePerKg/g, String(pricePerKg))
-            .replace(/bundles/g, String(bundles));
-          cost = new Function("return " + expression)();
+          const fn = new Function("totalWeight", "pricePerKg", "bundles", "return " + calcConfig.parameters.costFormula);
+          cost = fn(totalWeight, pricePerKg, bundles);
         } catch (e) {
           console.warn("Cost formula evaluation failed, falling back to default.", e);
         }
