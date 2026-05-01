@@ -400,13 +400,79 @@ export default function AdminContentManager() {
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="End DateTime" value={form.extra_data.ends_at ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, ends_at: e.target.value } }))} />
           </>
         );
-      case "calculators":
+      case "calculators": {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let params: Record<string, any> = {};
+        try {
+          params = form.extra_data.parameters ? JSON.parse(form.extra_data.parameters) : {};
+        } catch (e) {
+          // Ignore invalid JSON on render
+        }
+
+        const updateParam = (path: string[], value: number) => {
+          const newParams = JSON.parse(JSON.stringify(params)); // Deep clone to avoid mutation
+          let current = newParams;
+          for (let i = 0; i < path.length - 1; i++) {
+            if (!current[path[i]]) current[path[i]] = {};
+            current = current[path[i]];
+          }
+          current[path[path.length - 1]] = value;
+          setForm((s) => ({ ...s, extra_data: { ...s.extra_data, parameters: JSON.stringify(newParams, null, 2) } }));
+        };
+
         return (
           <>
-            <textarea className="md:col-span-2 border rounded-lg px-3 py-2 text-sm min-h-32" placeholder="Formula (JSON or Expression)" value={form.extra_data.formula ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, formula: e.target.value } }))} />
-            <input className="md:col-span-2 border rounded-lg px-3 py-2 text-sm" placeholder="Parameters (JSON Array or comma separated values)" value={form.extra_data.parameters ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, parameters: e.target.value } }))} />
+            <div className="md:col-span-2 space-y-4">
+              <div className="space-y-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <h4 className="font-semibold text-slate-800">Construction Steel Calculator</h4>
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <label className="mb-1 block text-xs font-semibold text-slate-600">Residential Multiplier</label>
+                    <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.multipliers?.residential ?? 4} onChange={(e) => updateParam(["multipliers", "residential"], Number(e.target.value))} />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-semibold text-slate-600">Commercial Multiplier</label>
+                    <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.multipliers?.commercial ?? 5} onChange={(e) => updateParam(["multipliers", "commercial"], Number(e.target.value))} />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-semibold text-slate-600">Infrastructure Multiplier</label>
+                    <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.multipliers?.infrastructure ?? 6} onChange={(e) => updateParam(["multipliers", "infrastructure"], Number(e.target.value))} />
+                  </div>
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-slate-600">Custom Math Expression (Optional)</label>
+                  <input type="text" className="w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" placeholder="totalArea * multiplier" value={form.extra_data.formula ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, formula: e.target.value } }))} />
+                  <p className="mt-1 text-xs text-slate-500">Variables available: <code>totalArea</code>, <code>multiplier</code></p>
+                </div>
+              </div>
+
+              <div className="space-y-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <h4 className="font-semibold text-slate-800">Weight & Bundle Calculator</h4>
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-slate-600">Weight Divisor (Standard is 162)</label>
+                  <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.weightDivisor ?? 162} onChange={(e) => updateParam(["weightDivisor"], Number(e.target.value))} />
+                </div>
+                <div>
+                  <label className="mb-2 block text-xs font-semibold text-slate-600">Bars Per Bundle</label>
+                  <div className="grid grid-cols-5 gap-3">
+                    {["8", "10", "12", "16", "20"].map((d) => (
+                      <div key={d}>
+                        <label className="mb-1 block text-xs text-slate-500">{d}mm</label>
+                        <input type="number" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={params?.barsPerBundle?.[d] ?? ""} placeholder="Qty" onChange={(e) => updateParam(["barsPerBundle", d], Number(e.target.value))} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                 <label className="mb-1 block text-xs font-semibold text-slate-600">Raw JSON Parameters (Advanced)</label>
+                 <textarea className="min-h-32 w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm outline-none transition focus:ring-2 focus:ring-red-500/30" value={form.extra_data.parameters ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, parameters: e.target.value } }))} />
+              </div>
+            </div>
           </>
         );
+      }
       default:
         return null;
     }
