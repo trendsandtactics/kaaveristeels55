@@ -4,10 +4,8 @@ import Link from "next/link";
 
 export default function SteelScroll() {
   return (
-    <section
-      id="steel-scroll-section"
-      className="relative w-full h-[100dvh] overflow-hidden -mt-20 md:-mt-24"
-    >
+    <section className="relative w-full h-screen overflow-hidden">
+
       {/* Background Video */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
@@ -18,22 +16,27 @@ export default function SteelScroll() {
         playsInline
       />
 
-      {/* Light overlay for readability (no gradient) */}
-      <div className="absolute inset-0 bg-black/25 z-[1]" />
+      {/* Dark gradient overlay (important fix) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/60 z-10" />
 
       {/* Content */}
-      <div className="absolute inset-0 z-10 flex items-end justify-center px-6 pb-16">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-6 md:gap-10 text-center">
+      <div className="relative z-20 h-full flex items-center px-6 md:px-16">
+        <div className="max-w-2xl text-left space-y-6">
 
           {/* Heading */}
-          <h2 className="font-sans text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-[1.2]">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white leading-tight">
             Building India&apos;s Future
-          </h2>
+          </h1>
+
+          {/* Subtext (adds professionalism) */}
+          <p className="text-gray-200 text-sm md:text-lg max-w-md">
+            High-quality TMT bars engineered for strength, safety, and long-lasting infrastructure.
+          </p>
 
           {/* Button */}
           <Link href="/products">
-            <button className="px-8 py-4 bg-red-600 text-white text-xs md:text-sm uppercase tracking-[0.2em] font-semibold border border-red-600 transition-all duration-300 hover:bg-transparent hover:text-white hover:border-white">
-              Explore Our Products
+            <button className="px-8 py-4 bg-red-600 hover:bg-red-700 text-white text-sm uppercase tracking-wider font-semibold transition-all duration-300 shadow-lg">
+              Explore Products
             </button>
           </Link>
 
