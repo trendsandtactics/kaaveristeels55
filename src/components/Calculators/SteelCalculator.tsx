@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SteelCalculator() {
@@ -17,6 +17,31 @@ export default function SteelCalculator() {
   const [quantity, setQuantity] = useState("");
   const [estimatedWeight, setEstimatedWeight] = useState<number | null>(null);
   const [bundleCount, setBundleCount] = useState<number | null>(null);
+
+  // Dynamic configuration from CMS
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [calcConfig, setCalcConfig] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const res = await fetch("/api/public/content/calculators?limit=10", { cache: "no-store" });
+        const { data } = await res.json();
+        const item = data?.find((d: { slug: string; }) => d.slug === "steel-calculator" || d.slug === "construction-steel") || data?.[0];
+        
+        if (item?.extra_data) {
+          const parsedExtra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
+          setCalcConfig({
+            formula: parsedExtra.formula,
+            parameters: typeof parsedExtra.parameters === "string" && parsedExtra.parameters.startsWith("{") ? JSON.parse(parsedExtra.parameters) : {}
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load calculator config:", err);
+      }
+    };
+    fetchConfig();
+  }, []);
 
   const validateLead = () => {
     if (!name || !phone) {
@@ -45,12 +70,31 @@ export default function SteelCalculator() {
 
   const calculateConstruction = () => {
     if (!validateLead()) return;
-    let multiplier = 4;
-    if (structureType === "commercial") multiplier = 5;
-    if (structureType === "infrastructure") multiplier = 6;
+
+    // Use dynamic multipliers or fallback to defaults
+    const defaultMultipliers: Record<string, number> = { residential: 4, commercial: 5, infrastructure: 6 };
+    const multipliers = calcConfig?.parameters?.multipliers || defaultMultipliers;
+    
+    const multiplier = multipliers[structureType] || 4;
     const totalArea = Number(area) * Number(floors);
+
     if (totalArea > 0) {
-      const steel = totalArea * multiplier;
+      let steel = totalArea * multiplier;
+
+      // Support dynamic expression formula execution 
+      if (calcConfig?.formula && typeof calcConfig.formula === "string") {
+        try {
+          const expression = calcConfig.formula
+            .replace(/totalArea/g, String(totalArea))
+            .replace(/multiplier/g, String(multiplier));
+            
+          // Use a simple restricted Function to evaluate the mathematical string
+          steel = new Function("return " + expression)();
+        } catch (e) {
+          console.warn("Formula evaluation failed, falling back to default.", e);
+        }
+      }
+
       setEstimatedSteel(steel);
       saveEnquiry(`Construction Calculator Details:
 - Structure Type: ${structureType}
@@ -68,19 +112,15 @@ export default function SteelCalculator() {
     const q = Number(quantity);
 
     if (d > 0 && l > 0 && q > 0) {
-      const weightPerBar = ((d * d) / 162) * l;
+      // Divisor is conventionally 162 but can be dynamic 
+      const divisor = calcConfig?.parameters?.weightDivisor || 162;
+      const weightPerBar = ((d * d) / divisor) * l;
       const totalWeight = weightPerBar * q;
       setEstimatedWeight(totalWeight);
 
-      let barsPerBundle = 1;
-      switch (d) {
-        case 8: barsPerBundle = 10; break;
-        case 10: barsPerBundle = 7; break;
-        case 12: barsPerBundle = 5; break;
-        case 16: barsPerBundle = 3; break;
-        case 20: barsPerBundle = 2; break;
-        default: barsPerBundle = 1;
-      }
+      const bundleDefaults: Record<string, number> = { "8": 10, "10": 7, "12": 5, "16": 3, "20": 2 };
+      const bundleConfig = calcConfig?.parameters?.barsPerBundle || bundleDefaults;
+      const barsPerBundle = bundleConfig[String(d)] || 1;
 
       const bundles = Math.ceil(q / barsPerBundle);
       setBundleCount(bundles);
