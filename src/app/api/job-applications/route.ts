@@ -1,29 +1,51 @@
-import { NextRequest, NextResponse } from "next/server";
-import { ensureDynamicCmsTables } from "@/lib/dynamic-cms";
-import { getPool } from "@/lib/mysql";
+import { NextResponse } from "next/server";
+import { query } from "@/lib/mysql"; // Use the standard DB export based on your project configuration
 
-export async function GET() {
-  await ensureDynamicCmsTables();
-  const [rows] = await getPool().query("SELECT * FROM job_applications ORDER BY created_at DESC LIMIT 500");
-  return NextResponse.json({ data: rows });
-}
-
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    await ensureDynamicCmsTables();
     const body = await request.json();
-    if (!body.name || !body.email) {
-      return NextResponse.json({ error: "name and email are required." }, { status: 400 });
+    const { career_id, name, email, phone, cover_letter, resume_url } = body;
+
+    if (!name || !email) {
+      return NextResponse.json({ error: "Name and email are required." }, { status: 400 });
     }
 
-    await getPool().query(
-      "INSERT INTO job_applications (career_id, name, email, phone, resume_url, cover_letter) VALUES (?, ?, ?, ?, ?, ?)",
-      [body.career_id ?? null, body.name, body.email, body.phone ?? null, body.resume_url ?? null, body.cover_letter ?? null],
-    );
+    const sql = `
+      INSERT INTO job_applications 
+      (career_id, name, email, phone, cover_letter, resume_url, status) 
+      VALUES (?, ?, ?, ?, ?, ?, 'new')
+    `;
 
-    return NextResponse.json({ ok: true }, { status: 201 });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unable to save job application.";
-    return NextResponse.json({ error: message }, { status: 500 });
+    const values = [
+      career_id || null,
+      name,
+      email,
+      phone || null,
+      cover_letter || null,
+      resume_url || null,
+    ];
+
+    // Assuming query resolves the db execute connection
+    await query(sql, values);
+
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error("Job Application POST Error:", error);
+    return NextResponse.json({ error: "Failed to submit job application." }, { status: 500 });
+  }
+}
+
+export async function GET() {
+  try {
+    const sql = `SELECT * FROM job_applications ORDER BY created_at DESC LIMIT 100`;
+    const result: any = await query(sql);
+
+    // Ensure consistent unwrapping (mysql2/promise usually returns [rows, fields])
+    const data = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : result;
+
+    return NextResponse.json({ data });
+  } catch (error: any) {
+    console.error("Job Application GET Error:", error);
+    return NextResponse.json({ error: "Failed to fetch job applications." }, { status: 500 });
   }
 }
