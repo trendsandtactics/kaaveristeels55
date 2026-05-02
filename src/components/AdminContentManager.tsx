@@ -510,12 +510,14 @@ export default function AdminContentManager() {
   const renderViewingModal = () => {
     if (!viewingItem) return null;
 
+    const isJobApp = activeModule === "job_applications";
+
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm" onClick={() => setViewingItem(null)}>
         <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
           <div className="mb-4 flex items-start justify-between">
             <div>
-              <h3 className="font-heading text-2xl text-slate-900">Enquiry Details</h3>
+              <h3 className="font-heading text-2xl text-slate-900">{isJobApp ? "Job Application Details" : "Enquiry Details"}</h3>
               <p className="text-sm text-slate-500">
                 Received on {viewingItem.created_at ? new Date(String(viewingItem.created_at)).toLocaleString() : "N/A"}
               </p>
@@ -528,10 +530,23 @@ export default function AdminContentManager() {
             <p><strong>Name:</strong> {String(viewingItem.name ?? "N/A")}</p>
             <p><strong>Email:</strong> {String(viewingItem.email && String(viewingItem.email) !== 'no-email@provided.com' ? viewingItem.email : "N/A")}</p>
             <p><strong>Phone:</strong> {String(viewingItem.phone ?? "N/A")}</p>
-            <p><strong>Type:</strong> <span className="font-semibold uppercase">{String(viewingItem.enquiry_type ?? "N/A")}</span></p>
-            {viewingItem.product_name ? <p><strong>Product:</strong> {String(viewingItem.product_name)}</p> : null}
-            <p className="font-semibold">Message:</p>
-            <div className="max-h-60 overflow-y-auto whitespace-pre-wrap rounded-lg border bg-slate-50 p-3 text-slate-800">{String(viewingItem.message ?? "No message provided.")}</div>
+            {isJobApp ? (
+              <>
+                {viewingItem.career_id ? <p><strong>Career ID:</strong> {String(viewingItem.career_id)}</p> : null}
+                {viewingItem.resume_url ? (
+                  <p><strong>Resume:</strong> <a href={String(viewingItem.resume_url)} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">View Document</a></p>
+                ) : null}
+                <p className="font-semibold mt-4">Questionnaire & Cover Letter:</p>
+                <div className="max-h-60 overflow-y-auto whitespace-pre-wrap rounded-lg border bg-slate-50 p-3 text-slate-800">{String(viewingItem.cover_letter ?? "No details provided.")}</div>
+              </>
+            ) : (
+              <>
+                <p><strong>Type:</strong> <span className="font-semibold uppercase">{String(viewingItem.enquiry_type ?? "N/A")}</span></p>
+                {viewingItem.product_name ? <p><strong>Product:</strong> {String(viewingItem.product_name)}</p> : null}
+                <p className="font-semibold mt-4">Message:</p>
+                <div className="max-h-60 overflow-y-auto whitespace-pre-wrap rounded-lg border bg-slate-50 p-3 text-slate-800">{String(viewingItem.message ?? "No message provided.")}</div>
+              </>
+            )}
           </div>
           <button onClick={() => setViewingItem(null)} className="mt-6 rounded-lg bg-slate-800 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700">Close</button>
         </div>
@@ -606,7 +621,7 @@ export default function AdminContentManager() {
                   {activeDef.kind === "content" ? (
                     <span className="inline-flex rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold capitalize text-slate-700">{String(row.status ?? "-")}</span>
                   ) : (
-                    <span className="inline-flex rounded-full bg-blue-100 text-blue-700 px-2.5 py-1 text-xs font-bold uppercase tracking-wider">{String(row.enquiry_type ?? row.subject ?? "enquiry")}</span>
+                <span className="inline-flex rounded-full bg-blue-100 text-blue-700 px-2.5 py-1 text-xs font-bold uppercase tracking-wider">{String(row.enquiry_type ?? row.subject ?? (activeModule === "job_applications" ? "Job App" : "enquiry"))}</span>
                   )}
                 </td>
                 <td className="px-3 py-3 pr-3 text-slate-600">
@@ -614,7 +629,7 @@ export default function AdminContentManager() {
                     row.updated_at ? new Date(String(row.updated_at)).toLocaleDateString() : "-"
                   ) : (
                     <div className="text-xs max-h-32 overflow-y-auto whitespace-pre-wrap min-w-[200px] max-w-[400px] border border-gray-100 p-2 rounded-lg bg-slate-50 text-slate-700">
-                      {String(row.message ?? row.notes ?? "No message provided")}
+                  {String(row.message ?? row.notes ?? row.cover_letter ?? "No details provided.")}
                     </div>
                   )}
                 </td>

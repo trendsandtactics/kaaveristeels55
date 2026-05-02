@@ -22,12 +22,12 @@ export default function ApplyNowModal({ careerId, jobTitle }: ApplyNowModalProps
 
       {isOpen && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-start justify-center bg-black/60 p-4 pt-12 md:pt-20 backdrop-blur-sm overflow-y-auto"
           onClick={() => setIsOpen(false)}
         >
           {/* Stop propagation so clicking inside the form doesn't close the modal */}
           <div 
-            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl bg-white"
+            className="relative w-full max-w-3xl rounded-2xl shadow-2xl bg-white mb-12 flex-shrink-0"
             onClick={(e) => e.stopPropagation()}
           >
             <button
