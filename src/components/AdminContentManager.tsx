@@ -401,6 +401,7 @@ export default function AdminContentManager() {
           </>
         );
       case "calculators": {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let paramsObj: any = {
           weightDivisor: 162,
           weightFormula: "(((d * d) / divisor) * l) * q",
@@ -413,7 +414,7 @@ export default function AdminContentManager() {
         if (form.extra_data.parameters && form.extra_data.parameters.trim() !== "") {
           try {
             paramsObj = JSON.parse(form.extra_data.parameters);
-          } catch(e) {
+          } catch {
             isInvalidJson = true;
           }
         }
@@ -428,6 +429,7 @@ export default function AdminContentManager() {
           setForm(s => ({ ...s, extra_data: { ...s.extra_data, parameters: JSON.stringify(newObj, null, 2) }}));
         };
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const renderJsonLevel = (obj: any, path: string[], isLast: boolean, indent: number = 1): JSX.Element => {
           if (typeof obj === "number") {
             return (
@@ -440,7 +442,7 @@ export default function AdminContentManager() {
             );
           }
           if (typeof obj === "string") {
-            return <span className="text-[#a5d6ff] ml-1">"{obj}"</span>;
+            return <span className="text-[#a5d6ff] ml-1">&quot;{obj}&quot;</span>;
           }
           if (typeof obj === "boolean") {
             return <span className="text-[#ff7b72] ml-1">{obj ? "true" : "false"}</span>;
@@ -453,7 +455,7 @@ export default function AdminContentManager() {
                 <div className="flex flex-col">
                 {keys.map((k, i) => (
                   <div key={k} style={{ paddingLeft: `${indent * 1.5}rem` }} className="flex items-center my-0.5">
-                    <span className="text-[#7ee787]">"{k}"</span>
+                    <span className="text-[#7ee787]">&quot;{k}&quot;</span>
                     <span className="text-[#c9d1d9] mr-1">:</span>
                     {renderJsonLevel(obj[k], [...path, k], i === keys.length - 1, indent + 1)}
                     <span className="text-[#c9d1d9]">{i < keys.length - 1 ? "," : ""}</span>
