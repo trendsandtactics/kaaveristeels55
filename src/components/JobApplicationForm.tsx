@@ -94,8 +94,8 @@ ${form.cover_letter || "N/A"}
       setForm({ name: "", email: "", phone: "", q_experience: "", q_why_us: "", cover_letter: "" });
       setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
-    } catch (error: any) {
-      setStatusMessage(error.message || "Something went wrong. Please try again.");
+    } catch (error: unknown) {
+      setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

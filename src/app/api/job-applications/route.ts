@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { query } from "@/lib/mysql"; // Use the standard DB export based on your project configuration
+import { execute } from "@/lib/mysql"; // Use the standard DB export based on your project configuration
 
 export async function POST(request: Request) {
   try {
@@ -26,10 +26,10 @@ export async function POST(request: Request) {
     ];
 
     // Assuming query resolves the db execute connection
-    await query(sql, values);
+    await execute(sql, values);
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Job Application POST Error:", error);
     return NextResponse.json({ error: "Failed to submit job application." }, { status: 500 });
   }
@@ -38,13 +38,13 @@ export async function POST(request: Request) {
 export async function GET() {
   try {
     const sql = `SELECT * FROM job_applications ORDER BY created_at DESC LIMIT 100`;
-    const result: any = await query(sql);
+    const result = await execute(sql);
 
     // Ensure consistent unwrapping (mysql2/promise usually returns [rows, fields])
-    const data = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : result;
+    const data = Array.isArray(result) && Array.isArray((result as unknown[])[0]) ? (result as unknown[])[0] : result;
 
     return NextResponse.json({ data });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Job Application GET Error:", error);
     return NextResponse.json({ error: "Failed to fetch job applications." }, { status: 500 });
   }
