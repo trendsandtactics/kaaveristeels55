@@ -229,7 +229,7 @@ export default function DynamicModulePage({
                       className="group flex flex-col justify-between rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
                     >
                       {imageSrc && !imageSrc.toLowerCase().includes(".pdf") && (
-                        <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100 border-b border-black/5">
+                        <div className="relative w-full aspect-square overflow-hidden bg-gray-100 border-b border-black/5">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={imageSrc}
@@ -331,7 +331,7 @@ export default function DynamicModulePage({
                   className="group flex flex-col justify-between rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
                 >
                   {imageSrc && !imageSrc.toLowerCase().includes(".pdf") && (
-                    <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100 border-b border-black/5">
+                    <div className="relative w-full aspect-square overflow-hidden bg-gray-100 border-b border-black/5">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imageSrc}
