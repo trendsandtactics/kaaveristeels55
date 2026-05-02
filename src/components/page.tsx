@@ -17,13 +17,13 @@ interface PageProps {
 }
 
 interface CareerItem {
-  id?: number;
-  title?: string;
+  id?: number | null;
+  title?: string | null;
   slug: string;
-  short_description?: string;
-  content?: string;
-  cover_image?: string;
-  extra_data?: string | Record<string, string>;
+  short_description?: string | null;
+  content?: string | null;
+  cover_image?: string | null;
+  extra_data?: string | Record<string, string> | null;
 }
 
 export async function generateMetadata({ params }: PageProps) {
