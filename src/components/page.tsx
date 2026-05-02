@@ -16,9 +16,19 @@ interface PageProps {
   };
 }
 
+interface CareerItem {
+  id?: number;
+  title?: string;
+  slug: string;
+  short_description?: string;
+  content?: string;
+  cover_image?: string;
+  extra_data?: string | Record<string, string>;
+}
+
 export async function generateMetadata({ params }: PageProps) {
   const careers = await listModuleItems("careers", { status: "published" });
-  const career = careers.find((c: any) => c.slug === params.slug);
+  const career = careers.find((c: CareerItem) => c.slug === params.slug);
 
   if (!career) return { title: "Not Found | Careers | KAAVERI Steels" };
 
@@ -30,7 +40,7 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function CareerDetailPage({ params }: PageProps) {
   const careers = await listModuleItems("careers", { status: "published" });
-  const career = careers.find((c: any) => c.slug === params.slug);
+  const career = careers.find((c: CareerItem) => c.slug === params.slug);
 
   if (!career) {
     notFound();
@@ -45,7 +55,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
   if (career.extra_data) {
     try {
       extraData = typeof career.extra_data === "string" ? JSON.parse(career.extra_data) : career.extra_data;
-    } catch (e) {
+    } catch {
       // ignore malformed JSON
     }
   }
