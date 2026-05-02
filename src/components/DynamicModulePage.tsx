@@ -226,17 +226,32 @@ export default function DynamicModulePage({
                   return (
                     <article
                       key={item.id}
-                      className="group flex flex-col justify-between rounded-2xl border border-black/10 bg-white p-6 shadow-sm hover:shadow-xl transition-all duration-300"
+                      className="group flex flex-col justify-between rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
                     >
-                      <div>
-                        <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-black/50">
-                          Featured
-                        </p>
-                        <h3 className="font-['Open_Sans'] text-xl md:text-2xl font-bold text-black mb-4 line-clamp-2">
-                          {item.title}
-                        </h3>
-                      </div>
-                      <div className="mt-4 flex items-center gap-3">
+                      {imageSrc && !imageSrc.toLowerCase().includes(".pdf") && (
+                        <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100 border-b border-black/5">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={imageSrc}
+                            alt={item.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
+                        </div>
+                      )}
+                      <div className="p-6 flex flex-col flex-1">
+                        <div>
+                          <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-black/50">
+                            Featured
+                          </p>
+                          <h3 className="font-['Open_Sans'] text-xl md:text-2xl font-bold text-black mb-4 line-clamp-2">
+                            {item.title}
+                          </h3>
+                        </div>
+                        <div className="mt-auto pt-4 flex items-center gap-3">
                         {brochurePdfUrlForItem(item) ? (
                           <>
                             <a
@@ -258,6 +273,7 @@ export default function DynamicModulePage({
                         ) : (
                           <span className="text-xs italic text-black/50">PDF Unavailable</span>
                         )}
+                      </div>
                       </div>
                     </article>
                   );
@@ -312,12 +328,27 @@ export default function DynamicModulePage({
               return (
                 <article
                   key={item.id}
-                  className="group flex flex-col justify-between rounded-2xl border border-black/10 bg-white p-6 shadow-sm hover:shadow-xl transition-all duration-300"
+                  className="group flex flex-col justify-between rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
                 >
-                  <h3 className="font-['Open_Sans'] text-lg md:text-xl font-bold text-black mb-4 transition-colors group-hover:text-accent-red line-clamp-2">
-                    {item.title}
-                  </h3>
-                  <div className="mt-auto flex items-center gap-3">
+                  {imageSrc && !imageSrc.toLowerCase().includes(".pdf") && (
+                    <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100 border-b border-black/5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imageSrc}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+                    </div>
+                  )}
+                  <div className="p-6 flex flex-col flex-1">
+                    <h3 className="font-['Open_Sans'] text-lg md:text-xl font-bold text-black mb-4 transition-colors group-hover:text-accent-red line-clamp-2">
+                      {item.title}
+                    </h3>
+                    <div className="mt-auto flex items-center gap-3">
                     {brochurePdfUrlForItem(item) ? (
                       <>
                         <a
@@ -339,6 +370,7 @@ export default function DynamicModulePage({
                     ) : (
                       <span className="text-xs italic text-black/50">PDF Unavailable</span>
                     )}
+                  </div>
                   </div>
                 </article>
               );
