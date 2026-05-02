@@ -68,7 +68,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
           <div className="relative w-full h-64 md:h-80 bg-gray-100 border-b border-black/5">
             <Image 
               src={coverImage} 
-              alt={career.title} 
+              alt={career.title || "Career"} 
               fill 
               className="object-cover"
               priority
@@ -117,7 +117,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
                 <p className="text-sm text-gray-500">Apply now by filling out our quick application form.</p>
               </div>
               {/* THIS IS THE APPLY NOW BUTTON POPUP */}
-              <ApplyNowModal careerId={career.id} jobTitle={career.title} />
+              <ApplyNowModal careerId={career.id || undefined} jobTitle={career.title || undefined} />
             </div>
           </div>
 
