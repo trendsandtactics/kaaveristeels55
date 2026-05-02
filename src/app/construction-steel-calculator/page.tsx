@@ -32,9 +32,15 @@ export default function SteelCalculator() {
         
         if (item?.extra_data) {
           const parsedExtra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
+          let parsedParameters = {};
+          try {
+            parsedParameters = typeof parsedExtra.parameters === "string" && parsedExtra.parameters.startsWith("{") ? JSON.parse(parsedExtra.parameters) : parsedExtra.parameters || {};
+          } catch (e) {
+            console.warn("Failed to parse calculator parameters json", e);
+          }
           setCalcConfig({
             formula: parsedExtra.formula,
-            parameters: typeof parsedExtra.parameters === "string" && parsedExtra.parameters.startsWith("{") ? JSON.parse(parsedExtra.parameters) : {}
+            parameters: parsedParameters
           });
         }
       } catch (err) {

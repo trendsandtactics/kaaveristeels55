@@ -4,11 +4,11 @@ import AdminCertificationsPanel from "@/components/AdminCertificationsPanel";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages";
+type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators";
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
-type ModuleName = ContentModuleName | SupportModuleName | "certifications" | "calculator";
+type ModuleName = ContentModuleName | SupportModuleName | "certifications";
 
-type ModuleDef = { key: ModuleName; label: string; kind: "content" | "support" | "certifications" | "calculator"; description: string };
+type ModuleDef = { key: ModuleName; label: string; kind: "content" | "support" | "certifications"; description: string };
 type Item = Record<string, unknown> & { id: number; title?: string; slug?: string; status?: string; updated_at?: string };
 
 type FormState = {
@@ -40,7 +40,7 @@ const MODULES: ModuleDef[] = [
   { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries" },
   { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue" },
   { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes" },
-  { key: "calculator", label: "Calculator", kind: "calculator", description: "Calculator Assign Option" },
+  { key: "calculators", label: "Calculators", kind: "content", description: "Manage calculator formulas and parameters" },
 ];
 
 const initialForm = (): FormState => ({
@@ -80,7 +80,7 @@ export default function AdminContentManager() {
 
   const fetchItems = async () => {
     // Prevent generic content fetching when specialized panels are active
-    if (activeDef.kind === "certifications" || activeDef.kind === "calculator") return;
+    if (activeDef.kind === "certifications") return;
     
     setLoading(true);
     setMessage("");
@@ -400,6 +400,22 @@ export default function AdminContentManager() {
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="End DateTime" value={form.extra_data.ends_at ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, ends_at: e.target.value } }))} />
           </>
         );
+      case "calculators":
+        return (
+          <>
+            <textarea className="md:col-span-2 min-h-16 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Construction Formula (e.g. totalArea * multiplier)" value={form.extra_data.formula ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, formula: e.target.value } }))} />
+            <div className="md:col-span-2 space-y-2">
+              <label className="text-sm font-semibold text-slate-700">Weight & Bundle Formulas (JSON)</label>
+              <textarea
+                className="min-h-32 w-full rounded-lg border font-mono border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2"
+                placeholder='{"weightDivisor": 162, "weightFormula": "(((d * d) / divisor) * l) * q", "bundleFormula": "Math.ceil(q / barsPerBundle)", "barsPerBundle": {"8": 10, "10": 7, "12": 5, "16": 3, "20": 2}}'
+                value={form.extra_data.parameters ?? ""}
+                onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, parameters: e.target.value } }))}
+              />
+              <p className="text-xs text-slate-500">Provide valid JSON parameters for weight and bundle calculation.</p>
+            </div>
+          </>
+        );
       default:
         return null;
     }
@@ -564,19 +580,6 @@ export default function AdminContentManager() {
       <section className="lg:col-span-9 space-y-6">
         {activeDef.kind === "certifications" ? <AdminCertificationsPanel /> : null}
 
-        {activeDef.kind === "calculator" ? (
-          <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm xl:sticky xl:top-28">
-            <h3 className="font-heading text-2xl mb-1">Calculator Assign</h3>
-            <p className="text-sm text-black/60 mb-6">Assign calculator options. No additional data is needed here.</p>
-            <div className="flex flex-col items-center justify-center p-12 border border-dashed rounded-xl bg-gray-50/50">
-              <p className="text-slate-600 mb-4 font-medium text-lg">Calculator has been assigned.</p>
-              <button type="button" className="rounded-lg bg-gradient-to-r from-slate-900 to-slate-800 px-6 py-2 text-sm font-semibold text-white shadow-md hover:scale-105 transition-transform">
-                Assign Option
-              </button>
-            </div>
-          </div>
-        ) : null}
-
         {renderViewingModal()}
 
         {activeDef.kind === "content" ? (
@@ -595,7 +598,7 @@ export default function AdminContentManager() {
 
                 <textarea className="min-h-20 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Short description" value={form.short_description} onChange={(e) => setForm((s) => ({ ...s, short_description: e.target.value }))} />
 
-                {activeModule !== "blogs" && activeModule !== "csr" && activeModule !== "pages" && activeModule !== "products" ? (
+                {activeModule !== "blogs" && activeModule !== "csr" && activeModule !== "pages" && activeModule !== "products" && activeModule !== "calculators" ? (
                   <textarea className="min-h-32 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Content" value={form.content} onChange={(e) => setForm((s) => ({ ...s, content: e.target.value }))} />
                 ) : null}
 
@@ -632,7 +635,7 @@ export default function AdminContentManager() {
           </div>
         ) : null}
 
-        {activeDef.kind !== "certifications" && activeDef.kind !== "calculator" ? (
+        {activeDef.kind !== "certifications" ? (
           activeDef.kind === "support" ? renderListPanel() : null
         ) : null}
       </section>
