@@ -4,6 +4,7 @@ import Image from "next/image";
 import { getPublicModuleItemBySlug } from "@/lib/dynamic-cms";
 import { resolveMediaUrl } from "@/lib/media";
 import ClientFadeUp from "@/components/ClientFadeUp";
+import ApplyNowModal from "@/components/ApplyNowModal";
 
 const ALLOWED_MODULES = new Set(["products", "mediaEvents", "blogs", "projects", "careers", "dealers", "galleries", "brochures", "popups", "csr"]);
 const MODULE_TITLES: Record<string, string> = {
@@ -87,6 +88,16 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
                   <Link href={`/product-enquiry?product=${slug}`} className="inline-flex items-center justify-center bg-black text-white px-12 py-5 text-sm font-medium tracking-widest uppercase hover:bg-gray-800 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 w-full sm:w-auto shadow-lg hover:shadow-xl">
                     Enquire About This Product
                   </Link>
+                </div>
+              )}
+
+              {module === "careers" && (
+                <div className="pt-10 mt-10 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-6">
+                  <div>
+                    <h3 className="text-xl font-semibold text-black mb-1">Interested in this role?</h3>
+                    <p className="text-sm text-gray-500">Apply now by filling out our quick application form.</p>
+                  </div>
+                  <ApplyNowModal careerId={Number(item.id) || undefined} jobTitle={title} />
                 </div>
               )}
             </div>
