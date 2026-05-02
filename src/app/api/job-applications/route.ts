@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { execute } from "@/lib/mysql"; // Use the standard DB export based on your project configuration
+import { getPool } from "@/lib/mysql";
 
 export async function POST(request: Request) {
   try {
@@ -25,8 +25,7 @@ export async function POST(request: Request) {
       resume_url || null,
     ];
 
-    // Assuming query resolves the db execute connection
-    await execute(sql, values);
+    await getPool().query(sql, values);
 
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
@@ -38,7 +37,7 @@ export async function POST(request: Request) {
 export async function GET() {
   try {
     const sql = `SELECT * FROM job_applications ORDER BY created_at DESC LIMIT 100`;
-    const result = await execute(sql);
+    const result = await getPool().query(sql);
 
     // Ensure consistent unwrapping (mysql2/promise usually returns [rows, fields])
     const data = Array.isArray(result) && Array.isArray((result as unknown[])[0]) ? (result as unknown[])[0] : result;
