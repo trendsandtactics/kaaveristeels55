@@ -400,22 +400,106 @@ export default function AdminContentManager() {
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="End DateTime" value={form.extra_data.ends_at ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, ends_at: e.target.value } }))} />
           </>
         );
-      case "calculators":
+      case "calculators": {
+        let paramsObj: any = {
+          weightDivisor: 162,
+          weightFormula: "(((d * d) / divisor) * l) * q",
+          bundleFormula: "Math.ceil(q / barsPerBundle)",
+          barsPerBundle: { "8": 10, "10": 7, "12": 5, "16": 3, "20": 2 },
+          multipliers: { residential: 4, commercial: 5, infrastructure: 6 },
+          pricePerKg: 0
+        };
+        let isInvalidJson = false;
+        if (form.extra_data.parameters && form.extra_data.parameters.trim() !== "") {
+          try {
+            paramsObj = JSON.parse(form.extra_data.parameters);
+          } catch(e) {
+            isInvalidJson = true;
+          }
+        }
+
+        const updateJsonNumber = (path: string[], val: number) => {
+          const newObj = JSON.parse(JSON.stringify(paramsObj));
+          let curr = newObj;
+          for (let i = 0; i < path.length - 1; i++) {
+            curr = curr[path[i]];
+          }
+          curr[path[path.length - 1]] = val;
+          setForm(s => ({ ...s, extra_data: { ...s.extra_data, parameters: JSON.stringify(newObj, null, 2) }}));
+        };
+
+        const renderJsonLevel = (obj: any, path: string[], isLast: boolean, indent: number = 1): JSX.Element => {
+          if (typeof obj === "number") {
+            return (
+              <input 
+                type="number" 
+                value={obj} 
+                onChange={e => updateJsonNumber(path, e.target.value === '' ? 0 : Number(e.target.value))} 
+                className="bg-slate-800/80 border border-slate-700 text-[#79c0ff] w-20 outline-none rounded px-1.5 py-0.5 ml-1 text-xs focus:border-[#58a6ff] transition-colors appearance-none" 
+              />
+            );
+          }
+          if (typeof obj === "string") {
+            return <span className="text-[#a5d6ff] ml-1">"{obj}"</span>;
+          }
+          if (typeof obj === "boolean") {
+            return <span className="text-[#ff7b72] ml-1">{obj ? "true" : "false"}</span>;
+          }
+          if (typeof obj === "object" && obj !== null) {
+            const keys = Object.keys(obj);
+            return (
+              <span>
+                <span className="text-[#c9d1d9] ml-1">{"{"}</span>
+                <div className="flex flex-col">
+                {keys.map((k, i) => (
+                  <div key={k} style={{ paddingLeft: `${indent * 1.5}rem` }} className="flex items-center my-0.5">
+                    <span className="text-[#7ee787]">"{k}"</span>
+                    <span className="text-[#c9d1d9] mr-1">:</span>
+                    {renderJsonLevel(obj[k], [...path, k], i === keys.length - 1, indent + 1)}
+                    <span className="text-[#c9d1d9]">{i < keys.length - 1 ? "," : ""}</span>
+                  </div>
+                ))}
+                </div>
+                <span className="text-[#c9d1d9]" style={{ paddingLeft: `${(indent - 1) * 1.5}rem` }}>{"}"}</span>
+              </span>
+            );
+          }
+          return <span className="text-[#8b949e] ml-1">null</span>;
+        };
+
         return (
           <>
-            <textarea className="md:col-span-2 min-h-16 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Construction Formula (e.g. totalArea * multiplier)" value={form.extra_data.formula ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, formula: e.target.value } }))} />
             <div className="md:col-span-2 space-y-2">
-              <label className="text-sm font-semibold text-slate-700">Weight & Bundle Formulas (JSON)</label>
-              <textarea
-                className="min-h-32 w-full rounded-lg border font-mono border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2"
-                placeholder='{"weightDivisor": 162, "weightFormula": "(((d * d) / divisor) * l) * q", "bundleFormula": "Math.ceil(q / barsPerBundle)", "barsPerBundle": {"8": 10, "10": 7, "12": 5, "16": 3, "20": 2}}'
-                value={form.extra_data.parameters ?? ""}
-                onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, parameters: e.target.value } }))}
-              />
-              <p className="text-xs text-slate-500">Provide valid JSON parameters for weight and bundle calculation.</p>
+              <label className="text-sm font-semibold text-slate-700">Construction Formula</label>
+              <div className="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-600 font-mono select-all">
+                {form.extra_data.formula || "totalArea * multiplier"}
+              </div>
+              <p className="text-xs text-slate-500">Formula structure is read-only to prevent calculation errors.</p>
+            </div>
+
+            <div className="md:col-span-2 space-y-2">
+              <label className="text-sm font-semibold text-slate-700">Calculator Parameters</label>
+              {isInvalidJson ? (
+                <>
+                  <textarea 
+                    className="min-h-32 w-full rounded-lg border font-mono border-red-300 bg-red-50 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" 
+                    value={form.extra_data.parameters ?? ""} 
+                    onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, parameters: e.target.value } }))} 
+                  />
+                  <p className="text-xs text-red-500">The current parameters are not valid JSON. Please fix the syntax.</p>
+                </>
+              ) : (
+                <>
+                  <div className="w-full rounded-lg border border-slate-800 bg-[#0d1117] p-4 text-sm font-mono overflow-x-auto shadow-inner">
+                    {renderJsonLevel(paramsObj, [], true, 1)}
+                  </div>
+                  <p className="text-xs text-slate-500">Interactive code editor: Only numeric parameter values can be updated. Keys and expressions are locked.</p>
+                </>
+              )}
             </div>
           </>
         );
+      }
       default:
         return null;
     }
