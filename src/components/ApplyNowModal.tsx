@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import JobApplicationForm from "@/components/JobApplicationForm";
 
 interface ApplyNowModalProps {
@@ -10,6 +10,17 @@ interface ApplyNowModalProps {
 
 export default function ApplyNowModal({ careerId, jobTitle }: ApplyNowModalProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   return (
     <>

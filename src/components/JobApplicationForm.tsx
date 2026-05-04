@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 const baseInputClasses = "w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-800 placeholder-gray-500 outline-none transition focus:ring-2 focus:ring-red-500";
 
@@ -23,6 +23,14 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const formTopRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    // Guide user to the top of the form when it opens
+    if (formTopRef.current) {
+      formTopRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
@@ -102,7 +110,7 @@ ${form.cover_letter || "N/A"}
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto bg-white rounded-2xl p-6 md:p-8 shadow-xl border border-black/10">
+    <div ref={formTopRef} className="w-full max-w-3xl mx-auto bg-white rounded-2xl p-6 md:p-8 shadow-xl border border-black/10">
       <div className="mb-6 text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-black">
           Apply {jobTitle ? `for ${jobTitle}` : "Now"}
