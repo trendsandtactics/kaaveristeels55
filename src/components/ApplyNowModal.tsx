@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import JobApplicationForm from "@/components/JobApplicationForm";
 
 interface ApplyNowModalProps {
@@ -10,6 +11,11 @@ interface ApplyNowModalProps {
 
 export default function ApplyNowModal({ careerId, jobTitle }: ApplyNowModalProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -31,7 +37,7 @@ export default function ApplyNowModal({ careerId, jobTitle }: ApplyNowModalProps
         Apply Now
       </button>
 
-      {isOpen && (
+      {mounted && isOpen && createPortal(
         <div 
           className="fixed inset-0 z-[100] flex items-start justify-center bg-black/60 p-4 pt-12 md:pt-20 backdrop-blur-sm overflow-y-auto"
           onClick={() => setIsOpen(false)}
@@ -50,7 +56,8 @@ export default function ApplyNowModal({ careerId, jobTitle }: ApplyNowModalProps
             </button>
             <JobApplicationForm careerId={careerId} jobTitle={jobTitle} />
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
