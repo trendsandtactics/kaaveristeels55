@@ -55,10 +55,10 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
       // 2. Format questions into the cover letter field matching your SQL schema
       const combinedCoverLetter = `
 --- QUESTIONNAIRE ---
-Q: What is your relevant experience?
+Q: Relevant Experience?
 A: ${form.q_experience || "N/A"}
 
-Q: Why are you a good fit for this role?
+Q: Why this role?
 A: ${form.q_why_us || "N/A"}
 
 --- ADDITIONAL COVER LETTER ---
@@ -122,9 +122,9 @@ ${form.cover_letter || "N/A"}
         <div className="space-y-4 pt-2">
           <h3 className="font-semibold text-gray-800 border-b pb-2">Questionnaire</h3>
           
-          <textarea required placeholder="What is your relevant experience?" className={`${baseInputClasses} min-h-24`} value={form.q_experience} onChange={(e) => setForm((s) => ({ ...s, q_experience: e.target.value }))} />
-          <textarea required placeholder="Why are you a good fit for this role?" className={`${baseInputClasses} min-h-24`} value={form.q_why_us} onChange={(e) => setForm((s) => ({ ...s, q_why_us: e.target.value }))} />
-          <textarea placeholder="Additional Cover Letter (Optional)" className={`${baseInputClasses} min-h-24`} value={form.cover_letter} onChange={(e) => setForm((s) => ({ ...s, cover_letter: e.target.value }))} />
+          <textarea required placeholder="Relevant Experience?" className={`${baseInputClasses} min-h-16`} value={form.q_experience} onChange={(e) => setForm((s) => ({ ...s, q_experience: e.target.value }))} />
+          <textarea required placeholder="Why this role?" className={`${baseInputClasses} min-h-16`} value={form.q_why_us} onChange={(e) => setForm((s) => ({ ...s, q_why_us: e.target.value }))} />
+          <textarea placeholder="Additional Cover Letter (Optional)" className={`${baseInputClasses} min-h-16`} value={form.cover_letter} onChange={(e) => setForm((s) => ({ ...s, cover_letter: e.target.value }))} />
         </div>
 
         <div className="pt-2">
