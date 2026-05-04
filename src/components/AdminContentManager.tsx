@@ -641,7 +641,10 @@ export default function AdminContentManager() {
                       <button onClick={() => deleteRow(row.id)} className="font-semibold text-red-700 hover:underline">Delete</button>
                     </div>
                   ) : (
-                    <button onClick={() => setViewingItem(row)} className="font-semibold text-blue-700 hover:underline">View</button>
+                    <div className="flex items-center gap-3">
+                      <button onClick={() => setViewingItem(row)} className="font-semibold text-blue-700 hover:underline">View</button>
+                      {activeModule === "job_applications" && row.resume_url ? <a href={String(row.resume_url)} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-600 hover:underline whitespace-nowrap">Resume</a> : null}
+                    </div>
                   )}
                 </td>
               </tr>
