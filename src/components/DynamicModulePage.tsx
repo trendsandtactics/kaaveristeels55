@@ -20,6 +20,8 @@ type DynamicItem = {
 
 const ITEMS_PER_PAGE = 9;
 
+const swrCache = new Map<string, DynamicItem[]>();
+
 function formatModuleLabel(module: string): string {
   if (module === "mediaEvents") return "Media & Events";
   if (module === "csr") return "Corporate Social Responsibility";
@@ -64,16 +66,27 @@ export default function DynamicModulePage({
 
   useEffect(() => {
     const controller = new AbortController();
-    setLoading(true);
+    const targetUrl = `/api/public/content/${module}?q=${encodeURIComponent(debouncedQ)}&limit=100`;
+
+    if (swrCache.has(targetUrl)) {
+      setItems(swrCache.get(targetUrl)!);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
 
     const requestInit: RequestInit = {
       cache: "no-cache",
       signal: controller.signal,
     };
 
-    fetch(`/api/public/content/${module}?q=${encodeURIComponent(debouncedQ)}&limit=100`, requestInit)
+    fetch(targetUrl, requestInit)
       .then((res) => res.json())
-      .then((data) => setItems(data.data ?? []))
+      .then((data) => {
+        const fetchedItems = data.data ?? [];
+        swrCache.set(targetUrl, fetchedItems);
+        setItems(fetchedItems);
+      })
       .catch((error) => {
         if (error.name !== "AbortError") {
           setItems([]);

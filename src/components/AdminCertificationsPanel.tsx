@@ -16,6 +16,8 @@ type Certification = {
 
 const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 
+const certCache = new Map<string, Certification[]>();
+
 async function readApiResponse(
   response: Response
 ): Promise<{
@@ -80,8 +82,13 @@ export default function AdminCertificationsPanel() {
     }
   };
 
-  const loadItems = useCallback(async () => {
-    const response = await fetch("/api/certifications", { cache: "no-cache" });
+  const loadItems = useCallback(async (bypassCache = false) => {
+    const url = "/api/certifications";
+    if (!bypassCache && certCache.has(url)) {
+      setItems(certCache.get(url)!);
+    }
+
+    const response = await fetch(url, { cache: "no-cache" });
     const data = await readApiResponse(response);
 
     if (!response.ok) {
@@ -93,6 +100,7 @@ export default function AdminCertificationsPanel() {
       fileUrl: item.fileUrl || `/api/certifications/${item.id}/file`,
     }));
 
+    certCache.set(url, certifications);
     setItems(certifications);
   }, []);
 
@@ -119,6 +127,7 @@ export default function AdminCertificationsPanel() {
       }
 
       setItems((current) => current.filter((item) => item.id !== id));
+      certCache.clear();
 
       if (editingId === id) {
         resetForm();
@@ -222,7 +231,8 @@ export default function AdminCertificationsPanel() {
 
         setMessage("Certificate updated successfully.");
         resetForm();
-        await loadItems();
+        certCache.clear();
+        await loadItems(true);
         return;
       }
 
@@ -253,7 +263,8 @@ export default function AdminCertificationsPanel() {
 
       setMessage("Certificate uploaded successfully.");
       resetForm();
-      await loadItems();
+      certCache.clear();
+      await loadItems(true);
     } catch {
       setMessage("Request failed. Please verify server/database connection and try again.");
     } finally {

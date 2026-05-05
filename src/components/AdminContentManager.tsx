@@ -56,6 +56,8 @@ const initialForm = (): FormState => ({
   extra_data: {},
 });
 
+const adminCache = new Map<string, Item[]>();
+
 function endpointForSupportModule(module: SupportModuleName): string {
   if (module === "enquiries") return "/api/enquiries";
   if (module === "contact_messages") return "/api/contact-messages";
@@ -78,23 +80,28 @@ export default function AdminContentManager() {
 
   const activeDef = MODULES.find((module) => module.key === activeModule)!;
 
-  const fetchItems = async () => {
+  const fetchItems = async (bypassCache = false) => {
     // Prevent generic content fetching when specialized panels are active
     if (activeDef.kind === "certifications") return;
     
-    setLoading(true);
+    const url = activeDef.kind === "support" 
+      ? endpointForSupportModule(activeModule as SupportModuleName)
+      : `/api/admin/content/${activeModule}?q=${encodeURIComponent(search)}`;
+
+    if (!bypassCache && adminCache.has(url)) {
+      setItems(adminCache.get(url)!);
+    } else {
+      setLoading(true);
+    }
+
     setMessage("");
     try {
-      if (activeDef.kind === "support") {
-        const response = await fetch(endpointForSupportModule(activeModule as SupportModuleName), { cache: "no-cache" });
-        const data = await response.json();
-        setItems(data.data ?? []);
-      } else {
-        const response = await fetch(`/api/admin/content/${activeModule}?q=${encodeURIComponent(search)}`, { cache: "no-cache" });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error ?? "Unable to load records.");
-        setItems(data.data ?? []);
-      }
+      const response = await fetch(url, { cache: "no-cache" });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? "Unable to load records.");
+      const resultItems = data.data ?? [];
+      adminCache.set(url, resultItems);
+      setItems(resultItems);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Unable to load records.");
     } finally {
@@ -166,7 +173,8 @@ export default function AdminContentManager() {
       if (!response.ok) throw new Error(data.error ?? "Save failed.");
       setMessage(editingId ? "Updated successfully." : "Created successfully.");
       resetForm();
-      fetchItems();
+      adminCache.clear();
+      fetchItems(true);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Save failed.");
     }
@@ -182,7 +190,8 @@ export default function AdminContentManager() {
       return;
     }
     setMessage("Deleted.");
-    fetchItems();
+    adminCache.clear();
+    fetchItems(true);
   };
 
   const displayedItems = useMemo(() => {

@@ -10,6 +10,8 @@ type PopupItem = {
   file_url?: string | null;
 };
 
+let cachedPopup: PopupItem | null | undefined = undefined;
+
 export default function PopupRenderer() {
   const [popup, setPopup] = useState<PopupItem | null>(null);
   const [open, setOpen] = useState(false);
@@ -18,10 +20,19 @@ export default function PopupRenderer() {
   const isPdf = imageSrc.toLowerCase().includes(".pdf");
 
   useEffect(() => {
+    if (cachedPopup !== undefined) {
+      if (cachedPopup) {
+        setPopup(cachedPopup);
+        setImageSrc(resolveMediaUrl(cachedPopup.file_url || cachedPopup.cover_image || "", ""));
+        setOpen(true);
+      }
+    }
+
     fetch("/api/public/content/popups?limit=1", { cache: "no-cache" })
       .then((res) => res.json())
       .then((data) => {
         const item = (data.data ?? [])[0];
+        cachedPopup = item || null;
         if (item) {
           setPopup(item);
           setImageSrc(
