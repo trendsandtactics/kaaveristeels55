@@ -7,8 +7,8 @@ import { resolveMediaUrl } from "@/lib/media";
 import ClientFadeUp from "@/components/ClientFadeUp";
 import ApplyNowModal from "@/components/ApplyNowModal";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Revalidate the page every 60 seconds (Incremental Static Regeneration)
+export const revalidate = 60;
 
 interface PageProps {
   params: {
@@ -24,6 +24,13 @@ interface CareerItem {
   content?: string | null;
   cover_image?: string | null;
   extra_data?: string | Record<string, string> | null;
+}
+
+export async function generateStaticParams() {
+  const careers = await listModuleItems("careers", { status: "published" });
+  return careers.map((career: CareerItem) => ({
+    slug: career.slug,
+  }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
