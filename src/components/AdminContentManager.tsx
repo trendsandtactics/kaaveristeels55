@@ -593,7 +593,7 @@ export default function AdminContentManager() {
               </div>
             )}
             <input value={search} onChange={(e) => setSearch(e.target.value)} className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Search" />
-            <button onClick={fetchItems} className="rounded-lg bg-slate-900 px-3 py-2 text-sm text-white transition hover:bg-slate-800" type="button">Apply</button>
+            <button onClick={() => fetchItems()} className="rounded-lg bg-slate-900 px-3 py-2 text-sm text-white transition hover:bg-slate-800" type="button">Apply</button>
           </div>
         ) : null}
       </div>
