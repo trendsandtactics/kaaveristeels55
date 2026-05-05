@@ -47,7 +47,7 @@ export default function DynamicModulePage({
   const [activeCategory, setActiveCategory] = useState<string>(module === "products" ? "TMT" : "All");
   const [activeSubCategory, setActiveSubCategory] = useState<string>("Bars");
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -66,7 +66,7 @@ export default function DynamicModulePage({
 
   useEffect(() => {
     const controller = new AbortController();
-    const targetUrl = `/api/public/content/${module}?q=${encodeURIComponent(debouncedQ)}&limit=100`;
+    const targetUrl = `/api/public/content/${module}?q=${encodeURIComponent(debouncedQ)}&limit=1000`;
 
     if (swrCache.has(targetUrl)) {
       setItems(swrCache.get(targetUrl)!);
@@ -98,8 +98,8 @@ export default function DynamicModulePage({
   }, [module, debouncedQ]);
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [activeCategory, activeSubCategory]);
+    setVisibleCount(ITEMS_PER_PAGE);
+  }, [activeCategory, activeSubCategory, debouncedQ]);
 
   const displayedItems = useMemo(() => {
     if (module !== "products") return items;
@@ -124,11 +124,9 @@ export default function DynamicModulePage({
 
   const featured = useMemo(() => displayedItems.filter((item) => item.featured).slice(0, 3), [displayedItems]);
 
-  const totalPages = Math.ceil(displayedItems.length / ITEMS_PER_PAGE);
   const paginatedItems = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return displayedItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [displayedItems, currentPage]);
+    return displayedItems.slice(0, visibleCount);
+  }, [displayedItems, visibleCount]);
 
   const brochurePdfUrlForItem = (item: DynamicItem): string => {
     const directCandidates: unknown[] = [item.file_url, item.cover_image];
@@ -430,24 +428,13 @@ export default function DynamicModulePage({
           })}
         </div>
 
-        {totalPages > 1 && (
-          <div className="mt-12 flex items-center justify-center gap-4">
+        {visibleCount < displayedItems.length && (
+          <div className="mt-12 flex items-center justify-center">
             <button
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-              className="px-4 py-2 rounded-lg border border-black/10 bg-white text-sm font-semibold text-black disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+              onClick={() => setVisibleCount((c) => c + ITEMS_PER_PAGE)}
+              className="px-8 py-3 rounded-lg border border-black/10 bg-black text-sm font-bold uppercase tracking-widest text-white hover:bg-accent-red transition-all duration-300 shadow-md"
             >
-              Previous
-            </button>
-            <span className="text-sm font-medium text-black/70">
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 rounded-lg border border-black/10 bg-white text-sm font-semibold text-black disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
-            >
-              Next
+              Load More
             </button>
           </div>
         )}
