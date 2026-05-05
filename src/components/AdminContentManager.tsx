@@ -86,11 +86,11 @@ export default function AdminContentManager() {
     setMessage("");
     try {
       if (activeDef.kind === "support") {
-        const response = await fetch(endpointForSupportModule(activeModule as SupportModuleName), { cache: "no-store" });
+        const response = await fetch(endpointForSupportModule(activeModule as SupportModuleName), { cache: "no-cache" });
         const data = await response.json();
         setItems(data.data ?? []);
       } else {
-        const response = await fetch(`/api/admin/content/${activeModule}?q=${encodeURIComponent(search)}`, { cache: "no-store" });
+        const response = await fetch(`/api/admin/content/${activeModule}?q=${encodeURIComponent(search)}`, { cache: "no-cache" });
         const data = await response.json();
         if (!response.ok) throw new Error(data.error ?? "Unable to load records.");
         setItems(data.data ?? []);
@@ -103,7 +103,8 @@ export default function AdminContentManager() {
   };
 
   useEffect(() => {
-    fetch("/api/admin/bootstrap", { method: "POST" }).finally(fetchItems);
+    fetch("/api/admin/bootstrap", { method: "POST" }).catch(() => {});
+    fetchItems();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeModule]);
 

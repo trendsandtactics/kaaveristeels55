@@ -18,7 +18,7 @@ export default function PopupRenderer() {
   const isPdf = imageSrc.toLowerCase().includes(".pdf");
 
   useEffect(() => {
-    fetch("/api/public/content/popups?limit=1", { cache: "no-store" })
+    fetch("/api/public/content/popups?limit=1", { cache: "no-cache" })
       .then((res) => res.json())
       .then((data) => {
         const item = (data.data ?? [])[0];

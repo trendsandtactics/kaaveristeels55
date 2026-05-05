@@ -81,7 +81,7 @@ export default function AdminCertificationsPanel() {
   };
 
   const loadItems = useCallback(async () => {
-    const response = await fetch("/api/certifications", { cache: "no-store" });
+    const response = await fetch("/api/certifications", { cache: "no-cache" });
     const data = await readApiResponse(response);
 
     if (!response.ok) {

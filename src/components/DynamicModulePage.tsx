@@ -67,7 +67,7 @@ export default function DynamicModulePage({
     setLoading(true);
 
     const requestInit: RequestInit = {
-      cache: "no-store",
+      cache: "no-cache",
       signal: controller.signal,
     };
 
