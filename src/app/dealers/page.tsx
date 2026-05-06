@@ -181,7 +181,7 @@ export default function DealersPage() {
   }, [dealers, selectedCity, userLocation]);
 
   const activeMapUrl = useMemo(() => {
-    const baseUrl = "https://www.google.com/maps/d/embed?mid=1RbM92MaO-rY-tnUoNiLR_irhlqJg5C4&ehbc=2E312F&noprof=1";
+    const baseUrl = "https://www.google.com/maps/d/embed?mid=1rSs36GRxboJ0rm90vpd-HVfbWRNE_oM&ehbc=2E312F&noprof=1";
     
     if (selectedDealer) {
       if (selectedDealer.latitude && selectedDealer.longitude) {
