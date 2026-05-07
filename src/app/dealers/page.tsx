@@ -43,7 +43,7 @@ export default function DealersPage() {
       setLoading(true);
       setError("");
 
-      const res = await fetch("/api/public/content/dealers?limit=100", { cache: "no-store" });
+      const res = await fetch("/api/public/content/dealers?limit=5000", { cache: "no-store" });
       if (!res.ok) throw new Error("Failed to fetch dealers.");
       const data = await res.json();
 
@@ -161,23 +161,27 @@ export default function DealersPage() {
     if (selectedCity !== "All") {
       result = result.filter(d => d.city === selectedCity);
     }
+    
+    const withDistance = result.map(d => {
+      let distance: number | null = null;
+      if (userLocation && d.latitude && d.longitude) {
+        const lat = parseFloat(d.latitude);
+        const lng = parseFloat(d.longitude);
+        if (lat && lng) {
+          distance = getDistance(userLocation.lat, userLocation.lng, lat, lng);
+        }
+      }
+      return { ...d, distance };
+    });
+
     if (userLocation) {
-      result = [...result].sort((a, b) => {
-        const latA = parseFloat(a.latitude || "0");
-        const lngA = parseFloat(a.longitude || "0");
-        const latB = parseFloat(b.latitude || "0");
-        const lngB = parseFloat(b.longitude || "0");
-
-        if (!latA || !lngA) return 1;
-        if (!latB || !lngB) return -1;
-
-        const distA = getDistance(userLocation.lat, userLocation.lng, latA, lngA);
-        const distB = getDistance(userLocation.lat, userLocation.lng, latB, lngB);
-
-        return distA - distB;
+      withDistance.sort((a, b) => {
+        if (a.distance === null) return 1;
+        if (b.distance === null) return -1;
+        return a.distance - b.distance;
       });
     }
-    return result;
+    return withDistance;
   }, [dealers, selectedCity, userLocation]);
 
   const activeMapUrl = useMemo(() => {
@@ -286,9 +290,16 @@ export default function DealersPage() {
                     : "border-black/10 bg-white hover:shadow-lg hover:-translate-y-1 hover:border-black/20"
                 }`}
               >
-                <h3 className="font-heading text-xl font-semibold text-black">
-                  {dealer.title}
-                </h3>
+            <div className="flex justify-between items-start gap-2">
+              <h3 className="font-heading text-xl font-semibold text-black">
+                {dealer.title}
+              </h3>
+              {dealer.distance !== null && dealer.distance !== undefined && (
+                <span className="shrink-0 rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-red-700">
+                  {dealer.distance.toFixed(1)} km
+                </span>
+              )}
+            </div>
                 <div className="mt-4 space-y-2">
                   <div className="flex items-start gap-3 text-sm text-black/70">
                     <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-red-600" />
