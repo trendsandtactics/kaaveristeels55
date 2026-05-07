@@ -28,6 +28,26 @@ function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
   return R * c; // Distance in km
 }
 
+async function fetchShortAddress(lat: number, lng: number) {
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+    const data = await res.json();
+    if (data?.address) {
+      const { suburb, neighbourhood, city_district, city, town, village, state } = data.address;
+      const locality = neighbourhood || suburb || city_district || town || village;
+      const region = city || state;
+      if (locality && region && locality !== region) return `${locality}, ${region}`;
+      return locality || region || city || state || data.display_name?.split(",")[0] || "";
+    }
+    if (data?.display_name) {
+      return data.display_name.split(",").slice(0, 2).join(", ");
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  return "";
+}
+
 export default function DealersPage() {
   const [dealers, setDealers] = useState<Dealer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -118,15 +138,8 @@ export default function DealersPage() {
           const lng = position.coords.longitude;
           setUserLocation({ lat, lng });
           
-          try {
-            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
-            const data = await res.json();
-            if (data && data.display_name) {
-              setUserAddress(data.display_name);
-            }
-          } catch (e) {
-            console.error(e);
-          }
+          const address = await fetchShortAddress(lat, lng);
+          if (address) setUserAddress(address);
         },
         (err) => console.log("Location access denied or error:", err)
       );
@@ -148,15 +161,8 @@ export default function DealersPage() {
         setSelectedCity("All");
         setSelectedDealer(null);
         
-        try {
-          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
-          const data = await res.json();
-          if (data && data.display_name) {
-            setUserAddress(data.display_name);
-          }
-        } catch (e) {
-          console.error(e);
-        }
+        const address = await fetchShortAddress(lat, lng);
+        if (address) setUserAddress(address);
 
         setLocating(false);
       },
@@ -289,18 +295,19 @@ export default function DealersPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Left Column: Dealers List */}
-          <div className="lg:col-span-5 flex flex-col gap-5 max-h-[400px] lg:max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-          {userLocation && (
-            <div className="mb-2 p-4 bg-green-50 border border-green-200 rounded-xl">
-              <p className="text-sm text-green-800 font-semibold flex items-start gap-2">
-                <LocateFixed className="w-5 h-5 shrink-0 mt-0.5" />
-                <span>
-                  {userAddress ? `Near: ${userAddress}` : "Showing dealers near your location"}
-                </span>
-              </p>
-            </div>
-          )}
-          {loading ? (
+          <div className="lg:col-span-5 flex flex-col gap-4">
+            {userLocation && (
+              <div className="p-4 bg-green-50 border border-green-200 rounded-xl shrink-0 shadow-sm">
+                <p className="text-sm text-green-800 font-semibold flex items-center gap-2">
+                  <LocateFixed className="w-5 h-5 shrink-0" />
+                  <span className="truncate" title={userAddress}>
+                    {userAddress ? `Near: ${userAddress}` : "Showing dealers near your location"}
+                  </span>
+                </p>
+              </div>
+            )}
+            <div className="flex flex-col gap-4 max-h-[400px] lg:max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+            {loading ? (
             <p className="py-10 text-center text-sm text-black/60 font-semibold">
               Loading dealers...
             </p>
@@ -367,6 +374,7 @@ export default function DealersPage() {
             )}
             </>
           )}
+            </div>
           </div>
 
           {/* Right Column: Google Map */}
