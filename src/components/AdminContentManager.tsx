@@ -68,6 +68,7 @@ export default function AdminContentManager() {
   const [activeModule, setActiveModule] = useState<ModuleName>("products");
   const [items, setItems] = useState<Item[]>([]);
   const [search, setSearch] = useState("");
+  const [visibleCount, setVisibleCount] = useState(100);
   const [form, setForm] = useState<FormState>(initialForm());
   const [editingId, setEditingId] = useState<number | null>(null);
   const [productCategoryTab, setProductCategoryTab] = useState<"All" | "TMT" | "Structural">("All");
@@ -86,7 +87,7 @@ export default function AdminContentManager() {
     
     const url = activeDef.kind === "support" 
       ? endpointForSupportModule(activeModule as SupportModuleName)
-      : `/api/admin/content/${activeModule}?q=${encodeURIComponent(search)}&limit=5000`;
+      : `/api/admin/content/${activeModule}?limit=5000`;
 
     if (!bypassCache && adminCache.has(url)) {
       setItems(adminCache.get(url)!);
@@ -108,6 +109,10 @@ export default function AdminContentManager() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setVisibleCount(100);
+  }, [activeModule, search, productCategoryTab]);
 
   useEffect(() => {
     fetch("/api/admin/bootstrap", { method: "POST" }).catch(() => {});
@@ -195,12 +200,44 @@ export default function AdminContentManager() {
   };
 
   const displayedItems = useMemo(() => {
-    if (activeModule !== "products" || productCategoryTab === "All") return items;
-    return items.filter((row) => {
-      const extra = (typeof row.extra_data === "string" && row.extra_data ? JSON.parse(String(row.extra_data)) : row.extra_data) as Record<string, string> | null;
-      return extra?.category === productCategoryTab;
-    });
-  }, [items, activeModule, productCategoryTab]);
+    let result = items;
+    
+    if (activeModule === "products" && productCategoryTab !== "All") {
+      result = result.filter((row) => {
+        const extra = (typeof row.extra_data === "string" && row.extra_data ? JSON.parse(String(row.extra_data)) : row.extra_data) as Record<string, string> | null;
+        return extra?.category === productCategoryTab;
+      });
+    }
+
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      result = result.filter((row) => {
+        const title = String(row.title ?? row.name ?? "").toLowerCase();
+        
+        let extraCity = "";
+        let extraState = "";
+        let extraPhone = "";
+        let extraEmail = "";
+        
+        const extra = (typeof row.extra_data === "string" && row.extra_data ? JSON.parse(String(row.extra_data)) : row.extra_data) as Record<string, string> | null;
+        
+        if (extra) {
+          extraCity = String(extra.city ?? "").toLowerCase();
+          extraState = String(extra.state ?? "").toLowerCase();
+          extraPhone = String(extra.phone ?? "").toLowerCase();
+          extraEmail = String(extra.email ?? "").toLowerCase();
+        }
+        
+        const email = String(row.email ?? extraEmail).toLowerCase();
+        const phone = String(row.phone ?? extraPhone).toLowerCase();
+        const msg = String(row.message ?? row.notes ?? row.cover_letter ?? "").toLowerCase();
+
+        return title.includes(q) || extraCity.includes(q) || extraState.includes(q) || email.includes(q) || phone.includes(q) || msg.includes(q);
+      });
+    }
+
+    return result;
+  }, [items, activeModule, productCategoryTab, search]);
 
   const editRow = (row: Item) => {
     if (activeDef.kind !== "content") return;
@@ -592,8 +629,7 @@ export default function AdminContentManager() {
                 </button>
               </div>
             )}
-            <input value={search} onChange={(e) => setSearch(e.target.value)} className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Search" />
-            <button onClick={() => fetchItems()} className="rounded-lg bg-slate-900 px-3 py-2 text-sm text-white transition hover:bg-slate-800" type="button">Apply</button>
+            <input value={search} onChange={(e) => setSearch(e.target.value)} className="w-full md:w-64 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Live Search..." />
           </div>
         ) : null}
       </div>
@@ -609,7 +645,7 @@ export default function AdminContentManager() {
             </tr>
           </thead>
           <tbody>
-            {displayedItems.map((row) => (
+            {displayedItems.slice(0, visibleCount).map((row) => (
               <tr key={row.id} className="border-b last:border-b-0 odd:bg-white even:bg-slate-50/50">
                 <td className="px-3 py-3 pr-3">
                   {activeDef.kind === "content" ? (
@@ -661,6 +697,17 @@ export default function AdminContentManager() {
             ))}
           </tbody>
         </table>
+        {visibleCount < displayedItems.length && (
+          <div className="p-4 flex justify-center bg-slate-50 border-t border-slate-200">
+            <button 
+              onClick={() => setVisibleCount(c => c + 100)}
+              className="rounded-lg bg-white border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition shadow-sm"
+              type="button"
+            >
+              Load More ({displayedItems.length - visibleCount} remaining)
+            </button>
+          </div>
+        )}
       </div>
 
       {!loading && !displayedItems.length ? <p className="mt-4 text-sm text-slate-500">No records found.</p> : null}
