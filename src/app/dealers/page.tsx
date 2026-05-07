@@ -203,18 +203,33 @@ export default function DealersPage() {
           distance = getDistance(userLocation.lat, userLocation.lng, lat, lng);
         }
       }
-      return { ...d, distance };
+      
+      let isCityMatch = false;
+      if (userAddress && d.city) {
+        const parts = userAddress.toLowerCase().split(',').map(p => p.trim());
+        const dc = d.city.toLowerCase().trim();
+        if (dc && parts.some(p => p && (p === dc || dc.includes(p) || p.includes(dc)))) {
+          isCityMatch = true;
+        }
+      }
+
+      return { ...d, distance, isCityMatch };
     });
 
-    if (userLocation) {
+    if (userLocation || userAddress) {
       withDistance.sort((a, b) => {
-        if (a.distance === null) return 1;
-        if (b.distance === null) return -1;
-        return a.distance - b.distance;
+        if (userAddress) {
+          if (a.isCityMatch && !b.isCityMatch) return -1;
+          if (!a.isCityMatch && b.isCityMatch) return 1;
+        }
+        const distA = a.distance !== null ? a.distance : Infinity;
+        const distB = b.distance !== null ? b.distance : Infinity;
+        if (distA !== distB) return distA < distB ? -1 : 1;
+        return a.title.localeCompare(b.title);
       });
     }
     return withDistance;
-  }, [dealers, selectedCity, userLocation]);
+  }, [dealers, selectedCity, userLocation, userAddress]);
 
   const activeMapUrl = useMemo(() => {
     const baseUrl = "https://www.google.com/maps/d/embed?mid=1rSs36GRxboJ0rm90vpd-HVfbWRNE_oM&ehbc=2E312F&noprof=1";
