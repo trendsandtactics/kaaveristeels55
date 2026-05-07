@@ -37,6 +37,7 @@ export default function DealersPage() {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locating, setLocating] = useState(false);
   const [locationError, setLocationError] = useState("");
+  const [visibleCount, setVisibleCount] = useState(50);
 
   const loadDealers = useCallback(async () => {
     try {
@@ -149,7 +150,12 @@ export default function DealersPage() {
   // Reset selected dealer when city changes
   useEffect(() => {
     setSelectedDealer(null);
+    setVisibleCount(50);
   }, [selectedCity]);
+
+  useEffect(() => {
+    setVisibleCount(50);
+  }, [userLocation]);
 
   const cities = useMemo(() => {
     const uniqueCities = Array.from(new Set(dealers.map(d => d.city).filter(Boolean)));
@@ -275,7 +281,8 @@ export default function DealersPage() {
               No dealers found for this location.
             </p>
           ) : (
-            filteredDealers.map((dealer) => (
+            <>
+            {filteredDealers.slice(0, visibleCount).map((dealer) => (
               <div
                 key={dealer.id}
                 onClick={() => {
@@ -319,7 +326,16 @@ export default function DealersPage() {
                   )}
                 </div>
               </div>
-            ))
+            ))}
+            {visibleCount < filteredDealers.length && (
+              <button
+                onClick={() => setVisibleCount((prev) => prev + 50)}
+                className="w-full py-3 mt-2 bg-red-50 border border-red-200 text-red-700 font-semibold rounded-xl hover:bg-red-100 transition-colors shrink-0"
+              >
+                Load More Dealers ({filteredDealers.length - visibleCount} remaining)
+              </button>
+            )}
+            </>
           )}
           </div>
 
