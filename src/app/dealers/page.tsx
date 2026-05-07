@@ -38,6 +38,7 @@ export default function DealersPage() {
   const [locating, setLocating] = useState(false);
   const [locationError, setLocationError] = useState("");
   const [visibleCount, setVisibleCount] = useState(50);
+  const [userAddress, setUserAddress] = useState("");
 
   const loadDealers = useCallback(async () => {
     try {
@@ -112,11 +113,20 @@ export default function DealersPage() {
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          setUserLocation({ lat, lng });
+          
+          try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+            const data = await res.json();
+            if (data && data.display_name) {
+              setUserAddress(data.display_name);
+            }
+          } catch (e) {
+            console.error(e);
+          }
         },
         (err) => console.log("Location access denied or error:", err)
       );
@@ -131,13 +141,23 @@ export default function DealersPage() {
     setLocating(true);
     setLocationError("");
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
+      async (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        setUserLocation({ lat, lng });
         setSelectedCity("All");
         setSelectedDealer(null);
+        
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+          const data = await res.json();
+          if (data && data.display_name) {
+            setUserAddress(data.display_name);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+
         setLocating(false);
       },
       () => {
@@ -198,12 +218,12 @@ export default function DealersPage() {
         return `${baseUrl}&ll=${selectedDealer.latitude},${selectedDealer.longitude}&z=15`;
       }
     } else if (selectedCity !== "All" && filteredDealers.length > 0) {
-      const first = filteredDealers[0];
-      if (first.latitude && first.longitude) {
-        return `${baseUrl}&ll=${first.latitude},${first.longitude}&z=12`;
+      const first = filteredDealers.find(d => d.latitude && d.longitude);
+      if (first && first.latitude && first.longitude) {
+        return `${baseUrl}&ll=${first.latitude},${first.longitude}&z=10`;
       }
     } else if (userLocation) {
-      return `${baseUrl}&ll=${userLocation.lat},${userLocation.lng}&z=11`;
+      return `${baseUrl}&ll=${userLocation.lat},${userLocation.lng}&z=10`;
     }
     
     return baseUrl;
@@ -270,6 +290,16 @@ export default function DealersPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Left Column: Dealers List */}
           <div className="lg:col-span-5 flex flex-col gap-5 max-h-[400px] lg:max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+          {userLocation && (
+            <div className="mb-2 p-4 bg-green-50 border border-green-200 rounded-xl">
+              <p className="text-sm text-green-800 font-semibold flex items-start gap-2">
+                <LocateFixed className="w-5 h-5 shrink-0 mt-0.5" />
+                <span>
+                  {userAddress ? `Near: ${userAddress}` : "Showing dealers near your location"}
+                </span>
+              </p>
+            </div>
+          )}
           {loading ? (
             <p className="py-10 text-center text-sm text-black/60 font-semibold">
               Loading dealers...

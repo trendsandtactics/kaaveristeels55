@@ -291,7 +291,7 @@ export async function ensureDynamicCmsTables(): Promise<void> {
 }
 
 async function queryModuleItems(moduleName: string, options?: { status?: string; q?: string; limit?: number }): Promise<ContentRow[]> {
-  const limit = Math.min(Math.max(options?.limit ?? 50, 1), 5000);
+  const limit = Math.min(Math.max(options?.limit ?? 5000, 1), 5000);
   if (moduleName === "dealers") {
     const where: string[] = [];
     const params: Array<string> = [];
@@ -331,7 +331,7 @@ async function queryModuleItems(moduleName: string, options?: { status?: string;
 export async function listModuleItems(moduleName: string, options?: { status?: string; q?: string; limit?: number }): Promise<ContentRow[]> {
   await ensureDynamicCmsTables();
   const isPublicRead = options?.status === "published" && !options?.q;
-  const limit = Math.min(Math.max(options?.limit ?? 50, 1), 5000);
+  const limit = Math.min(Math.max(options?.limit ?? 5000, 1), 5000);
 
   if (isPublicRead) {
     const cacheKey = `dynamic-cms:list:${moduleName}:${limit}`;

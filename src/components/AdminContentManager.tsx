@@ -86,7 +86,7 @@ export default function AdminContentManager() {
     
     const url = activeDef.kind === "support" 
       ? endpointForSupportModule(activeModule as SupportModuleName)
-      : `/api/admin/content/${activeModule}?q=${encodeURIComponent(search)}`;
+      : `/api/admin/content/${activeModule}?q=${encodeURIComponent(search)}&limit=5000`;
 
     if (!bypassCache && adminCache.has(url)) {
       setItems(adminCache.get(url)!);
