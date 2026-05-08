@@ -10,7 +10,7 @@ const navLinks = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about-us" },
   { name: "Products", href: "/products" },
-  { name: "Projects", href: "/projects" },
+  { name: "Dealers", href: "/dealers" },
   { name: "Contact Us", href: "/contact-us" },
 ];
 
@@ -18,7 +18,7 @@ const mediaSupportLinks = [
   { name: "Photo Gallery", href: "/photo-gallery" },
   { name: "Steel Calculator", href: "/construction-steel-calculator" },
   { name: "Media & Events", href: "/media-events" },
-  { name: "Find Dealers", href: "/dealers" },
+  { name: "Projects", href: "/projects" },
   { name: "Blogs", href: "/blogs" },
   { name: "Certifications", href: "/certifications" },
   { name: "Product Brochure", href: "/product-brochure" },
