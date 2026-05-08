@@ -1,12 +1,19 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import {
+    Instagram,
+    Linkedin,
+    Youtube,
+    MessageCircle,
+} from "lucide-react";
+import { FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
     return (
         <footer className="w-full bg-[#0a0a0a] border-t-4 border-accent-red py-16 px-6 md:px-12 relative overflow-hidden">
-            
-            {/* Background Glow Effects */}
+
+            {/* Background Glow */}
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent-red/10 rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent-yellow/10 rounded-full blur-[100px] pointer-events-none" />
 
@@ -14,6 +21,7 @@ export default function Footer() {
 
                 {/* Brand Section */}
                 <div className="md:col-span-1">
+
                     <Link
                         href="/"
                         className="inline-block mb-6 relative hover:scale-105 transition-transform duration-300 bg-white/5 p-4 rounded-md border border-white/10 shadow-lg"
@@ -33,52 +41,52 @@ export default function Footer() {
 
                     <div className="w-12 h-1 bg-accent-red mb-6" />
 
-                    {/* Social Media */}
+                    {/* Social Icons */}
                     <div>
                         <h4 className="font-heading text-lg mb-4 text-white tracking-wider">
                             Follow Us
                         </h4>
 
-                        <div className="flex flex-col gap-3 font-body text-sm">
+                        <div className="flex items-center gap-4">
 
                             <Link
                                 href="https://www.instagram.com/kaaveritmtbarsandstructural?igsh=eGliNzQ2cWtzcDBp"
                                 target="_blank"
-                                className="text-white/70 hover:text-accent-red transition-colors"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
                             >
-                                Instagram
+                                <Instagram size={18} />
                             </Link>
 
                             <Link
                                 href="https://www.linkedin.com/company/kaaveritmtbarsandstructural/"
                                 target="_blank"
-                                className="text-white/70 hover:text-accent-red transition-colors"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
                             >
-                                LinkedIn
+                                <Linkedin size={18} />
                             </Link>
 
                             <Link
                                 href="https://www.youtube.com/@KAAVERITMTBARSANDSTRUCTURAL"
                                 target="_blank"
-                                className="text-white/70 hover:text-accent-red transition-colors"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
                             >
-                                YouTube
+                                <Youtube size={18} />
                             </Link>
 
                             <Link
                                 href="https://x.com/kaaveritmt"
                                 target="_blank"
-                                className="text-white/70 hover:text-accent-red transition-colors"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
                             >
-                                X (Twitter)
+                                <FaXTwitter size={16} />
                             </Link>
 
                             <Link
                                 href="https://wa.me/918855824555"
                                 target="_blank"
-                                className="text-white/70 hover:text-accent-red transition-colors"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
                             >
-                                WhatsApp
+                                <MessageCircle size={18} />
                             </Link>
 
                         </div>
@@ -117,7 +125,7 @@ export default function Footer() {
                     </ul>
                 </div>
 
-                {/* Contact Section */}
+                {/* Contact */}
                 <div>
                     <h3 className="font-heading text-xl mb-6 text-white tracking-wider">
                         Contact Us
