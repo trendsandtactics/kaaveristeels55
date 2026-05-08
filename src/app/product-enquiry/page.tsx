@@ -55,7 +55,7 @@ export default function ProductEnquiryPage() {
       {/* Form Container */}
       <div className="w-full max-w-3xl bg-white/90 rounded-2xl p-8 shadow-xl">
         <h1 className="text-4xl font-bold text-gray-900">
-          Product / Sales Enquiry
+          Sales / Dealer Enquiry
         </h1>
         <p className="text-gray-600 mt-2 text-sm">
           Share your requirement and our team will respond quickly.
@@ -103,10 +103,10 @@ export default function ProductEnquiryPage() {
               }
             >
               <option value="product" className="text-black">
-                Product Enquiry
+                Sales Enquiry
               </option>
               <option value="other" className="text-black">
-                Sales Enquiry
+                Dealer Enquiry
               </option>
             </select>
           </div>
