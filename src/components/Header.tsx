@@ -22,7 +22,7 @@ const mediaSupportLinks = [
   { name: "Blogs", href: "/blogs" },
   { name: "Certifications", href: "/certifications" },
   { name: "Product Brochure", href: "/product-brochure" },
-  { name: "Product Other Enquiry", href: "/product-enquiry" },
+  { name: "Product/Dealer Enquiry", href: "/product-enquiry" },
   { name: "Corporate Social Responsibility", href: "/csr" },
   { name: "Trust On Site", href: "/trust-on-site" },
 ];
