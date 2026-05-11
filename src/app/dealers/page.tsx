@@ -236,41 +236,54 @@ export default function DealersPage() {
     
     if (selectedDealer) {
       if (selectedDealer.latitude && selectedDealer.longitude) {
-        return `${baseUrl}&ll=${selectedDealer.latitude},${selectedDealer.longitude}&z=15`;
+        return `https://maps.google.com/maps?q=${selectedDealer.latitude},${selectedDealer.longitude}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+      } else if (selectedDealer.mapUrl) {
+        return selectedDealer.mapUrl;
+      } else {
+        return `https://maps.google.com/maps?q=${encodeURIComponent(selectedDealer.address + ', ' + selectedDealer.city)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
       }
     } else if (selectedCity !== "All" && filteredDealers.length > 0) {
+<<<<<<< HEAD
       const first = filteredDealers.find(d => d.latitude && d.longitude);
       if (first && first.latitude && first.longitude) {
         return `${baseUrl}&ll=${first.latitude},${first.longitude}&z=10`;
       }
     } else if (userLocation) {
       return `${baseUrl}&ll=${userLocation.lat},${userLocation.lng}&z=10`;
+=======
+      const first = filteredDealers[0];
+      if (first.latitude && first.longitude) {
+        return `https://maps.google.com/maps?q=${first.latitude},${first.longitude}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
+      }
+    } else if (userLocation) {
+      return `https://maps.google.com/maps?q=${userLocation.lat},${userLocation.lng}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
+>>>>>>> f5720c9 (cft)
     }
     
     return baseUrl;
   }, [selectedDealer, filteredDealers, selectedCity, userLocation]);
 
   return (
-    <main className="flex flex-col min-h-screen w-full relative pt-24 bg-gray-50 overflow-hidden transition-colors duration-500">
+    <main className="flex flex-col min-h-screen w-full relative pt-20 bg-gray-50 overflow-hidden transition-colors duration-500">
       {/* Hero Section */}
-      <div className="w-full py-24 md:py-32 bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow text-black relative overflow-hidden shadow-2xl group border-b-4 border-black">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
+      <div className="w-full py-12 md:py-20 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-400 text-black relative overflow-hidden shadow-xl border-b border-black/10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.6)_0%,transparent_70%)] pointer-events-none mix-blend-overlay" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.2)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none mix-blend-overlay opacity-40" />
 
         <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-6">
-            <div className="w-12 h-[2px] bg-black" />
-            <h2 className="font-body uppercase tracking-[0.2em] font-bold text-sm text-black">
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-4 opacity-90">
+            <div className="w-8 h-[2px] bg-black/70" />
+            <h2 className="font-body uppercase tracking-widest font-bold text-sm text-black/80">
               Our Network
             </h2>
-            <div className="w-12 h-[2px] bg-black" />
+            <div className="w-8 h-[2px] bg-black/70" />
           </div>
 
-          <h1 className="font-heading text-5xl md:text-7xl mb-6 text-black drop-shadow-md">
+          <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl mb-4 text-gray-900 font-extrabold tracking-tight drop-shadow-sm">
             Find a Dealer Near You
           </h1>
 
-          <p className="font-body text-black/80 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
+          <p className="font-body text-gray-800 max-w-2xl mx-auto text-base md:text-lg leading-relaxed font-medium">
             Locate authorized KAAVERI Steels dealers and partners to get the
             quality products and services you need for your project.
           </p>
@@ -280,13 +293,13 @@ export default function DealersPage() {
       {/* Dealers List Section */}
       <section className="px-6 py-12 md:py-20 max-w-7xl mx-auto w-full z-10 relative">
         {/* Filter Row */}
-        <div className="mb-10 flex flex-col md:flex-row gap-6 items-center justify-between bg-white p-6 rounded-2xl shadow-sm border border-black/10">
+        <div className="mb-8 flex flex-col md:flex-row gap-6 items-center justify-between bg-white p-6 rounded-2xl shadow-md border border-gray-100">
           <div className="flex items-center gap-4 w-full md:w-auto">
-            <h3 className="font-heading text-2xl text-black">Filter by City</h3>
+            <h3 className="font-heading text-2xl font-bold text-gray-900">Filter by City</h3>
             <button
               onClick={handleGetLocation}
               disabled={locating}
-              className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg font-semibold text-sm hover:bg-red-100 transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 border border-red-100 rounded-lg font-semibold text-sm hover:bg-red-100 transition-colors disabled:opacity-50"
               title="Find Dealers Near Me"
             >
               <LocateFixed className={`w-4 h-4 ${locating ? "animate-pulse" : ""}`} />
@@ -343,12 +356,13 @@ export default function DealersPage() {
                     document.getElementById("map-view")?.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
-                className={`cursor-pointer rounded-2xl border p-6 transition-all duration-300 ${
+                className={`cursor-pointer rounded-2xl border p-5 md:p-6 transition-all duration-300 ${
                   selectedDealer?.id === dealer.id
                     ? "border-red-600 bg-red-50 shadow-md ring-1 ring-red-600"
                     : "border-black/10 bg-white hover:shadow-lg hover:-translate-y-1 hover:border-black/20"
                 }`}
               >
+<<<<<<< HEAD
             <div className="flex justify-between items-start gap-2">
               <h3 className="font-heading text-xl font-semibold text-black">
                 {dealer.title}
@@ -363,17 +377,26 @@ export default function DealersPage() {
                   <div className="flex items-start gap-3 text-sm text-black/70">
                     <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-red-600" />
                     <p>{dealer.address}, {dealer.city}, {dealer.state}</p>
+=======
+                <h3 className="font-heading text-xl md:text-2xl font-bold text-gray-900">
+                  {dealer.title}
+                </h3>
+                <div className="mt-4 space-y-3">
+                  <div className="flex items-start gap-3 text-sm md:text-base text-gray-700">
+                    <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-red-600" />
+                    <p className="font-medium leading-tight">{dealer.address}, {dealer.city}, {dealer.state}</p>
+>>>>>>> f5720c9 (cft)
                   </div>
                   {dealer.phone && (
-                    <div className="flex items-center gap-3 text-sm text-black/70">
-                      <Phone className="w-4 h-4 shrink-0 text-red-600" />
-                      <p>{dealer.phone}</p>
+                    <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
+                      <Phone className="w-5 h-5 shrink-0 text-red-600" />
+                      <p className="font-medium">{dealer.phone}</p>
                     </div>
                   )}
                   {dealer.email && (
-                    <div className="flex items-center gap-3 text-sm text-black/70">
-                      <Mail className="w-4 h-4 shrink-0 text-red-600" />
-                      <a href={`mailto:${dealer.email}`} className="hover:text-red-600 hover:underline">{dealer.email}</a>
+                    <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
+                      <Mail className="w-5 h-5 shrink-0 text-red-600" />
+                      <a href={`mailto:${dealer.email}`} className="font-medium hover:text-red-600 hover:underline transition-colors">{dealer.email}</a>
                     </div>
                   )}
                 </div>
@@ -393,7 +416,7 @@ export default function DealersPage() {
           </div>
 
           {/* Right Column: Google Map */}
-          <div id="map-view" className="lg:col-span-7 h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-lg border border-black/10 relative bg-gray-200">
+          <div id="map-view" className="lg:col-span-7 h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl border border-black/10 relative bg-gray-200">
             <iframe
               key={activeMapUrl}
               src={activeMapUrl}
@@ -402,7 +425,7 @@ export default function DealersPage() {
               style={{ border: 0 }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className="absolute left-0 -top-[60px] w-full h-[calc(100%+60px)]"
+              className={`absolute left-0 w-full ${activeMapUrl.includes('/d/embed') ? '-top-[60px] h-[calc(100%+60px)]' : 'top-0 h-full'}`}
               title="Dealer Location Map"
             />
           </div>
