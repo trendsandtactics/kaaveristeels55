@@ -437,19 +437,7 @@ export default function AdminContentManager() {
           </>
         );
       case "mediaEvents":
-        return (
-          <>
-            <select
-              className="border rounded-lg px-3 py-2 text-sm"
-              value={form.extra_data.media_type ?? "image"}
-              onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, media_type: e.target.value } }))}
-            >
-              <option value="image">Image Event</option>
-              <option value="video">Video Event</option>
-            </select>
-            <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Event Date (YYYY-MM-DD)" value={form.extra_data.event_date ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, event_date: e.target.value } }))} />
-          </>
-        );
+        return <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Event Date (YYYY-MM-DD)" value={form.extra_data.event_date ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, event_date: e.target.value } }))} />;
       case "projects":
         return <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Project Scope" value={form.extra_data.scope ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, scope: e.target.value } }))} />;
       case "popups":
@@ -804,4 +792,24 @@ export default function AdminContentManager() {
                 {activeModule !== "calculators" ? (
                   <>
                     <input type="number" className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Sort order" value={form.sort_order} onChange={(e) => setForm((s) => ({ ...s, sort_order: Number(e.target.value) }))} />
-                    <label className="flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" checked={form.
+                    <label className="flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" checked={form.featured} onChange={(e) => setForm((s) => ({ ...s, featured: e.target.checked }))} /> Featured</label>
+                  </>
+                ) : null}
+
+                <div className="flex gap-2 md:col-span-2">
+                  <button className="rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-rose-400/30">{editingId ? "Update" : "Create"}</button>
+                  {editingId ? <button type="button" onClick={resetForm} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700">Cancel</button> : null}
+                </div>
+              </form>
+            </div>
+            {renderListPanel()}
+          </div>
+        ) : null}
+
+        {activeDef.kind !== "certifications" ? (
+          activeDef.kind === "support" ? renderListPanel() : null
+        ) : null}
+      </section>
+    </div>
+  );
+}
