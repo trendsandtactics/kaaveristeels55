@@ -236,19 +236,19 @@ export default function DealersPage() {
     
     if (selectedDealer) {
       if (selectedDealer.latitude && selectedDealer.longitude) {
-        return `https://maps.google.com/maps?q=${selectedDealer.latitude},${selectedDealer.longitude}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+        return `${baseUrl}&ll=${selectedDealer.latitude},${selectedDealer.longitude}&z=16`;
       } else if (selectedDealer.mapUrl) {
         return selectedDealer.mapUrl;
       } else {
-        return `https://maps.google.com/maps?q=${encodeURIComponent(selectedDealer.address + ', ' + selectedDealer.city)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+        return baseUrl;
       }
     } else if (selectedCity !== "All" && filteredDealers.length > 0) {
       const first = filteredDealers.find(d => d.latitude && d.longitude);
       if (first && first.latitude && first.longitude) {
-        return `https://maps.google.com/maps?q=${first.latitude},${first.longitude}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
+        return `${baseUrl}&ll=${first.latitude},${first.longitude}&z=12`;
       }
     } else if (userLocation) {
-      return `https://maps.google.com/maps?q=${userLocation.lat},${userLocation.lng}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
+      return `${baseUrl}&ll=${userLocation.lat},${userLocation.lng}&z=12`;
     }
     
     return baseUrl;
