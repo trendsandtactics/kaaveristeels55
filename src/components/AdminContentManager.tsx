@@ -103,6 +103,7 @@ export default function AdminContentManager() {
   const [loading, setLoading] = useState(false);
   const [isUploadingCsv, setIsUploadingCsv] = useState(false);
   const [isDeletingBulk, setIsDeletingBulk] = useState(false);
+  const [uploadErrors, setUploadErrors] = useState<number[]>([]);
   const richEditorRef = useRef<HTMLDivElement | null>(null);
   const coverImageInputRef = useRef<HTMLInputElement | null>(null);
   const fileUrlInputRef = useRef<HTMLInputElement | null>(null);
@@ -237,10 +238,19 @@ export default function AdminContentManager() {
     try {
       let success = 0;
       let fail = 0;
-      for (const id of Array.from(selectedIds)) {
-        const response = await fetch(`/api/admin/content/${activeModule}/${id}`, { method: "DELETE" });
-        if (response.ok) success++;
-        else fail++;
+      const idsArray = Array.from(selectedIds);
+      const batchSize = 50;
+
+      for (let i = 0; i < idsArray.length; i += batchSize) {
+        const batch = idsArray.slice(i, i + batchSize);
+        const promises = batch.map(async (id) => {
+          try {
+            const response = await fetch(`/api/admin/content/${activeModule}/${id}`, { method: "DELETE" });
+            if (response.ok) success++; else fail++;
+          } catch { fail++; }
+        });
+        await Promise.all(promises);
+        setMessage(`Deleted ${Math.min(i + batchSize, idsArray.length)} of ${idsArray.length} records...`);
       }
       setMessage(`Bulk delete complete. ${success} deleted, ${fail} failed.`);
       setSelectedIds(new Set());
@@ -294,41 +304,51 @@ export default function AdminContentManager() {
       const headers = rows[0].map(h => h.trim().toLowerCase());
       let successCount = 0;
       let errorCount = 0;
+      const failedRows: number[] = [];
+      setUploadErrors([]);
 
       setMessage(`Uploading ${rows.length - 1} records...`);
 
-      for (let i = 1; i < rows.length; i++) {
-        const row = rows[i];
-        if (row.length === 0 || (row.length === 1 && !row[0])) continue;
-        
-        const payload: Record<string, any> = {
-          title: "", short_description: "", content: "", status: "published",
-          featured: false, sort_order: 0, cover_image: "", file_url: "",
-          video_url: "", extra_data: {}
-        };
+      const batchSize = 50;
+      for (let i = 1; i < rows.length; i += batchSize) {
+        const batch = rows.slice(i, i + batchSize);
+        const promises = batch.map(async (row, batchIdx) => {
+          const rowNum = i + batchIdx + 1;
+          if (row.length === 0 || (row.length === 1 && !row[0])) return;
+          
+          const payload: Record<string, any> = {
+            title: "", short_description: "", content: "", status: "published",
+            featured: false, sort_order: 0, cover_image: "", file_url: "",
+            video_url: "", extra_data: {}
+          };
 
-        headers.forEach((h, idx) => {
-          const val = row[idx] || "";
-          if (["title", "short_description", "content", "status", "cover_image", "file_url", "video_url"].includes(h)) {
-            payload[h] = val;
-          } else if (h === "featured") {
-            payload[h] = val.toLowerCase() === "true" || val === "1";
-          } else if (h === "sort_order") {
-            payload[h] = parseInt(val) || 0;
-          } else {
-            payload.extra_data[h] = val;
-          }
+          headers.forEach((h, idx) => {
+            const val = row[idx] || "";
+            if (["title", "short_description", "content", "status", "cover_image", "file_url", "video_url"].includes(h)) {
+              payload[h] = val;
+            } else if (h === "featured") {
+              payload[h] = val.toLowerCase() === "true" || val === "1";
+            } else if (h === "sort_order") {
+              payload[h] = parseInt(val) || 0;
+            } else {
+              payload.extra_data[h] = val;
+            }
+          });
+
+          try {
+            const res = await fetch(`/api/admin/content/${activeModule}`, {
+              method: "POST", headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            if (res.ok) successCount++; else { errorCount++; failedRows.push(rowNum); }
+          } catch { errorCount++; failedRows.push(rowNum); }
         });
 
-        try {
-          const res = await fetch(`/api/admin/content/${activeModule}`, {
-            method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-          if (res.ok) successCount++; else errorCount++;
-        } catch { errorCount++; }
+        await Promise.all(promises);
+        setMessage(`Uploading ${Math.min(i + batchSize - 1, rows.length - 1)} of ${rows.length - 1} records...`);
       }
 
+      setUploadErrors(failedRows);
       setMessage(`Bulk upload complete. ${successCount} added, ${errorCount} failed.`);
       if (csvUploadRef.current) csvUploadRef.current.value = "";
       adminCache.clear();
@@ -901,6 +921,16 @@ export default function AdminContentManager() {
       {!loading && !displayedItems.length ? <p className="mt-4 text-sm text-slate-500">No records found.</p> : null}
       {loading ? <p className="mt-4 text-sm text-slate-500">Loading...</p> : null}
       {message ? <p className="mt-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">{message}</p> : null}
+      {uploadErrors.length > 0 && (
+        <div className="mt-3 rounded-lg border border-red-200 bg-red-50 p-4">
+          <h4 className="text-sm font-semibold text-red-800">CSV Rows with Errors:</h4>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {uploadErrors.map(rowIdx => (
+              <span key={rowIdx} className="rounded-md bg-white px-2 py-1 text-xs text-red-700 font-mono shadow-sm border border-red-200">Row {rowIdx}</span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 
@@ -917,6 +947,7 @@ export default function AdminContentManager() {
                 setSearch("");
                 setProductCategoryTab("All");
                 setSelectedIds(new Set());
+                setUploadErrors([]);
                 resetForm();
               }}
               className={`w-full rounded-xl px-3 py-2 text-left text-sm font-semibold transition ${activeModule === module.key ? "bg-gradient-to-r from-slate-900 to-slate-700 text-white shadow-md" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
