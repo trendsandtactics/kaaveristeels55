@@ -243,21 +243,12 @@ export default function DealersPage() {
         return `https://maps.google.com/maps?q=${encodeURIComponent(selectedDealer.address + ', ' + selectedDealer.city)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
       }
     } else if (selectedCity !== "All" && filteredDealers.length > 0) {
-<<<<<<< HEAD
       const first = filteredDealers.find(d => d.latitude && d.longitude);
       if (first && first.latitude && first.longitude) {
-        return `${baseUrl}&ll=${first.latitude},${first.longitude}&z=10`;
-      }
-    } else if (userLocation) {
-      return `${baseUrl}&ll=${userLocation.lat},${userLocation.lng}&z=10`;
-=======
-      const first = filteredDealers[0];
-      if (first.latitude && first.longitude) {
         return `https://maps.google.com/maps?q=${first.latitude},${first.longitude}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
       }
     } else if (userLocation) {
       return `https://maps.google.com/maps?q=${userLocation.lat},${userLocation.lng}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
->>>>>>> f5720c9 (cft)
     }
     
     return baseUrl;
@@ -362,9 +353,8 @@ export default function DealersPage() {
                     : "border-black/10 bg-white hover:shadow-lg hover:-translate-y-1 hover:border-black/20"
                 }`}
               >
-<<<<<<< HEAD
             <div className="flex justify-between items-start gap-2">
-              <h3 className="font-heading text-xl font-semibold text-black">
+              <h3 className="font-heading text-xl md:text-2xl font-bold text-gray-900">
                 {dealer.title}
               </h3>
               {dealer.distance !== null && dealer.distance !== undefined && (
@@ -373,19 +363,10 @@ export default function DealersPage() {
                 </span>
               )}
             </div>
-                <div className="mt-4 space-y-2">
-                  <div className="flex items-start gap-3 text-sm text-black/70">
-                    <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-red-600" />
-                    <p>{dealer.address}, {dealer.city}, {dealer.state}</p>
-=======
-                <h3 className="font-heading text-xl md:text-2xl font-bold text-gray-900">
-                  {dealer.title}
-                </h3>
                 <div className="mt-4 space-y-3">
                   <div className="flex items-start gap-3 text-sm md:text-base text-gray-700">
                     <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-red-600" />
                     <p className="font-medium leading-tight">{dealer.address}, {dealer.city}, {dealer.state}</p>
->>>>>>> f5720c9 (cft)
                   </div>
                   {dealer.phone && (
                     <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
