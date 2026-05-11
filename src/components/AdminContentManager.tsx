@@ -256,7 +256,7 @@ export default function AdminContentManager() {
       setSelectedIds(new Set());
       adminCache.clear();
       fetchItems(true);
-    } catch (error) {
+    } catch {
       setMessage("Bulk delete failed due to network error.");
     } finally {
       setIsDeletingBulk(false);
@@ -316,10 +316,10 @@ export default function AdminContentManager() {
           const rowNum = i + batchIdx + 1;
           if (row.length === 0 || (row.length === 1 && !row[0])) return;
           
-          const payload: Record<string, any> = {
+          const payload: Record<string, unknown> = {
             title: "", short_description: "", content: "", status: "published",
             featured: false, sort_order: 0, cover_image: "", file_url: "",
-            video_url: "", extra_data: {}
+            video_url: "", extra_data: {} as Record<string, string>
           };
 
           headers.forEach((h, idx) => {
@@ -331,7 +331,7 @@ export default function AdminContentManager() {
             } else if (h === "sort_order") {
               payload[h] = parseInt(val) || 0;
             } else {
-              payload.extra_data[h] = val;
+              (payload.extra_data as Record<string, string>)[h] = val;
             }
           });
 
