@@ -285,6 +285,56 @@ export default function AdminContentManager() {
     link.remove();
   };
 
+  const downloadCsvData = () => {
+    if (displayedItems.length === 0) {
+      setMessage("No data to download for the current filter.");
+      return;
+    }
+
+    let headers = ["id", "title", "slug", "short_description", "content", "status", "featured", "sort_order", "cover_image", "file_url", "video_url", "created_at", "updated_at"];
+    if (activeModule === "products") headers.push("category", "subcategory");
+    else if (activeModule === "dealers") headers.push("city", "state", "phone", "email", "map_url", "latitude", "longitude");
+    else if (activeModule === "careers") headers.push("location", "employment_type");
+    else if (activeModule === "mediaEvents") headers.push("media_type", "event_date");
+    else if (activeModule === "projects") headers.push("scope");
+    else if (activeModule === "popups") headers.push("starts_at", "ends_at");
+    else if (activeModule === "csr") headers.push("event_date");
+    else if (activeModule === "calculators") headers.push("formula", "parameters");
+
+    const escapeCsvCell = (cell: any): string => {
+      const val = String(cell ?? '');
+      if (val.includes(',') || val.includes('"') || val.includes('\n') || val.includes('\r')) {
+        return `"${val.replace(/"/g, '""')}"`;
+      }
+      return val;
+    };
+
+    const csvRows = displayedItems.map(item => {
+      const rowData: Record<string, any> = { ...item };
+      
+      if (item.extra_data) {
+        try {
+          const extra = typeof item.extra_data === 'string' && item.extra_data ? JSON.parse(item.extra_data) : item.extra_data;
+          if (extra && typeof extra === 'object') {
+            Object.assign(rowData, extra);
+          }
+        } catch {}
+      }
+
+      return headers.map(header => escapeCsvCell(rowData[header])).join(',');
+    });
+
+    const csvContent = [headers.join(','), ...csvRows].join('\n');
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `${activeModule}_data_export.csv`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
   const handleCsvUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -798,6 +848,9 @@ export default function AdminContentManager() {
           <div className="flex flex-wrap items-center gap-3">
             <button type="button" onClick={downloadCsvTemplate} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm">
               ⬇️ Download Template
+            </button>
+            <button type="button" onClick={downloadCsvData} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm">
+              ⬇️ Download Data
             </button>
             <div>
               <input type="file" accept=".csv" ref={csvUploadRef} onChange={handleCsvUpload} className="hidden" />
