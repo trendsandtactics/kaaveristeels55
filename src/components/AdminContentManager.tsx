@@ -58,6 +58,31 @@ const initialForm = (): FormState => ({
 
 const adminCache = new Map<string, Item[]>();
 
+function parseCSV(text: string): string[][] {
+  const rows: string[][] = [];
+  let cur: string[] = [];
+  let inQuote = false;
+  let val = '';
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQuote) {
+      if (c === '"') {
+        if (i + 1 < text.length && text[i + 1] === '"') { val += '"'; i++; } else { inQuote = false; }
+      } else { val += c; }
+    } else {
+      if (c === '"') { inQuote = true; }
+      else if (c === ',') { cur.push(val); val = ''; }
+      else if (c === '\n' || c === '\r') {
+        cur.push(val); rows.push(cur); cur = []; val = '';
+        if (c === '\r' && i + 1 < text.length && text[i + 1] === '\n') i++;
+      }
+      else { val += c; }
+    }
+  }
+  if (val || cur.length) { cur.push(val); rows.push(cur); }
+  return rows;
+}
+
 function endpointForSupportModule(module: SupportModuleName): string {
   if (module === "enquiries") return "/api/enquiries";
   if (module === "contact_messages") return "/api/contact-messages";
@@ -72,12 +97,16 @@ export default function AdminContentManager() {
   const [form, setForm] = useState<FormState>(initialForm());
   const [editingId, setEditingId] = useState<number | null>(null);
   const [productCategoryTab, setProductCategoryTab] = useState<"All" | "TMT" | "Structural">("All");
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [viewingItem, setViewingItem] = useState<Item | null>(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isUploadingCsv, setIsUploadingCsv] = useState(false);
+  const [isDeletingBulk, setIsDeletingBulk] = useState(false);
   const richEditorRef = useRef<HTMLDivElement | null>(null);
   const coverImageInputRef = useRef<HTMLInputElement | null>(null);
   const fileUrlInputRef = useRef<HTMLInputElement | null>(null);
+  const csvUploadRef = useRef<HTMLInputElement | null>(null);
 
   const activeDef = MODULES.find((module) => module.key === activeModule)!;
 
@@ -117,6 +146,7 @@ export default function AdminContentManager() {
   useEffect(() => {
     fetch("/api/admin/bootstrap", { method: "POST" }).catch(() => {});
     fetchItems();
+    setSelectedIds(new Set());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeModule]);
 
@@ -197,6 +227,115 @@ export default function AdminContentManager() {
     setMessage("Deleted.");
     adminCache.clear();
     fetchItems(true);
+  };
+
+  const bulkDelete = async () => {
+    if (selectedIds.size === 0) return;
+    if (!confirm(`Delete ${selectedIds.size} records?`)) return;
+    setIsDeletingBulk(true);
+    setMessage(`Deleting ${selectedIds.size} records...`);
+    try {
+      let success = 0;
+      let fail = 0;
+      for (const id of Array.from(selectedIds)) {
+        const response = await fetch(`/api/admin/content/${activeModule}/${id}`, { method: "DELETE" });
+        if (response.ok) success++;
+        else fail++;
+      }
+      setMessage(`Bulk delete complete. ${success} deleted, ${fail} failed.`);
+      setSelectedIds(new Set());
+      adminCache.clear();
+      fetchItems(true);
+    } catch (error) {
+      setMessage("Bulk delete failed due to network error.");
+    } finally {
+      setIsDeletingBulk(false);
+    }
+  };
+
+  const downloadCsvTemplate = () => {
+    const headers = ["title", "short_description", "content", "status", "featured", "sort_order", "cover_image", "file_url", "video_url"];
+    if (activeModule === "products") headers.push("category", "subcategory");
+    else if (activeModule === "dealers") headers.push("city", "state", "phone", "email", "map_url", "latitude", "longitude");
+    else if (activeModule === "careers") headers.push("location", "employment_type");
+    else if (activeModule === "mediaEvents") headers.push("media_type", "event_date");
+    else if (activeModule === "projects") headers.push("scope");
+    else if (activeModule === "popups") headers.push("starts_at", "ends_at");
+    else if (activeModule === "csr") headers.push("event_date");
+    else if (activeModule === "calculators") headers.push("formula", "parameters");
+
+    const csvContent = headers.join(",") + "\n";
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `${activeModule}_template.csv`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  const handleCsvUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingCsv(true);
+    setMessage("Reading CSV...");
+    const reader = new FileReader();
+    reader.onload = async (evt) => {
+      const text = evt.target?.result as string;
+      const rows = parseCSV(text);
+      if (rows.length < 2) {
+        setMessage("CSV appears to be empty or missing data.");
+        setIsUploadingCsv(false);
+        return;
+      }
+
+      const headers = rows[0].map(h => h.trim().toLowerCase());
+      let successCount = 0;
+      let errorCount = 0;
+
+      setMessage(`Uploading ${rows.length - 1} records...`);
+
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        if (row.length === 0 || (row.length === 1 && !row[0])) continue;
+        
+        const payload: Record<string, any> = {
+          title: "", short_description: "", content: "", status: "published",
+          featured: false, sort_order: 0, cover_image: "", file_url: "",
+          video_url: "", extra_data: {}
+        };
+
+        headers.forEach((h, idx) => {
+          const val = row[idx] || "";
+          if (["title", "short_description", "content", "status", "cover_image", "file_url", "video_url"].includes(h)) {
+            payload[h] = val;
+          } else if (h === "featured") {
+            payload[h] = val.toLowerCase() === "true" || val === "1";
+          } else if (h === "sort_order") {
+            payload[h] = parseInt(val) || 0;
+          } else {
+            payload.extra_data[h] = val;
+          }
+        });
+
+        try {
+          const res = await fetch(`/api/admin/content/${activeModule}`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          if (res.ok) successCount++; else errorCount++;
+        } catch { errorCount++; }
+      }
+
+      setMessage(`Bulk upload complete. ${successCount} added, ${errorCount} failed.`);
+      if (csvUploadRef.current) csvUploadRef.current.value = "";
+      adminCache.clear();
+      fetchItems(true);
+      setIsUploadingCsv(false);
+    };
+    reader.readAsText(file);
   };
 
   const displayedItems = useMemo(() => {
@@ -603,41 +742,75 @@ export default function AdminContentManager() {
 
   const renderListPanel = () => (
     <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-lg shadow-slate-200/60">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h3 className="font-heading text-2xl text-slate-900">{activeDef.label}</h3>
-        {activeDef.kind === "content" ? (
-          <div className="flex flex-wrap items-center gap-2">
-            {activeModule === "products" && (
-              <div className="mr-2 flex rounded-lg bg-slate-100 p-1">
-                <button
-                  onClick={() => setProductCategoryTab("All")}
-                  className={`rounded-md px-3 py-1 text-sm transition-colors ${productCategoryTab === "All" ? "bg-white font-semibold shadow-sm" : "text-slate-600 hover:text-black"}`}
-                >
-                  All
-                </button>
-                <button
-                  onClick={() => setProductCategoryTab("TMT")}
-                  className={`rounded-md px-3 py-1 text-sm transition-colors ${productCategoryTab === "TMT" ? "bg-white font-semibold shadow-sm" : "text-slate-600 hover:text-black"}`}
-                >
-                  TMT
-                </button>
-                <button
-                  onClick={() => setProductCategoryTab("Structural")}
-                  className={`rounded-md px-3 py-1 text-sm transition-colors ${productCategoryTab === "Structural" ? "bg-white font-semibold shadow-sm" : "text-slate-600 hover:text-black"}`}
-                >
-                  Structural
-                </button>
-              </div>
+      <div className="mb-4 flex flex-col gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h3 className="font-heading text-2xl text-slate-900">{activeDef.label}</h3>
+          {activeDef.kind === "content" ? (
+            <div className="flex flex-wrap items-center gap-2">
+              {activeModule === "products" && (
+                <div className="mr-2 flex rounded-lg bg-slate-100 p-1">
+                  <button
+                    onClick={() => setProductCategoryTab("All")}
+                    className={`rounded-md px-3 py-1 text-sm transition-colors ${productCategoryTab === "All" ? "bg-white font-semibold shadow-sm" : "text-slate-600 hover:text-black"}`}
+                  >
+                    All
+                  </button>
+                  <button
+                    onClick={() => setProductCategoryTab("TMT")}
+                    className={`rounded-md px-3 py-1 text-sm transition-colors ${productCategoryTab === "TMT" ? "bg-white font-semibold shadow-sm" : "text-slate-600 hover:text-black"}`}
+                  >
+                    TMT
+                  </button>
+                  <button
+                    onClick={() => setProductCategoryTab("Structural")}
+                    className={`rounded-md px-3 py-1 text-sm transition-colors ${productCategoryTab === "Structural" ? "bg-white font-semibold shadow-sm" : "text-slate-600 hover:text-black"}`}
+                  >
+                    Structural
+                  </button>
+                </div>
+              )}
+              <input value={search} onChange={(e) => setSearch(e.target.value)} className="w-full md:w-64 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Live Search..." />
+            </div>
+          ) : null}
+        </div>
+
+        {activeDef.kind === "content" && (
+          <div className="flex flex-wrap items-center gap-3">
+            <button type="button" onClick={downloadCsvTemplate} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm">
+              ⬇️ Download Template
+            </button>
+            <div>
+              <input type="file" accept=".csv" ref={csvUploadRef} onChange={handleCsvUpload} className="hidden" />
+              <button type="button" disabled={isUploadingCsv} onClick={() => csvUploadRef.current?.click()} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition disabled:opacity-50 shadow-sm">
+                ⬆️ {isUploadingCsv ? "Uploading..." : "Bulk Upload CSV"}
+              </button>
+            </div>
+            {selectedIds.size > 0 && (
+              <button type="button" disabled={isDeletingBulk} onClick={bulkDelete} className="rounded-lg bg-red-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-red-700 transition disabled:opacity-50 shadow-sm">
+                🗑️ {isDeletingBulk ? "Deleting..." : `Delete Selected (${selectedIds.size})`}
+              </button>
             )}
-            <input value={search} onChange={(e) => setSearch(e.target.value)} className="w-full md:w-64 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Live Search..." />
           </div>
-        ) : null}
+        )}
       </div>
 
       <div className="max-h-[70vh] overflow-auto rounded-xl border border-slate-200">
         <table className="min-w-full text-sm">
           <thead className="sticky top-0 z-10">
             <tr className="border-b bg-slate-50 text-left text-slate-600">
+              {activeDef.kind === "content" && (
+                <th className="px-3 py-2 w-10">
+                  <input
+                    type="checkbox"
+                    className="cursor-pointer rounded border-slate-300"
+                    checked={displayedItems.length > 0 && selectedIds.size === displayedItems.slice(0, visibleCount).length}
+                    onChange={(e) => {
+                      if (e.target.checked) setSelectedIds(new Set(displayedItems.slice(0, visibleCount).map(i => i.id)));
+                      else setSelectedIds(new Set());
+                    }}
+                  />
+                </th>
+              )}
               <th className="px-3 py-2 pr-3">{activeDef.kind === 'support' ? 'Contact Details' : 'Title / Name'}</th>
               <th className="px-3 py-2 pr-3">{activeDef.kind === 'support' ? 'Type / Subject' : 'Status'}</th>
               <th className="px-3 py-2 pr-3">{activeDef.kind === 'support' ? 'Message' : 'Updated'}</th>
@@ -647,6 +820,21 @@ export default function AdminContentManager() {
           <tbody>
             {displayedItems.slice(0, visibleCount).map((row) => (
               <tr key={row.id} className="border-b last:border-b-0 odd:bg-white even:bg-slate-50/50">
+                {activeDef.kind === "content" && (
+                  <td className="px-3 py-3 w-10">
+                    <input
+                      type="checkbox"
+                      className="cursor-pointer rounded border-slate-300"
+                      checked={selectedIds.has(row.id)}
+                      onChange={(e) => {
+                        const newSet = new Set(selectedIds);
+                        if (e.target.checked) newSet.add(row.id);
+                        else newSet.delete(row.id);
+                        setSelectedIds(newSet);
+                      }}
+                    />
+                  </td>
+                )}
                 <td className="px-3 py-3 pr-3">
                   {activeDef.kind === "content" ? (
                     <>
@@ -728,6 +916,7 @@ export default function AdminContentManager() {
                 setActiveModule(module.key);
                 setSearch("");
                 setProductCategoryTab("All");
+                setSelectedIds(new Set());
                 resetForm();
               }}
               className={`w-full rounded-xl px-3 py-2 text-left text-sm font-semibold transition ${activeModule === module.key ? "bg-gradient-to-r from-slate-900 to-slate-700 text-white shadow-md" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
