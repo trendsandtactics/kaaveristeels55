@@ -657,8 +657,7 @@ export default function AdminContentManager() {
           </>
         );
       case "calculators": {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let paramsObj: any = {
+        let paramsObj: Record<string, unknown> = {
           weightDivisor: 162,
           weightFormula: "(((d * d) / divisor) * l) * q",
           bundleFormula: "Math.ceil(q / barsPerBundle)",
@@ -685,8 +684,7 @@ export default function AdminContentManager() {
           setForm(s => ({ ...s, extra_data: { ...s.extra_data, parameters: JSON.stringify(newObj, null, 2) }}));
         };
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const renderJsonLevel = (obj: any, path: string[], isLast: boolean, indent: number = 1): JSX.Element => {
+        const renderJsonLevel = (obj: unknown, path: string[], isLast: boolean, indent: number = 1): JSX.Element => {
           if (typeof obj === "number") {
             return (
               <input 
@@ -704,7 +702,8 @@ export default function AdminContentManager() {
             return <span className="text-[#ff7b72] ml-1">{obj ? "true" : "false"}</span>;
           }
           if (typeof obj === "object" && obj !== null) {
-            const keys = Object.keys(obj);
+            const recordObj = obj as Record<string, unknown>;
+            const keys = Object.keys(recordObj);
             return (
               <span>
                 <span className="text-[#c9d1d9] ml-1">{"{"}</span>
@@ -713,7 +712,7 @@ export default function AdminContentManager() {
                   <div key={k} style={{ paddingLeft: `${indent * 1.5}rem` }} className="flex items-center my-0.5">
                     <span className="text-[#7ee787]">&quot;{k}&quot;</span>
                     <span className="text-[#c9d1d9] mr-1">:</span>
-                    {renderJsonLevel(obj[k], [...path, k], i === keys.length - 1, indent + 1)}
+                    {renderJsonLevel(recordObj[k], [...path, k], i === keys.length - 1, indent + 1)}
                     <span className="text-[#c9d1d9]">{i < keys.length - 1 ? "," : ""}</span>
                   </div>
                 ))}
