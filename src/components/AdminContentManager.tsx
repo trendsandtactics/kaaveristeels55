@@ -291,7 +291,7 @@ export default function AdminContentManager() {
       return;
     }
 
-    let headers = ["id", "title", "slug", "short_description", "content", "status", "featured", "sort_order", "cover_image", "file_url", "video_url", "created_at", "updated_at"];
+    const headers = ["id", "title", "slug", "short_description", "content", "status", "featured", "sort_order", "cover_image", "file_url", "video_url", "created_at", "updated_at"];
     if (activeModule === "products") headers.push("category", "subcategory");
     else if (activeModule === "dealers") headers.push("city", "state", "phone", "email", "map_url", "latitude", "longitude");
     else if (activeModule === "careers") headers.push("location", "employment_type");
@@ -301,7 +301,7 @@ export default function AdminContentManager() {
     else if (activeModule === "csr") headers.push("event_date");
     else if (activeModule === "calculators") headers.push("formula", "parameters");
 
-    const escapeCsvCell = (cell: any): string => {
+    const escapeCsvCell = (cell: unknown): string => {
       const val = String(cell ?? '');
       if (val.includes(',') || val.includes('"') || val.includes('\n') || val.includes('\r')) {
         return `"${val.replace(/"/g, '""')}"`;
@@ -310,7 +310,7 @@ export default function AdminContentManager() {
     };
 
     const csvRows = displayedItems.map(item => {
-      const rowData: Record<string, any> = { ...item };
+      const rowData: Record<string, unknown> = { ...item };
       
       if (item.extra_data) {
         try {
