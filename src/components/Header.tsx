@@ -1,175 +1,85 @@
-"use client";
-
-import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
-
-const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "About Us", href: "/about-us" },
-  { name: "Products", href: "/products" },
-  { name: "Dealers", href: "/dealers" },
-  { name: "Contact Us", href: "/contact-us" },
-];
-
-const mediaSupportLinks = [
-  { name: "Photo Gallery", href: "/photo-gallery" },
-  { name: "Steel Calculator", href: "/construction-steel-calculator" },
-  { name: "Media & Events", href: "/media-events" },
-  { name: "Projects", href: "/projects" },
-  { name: "Blogs", href: "/blogs" },
-  { name: "Certifications", href: "/certifications" },
-  { name: "Product Brochure", href: "/product-brochure" },
-  { name: "Sales/Dealer Enquiry", href: "/product-enquiry" },
-  { name: "Corporate Social Responsibility", href: "/csr" },
-  { name: "Trust On Site", href: "/trust-on-site" },
-];
-
-export default function Header() {
-  const pathname = usePathname();
-
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    setMobileMenuOpen(false);
-    setDropdownOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 40);
-    };
-
-    onScroll();
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const onClickOutside = (event: MouseEvent) => {
-      if (!dropdownRef.current) return;
-
-      if (!dropdownRef.current.contains(event.target as Node)) {
-        setDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", onClickOutside);
-
-    return () =>
-      document.removeEventListener("mousedown", onClickOutside);
-  }, []);
-
-  const isHome = pathname === "/";
-  const transparent = isHome && !scrolled;
-
-  const navItemClass =
-    "relative inline-flex items-center h-9 text-[10px] xl:text-[11px] uppercase tracking-[0.08em] xl:tracking-[0.12em] font-semibold text-black whitespace-nowrap transition-colors duration-300 hover:text-red-600";
-
-  return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        transparent ? "pt-5" : "pt-3"
-      }`}
-    >
-      {/* Background */}
+return (
+  <header
+    className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+      transparent ? "pt-5" : "pt-4"
+    }`}
+  >
+    {/* Floating Navbar Background */}
+    <div className="max-w-7xl mx-auto px-3 md:px-6">
       <div
-        className={`absolute inset-0 transition-all duration-500 ${
+        className={`transition-all duration-500 rounded-full ${
           transparent
-            ? "bg-transparent"
-            : "bg-white/95 backdrop-blur-xl border border-black/5 shadow-[0_10px_40px_rgba(0,0,0,0.08)] rounded-full mx-3 md:mx-6"
-        }`}
-      />
-
-      <div
-        className={`relative max-w-7xl mx-auto px-5 md:px-8 xl:px-10 transition-all duration-500 ${
-          transparent ? "py-5" : "py-3"
+            ? "bg-transparent shadow-none border-transparent"
+            : "bg-white/95 backdrop-blur-xl border border-black/5 shadow-[0_10px_40px_rgba(0,0,0,0.08)]"
         }`}
       >
-        <div className="flex items-center justify-between">
+        <div
+          className={`flex items-center justify-between transition-all duration-500 px-5 md:px-8 xl:px-10 ${
+            transparent ? "h-[82px]" : "h-[72px]"
+          }`}
+        >
           {/* Logo */}
-          <Link href="/" className="flex items-center z-50">
+          <Link href="/" className="flex items-center shrink-0">
             <Image
               src="/logo4.png"
-              alt="Kaaveri TMT Bars & Structural"
-              width={210}
-              height={65}
+              alt="Kaaveri TMT"
+              width={190}
+              height={60}
               priority
-              className="h-10 md:h-12 xl:h-14 w-auto object-contain"
+              className="h-9 md:h-10 xl:h-11 w-auto object-contain"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-2 xl:gap-5">
+          <nav className="hidden xl:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`${navItemClass} group`}
+                className={`relative text-[11px] uppercase tracking-[0.14em] font-semibold transition-colors duration-300 hover:text-red-600 ${
+                  pathname === link.href
+                    ? "text-black"
+                    : "text-black/80"
+                }`}
               >
                 {link.name}
 
-                <span className="absolute left-0 -bottom-0.5 h-[2px] w-0 bg-red-600 transition-all duration-300 group-hover:w-full" />
+                {pathname === link.href && (
+                  <span className="absolute left-0 top-full mt-2 h-[2px] w-full bg-black rounded-full" />
+                )}
               </Link>
             ))}
 
-            {/* Media & Support */}
+            {/* Dropdown */}
             <div
-              className="relative flex items-center"
+              className="relative"
               ref={dropdownRef}
             >
               <button
-                type="button"
                 onClick={() =>
                   setDropdownOpen((prev) => !prev)
                 }
-                className={`${navItemClass} group gap-1`}
+                className="flex items-center gap-1 text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
               >
-                <span>Media & Support</span>
-
-                <span className="text-[9px] translate-y-[-1px]">
-                  ▾
-                </span>
-
-                <span
-                  className={`absolute left-0 -bottom-0.5 h-[2px] bg-red-600 transition-all duration-300 ${
-                    dropdownOpen
-                      ? "w-full"
-                      : "w-0 group-hover:w-full"
-                  }`}
-                />
+                Media & Support
+                <span className="text-[9px]">▾</span>
               </button>
 
               <AnimatePresence>
                 {dropdownOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{
-                      duration: 0.22,
-                      ease: "easeOut",
-                    }}
-                    className="absolute right-0 xl:left-1/2 top-full z-50 mt-4 w-[420px] xl:w-[540px] xl:-translate-x-1/2 rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                    exit={{ opacity: 0, y: 12 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 top-full mt-5 w-[520px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                   >
-                    <div className="mb-4 text-[12px] font-bold uppercase tracking-[0.15em] text-black/70">
-                      Media & Support
-                    </div>
-
-                    <div className="grid max-h-[320px] grid-cols-2 gap-x-4 gap-y-2 overflow-y-auto pr-1">
+                    <div className="grid grid-cols-2 gap-2">
                       {mediaSupportLinks.map((item) => (
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="rounded-xl px-3 py-2 text-sm text-black transition duration-300 hover:bg-yellow-50 hover:text-red-600"
+                          className="rounded-xl px-3 py-2 text-sm text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
                         >
                           {item.name}
                         </Link>
@@ -183,30 +93,26 @@ export default function Header() {
             {/* Careers */}
             <Link
               href="/careers"
-              className={`${navItemClass} group`}
+              className="text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
             >
               Careers
-
-              <span className="absolute left-0 -bottom-0.5 h-[2px] w-0 bg-red-600 transition-all duration-300 group-hover:w-full" />
             </Link>
 
             {/* CTA */}
             <Link
               href="/product-enquiry"
-              className="ml-2 inline-flex items-center justify-center rounded-full bg-red-600 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-white transition duration-300 hover:bg-red-700"
+              className="inline-flex items-center justify-center rounded-full bg-red-600 px-6 h-11 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-red-700"
             >
               Request Quote
             </Link>
           </nav>
 
-          {/* Mobile / Tablet Hamburger */}
+          {/* Hamburger */}
           <button
-            className="xl:hidden z-50 flex items-center justify-center w-11 h-11 rounded-full bg-white/90 backdrop-blur-md shadow-md text-black"
+            className="xl:hidden flex items-center justify-center w-11 h-11 rounded-full bg-white shadow-md"
             onClick={() =>
               setMobileMenuOpen(!mobileMenuOpen)
             }
-            aria-label="Toggle menu"
-            type="button"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -224,64 +130,63 @@ export default function Header() {
             </svg>
           </button>
         </div>
+      </div>
+    </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 flex flex-col items-center justify-start gap-4 bg-white/95 backdrop-blur-xl px-6 pt-28 pb-12 overflow-y-auto"
-            >
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-lg font-semibold uppercase tracking-[0.12em]"
-                >
-                  {link.name}
-                </Link>
-              ))}
+    {/* Mobile Menu */}
+    <AnimatePresence>
+      {mobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-white z-40 pt-28 px-6 overflow-y-auto"
+        >
+          <div className="flex flex-col items-center gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-lg font-semibold uppercase tracking-[0.12em]"
+              >
+                {link.name}
+              </Link>
+            ))}
 
-              {/* Media & Support Mobile */}
-              <div className="w-full max-w-md pt-4">
-                <div className="mb-4 text-center text-sm font-bold uppercase tracking-[0.16em] text-black/70">
-                  Media & Support
-                </div>
-
-                <div className="grid grid-cols-1 gap-2 text-center">
-                  {mediaSupportLinks.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="rounded-xl px-4 py-3 text-sm text-black transition duration-300 hover:bg-yellow-50 hover:text-red-600"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
+            <div className="w-full max-w-md pt-4">
+              <div className="text-center text-sm font-bold uppercase tracking-[0.16em] mb-4">
+                Media & Support
               </div>
 
-              {/* Careers */}
-              <Link
-                href="/careers"
-                className="pt-4 text-lg font-semibold uppercase tracking-[0.12em]"
-              >
-                Careers
-              </Link>
+              <div className="grid gap-2">
+                {mediaSupportLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="rounded-xl px-4 py-3 text-center text-sm hover:bg-yellow-50"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
 
-              {/* CTA */}
-              <Link
-                href="/product-enquiry"
-                className="mt-4 rounded-full bg-red-600 px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-white"
-              >
-                Request Quote
-              </Link>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </header>
-  );
-}
+            <Link
+              href="/careers"
+              className="text-lg font-semibold uppercase tracking-[0.12em]"
+            >
+              Careers
+            </Link>
+
+            <Link
+              href="/product-enquiry"
+              className="rounded-full bg-red-600 px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-white"
+            >
+              Request Quote
+            </Link>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </header>
+);
