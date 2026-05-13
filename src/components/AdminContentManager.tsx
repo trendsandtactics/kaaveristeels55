@@ -153,7 +153,7 @@ export default function AdminContentManager() {
   }, [activeModule]);
 
   useEffect(() => {
-    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "pages" || activeModule === "products" || activeModule === "aboutUs") && richEditorRef.current) {
+    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "pages" || activeModule === "products") && richEditorRef.current) {
       if (richEditorRef.current.innerHTML !== (form.content || "")) {
         richEditorRef.current.innerHTML = form.content || "";
       }
@@ -172,6 +172,7 @@ export default function AdminContentManager() {
   const payload = useMemo(() => {
     const base = {
       ...form,
+      title: activeModule === "aboutUs" ? (form.title || "About Us") : form.title,
       sort_order: Number(form.sort_order) || 0,
       extra_data: form.extra_data,
     };
@@ -559,7 +560,6 @@ export default function AdminContentManager() {
       case "blogs":
       case "csr":
   case "pages":
-  case "aboutUs":
         return (
           <>
             {activeModule === "products" ? (
@@ -1025,36 +1025,44 @@ export default function AdminContentManager() {
               <p className="mb-4 text-xs text-slate-500">Tip: Use the table on the right to quickly edit or delete records without leaving this form.</p>
 
               <form onSubmit={submitForm} className="grid gap-3 md:grid-cols-2">
-                <input required className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Title" value={form.title} onChange={(e) => setForm((s) => ({ ...s, title: e.target.value }))} />
-                <select className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" value={form.status} onChange={(e) => setForm((s) => ({ ...s, status: e.target.value }))}>
-                  <option value="draft">Draft</option>
-                  <option value="published">Published</option>
-                </select>
+                {activeModule !== "aboutUs" && (
+                  <>
+                    <input required className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Title" value={form.title} onChange={(e) => setForm((s) => ({ ...s, title: e.target.value }))} />
+                    <select className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" value={form.status} onChange={(e) => setForm((s) => ({ ...s, status: e.target.value }))}>
+                      <option value="draft">Draft</option>
+                      <option value="published">Published</option>
+                    </select>
+                  </>
+                )}
 
-                {activeModule !== "calculators" ? (
+                {activeModule !== "calculators" && activeModule !== "aboutUs" ? (
                   <textarea className="min-h-20 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Short description" value={form.short_description} onChange={(e) => setForm((s) => ({ ...s, short_description: e.target.value }))} />
                 ) : null}
 
-                {activeModule !== "blogs" && activeModule !== "csr" && activeModule !== "pages" && activeModule !== "products" && activeModule !== "calculators" ? (
+                {activeModule !== "blogs" && activeModule !== "csr" && activeModule !== "pages" && activeModule !== "products" && activeModule !== "calculators" && activeModule !== "aboutUs" ? (
                   <textarea className="min-h-32 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Content" value={form.content} onChange={(e) => setForm((s) => ({ ...s, content: e.target.value }))} />
                 ) : null}
 
                 {activeModule !== "calculators" ? (
                   <>
-                    <div className="space-y-2">
-                      <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Cover image URL" value={form.cover_image} onChange={(e) => setForm((s) => ({ ...s, cover_image: e.target.value }))} />
-                      <input type="file" ref={coverImageInputRef} accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg" className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold" onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) uploadFromDevice(file, "cover_image");
-                      }} />
-                    </div>
-                    <div className="space-y-2">
-                      <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="File URL (PDF, Document, etc.)" value={form.file_url} onChange={(e) => setForm((s) => ({ ...s, file_url: e.target.value }))} />
-                      <input type="file" ref={fileUrlInputRef} accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg,video/*,application/pdf,.doc,.docx" className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold" onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) uploadFromDevice(file, "file_url");
-                      }} />
-                    </div>
+                    {activeModule !== "aboutUs" && (
+                      <>
+                        <div className="space-y-2">
+                          <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Cover image URL" value={form.cover_image} onChange={(e) => setForm((s) => ({ ...s, cover_image: e.target.value }))} />
+                          <input type="file" ref={coverImageInputRef} accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg" className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold" onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) uploadFromDevice(file, "cover_image");
+                          }} />
+                        </div>
+                        <div className="space-y-2">
+                          <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="File URL (PDF, Document, etc.)" value={form.file_url} onChange={(e) => setForm((s) => ({ ...s, file_url: e.target.value }))} />
+                          <input type="file" ref={fileUrlInputRef} accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.svg,video/*,application/pdf,.doc,.docx" className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold" onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) uploadFromDevice(file, "file_url");
+                          }} />
+                        </div>
+                      </>
+                    )}
                     <div className="space-y-2 md:col-span-2">
                       <input className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Video URL (YouTube/Vimeo)" value={form.video_url} onChange={(e) => setForm((s) => ({ ...s, video_url: e.target.value }))} />
                     </div>
@@ -1063,7 +1071,7 @@ export default function AdminContentManager() {
 
                 {renderModuleSpecificFields()}
 
-                {activeModule !== "calculators" ? (
+                {activeModule !== "calculators" && activeModule !== "aboutUs" ? (
                   <>
                     <input type="number" className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Sort order" value={form.sort_order} onChange={(e) => setForm((s) => ({ ...s, sort_order: Number(e.target.value) }))} />
                     <label className="flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" checked={form.featured} onChange={(e) => setForm((s) => ({ ...s, featured: e.target.checked }))} /> Featured</label>
