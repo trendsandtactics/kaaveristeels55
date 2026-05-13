@@ -4,7 +4,7 @@ import AdminCertificationsPanel from "@/components/AdminCertificationsPanel";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators";
+type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators" | "aboutUs";
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
 type ModuleName = ContentModuleName | SupportModuleName | "certifications";
 
@@ -37,6 +37,7 @@ const MODULES: ModuleDef[] = [
   { key: "popups", label: "Popups", kind: "content", description: "Homepage event/offer popup controls" },
   { key: "csr", label: "CSR", kind: "content", description: "Manage Corporate Social Responsibility events and initiatives" },
   { key: "pages", label: "Pages Content", kind: "content", description: "Manage page-specific dynamic sections like CTAs" },
+  { key: "aboutUs", label: "About Us", kind: "content", description: "Manage About Us section content and YouTube URL" },
   { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries" },
   { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue" },
   { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes" },
@@ -152,7 +153,7 @@ export default function AdminContentManager() {
   }, [activeModule]);
 
   useEffect(() => {
-    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "pages" || activeModule === "products") && richEditorRef.current) {
+    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "pages" || activeModule === "products" || activeModule === "aboutUs") && richEditorRef.current) {
       if (richEditorRef.current.innerHTML !== (form.content || "")) {
         richEditorRef.current.innerHTML = form.content || "";
       }
@@ -558,6 +559,7 @@ export default function AdminContentManager() {
       case "blogs":
       case "csr":
   case "pages":
+  case "aboutUs":
         return (
           <>
             {activeModule === "products" ? (
