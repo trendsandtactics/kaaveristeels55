@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -8,10 +8,29 @@ import { motion } from "framer-motion";
 export default function HomeAbout() {
   const [playVideo, setPlayVideo] = useState(false);
   const [thumbError, setThumbError] = useState(false);
+  const [youtubeVideoId, setYoutubeVideoId] = useState("OFUDOvewAG8");
 
-  const youtubeVideoId = "OFUDOvewAG8";
   const localThumbnail = "/image/video-thumbnail.jpg";
   const fallbackThumbnail = `https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`;
+
+  useEffect(() => {
+    fetch("/api/public/content/aboutUs?limit=1")
+      .then((res) => res.json())
+      .then((data) => {
+        const item = data.data?.[0];
+        if (item?.video_url) {
+          let id = item.video_url;
+          // Extract ID if a full URL is pasted
+          const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+          const match = id.match(regExp);
+          if (match && match[2].length === 11) {
+            id = match[2];
+          }
+          setYoutubeVideoId(id);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="relative w-full py-16 px-6 md:px-12 overflow-hidden">
