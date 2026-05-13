@@ -90,8 +90,7 @@ export default function Header() {
   }, []);
 
   const isHome = pathname === "/";
-  const isDealers = pathname === "/dealers";
-  const transparent = (isHome || isDealers) && !scrolled;
+  const transparent = isHome && !scrolled;
 
   return (
     <header
