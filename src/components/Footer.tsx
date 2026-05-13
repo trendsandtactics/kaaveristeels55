@@ -39,70 +39,6 @@ export default function Footer() {
                     </p>
 
                     <div className="w-12 h-1 bg-accent-red mb-6" />
-
-                    {/* Social Icons */}
-                    <div>
-                        <h4 className="font-heading text-lg mb-4 text-white tracking-wider">
-                            Follow Us
-                        </h4>
-
-                        <div className="flex items-center gap-4 flex-wrap">
-
-                            {/* Instagram */}
-                            <Link
-                                href="https://www.instagram.com/kaaveritmtbarsandstructural?igsh=eGliNzQ2cWtzcDBp"
-                                target="_blank"
-                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
-                            >
-                                <Instagram size={18} />
-                            </Link>
-
-                            {/* LinkedIn */}
-                            <Link
-                                href="https://www.linkedin.com/company/kaaveritmtbarsandstructural/"
-                                target="_blank"
-                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
-                            >
-                                <Linkedin size={18} />
-                            </Link>
-
-                            {/* YouTube */}
-                            <Link
-                                href="https://www.youtube.com/@KAAVERITMTBARSANDSTRUCTURAL"
-                                target="_blank"
-                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
-                            >
-                                <Youtube size={18} />
-                            </Link>
-
-                            {/* X / Twitter */}
-                            <Link
-                                href="https://x.com/kaaveritmt"
-                                target="_blank"
-                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                >
-                                    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.847h-7.406l-5.8-7.584-6.64 7.584H.474l8.6-9.83L0 1.153h7.594l5.243 6.932L18.901 1.153Zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403Z" />
-                                </svg>
-                            </Link>
-
-                            {/* WhatsApp */}
-                            <Link
-                                href="https://wa.me/918855824555"
-                                target="_blank"
-                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
-                            >
-                                <MessageCircle size={18} />
-                            </Link>
-
-                        </div>
-                    </div>
                 </div>
 
                 {/* Navigation */}
@@ -176,22 +112,89 @@ export default function Footer() {
                     </ul>
                 </div>
 
-                {/* Certifications */}
-                <div>
-                    <h3 className="font-heading text-xl mb-6 text-white tracking-wider">
-                        Certifications
-                    </h3>
+                {/* Right Column: Certifications & Social */}
+                <div className="flex flex-col gap-10">
+                    {/* Certifications */}
+                    <div>
+                        <h3 className="font-heading text-xl mb-6 text-white tracking-wider">
+                            Certifications
+                        </h3>
 
-                    <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-4">
 
-                        <div className="w-full h-16 bg-white/5 border border-white/10 flex items-center justify-center font-body text-xs text-white/60 uppercase tracking-widest font-bold">
-                            ISO 9001:2015 Approved
+                            <div className="w-full h-16 bg-white/5 border border-white/10 flex items-center justify-center font-body text-xs text-white/60 uppercase tracking-widest font-bold">
+                                ISO 9001:2015 Approved
+                            </div>
+
+                            <div className="w-full h-16 bg-white/5 border border-white/10 flex items-center justify-center font-body text-xs text-white/60 uppercase tracking-widest font-bold">
+                                Green Steel Certified
+                            </div>
+
                         </div>
+                    </div>
 
-                        <div className="w-full h-16 bg-white/5 border border-white/10 flex items-center justify-center font-body text-xs text-white/60 uppercase tracking-widest font-bold">
-                            Green Steel Certified
+                    {/* Social Icons */}
+                    <div>
+                        <h3 className="font-heading text-xl mb-6 text-white tracking-wider">
+                            Follow Us
+                        </h3>
+
+                        <div className="flex items-center gap-4 flex-wrap">
+
+                            {/* Instagram */}
+                            <Link
+                                href="https://www.instagram.com/kaaveritmtbarsandstructural?igsh=eGliNzQ2cWtzcDBp"
+                                target="_blank"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
+                            >
+                                <Instagram size={18} />
+                            </Link>
+
+                            {/* LinkedIn */}
+                            <Link
+                                href="https://www.linkedin.com/company/kaaveritmtbarsandstructural/"
+                                target="_blank"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
+                            >
+                                <Linkedin size={18} />
+                            </Link>
+
+                            {/* YouTube */}
+                            <Link
+                                href="https://www.youtube.com/@KAAVERITMTBARSANDSTRUCTURAL"
+                                target="_blank"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
+                            >
+                                <Youtube size={18} />
+                            </Link>
+
+                            {/* X / Twitter */}
+                            <Link
+                                href="https://x.com/kaaveritmt"
+                                target="_blank"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                >
+                                    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.847h-7.406l-5.8-7.584-6.64 7.584H.474l8.6-9.83L0 1.153h7.594l5.243 6.932L18.901 1.153Zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403Z" />
+                                </svg>
+                            </Link>
+
+                            {/* WhatsApp */}
+                            <Link
+                                href="https://wa.me/918855824555"
+                                target="_blank"
+                                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
+                            >
+                                <MessageCircle size={18} />
+                            </Link>
+
                         </div>
-
                     </div>
                 </div>
             </div>
