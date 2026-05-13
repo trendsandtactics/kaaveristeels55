@@ -82,19 +82,19 @@ export default function CertificationsPage() {
         <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
           <div className="mb-4 flex items-center justify-center gap-4">
             <div className="h-[2px] w-12 bg-black" />
-            <h1 className="font-body text-sm font-bold uppercase tracking-[0.2em] text-black">
+            <h1 className="font-sans text-sm font-bold uppercase tracking-[0.2em] text-black">
               Verified Certificates
             </h1>
             <div className="h-[2px] w-12 bg-black" />
           </div>
 
-          <h2 className="font-heading text-4xl leading-tight md:text-6xl">
+          <h2 className="font-sans text-4xl leading-tight md:text-5xl font-bold">
             Trusted Quality.
             <br />
             Proven Standards.
           </h2>
 
-          <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-black/75 md:text-lg">
+          <p className="font-sans font-medium mx-auto mt-4 max-w-3xl text-base leading-7 text-black/75 md:text-lg">
             Explore KAAVERI certifications published directly from the admin
             panel for complete public transparency, trust, and quality
             assurance.
