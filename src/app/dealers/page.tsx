@@ -354,7 +354,7 @@ export default function DealersPage() {
                 }`}
               >
             <div className="flex justify-between items-start gap-2">
-              <h3 className="font-heading text-xl md:text-2xl font-bold text-gray-900">
+              <h3 className="font-sans text-xl md:text-2xl font-bold text-gray-900">
                 {dealer.title}
               </h3>
               {dealer.distance !== null && dealer.distance !== undefined && (
