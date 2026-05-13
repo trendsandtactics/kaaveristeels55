@@ -53,7 +53,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
             {title}
           </h1>
           {item.short_description && (
-            <p className="font-body text-black/80 mt-5 max-w-3xl text-lg md:text-xl font-medium leading-relaxed">
+            <p className="font-sans text-black/80 mt-5 max-w-3xl text-lg md:text-xl font-medium leading-relaxed">
               {item.short_description}
             </p>
           )}

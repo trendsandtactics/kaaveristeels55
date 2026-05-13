@@ -162,13 +162,13 @@ export default function DynamicModulePage({
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <p className="text-xs uppercase tracking-[0.2em] font-semibold text-black/70">
+          <p className="font-sans text-xs uppercase tracking-[0.2em] font-semibold text-black/70">
             {moduleLabel} Portfolio
           </p>
           <h1 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-black mt-3 drop-shadow-md">
             {heading}
           </h1>
-          <p className="text-black/80 mt-3 max-w-3xl font-medium">
+          <p className="font-sans text-black/80 mt-3 max-w-3xl font-medium">
             {subtitle}
           </p>
 

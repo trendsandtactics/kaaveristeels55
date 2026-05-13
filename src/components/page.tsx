@@ -88,7 +88,7 @@ export default async function CareerDetailPage({ params }: PageProps) {
             <span>&larr;</span> Back to Careers
           </Link>
           
-          <h1 className="font-heading text-4xl lg:text-5xl text-black mb-4 font-bold uppercase tracking-tighter">
+          <h1 className="font-sans text-4xl lg:text-5xl text-black mb-4 font-bold uppercase tracking-tighter">
             {career.title}
           </h1>
           

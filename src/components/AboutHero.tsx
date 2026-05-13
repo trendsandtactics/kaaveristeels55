@@ -20,18 +20,18 @@ export default function AboutHero() {
                     
                     {/* Welcome Section */}
                     <div className="text-center max-w-4xl mx-auto">
-                        <h2 className="font-body text-white/90 uppercase tracking-[0.2em] font-bold text-sm mb-4">
+                        <h2 className="font-sans text-white/90 uppercase tracking-[0.2em] font-bold text-sm mb-4">
                             About Us
                         </h2>
 
-                        <h1 className="font-heading text-5xl md:text-7xl text-white mb-8 leading-tight drop-shadow-lg">
+                        <h1 className="font-sans text-5xl md:text-7xl text-white mb-8 leading-tight drop-shadow-lg font-bold">
                             Welcome to KAAVERI<br />
 <span className="text-white font-extrabold text-4xl md:text-5xl block mt-2 tracking-wide">
-    TMT <span className="mx-2 font-serif text-3xl md:text-4xl opacity-80">&</span> STRUCTURAL
+    TMT <span className="mx-2 font-sans text-3xl md:text-4xl opacity-80">&</span> STRUCTURAL
 </span>
                         </h1>
 
-                        <p className="font-body text-white/90 text-lg md:text-xl leading-relaxed font-medium">
+                        <p className="font-sans text-white/90 text-lg md:text-xl leading-relaxed font-medium">
                             At KAAVERI, we are passionate about steel and dedicated to excellence. Our company is a leading manufacturer of TMT bars and structural steel products, committed to providing the construction industry with the highest quality materials that ensure strength, safety, and sustainability.
                         </p>
                     </div>

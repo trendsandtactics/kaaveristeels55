@@ -74,15 +74,15 @@ export default function TrustOnSitePage() {
   <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
 
     {/* TITLE */}
-    <p className="uppercase tracking-widest text-sm text-gray-500 mb-3">
+    <p className="font-sans uppercase tracking-widest text-sm text-gray-500 mb-3 font-bold">
       KAAVERI STEELS
     </p>
 
-    <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
+    <h1 className="font-sans text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
       Trust On Site
     </h1>
 
-    <p className="text-gray-600 max-w-2xl mx-auto mb-10">
+    <p className="font-sans text-gray-600 max-w-2xl mx-auto mb-10 font-medium">
       We don’t just promise quality — we prove it with live testing,
       transparency, and engineering excellence.
     </p>
