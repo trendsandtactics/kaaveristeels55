@@ -11,19 +11,21 @@ const navLinks = [
   { name: "About Us", href: "/about-us" },
   { name: "Products", href: "/products" },
   { name: "Dealers", href: "/dealers" },
-  { name: "Contact Us", href: "/contact-us" },
 ];
 
-const mediaSupportLinks = [
+const mediaLinks = [
   { name: "Photo Gallery", href: "/photo-gallery" },
-  { name: "Steel Calculator", href: "/construction-steel-calculator" },
   { name: "Media & Events", href: "/media-events" },
-  { name: "Projects", href: "/projects" },
-  { name: "Blogs", href: "/blogs" },
-  { name: "Certifications", href: "/certifications" },
-  { name: "Product Brochure", href: "/product-brochure" },
-  { name: "Sales/Dealer Enquiry", href: "/product-enquiry" },
   { name: "Corporate Social Responsibility", href: "/csr" },
+  { name: "Blogs", href: "/blogs" },
+  { name: "Projects", href: "/projects" },
+];
+
+const supportLinks = [
+  { name: "Product Brochure", href: "/product-brochure" },
+  { name: "Steel Calculator", href: "/construction-steel-calculator" },
+  { name: "Certifications", href: "/certifications" },
+  { name: "Sales/Dealer Enquiry", href: "/product-enquiry" },
   { name: "Trust On Site", href: "/trust-on-site" },
 ];
 
@@ -31,14 +33,17 @@ export default function Header() {
   const pathname = usePathname();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mediaDropdownOpen, setMediaDropdownOpen] = useState(false);
+  const [supportDropdownOpen, setSupportDropdownOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const mediaDropdownRef = useRef<HTMLDivElement | null>(null);
+  const supportDropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setMobileMenuOpen(false);
-    setDropdownOpen(false);
+    setMediaDropdownOpen(false);
+    setSupportDropdownOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -58,14 +63,17 @@ export default function Header() {
 
   useEffect(() => {
     const onClickOutside = (event: MouseEvent) => {
-      if (!dropdownRef.current) return;
-
       if (
-        !dropdownRef.current.contains(
-          event.target as Node
-        )
+        mediaDropdownRef.current &&
+        !mediaDropdownRef.current.contains(event.target as Node)
       ) {
-        setDropdownOpen(false);
+        setMediaDropdownOpen(false);
+      }
+      if (
+        supportDropdownRef.current &&
+        !supportDropdownRef.current.contains(event.target as Node)
+      ) {
+        setSupportDropdownOpen(false);
       }
     };
 
@@ -139,32 +147,74 @@ export default function Header() {
                 </Link>
               ))}
 
-              {/* Dropdown */}
+              {/* Media Dropdown */}
               <div
                 className="relative"
-                ref={dropdownRef}
+                ref={mediaDropdownRef}
               >
                 <button
-                  onClick={() =>
-                    setDropdownOpen((prev) => !prev)
-                  }
+                  onClick={() => {
+                    setMediaDropdownOpen((prev) => !prev);
+                    setSupportDropdownOpen(false);
+                  }}
                   className="flex items-center gap-1 text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
                 >
-                  Media & Support
+                  Media
                   <span className="text-[9px]">▾</span>
                 </button>
 
                 <AnimatePresence>
-                  {dropdownOpen && (
+                  {mediaDropdownOpen && (
                     <motion.div
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 12 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 top-full mt-5 w-[520px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                      className="absolute right-0 top-full mt-5 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                     >
-                      <div className="grid grid-cols-2 gap-2">
-                        {mediaSupportLinks.map((item) => (
+                      <div className="grid grid-cols-1 gap-2">
+                        {mediaLinks.map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className="rounded-xl px-3 py-2 text-sm text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Support Dropdown */}
+              <div
+                className="relative"
+                ref={supportDropdownRef}
+              >
+                <button
+                  onClick={() => {
+                    setSupportDropdownOpen((prev) => !prev);
+                    setMediaDropdownOpen(false);
+                  }}
+                  className="flex items-center gap-1 text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
+                >
+                  Support
+                  <span className="text-[9px]">▾</span>
+                </button>
+
+                <AnimatePresence>
+                  {supportDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 12 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 top-full mt-5 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                    >
+                      <div className="grid grid-cols-1 gap-2">
+                        {supportLinks.map((item) => (
                           <Link
                             key={item.href}
                             href={item.href}
@@ -185,6 +235,14 @@ export default function Header() {
                 className="text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
               >
                 Careers
+              </Link>
+
+              {/* Contact Us */}
+              <Link
+                href="/contact-us"
+                className="text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
+              >
+                Contact Us
               </Link>
 
               {/* CTA */}
@@ -244,11 +302,29 @@ export default function Header() {
 
               <div className="w-full max-w-md pt-4">
                 <div className="text-center text-sm font-bold uppercase tracking-[0.16em] mb-4">
-                  Media & Support
+                  Media
                 </div>
 
                 <div className="grid gap-2">
-                  {mediaSupportLinks.map((item) => (
+                  {mediaLinks.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="rounded-xl px-4 py-3 text-center text-sm hover:bg-yellow-50"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="w-full max-w-md pt-4">
+                <div className="text-center text-sm font-bold uppercase tracking-[0.16em] mb-4">
+                  Support
+                </div>
+
+                <div className="grid gap-2">
+                  {supportLinks.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
@@ -265,6 +341,13 @@ export default function Header() {
                 className="text-lg font-semibold uppercase tracking-[0.12em]"
               >
                 Careers
+              </Link>
+
+              <Link
+                href="/contact-us"
+                className="text-lg font-semibold uppercase tracking-[0.12em]"
+              >
+                Contact Us
               </Link>
 
               <Link
