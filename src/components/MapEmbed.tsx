@@ -62,10 +62,10 @@ export default function MapEmbed() {
           transition={{ duration: 0.6 }}
           className="max-w-3xl mx-auto text-center mb-8 md:mb-10"
         >
-          <h2 className="text-3xl md:text-5xl font-bold text-black">
+          <h2 className="text-3xl md:text-5xl font-sans font-bold text-black">
             Our Locations
           </h2>
-          <p className="mt-3 text-base md:text-lg text-black/70">
+          <p className="mt-3 text-base md:text-lg font-sans text-black/70">
             Explore our corporate office and production facilities across Tamil Nadu.
           </p>
         </motion.div>
@@ -76,7 +76,7 @@ export default function MapEmbed() {
             <button
               key={index}
               onClick={() => setActiveTab(index)}
-              className={`px-5 md:px-6 py-2.5 rounded-full text-sm md:text-base font-semibold transition-all duration-300 border ${
+            className={`px-5 md:px-6 py-2.5 rounded-full text-sm md:text-base font-sans font-semibold transition-all duration-300 border ${
                 activeTab === index
                   ? "bg-red-700 text-white border-red-700 shadow-md"
                   : "bg-white text-black/70 border-black/10 hover:border-red-500 hover:text-red-600"
@@ -107,24 +107,24 @@ export default function MapEmbed() {
                     <Icon size={20} />
                   </div>
 
-                  <span className="rounded-full bg-black/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.15em] text-black/60">
+                  <span className="rounded-full bg-black/5 px-3 py-1.5 text-xs font-sans font-semibold uppercase tracking-[0.15em] text-black/60">
                     {activeLocation.label}
                   </span>
                 </div>
 
-                <h3 className="text-2xl md:text-3xl font-bold text-black mb-4">
+                <h3 className="text-2xl md:text-3xl font-sans font-bold text-black mb-4">
                   {activeLocation.title}
                 </h3>
 
-                <div className="space-y-2 text-black/70 text-base md:text-lg">
+                <div className="space-y-2 font-sans text-black/70 text-base md:text-lg">
                   {activeLocation.address.map((line, i) => (
                     <p key={i}>{line}</p>
                   ))}
                 </div>
 
-                <div className="mt-6 flex items-center gap-2 text-red-700 font-semibold">
+                <div className="mt-6 flex items-center gap-2 font-sans text-red-700 font-semibold">
                   <MapPin size={16} />
-                  <span className="text-sm">Find us on Google Maps</span>
+                  <span className="text-sm font-sans">Find us on Google Maps</span>
                 </div>
 
                 <div className="mt-5 h-[2px] w-16 rounded-full bg-red-500" />
