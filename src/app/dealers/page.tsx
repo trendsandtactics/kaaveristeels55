@@ -255,9 +255,9 @@ export default function DealersPage() {
   }, [selectedDealer, filteredDealers, selectedCity, userLocation]);
 
   return (
-<main className="flex flex-col min-h-screen w-full relative pt-20 bg-white overflow-hidden transition-colors duration-500">
+<main className="flex flex-col min-h-screen w-full relative bg-white overflow-hidden transition-colors duration-500">
   {/* Hero Section */}
-      <div className="w-full py-12 md:py-20 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-400 text-black relative overflow-hidden shadow-xl border-b border-black/10">
+      <div className="w-full pt-32 pb-16 md:pt-36 md:pb-24 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-400 text-black relative overflow-hidden shadow-xl border-b border-black/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.6)_0%,transparent_70%)] pointer-events-none mix-blend-overlay" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.2)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none mix-blend-overlay opacity-40" />
 
