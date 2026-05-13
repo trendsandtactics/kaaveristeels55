@@ -989,7 +989,7 @@ export default function AdminContentManager() {
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       <aside className="h-fit max-h-[calc(100vh-8rem)] overflow-y-auto rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-lg shadow-slate-200/60 backdrop-blur lg:sticky lg:top-28 lg:col-span-3">
-        <h2 className="mb-3 font-heading text-xl text-slate-900">Modules</h2>
+        <h2 className="mb-3 font-sans text-xl text-slate-900">Modules</h2>
         <div className="space-y-2">
           {MODULES.map((module) => (
             <button
@@ -1002,7 +1002,7 @@ export default function AdminContentManager() {
                 setUploadErrors([]);
                 resetForm();
               }}
-              className={`w-full rounded-xl px-3 py-2 text-left text-sm font-semibold transition ${activeModule === module.key ? "bg-gradient-to-r from-slate-900 to-slate-700 text-white shadow-md" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
+              className={`w-full rounded-xl px-3 py-2 text-left text-sm font-sans font-semibold transition ${activeModule === module.key ? "bg-gradient-to-r from-slate-900 to-slate-700 text-white shadow-md" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
             >
               {module.label}
             </button>
