@@ -23,7 +23,7 @@ export default async function CSRPage() {
         <div className="max-w-7xl mx-auto relative z-10">
           <p className="font-sans text-xs uppercase tracking-[0.2em] font-semibold text-black/70">Initiatives</p>
           <h1 className="font-sans text-5xl md:text-7xl text-black mt-2 drop-shadow-md font-bold">
-            Corporate Social Responsibility
+            CSR Activities 
           </h1>
           <p className="font-sans text-black/80 mt-2 max-w-2xl font-medium">
             Building a better tomorrow, together. Explore our commitment to social and environmental well-being.
