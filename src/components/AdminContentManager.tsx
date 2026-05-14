@@ -648,7 +648,15 @@ export default function AdminContentManager() {
           </>
         );
       case "mediaEvents":
-        return <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Event Date (YYYY-MM-DD)" value={form.extra_data.event_date ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, event_date: e.target.value } }))} />;
+        return (
+          <>
+            <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Event Date (YYYY-MM-DD)" value={form.extra_data.event_date ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, event_date: e.target.value } }))} />
+            <select className="border rounded-lg px-3 py-2 text-sm" value={form.extra_data.media_type ?? "image"} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, media_type: e.target.value } }))}>
+              <option value="image">Image Event</option>
+              <option value="video">Video Event</option>
+            </select>
+          </>
+        );
       case "projects":
         return <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Project Scope" value={form.extra_data.scope ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, scope: e.target.value } }))} />;
       case "popups":

@@ -44,7 +44,7 @@ export default function DynamicModulePage({
   const [items, setItems] = useState<DynamicItem[]>([]);
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string>(module === "products" ? "TMT" : "All");
+  const [activeCategory, setActiveCategory] = useState<string>(module === "products" ? "TMT" : module === "mediaEvents" ? "Images" : "All");
   const [activeSubCategory, setActiveSubCategory] = useState<string>("Bars");
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
@@ -102,24 +102,42 @@ export default function DynamicModulePage({
   }, [activeCategory, activeSubCategory, debouncedQ]);
 
   const displayedItems = useMemo(() => {
-    if (module !== "products") return items;
-    return items.filter((item) => {
-      let category = "";
-      let subcategory = "";
-      try {
-        const extra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
-        category = extra?.category || "";
-        subcategory = extra?.subcategory || "";
-      } catch {}
-      
-      if (activeCategory !== "All" && category !== activeCategory) return false;
+    if (module === "products") {
+      return items.filter((item) => {
+        let category = "";
+        let subcategory = "";
+        try {
+          const extra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
+          category = extra?.category || "";
+          subcategory = extra?.subcategory || "";
+        } catch {}
+        
+        if (activeCategory !== "All" && category !== activeCategory) return false;
 
-      if (activeCategory === "TMT") {
-        return subcategory === activeSubCategory;
-      }
+        if (activeCategory === "TMT") {
+          return subcategory === activeSubCategory;
+        }
 
-      return true;
-    });
+        return true;
+      });
+    }
+    
+    if (module === "mediaEvents") {
+      return items.filter((item) => {
+        let mediaType = "image";
+        try {
+          const extra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
+          mediaType = extra?.media_type || "image";
+        } catch {}
+        
+        if (activeCategory === "Images" && mediaType !== "image") return false;
+        if (activeCategory === "Videos" && mediaType !== "video") return false;
+        
+        return true;
+      });
+    }
+    
+    return items;
   }, [items, module, activeCategory, activeSubCategory]);
 
   const featured = useMemo(() => displayedItems.filter((item) => item.featured).slice(0, 3), [displayedItems]);
@@ -225,6 +243,26 @@ export default function DynamicModulePage({
           </div>
         )}
 
+        {module === "mediaEvents" && (
+          <div className="flex flex-col items-center justify-center mb-10 gap-4">
+            <div className="inline-flex flex-wrap justify-center gap-2 bg-gray-200/60 p-1.5 rounded-xl border border-black/5">
+              {["Images", "Videos"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveCategory(tab)}
+                  className={`px-6 py-2 rounded-lg text-sm font-bold tracking-wider uppercase transition-all duration-300 ${
+                    activeCategory === tab
+                      ? "bg-white text-accent-red shadow-md"
+                      : "text-black/60 hover:text-black hover:bg-gray-300/50"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {featured.length > 0 ? (
           <div className="mb-10">
             <h2 className="font-heading text-2xl text-black mb-4">Featured</h2>
@@ -290,22 +328,43 @@ export default function DynamicModulePage({
                   );
                 }
 
+                const isVideoEvent = module === "mediaEvents" && activeCategory === "Videos";
+                let videoId = "";
+                if (isVideoEvent && item.video_url) {
+                  const match = item.video_url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
+                  if (match && match[2].length === 11) videoId = match[2];
+                }
+
                 return (
                   <article
                     key={item.id}
                     className="group rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
                   >
                     <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={imageSrc}
-                        alt={item.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
+                      {isVideoEvent ? (
+                        videoId ? (
+                          <iframe src={`https://www.youtube.com/embed/${videoId}`} className="w-full h-full absolute inset-0 z-20" allowFullScreen />
+                        ) : item.file_url ? (
+                          <video src={resolveMediaUrl(item.file_url, "")} controls className="w-full h-full object-cover absolute inset-0 z-20 bg-black" />
+                        ) : item.video_url ? (
+                          <iframe src={item.video_url} className="w-full h-full absolute inset-0 z-20" allowFullScreen />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-gray-200">No Video Available</div>
+                        )
+                      ) : (
+                        <>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={imageSrc}
+                            alt={item.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
+                        </>
+                      )}
                     </div>
 
                     <div className="p-5">
@@ -387,26 +446,46 @@ export default function DynamicModulePage({
               );
             }
 
+            const isVideoEvent = module === "mediaEvents" && activeCategory === "Videos";
+            let videoId = "";
+            if (isVideoEvent && item.video_url) {
+              const match = item.video_url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
+              if (match && match[2].length === 11) videoId = match[2];
+            }
+
             return (
               <article
                 key={item.id}
                 className="group rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
               >
                 <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={imageSrc}
-                    alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
-                  />
-
-                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
-                  <p className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.18em] text-white font-semibold z-10">
-                    {module}
-                  </p>
+                  {isVideoEvent ? (
+                    videoId ? (
+                      <iframe src={`https://www.youtube.com/embed/${videoId}`} className="w-full h-full absolute inset-0 z-20" allowFullScreen />
+                    ) : item.file_url ? (
+                      <video src={resolveMediaUrl(item.file_url, "")} controls className="w-full h-full object-cover absolute inset-0 z-20 bg-black" />
+                    ) : item.video_url ? (
+                      <iframe src={item.video_url} className="w-full h-full absolute inset-0 z-20" allowFullScreen />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-200">No Video Available</div>
+                    )
+                  ) : (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imageSrc}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+                      <p className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.18em] text-white font-semibold z-10">
+                        {module}
+                      </p>
+                    </>
+                  )}
                 </div>
 
                 <div className="p-5">
