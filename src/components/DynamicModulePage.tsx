@@ -356,7 +356,7 @@ export default function DynamicModulePage({
                           <div className="w-full h-full flex items-center justify-center bg-gray-200">No Video Available</div>
                         )
                       ) : (
-                        <>
+                        <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="block w-full h-full">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={imageSrc}
@@ -367,7 +367,7 @@ export default function DynamicModulePage({
                             }}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
-                        </>
+                        </Link>
                       )}
                     </div>
 
@@ -476,7 +476,7 @@ export default function DynamicModulePage({
                       <div className="w-full h-full flex items-center justify-center bg-gray-200">No Video Available</div>
                     )
                   ) : (
-                    <>
+                    <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="block w-full h-full">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imageSrc}
@@ -490,7 +490,7 @@ export default function DynamicModulePage({
                       <p className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.18em] text-white font-semibold z-10">
                         {module}
                       </p>
-                    </>
+                    </Link>
                   )}
                 </div>
 
