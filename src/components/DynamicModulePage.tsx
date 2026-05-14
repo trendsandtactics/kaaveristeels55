@@ -356,7 +356,7 @@ export default function DynamicModulePage({
                           <div className="w-full h-full flex items-center justify-center bg-gray-200">No Video Available</div>
                         )
                       ) : (
-                        <Link href={`/${module}/${item.slug}`} prefetch={true} className="block w-full h-full">
+                        <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="block w-full h-full">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={imageSrc}
@@ -383,7 +383,7 @@ export default function DynamicModulePage({
                       </p>
                       {!isVideoEvent && (
                         <div className="mt-4">
-                          <Link href={`/${module}/${item.slug}`} prefetch={true} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
+                          <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
                             View Details
                           </Link>
                         </div>
@@ -476,7 +476,7 @@ export default function DynamicModulePage({
                       <div className="w-full h-full flex items-center justify-center bg-gray-200">No Video Available</div>
                     )
                   ) : (
-                    <Link href={`/${module}/${item.slug}`} prefetch={true} className="block w-full h-full">
+                    <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="block w-full h-full">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imageSrc}
@@ -504,7 +504,7 @@ export default function DynamicModulePage({
 
                   {!isVideoEvent && (
                     <div className="mt-4 flex items-center justify-between gap-2">
-                      <Link href={`/${module}/${item.slug}`} prefetch={true} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
+                      <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
                         View Details
                       </Link>
                     </div>
