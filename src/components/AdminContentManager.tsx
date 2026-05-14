@@ -219,9 +219,15 @@ export default function AdminContentManager() {
   };
 
   const deleteRow = async (id: number) => {
-    if (activeDef.kind !== "content") return;
+    if (activeDef.kind === "certifications") return;
     if (!confirm("Delete this record?")) return;
-    const response = await fetch(`/api/admin/content/${activeModule}/${id}`, { method: "DELETE" });
+    
+    let url = `/api/admin/content/${activeModule}/${id}`;
+    if (activeDef.kind === "support") {
+      url = `${endpointForSupportModule(activeModule as SupportModuleName)}/${id}`;
+    }
+
+    const response = await fetch(url, { method: "DELETE" });
     const data = await response.json();
     if (!response.ok) {
       setMessage(data.error ?? "Delete failed.");
@@ -247,7 +253,11 @@ export default function AdminContentManager() {
         const batch = idsArray.slice(i, i + batchSize);
         const promises = batch.map(async (id) => {
           try {
-            const response = await fetch(`/api/admin/content/${activeModule}/${id}`, { method: "DELETE" });
+            let url = `/api/admin/content/${activeModule}/${id}`;
+            if (activeDef.kind === "support") {
+              url = `${endpointForSupportModule(activeModule as SupportModuleName)}/${id}`;
+            }
+            const response = await fetch(url, { method: "DELETE" });
             if (response.ok) success++; else fail++;
           } catch { fail++; }
         });
@@ -824,7 +834,7 @@ export default function AdminContentManager() {
       <div className="mb-4 flex flex-col gap-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h3 className="font-heading text-2xl text-slate-900">{activeDef.label}</h3>
-          {activeDef.kind === "content" ? (
+          {activeDef.kind !== "certifications" ? (
             <div className="flex flex-wrap items-center gap-2">
               {activeModule === "products" && (
                 <div className="mr-2 flex rounded-lg bg-slate-100 p-1">
@@ -867,11 +877,13 @@ export default function AdminContentManager() {
                 ⬆️ {isUploadingCsv ? "Uploading..." : "Bulk Upload CSV"}
               </button>
             </div>
-            {selectedIds.size > 0 && (
-              <button type="button" disabled={isDeletingBulk} onClick={bulkDelete} className="rounded-lg bg-red-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-red-700 transition disabled:opacity-50 shadow-sm">
-                🗑️ {isDeletingBulk ? "Deleting..." : `Delete Selected (${selectedIds.size})`}
-              </button>
-            )}
+          </div>
+        )}
+        {(activeDef.kind === "content" || activeDef.kind === "support") && selectedIds.size > 0 && (
+          <div className="flex flex-wrap items-center gap-3">
+            <button type="button" disabled={isDeletingBulk} onClick={bulkDelete} className="rounded-lg bg-red-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-red-700 transition disabled:opacity-50 shadow-sm">
+              🗑️ {isDeletingBulk ? "Deleting..." : `Delete Selected (${selectedIds.size})`}
+            </button>
           </div>
         )}
       </div>
@@ -880,7 +892,7 @@ export default function AdminContentManager() {
         <table className="min-w-full text-sm">
           <thead className="sticky top-0 z-10">
             <tr className="border-b bg-slate-50 text-left text-slate-600">
-              {activeDef.kind === "content" && (
+              {(activeDef.kind === "content" || activeDef.kind === "support") && (
                 <th className="px-3 py-2 w-10">
                   <input
                     type="checkbox"
@@ -902,7 +914,7 @@ export default function AdminContentManager() {
           <tbody>
             {displayedItems.slice(0, visibleCount).map((row) => (
               <tr key={row.id} className="border-b last:border-b-0 odd:bg-white even:bg-slate-50/50">
-                {activeDef.kind === "content" && (
+                {(activeDef.kind === "content" || activeDef.kind === "support") && (
                   <td className="px-3 py-3 w-10">
                     <input
                       type="checkbox"
@@ -960,6 +972,7 @@ export default function AdminContentManager() {
                     <div className="flex items-center gap-3">
                       <button onClick={() => setViewingItem(row)} className="font-semibold text-blue-700 hover:underline">View</button>
                       {activeModule === "job_applications" && row.resume_url ? <a href={String(row.resume_url)} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-600 hover:underline whitespace-nowrap">Resume</a> : null}
+                      <button onClick={() => deleteRow(row.id)} className="font-semibold text-red-700 hover:underline">Delete</button>
                     </div>
                   )}
                 </td>
