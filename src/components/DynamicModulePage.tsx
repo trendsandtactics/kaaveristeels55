@@ -31,6 +31,10 @@ function formatModuleLabel(module: string): string {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
+function formatModuleRoute(module: string): string {
+  return module.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+}
+
 export default function DynamicModulePage({
   module,
   heading,
@@ -378,7 +382,7 @@ export default function DynamicModulePage({
                         {item.short_description}
                       </p>
                       <div className="mt-4">
-                      <Link href={`/${module}/${item.slug}`} prefetch={true} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
+                      <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
                           View Details
                         </Link>
                       </div>
@@ -497,7 +501,7 @@ export default function DynamicModulePage({
                   </p>
 
                   <div className="mt-4 flex items-center justify-between gap-2">
-                    <Link href={`/${module}/${item.slug}`} prefetch={true} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
+                    <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
                       View Details
                     </Link>
                   </div>
