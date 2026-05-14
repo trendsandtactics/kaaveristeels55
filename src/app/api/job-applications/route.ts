@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/mysql";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const [rows] = await getPool().query("SELECT * FROM job_applications ORDER BY created_at DESC");
     return NextResponse.json({ data: rows });
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       [career_id || null, name, email, phone, cover_letter || "", resume_url || ""]
     );
 
-    return NextResponse.json({ success: true, id: (result as any).insertId });
+    return NextResponse.json({ success: true, id: (result as { insertId: number }).insertId });
   } catch (error) {
     console.error("Create Job Application Error:", error);
     return NextResponse.json({ error: "Failed to submit application" }, { status: 500 });
