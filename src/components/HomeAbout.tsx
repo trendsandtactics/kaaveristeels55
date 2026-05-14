@@ -82,7 +82,7 @@ export default function HomeAbout() {
 
                 {/* Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 md:w-20 md:h-20 bg-accent-red rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 transition duration-300">
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-transparent border-2 border-white rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 transition duration-300">
                     <span className="text-white text-xl md:text-2xl ml-1">▶</span>
                   </div>
                 </div>
