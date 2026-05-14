@@ -7,11 +7,8 @@ import { motion } from "framer-motion";
 
 export default function HomeAbout() {
   const [playVideo, setPlayVideo] = useState(false);
-  const [thumbError, setThumbError] = useState(false);
   const [youtubeVideoId, setYoutubeVideoId] = useState("OFUDOvewAG8");
-
-  const localThumbnail = "/image/video-thumbnail.jpg";
-  const fallbackThumbnail = `https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`;
+  const [thumbnailUrl, setThumbnailUrl] = useState("/image/video-thumbnail.jpg");
 
   useEffect(() => {
     fetch("/api/public/content/aboutUs?limit=1")
@@ -27,6 +24,7 @@ export default function HomeAbout() {
             id = match[2];
           }
           setYoutubeVideoId(id);
+          setThumbnailUrl(`https://img.youtube.com/vi/${id}/maxresdefault.jpg`);
         }
       })
       .catch(() => {});
@@ -69,24 +67,15 @@ export default function HomeAbout() {
                 className="absolute inset-0 cursor-pointer group"
                 onClick={() => setPlayVideo(true)}
               >
-                {!thumbError ? (
                   <Image
-                    src={localThumbnail}
-                    alt="Video Thumbnail"
-                    fill
-                    priority
-                    className="object-cover scale-100 group-hover:scale-105 transition duration-500"
-                    onError={() => setThumbError(true)}
-                  />
-                ) : (
-                  <Image
-                    src={fallbackThumbnail}
+                    src={thumbnailUrl}
                     alt="YouTube Video Thumbnail"
                     fill
-                    unoptimized
+                    priority
+                    unoptimized={thumbnailUrl.includes('youtube.com')}
+                    onError={() => setThumbnailUrl(`https://img.youtube.com/vi/${youtubeVideoId}/hqdefault.jpg`)}
                     className="object-cover scale-100 group-hover:scale-105 transition duration-500"
                   />
-                )}
 
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-black/15 group-hover:bg-black/25 transition duration-300" />

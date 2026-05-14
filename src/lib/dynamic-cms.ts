@@ -14,6 +14,9 @@ export const MODULE_TABLES = {
   popups: "popups",
   certifications: "certifications",
   csr: "csr",
+  aboutUs: "about_us",
+  pages: "pages",
+  calculators: "calculators",
 } as const;
 
 export type ModuleKey = keyof typeof MODULE_TABLES;
@@ -118,6 +121,9 @@ export async function ensureDynamicCmsTables(): Promise<void> {
   await pool.query(baseContentTable("popups"));
   await pool.query(baseContentTable("certifications"));
   await pool.query(baseContentTable("csr"));
+  await pool.query(baseContentTable("about_us"));
+  await pool.query(baseContentTable("pages"));
+  await pool.query(baseContentTable("calculators"));
 
   await pool.query(`
     CREATE TABLE IF NOT EXISTS product_categories (
