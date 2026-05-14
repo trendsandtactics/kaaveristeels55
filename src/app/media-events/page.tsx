@@ -15,16 +15,26 @@ interface PageProps {
   };
 }
 
+interface MediaEventItem {
+  slug: string;
+  title?: string | null;
+  short_description?: string | null;
+  content?: string | null;
+  cover_image?: string | null;
+  file_url?: string | null;
+  extra_data?: string | Record<string, string> | null;
+}
+
 export async function generateStaticParams() {
   const items = await listModuleItems("mediaEvents", { status: "published" });
-  return items.map((item: any) => ({
+  return items.map((item: MediaEventItem) => ({
     slug: item.slug,
   }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
   const items = await listModuleItems("mediaEvents", { status: "published" });
-  const item = items.find((i: any) => i.slug === params.slug);
+  const item = items.find((i: MediaEventItem) => i.slug === params.slug);
 
   if (!item) return { title: "Not Found | Media & Events | KAAVERI Steels" };
 
@@ -37,7 +47,7 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function MediaEventDetailPage({ params }: PageProps) {
   // 1. Fetch all published events and match the current slug
   const items = await listModuleItems("mediaEvents", { status: "published" });
-  const item = items.find((i: any) => i.slug === params.slug);
+  const item = items.find((i: MediaEventItem) => i.slug === params.slug);
 
   // 2. If no event matches the URL slug, trigger the Next.js 404 page gracefully
   if (!item) {
