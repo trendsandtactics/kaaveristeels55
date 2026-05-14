@@ -381,7 +381,7 @@ export default function DynamicModulePage({
                       <p className="text-sm text-black/65 mt-2 line-clamp-3">
                         {item.short_description}
                       </p>
-                      {!isVideoEvent && (
+                      {module !== "mediaEvents" && (
                         <div className="mt-4">
                           <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
                             View Details
@@ -502,7 +502,7 @@ export default function DynamicModulePage({
                     {item.short_description}
                   </p>
 
-                  {!isVideoEvent && (
+                  {module !== "mediaEvents" && (
                     <div className="mt-4 flex items-center justify-between gap-2">
                       <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
                         View Details
