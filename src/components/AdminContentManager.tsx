@@ -3,6 +3,7 @@
 import AdminCertificationsPanel from "@/components/AdminCertificationsPanel";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { revalidateModuleCache } from "@/app/actions";
 
 type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators" | "aboutUs";
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
@@ -213,6 +214,7 @@ export default function AdminContentManager() {
       setMessage(editingId ? "Updated successfully." : "Created successfully.");
       resetForm();
       adminCache.clear();
+      await revalidateModuleCache();
       fetchItems(true);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Save failed.");
@@ -236,6 +238,7 @@ export default function AdminContentManager() {
     }
     setMessage("Deleted.");
     adminCache.clear();
+    await revalidateModuleCache();
     fetchItems(true);
   };
 
@@ -268,6 +271,7 @@ export default function AdminContentManager() {
       setMessage(`Bulk delete complete. ${success} deleted, ${fail} failed.`);
       setSelectedIds(new Set());
       adminCache.clear();
+      await revalidateModuleCache();
       fetchItems(true);
     } catch {
       setMessage("Bulk delete failed due to network error.");
@@ -415,6 +419,7 @@ export default function AdminContentManager() {
       setMessage(`Bulk upload complete. ${successCount} added, ${errorCount} failed.`);
       if (csvUploadRef.current) csvUploadRef.current.value = "";
       adminCache.clear();
+      await revalidateModuleCache();
       fetchItems(true);
       setIsUploadingCsv(false);
     };
