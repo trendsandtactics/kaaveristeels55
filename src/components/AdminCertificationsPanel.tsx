@@ -83,12 +83,13 @@ export default function AdminCertificationsPanel() {
   };
 
   const loadItems = useCallback(async (bypassCache = false) => {
-    const url = "/api/certifications";
-    if (!bypassCache && certCache.has(url)) {
-      setItems(certCache.get(url)!);
+    const baseUrl = "/api/certifications";
+    const url = bypassCache ? `${baseUrl}?_t=${Date.now()}` : baseUrl;
+    if (!bypassCache && certCache.has(baseUrl)) {
+      setItems(certCache.get(baseUrl)!);
     }
 
-    const response = await fetch(url, { cache: "no-cache" });
+    const response = await fetch(url, { cache: "no-store" });
     const data = await readApiResponse(response);
 
     if (!response.ok) {
@@ -100,7 +101,7 @@ export default function AdminCertificationsPanel() {
       fileUrl: item.fileUrl || `/api/certifications/${item.id}/file`,
     }));
 
-    certCache.set(url, certifications);
+    certCache.set(baseUrl, certifications);
     setItems(certifications);
   }, []);
 

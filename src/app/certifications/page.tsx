@@ -28,7 +28,8 @@ export default function CertificationsPage() {
       setLoading(true);
       setError("");
 
-      const response = await fetch("/api/certifications", {
+      // Add a timestamp query to completely bypass Next.js and browser caching
+      const response = await fetch(`/api/certifications?_t=${Date.now()}`, {
         cache: "no-store",
       });
 
