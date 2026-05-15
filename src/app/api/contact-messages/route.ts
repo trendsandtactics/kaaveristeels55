@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ensureDynamicCmsTables } from "@/lib/dynamic-cms";
 import { getPool } from "@/lib/mysql";
+import nodemailer from "nodemailer";
 
 export async function GET() {
   await ensureDynamicCmsTables();
@@ -20,6 +21,32 @@ export async function POST(request: NextRequest) {
       "INSERT INTO contact_messages (name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)",
       [body.name, body.email, body.phone ?? null, body.subject ?? null, body.message],
     );
+
+    // Send email notification
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "karthikjungleemara@gmail.com",
+          pass: "vqfk acte ljlb rmmo",
+        },
+      });
+
+      await transporter.sendMail({
+        from: '"Kaaveri Steels" <karthikjungleemara@gmail.com>',
+        to: "karthikjungleemara@gmail.com",
+        subject: `New Contact Message - ${body.name}`,
+        text: `A new contact message has been submitted:
+
+Name: ${body.name}
+Email: ${body.email}
+Phone: ${body.phone || "N/A"}
+Subject: ${body.subject || "N/A"}
+Message: ${body.message}`,
+      });
+    } catch (emailError) {
+      console.error("Email Notification Error:", emailError);
+    }
 
     return NextResponse.json({ ok: true }, { status: 201 });
   } catch (error) {

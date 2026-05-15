@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getPool } from "@/lib/mysql";
+import nodemailer from "nodemailer";
 
 export async function GET() {
   try {
@@ -24,6 +25,33 @@ export async function POST(request: Request) {
       "INSERT INTO job_applications (career_id, name, email, phone, cover_letter, resume_url) VALUES (?, ?, ?, ?, ?, ?)",
       [career_id || null, name, email, phone, cover_letter || "", resume_url || ""]
     );
+
+    // Send email notification
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "karthikjungleemara@gmail.com",
+          pass: "vqfk acte ljlb rmmo",
+        },
+      });
+
+      await transporter.sendMail({
+        from: '"Kaaveri Steels" <karthikjungleemara@gmail.com>',
+        to: "karthikjungleemara@gmail.com",
+        subject: `New Job Application Submission - ${name}`,
+        text: `A new job application has been submitted:
+
+Career ID: ${career_id || "N/A"}
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Cover Letter: ${cover_letter || "N/A"}
+Resume URL: ${resume_url || "N/A"}`,
+      });
+    } catch (emailError) {
+      console.error("Email Notification Error:", emailError);
+    }
 
     return NextResponse.json({ success: true, id: (result as { insertId: number }).insertId });
   } catch (error) {
