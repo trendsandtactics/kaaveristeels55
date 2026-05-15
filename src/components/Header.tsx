@@ -110,7 +110,7 @@ export default function Header() {
               {/* Logo */}
               <Link
                 href="/"
-                className="flex items-center shrink-0 mr-10 xl:mr-14"
+                className="flex items-center shrink-0 mr-3 xl:mr-5"
               >
                 <Image
                   src="/logo4.png"
@@ -122,7 +122,7 @@ export default function Header() {
                 />
               </Link>
 
-              {/* Desktop Menu */}
+              {/* Desktop */}
               <nav className="hidden xl:flex items-center gap-6">
                 {navLinks.map((link) => (
                   <Link
@@ -161,21 +161,10 @@ export default function Header() {
                   <AnimatePresence>
                     {mediaDropdownOpen && (
                       <motion.div
-                        initial={{
-                          opacity: 0,
-                          y: 10,
-                        }}
-                        animate={{
-                          opacity: 1,
-                          y: 0,
-                        }}
-                        exit={{
-                          opacity: 0,
-                          y: 10,
-                        }}
-                        transition={{
-                          duration: 0.2,
-                        }}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
                         className="absolute right-0 top-full mt-3 z-50 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                       >
                         <div className="grid gap-2">
@@ -213,21 +202,10 @@ export default function Header() {
                   <AnimatePresence>
                     {supportDropdownOpen && (
                       <motion.div
-                        initial={{
-                          opacity: 0,
-                          y: 10,
-                        }}
-                        animate={{
-                          opacity: 1,
-                          y: 0,
-                        }}
-                        exit={{
-                          opacity: 0,
-                          y: 10,
-                        }}
-                        transition={{
-                          duration: 0.2,
-                        }}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
                         className="absolute right-0 top-full mt-3 z-50 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                       >
                         <div className="grid gap-2">
@@ -260,7 +238,6 @@ export default function Header() {
                   Contact Us
                 </Link>
 
-                {/* CTA */}
                 <Link
                   href="/product-enquiry"
                   className="inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-full bg-red-600 px-5 h-10 text-[10px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-red-700"
