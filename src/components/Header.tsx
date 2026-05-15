@@ -40,8 +40,7 @@ export default function Header() {
   const mediaDropdownRef = useRef<HTMLDivElement | null>(null);
   const supportDropdownRef = useRef<HTMLDivElement | null>(null);
 
-  // TYPOGRAPHY: 14px, Bold, Uppercase, Non-wrapping
-  const navItemStyles = "text-[14px] leading-none uppercase tracking-[0.14em] font-bold whitespace-nowrap transition-all duration-300";
+  const navItemStyles = "text-[13px] xl:text-[14px] leading-none uppercase tracking-[0.12em] font-bold whitespace-nowrap transition-all duration-300";
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -80,35 +79,36 @@ export default function Header() {
         transparent ? "pt-6" : "pt-4"
       }`}
     >
-      {/* Max width increased to [1440px] to accommodate the full horizontal menu */}
       <div className="max-w-[1440px] mx-auto px-4 md:px-6">
         <div
-          className={`transition-all duration-500 rounded-full ${
+          className={`transition-all duration-500 rounded-full overflow-hidden ${
             transparent
               ? "bg-transparent"
               : "bg-white/95 backdrop-blur-xl border border-black/5 shadow-[0_10px_40px_rgba(0,0,0,0.08)]"
           }`}
         >
-          {/* Header Height: Increased to 100px / 90px for more breathing room */}
           <div
-            className={`flex items-center justify-between transition-all duration-500 px-6 md:px-10 xl:px-12 ${
+            className={`flex items-center transition-all duration-500 px-6 md:px-10 xl:px-10 ${
               transparent ? "h-[100px]" : "h-[90px]"
             }`}
           >
-            {/* Logo: Sized up for better visibility */}
+            {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
               <Image
                 src="/logo4.png"
                 alt="Kaaveri TMT"
-                width={300}
-                height={90}
+                width={280}
+                height={80}
                 priority
-                className="h-14 md:h-16 xl:h-18 w-auto object-contain"
+                className="h-12 md:h-14 xl:h-15 w-auto object-contain"
               />
             </Link>
 
-            {/* Desktop Navigation: perfectly centered vertically via items-center */}
-            <nav className="hidden xl:flex items-center gap-8 2xl:gap-10">
+            {/* SPACER: This creates the gap between Logo and Nav */}
+            <div className="flex-1 min-w-[40px]" />
+
+            {/* Desktop Menu */}
+            <nav className="hidden xl:flex items-center gap-6 2xl:gap-9">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -124,7 +124,7 @@ export default function Header() {
                 </Link>
               ))}
 
-              {/* Media Dropdown Button */}
+              {/* Media Dropdown */}
               <div className="relative flex items-center" ref={mediaDropdownRef}>
                 <button
                   onClick={() => {
@@ -161,7 +161,7 @@ export default function Header() {
                 </AnimatePresence>
               </div>
 
-              {/* Support Dropdown Button */}
+              {/* Support Dropdown */}
               <div className="relative flex items-center" ref={supportDropdownRef}>
                 <button
                   onClick={() => {
@@ -206,72 +206,27 @@ export default function Header() {
                 Contact Us
               </Link>
 
-              {/* Request Quote Button: Increased height to match header scale */}
+              {/* Request Quote Button */}
               <Link
                 href="/product-enquiry"
-                className="inline-flex items-center justify-center rounded-full bg-red-600 px-8 h-14 text-[14px] font-bold uppercase tracking-[0.14em] text-white transition-all hover:bg-red-700 active:scale-95 shadow-md ml-2"
+                className="inline-flex items-center justify-center rounded-full bg-red-600 px-7 h-12 text-[13px] font-bold uppercase tracking-[0.14em] text-white transition-all hover:bg-red-700 shadow-md ml-2"
               >
                 Request Quote
               </Link>
             </nav>
 
-            {/* Mobile Hamburger Menu */}
+            {/* Mobile Toggle */}
             <button
-              className="xl:hidden flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md border border-black/5"
+              className="xl:hidden flex items-center justify-center w-11 h-11 rounded-full bg-white shadow-md border border-black/5"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-7 h-7">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
           </div>
         </div>
       </div>
-
-      {/* Mobile Drawer */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-white z-40 pt-32 px-6 overflow-y-auto"
-          >
-            <div className="flex flex-col items-center gap-6 pb-20">
-              {navLinks.map((link) => (
-                <Link key={link.href} href={link.href} className="text-xl font-bold uppercase tracking-[0.12em]">
-                  {link.name}
-                </Link>
-              ))}
-              <div className="w-full max-w-md pt-4 border-t border-black/5">
-                <div className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-black/40 mb-6">Media</div>
-                <div className="grid gap-2">
-                  {mediaLinks.map((item) => (
-                    <Link key={item.href} href={item.href} className="rounded-xl px-4 py-3 text-center text-base font-medium hover:bg-yellow-50">
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <div className="w-full max-w-md pt-4 border-t border-black/5">
-                <div className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-black/40 mb-6">Support</div>
-                <div className="grid gap-2">
-                  {supportLinks.map((item) => (
-                    <Link key={item.href} href={item.href} className="rounded-xl px-4 py-3 text-center text-base font-medium hover:bg-yellow-50">
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <Link href="/careers" className="text-xl font-bold uppercase tracking-[0.12em]">Careers</Link>
-              <Link href="/contact-us" className="text-xl font-bold uppercase tracking-[0.12em]">Contact Us</Link>
-              <Link href="/product-enquiry" className="rounded-full bg-red-600 px-10 py-5 text-base font-bold uppercase text-white shadow-lg">
-                Request Quote
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   );
 }
