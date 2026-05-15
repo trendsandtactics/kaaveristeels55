@@ -57,7 +57,8 @@ export default function Header() {
       passive: true,
     });
 
-    return () => window.removeEventListener("scroll", onScroll);
+    return () =>
+      window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -76,9 +77,16 @@ export default function Header() {
       }
     };
 
-    document.addEventListener("mousedown", onClickOutside);
+    document.addEventListener(
+      "mousedown",
+      onClickOutside
+    );
 
-    return () => document.removeEventListener("mousedown", onClickOutside);
+    return () =>
+      document.removeEventListener(
+        "mousedown",
+        onClickOutside
+      );
   }, []);
 
   const isHome = pathname === "/";
@@ -101,29 +109,34 @@ export default function Header() {
         >
           <div
             className={`flex items-center justify-between transition-all duration-500 px-5 md:px-8 xl:px-10 ${
-              transparent ? "h-[82px]" : "h-[72px]"
+              transparent ? "h-[92px]" : "h-[82px]"
             }`}
           >
-            {/* Logo */}
-            <Link href="/" className="flex items-center shrink-0">
+            {/* Logo - Size Increased */}
+            <Link
+              href="/"
+              className="flex items-center shrink-0"
+            >
               <Image
                 src="/logo4.png"
                 alt="Kaaveri TMT"
-                width={240}
-                height={76}
+                width={280}
+                height={80}
                 priority
-                className="h-10 md:h-12 xl:h-14 w-auto object-contain"
+                className="h-11 md:h-13 xl:h-16 w-auto object-contain"
               />
             </Link>
 
-            {/* Desktop Menu */}
-            <nav className="hidden xl:flex items-center gap-8">
+            {/* Desktop Menu - Font Size Increased to 14px */}
+            <nav className="hidden xl:flex items-center gap-10">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative text-[11px] uppercase tracking-[0.14em] font-semibold transition-colors duration-300 hover:text-red-600 ${
-                    pathname === link.href ? "text-black" : "text-black/80"
+                  className={`relative text-[14px] uppercase tracking-[0.14em] font-bold transition-colors duration-300 hover:text-red-600 ${
+                    pathname === link.href
+                      ? "text-black"
+                      : "text-black/80"
                   }`}
                 >
                   {link.name}
@@ -135,16 +148,19 @@ export default function Header() {
               ))}
 
               {/* Media Dropdown */}
-              <div className="relative" ref={mediaDropdownRef}>
+              <div
+                className="relative"
+                ref={mediaDropdownRef}
+              >
                 <button
                   onClick={() => {
                     setMediaDropdownOpen((prev) => !prev);
                     setSupportDropdownOpen(false);
                   }}
-                  className="flex items-center gap-1 text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
+                  className="flex items-center gap-1 text-[14px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600 transition"
                 >
                   Media
-                  <span className="text-[9px]">▾</span>
+                  <span className="text-[11px]">▾</span>
                 </button>
 
                 <AnimatePresence>
@@ -154,14 +170,14 @@ export default function Header() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 12 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 top-full mt-5 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                      className="absolute right-0 top-full mt-5 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                     >
                       <div className="grid grid-cols-1 gap-2">
                         {mediaLinks.map((item) => (
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="rounded-xl px-3 py-2 text-sm text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
+                            className="rounded-xl px-4 py-3 text-[13px] font-medium text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
                           >
                             {item.name}
                           </Link>
@@ -173,16 +189,19 @@ export default function Header() {
               </div>
 
               {/* Support Dropdown */}
-              <div className="relative" ref={supportDropdownRef}>
+              <div
+                className="relative"
+                ref={supportDropdownRef}
+              >
                 <button
                   onClick={() => {
                     setSupportDropdownOpen((prev) => !prev);
                     setMediaDropdownOpen(false);
                   }}
-                  className="flex items-center gap-1 text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
+                  className="flex items-center gap-1 text-[14px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600 transition"
                 >
                   Support
-                  <span className="text-[9px]">▾</span>
+                  <span className="text-[11px]">▾</span>
                 </button>
 
                 <AnimatePresence>
@@ -192,14 +211,14 @@ export default function Header() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 12 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 top-full mt-5 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                      className="absolute right-0 top-full mt-5 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                     >
                       <div className="grid grid-cols-1 gap-2">
                         {supportLinks.map((item) => (
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="rounded-xl px-3 py-2 text-sm text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
+                            className="rounded-xl px-4 py-3 text-[13px] font-medium text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
                           >
                             {item.name}
                           </Link>
@@ -213,7 +232,7 @@ export default function Header() {
               {/* Careers */}
               <Link
                 href="/careers"
-                className="text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
+                className="text-[14px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600 transition"
               >
                 Careers
               </Link>
@@ -221,15 +240,15 @@ export default function Header() {
               {/* Contact Us */}
               <Link
                 href="/contact-us"
-                className="text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
+                className="text-[14px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600 transition"
               >
                 Contact Us
               </Link>
 
-              {/* CTA */}
+              {/* CTA - Size Balanced */}
               <Link
                 href="/product-enquiry"
-                className="inline-flex items-center justify-center rounded-full bg-red-600 px-6 h-11 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-red-700"
+                className="inline-flex items-center justify-center rounded-full bg-red-600 px-8 h-12 text-[13px] font-bold uppercase tracking-[0.14em] text-white transition hover:bg-red-700"
               >
                 Request Quote
               </Link>
@@ -237,8 +256,10 @@ export default function Header() {
 
             {/* Hamburger */}
             <button
-              className="xl:hidden flex items-center justify-center w-11 h-11 rounded-full bg-white shadow-md"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="xl:hidden flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md"
+              onClick={() =>
+                setMobileMenuOpen(!mobileMenuOpen)
+              }
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -246,7 +267,7 @@ export default function Header() {
                 viewBox="0 0 24 24"
                 strokeWidth={2}
                 stroke="currentColor"
-                className="w-6 h-6"
+                className="w-7 h-7"
               >
                 <path
                   strokeLinecap="round"
@@ -259,7 +280,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Content Remains Same */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -273,14 +294,14 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-lg font-semibold uppercase tracking-[0.12em]"
+                  className="text-xl font-bold uppercase tracking-[0.12em]"
                 >
                   {link.name}
                 </Link>
               ))}
 
               <div className="w-full max-w-md pt-4">
-                <div className="text-center text-sm font-bold uppercase tracking-[0.16em] mb-4">
+                <div className="text-center text-base font-black uppercase tracking-[0.16em] mb-4">
                   Media
                 </div>
 
@@ -289,7 +310,7 @@ export default function Header() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="rounded-xl px-4 py-3 text-center text-sm hover:bg-yellow-50"
+                      className="rounded-xl px-4 py-3 text-center text-base hover:bg-yellow-50"
                     >
                       {item.name}
                     </Link>
@@ -298,7 +319,7 @@ export default function Header() {
               </div>
 
               <div className="w-full max-w-md pt-4">
-                <div className="text-center text-sm font-bold uppercase tracking-[0.16em] mb-4">
+                <div className="text-center text-base font-black uppercase tracking-[0.16em] mb-4">
                   Support
                 </div>
 
@@ -307,7 +328,7 @@ export default function Header() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="rounded-xl px-4 py-3 text-center text-sm hover:bg-yellow-50"
+                      className="rounded-xl px-4 py-3 text-center text-base hover:bg-yellow-50"
                     >
                       {item.name}
                     </Link>
@@ -317,21 +338,21 @@ export default function Header() {
 
               <Link
                 href="/careers"
-                className="text-lg font-semibold uppercase tracking-[0.12em]"
+                className="text-xl font-bold uppercase tracking-[0.12em]"
               >
                 Careers
               </Link>
 
               <Link
                 href="/contact-us"
-                className="text-lg font-semibold uppercase tracking-[0.12em]"
+                className="text-xl font-bold uppercase tracking-[0.12em]"
               >
                 Contact Us
               </Link>
 
               <Link
                 href="/product-enquiry"
-                className="rounded-full bg-red-600 px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-white"
+                className="rounded-full bg-red-600 px-10 py-5 text-base font-bold uppercase tracking-[0.14em] text-white"
               >
                 Request Quote
               </Link>
