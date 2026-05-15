@@ -77,16 +77,10 @@ export default function Header() {
       }
     };
 
-    document.addEventListener(
-      "mousedown",
-      onClickOutside
-    );
+    document.addEventListener("mousedown", onClickOutside);
 
     return () =>
-      document.removeEventListener(
-        "mousedown",
-        onClickOutside
-      );
+      document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
   const isHome = pathname === "/";
@@ -113,17 +107,14 @@ export default function Header() {
             }`}
           >
             {/* Logo */}
-            <Link
-              href="/"
-              className="flex items-center shrink-0"
-            >
+            <Link href="/" className="flex items-center shrink-0">
               <Image
                 src="/logo4.png"
                 alt="Kaaveri TMT"
                 width={210}
                 height={90}
                 priority
-                className="h-14 md:h-14 xl:h-11 w-auto object-contain"
+                className="h-16 md:h-16 xl:h-11 w-auto object-contain"
               />
             </Link>
 
@@ -148,10 +139,7 @@ export default function Header() {
               ))}
 
               {/* Media Dropdown */}
-              <div
-                className="relative"
-                ref={mediaDropdownRef}
-              >
+              <div className="relative" ref={mediaDropdownRef}>
                 <button
                   onClick={() => {
                     setMediaDropdownOpen((prev) => !prev);
@@ -189,10 +177,7 @@ export default function Header() {
               </div>
 
               {/* Support Dropdown */}
-              <div
-                className="relative"
-                ref={supportDropdownRef}
-              >
+              <div className="relative" ref={supportDropdownRef}>
                 <button
                   onClick={() => {
                     setSupportDropdownOpen((prev) => !prev);
@@ -257,9 +242,7 @@ export default function Header() {
             {/* Hamburger */}
             <button
               className="xl:hidden flex items-center justify-center w-11 h-11 rounded-full bg-white shadow-md"
-              onClick={() =>
-                setMobileMenuOpen(!mobileMenuOpen)
-              }
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
