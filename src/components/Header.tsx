@@ -98,8 +98,8 @@ export default function Header() {
         transparent ? "pt-5" : "pt-4"
       }`}
     >
-      {/* Navbar */}
       <div className="max-w-7xl mx-auto px-3 md:px-6">
+        {/* RELATIVE added, OVERFLOW-HIDDEN removed to fix dropdown */}
         <div
           className={`transition-all duration-500 rounded-full relative ${
             transparent
@@ -112,7 +112,6 @@ export default function Header() {
               transparent ? "h-[92px]" : "h-[82px]"
             }`}
           >
-            {/* Logo */}
             <Link
               href="/"
               className="flex items-center shrink-0"
@@ -127,7 +126,6 @@ export default function Header() {
               />
             </Link>
 
-            {/* Desktop Menu */}
             <nav className="hidden xl:flex items-center gap-10">
               {navLinks.map((link) => (
                 <Link
@@ -170,7 +168,7 @@ export default function Header() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 12 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute left-0 top-[80%] mt-5 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)] z-[110]"
+                      className="absolute left-0 top-full mt-2 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)] z-[110]"
                     >
                       <div className="grid grid-cols-1 gap-2">
                         {mediaLinks.map((item) => (
@@ -211,7 +209,7 @@ export default function Header() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 12 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute left-0 top-[80%] mt-5 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)] z-[110]"
+                      className="absolute left-0 top-full mt-2 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)] z-[110]"
                     >
                       <div className="grid grid-cols-1 gap-2">
                         {supportLinks.map((item) => (
@@ -229,7 +227,6 @@ export default function Header() {
                 </AnimatePresence>
               </div>
 
-              {/* Careers */}
               <Link
                 href="/careers"
                 className="text-[14px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600 transition"
@@ -237,7 +234,6 @@ export default function Header() {
                 Careers
               </Link>
 
-              {/* Contact Us */}
               <Link
                 href="/contact-us"
                 className="text-[14px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600 transition"
@@ -245,7 +241,6 @@ export default function Header() {
                 Contact Us
               </Link>
 
-              {/* CTA */}
               <Link
                 href="/product-enquiry"
                 className="inline-flex items-center justify-center rounded-full bg-red-600 px-8 h-12 text-[13px] font-bold uppercase tracking-[0.14em] text-white transition hover:bg-red-700"
@@ -254,12 +249,9 @@ export default function Header() {
               </Link>
             </nav>
 
-            {/* Hamburger */}
             <button
               className="xl:hidden flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md"
-              onClick={() =>
-                setMobileMenuOpen(!mobileMenuOpen)
-              }
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -269,95 +261,12 @@ export default function Header() {
                 stroke="currentColor"
                 className="w-7 h-7"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu Content */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-white z-40 pt-28 px-6 overflow-y-auto"
-          >
-            <div className="flex flex-col items-center gap-6 pb-12">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-xl font-bold uppercase tracking-[0.12em]"
-                >
-                  {link.name}
-                </Link>
-              ))}
-
-              <div className="w-full max-w-md pt-4">
-                <div className="text-center text-base font-black uppercase tracking-[0.16em] mb-4">
-                  Media
-                </div>
-                <div className="grid gap-2">
-                  {mediaLinks.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="rounded-xl px-4 py-3 text-center text-base hover:bg-yellow-50"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="w-full max-w-md pt-4">
-                <div className="text-center text-base font-black uppercase tracking-[0.16em] mb-4">
-                  Support
-                </div>
-                <div className="grid gap-2">
-                  {supportLinks.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="rounded-xl px-4 py-3 text-center text-base hover:bg-yellow-50"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <Link
-                href="/careers"
-                className="text-xl font-bold uppercase tracking-[0.12em]"
-              >
-                Careers
-              </Link>
-
-              <Link
-                href="/contact-us"
-                className="text-xl font-bold uppercase tracking-[0.12em]"
-              >
-                Contact Us
-              </Link>
-
-              <Link
-                href="/product-enquiry"
-                className="rounded-full bg-red-600 px-10 py-5 text-base font-bold uppercase tracking-[0.14em] text-white"
-              >
-                Request Quote
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   );
 }
