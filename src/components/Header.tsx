@@ -57,8 +57,7 @@ export default function Header() {
       passive: true,
     });
 
-    return () =>
-      window.removeEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -77,16 +76,9 @@ export default function Header() {
       }
     };
 
-    document.addEventListener(
-      "mousedown",
-      onClickOutside
-    );
+    document.addEventListener("mousedown", onClickOutside);
 
-    return () =>
-      document.removeEventListener(
-        "mousedown",
-        onClickOutside
-      );
+    return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
   const isHome = pathname === "/";
@@ -99,7 +91,6 @@ export default function Header() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-3 md:px-6">
-        {/* RELATIVE added, OVERFLOW-HIDDEN removed to fix dropdown */}
         <div
           className={`transition-all duration-500 rounded-full relative ${
             transparent
@@ -112,9 +103,10 @@ export default function Header() {
               transparent ? "h-[92px]" : "h-[82px]"
             }`}
           >
+            {/* Logo — fixed min-width so nav never crowds it */}
             <Link
               href="/"
-              className="flex items-center shrink-0"
+              className="flex items-center shrink-0 min-w-[240px]"
             >
               <Image
                 src="/logo4.png"
@@ -126,7 +118,8 @@ export default function Header() {
               />
             </Link>
 
-            <nav className="hidden xl:flex items-center gap-10">
+            {/* Desktop Nav — ml-16 creates a clean gap after the logo */}
+            <nav className="hidden xl:flex items-center gap-8 ml-16">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -243,12 +236,13 @@ export default function Header() {
 
               <Link
                 href="/product-enquiry"
-                className="inline-flex items-center justify-center rounded-full bg-red-600 px-8 h-12 text-[13px] font-bold uppercase tracking-[0.14em] text-white transition hover:bg-red-700"
+                className="inline-flex items-center justify-center rounded-full bg-red-600 px-8 h-12 text-[13px] font-bold uppercase tracking-[0.14em] text-white transition hover:bg-red-700 whitespace-nowrap ml-2"
               >
                 Request Quote
               </Link>
             </nav>
 
+            {/* Mobile Hamburger */}
             <button
               className="xl:hidden flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -261,7 +255,11 @@ export default function Header() {
                 stroke="currentColor"
                 className="w-7 h-7"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             </button>
           </div>
