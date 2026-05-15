@@ -88,20 +88,23 @@ export default function Header() {
           transparent ? "pt-4" : "pt-3"
         }`}
       >
-        <div className="max-w-[1400px] mx-auto px-3">
+        {/* Center Wrapper */}
+        <div className="max-w-[1400px] mx-auto px-3 flex justify-center">
+          
+          {/* Navbar Container */}
           <div
-            className={`rounded-full overflow-visible transition-all duration-500 ${
+            className={`w-fit rounded-full overflow-visible transition-all duration-500 ${
               transparent
                 ? "bg-transparent"
                 : "bg-white/95 backdrop-blur-xl border border-black/5 shadow-[0_10px_40px_rgba(0,0,0,0.08)]"
             }`}
           >
-            <div className="h-[82px] px-8 flex items-center">
+            <div className="h-[82px] px-8 flex items-center gap-8">
 
               {/* Logo */}
               <Link
                 href="/"
-                className="flex items-center ml-4 mr-8 shrink-0"
+                className="flex items-center shrink-0"
               >
                 <Image
                   src="/logo4.png"
@@ -134,7 +137,7 @@ export default function Header() {
                   </Link>
                 ))}
 
-                {/* Media */}
+                {/* Media Dropdown */}
                 <div
                   className="relative"
                   ref={mediaDropdownRef}
@@ -175,7 +178,7 @@ export default function Header() {
                   </AnimatePresence>
                 </div>
 
-                {/* Support */}
+                {/* Support Dropdown */}
                 <div
                   className="relative"
                   ref={supportDropdownRef}
@@ -216,16 +219,18 @@ export default function Header() {
                   </AnimatePresence>
                 </div>
 
+                {/* Careers */}
                 <Link
                   href="/careers"
-                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold"
+                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600"
                 >
                   Careers
                 </Link>
 
+                {/* Contact */}
                 <Link
                   href="/contact-us"
-                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold"
+                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600"
                 >
                   Contact Us
                 </Link>
@@ -233,13 +238,13 @@ export default function Header() {
                 {/* CTA */}
                 <Link
                   href="/product-enquiry"
-                  className="inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-full bg-red-600 px-6 h-11 text-[11px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-red-700"
+                  className="inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-full bg-red-600 px-6 h-11 text-[11px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-red-700 transition-colors duration-300"
                 >
                   Request Quote
                 </Link>
               </nav>
 
-              {/* Mobile */}
+              {/* Mobile Menu Button */}
               <button
                 className="xl:hidden ml-auto flex items-center justify-center w-11 h-11 rounded-full bg-white shadow-md"
                 onClick={() =>
