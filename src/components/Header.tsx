@@ -40,7 +40,8 @@ export default function Header() {
   const mediaDropdownRef = useRef<HTMLDivElement | null>(null);
   const supportDropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const navItemStyles = "text-[13px] xl:text-[14px] leading-none uppercase tracking-[0.12em] font-bold whitespace-nowrap transition-all duration-300";
+  // Consistent styles for 14px perfectly aligned text
+  const navItemStyles = "text-[14px] leading-none uppercase tracking-[0.12em] font-bold whitespace-nowrap transition-all duration-300";
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -80,8 +81,9 @@ export default function Header() {
       }`}
     >
       <div className="max-w-[1440px] mx-auto px-4 md:px-6">
+        {/* Fixed: Removed overflow-hidden so dropdowns can show */}
         <div
-          className={`transition-all duration-500 rounded-full overflow-hidden ${
+          className={`transition-all duration-500 rounded-full relative ${
             transparent
               ? "bg-transparent"
               : "bg-white/95 backdrop-blur-xl border border-black/5 shadow-[0_10px_40px_rgba(0,0,0,0.08)]"
@@ -104,11 +106,11 @@ export default function Header() {
               />
             </Link>
 
-            {/* SPACER: This creates the gap between Logo and Nav */}
-            <div className="flex-1 min-w-[40px]" />
+            {/* Spacer between Logo and Navigation */}
+            <div className="flex-1 min-w-[30px]" />
 
             {/* Desktop Menu */}
-            <nav className="hidden xl:flex items-center gap-6 2xl:gap-9">
+            <nav className="hidden xl:flex items-center gap-6 2xl:gap-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -125,32 +127,34 @@ export default function Header() {
               ))}
 
               {/* Media Dropdown */}
-              <div className="relative flex items-center" ref={mediaDropdownRef}>
+              <div className="relative flex items-center h-full" ref={mediaDropdownRef}>
                 <button
                   onClick={() => {
                     setMediaDropdownOpen((prev) => !prev);
                     setSupportDropdownOpen(false);
                   }}
-                  className={`flex items-center gap-1.5 ${navItemStyles} text-black/80 hover:text-red-600`}
+                  className={`flex items-center gap-1.5 ${navItemStyles} ${
+                    mediaDropdownOpen ? "text-red-600" : "text-black/80"
+                  } hover:text-red-600`}
                 >
                   Media
-                  <span className="text-[10px] translate-y-[1px]">▼</span>
+                  <span className={`text-[10px] transition-transform duration-300 ${mediaDropdownOpen ? "rotate-180" : ""}`}>▼</span>
                 </button>
 
                 <AnimatePresence>
                   {mediaDropdownOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 12 }}
+                      initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 12 }}
-                      className="absolute right-0 top-full mt-6 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                      exit={{ opacity: 0, y: 15 }}
+                      className="absolute left-1/2 -translate-x-1/2 top-[calc(100%-10px)] w-[260px] rounded-2xl border border-black/5 bg-white p-4 shadow-[0_20px_50px_rgba(0,0,0,0.12)] z-[60]"
                     >
                       <div className="flex flex-col gap-1">
                         {mediaLinks.map((item) => (
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="rounded-xl px-4 py-3 text-[13px] font-semibold text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
+                            className="rounded-lg px-4 py-2.5 text-[13px] font-semibold text-black/70 hover:bg-red-50 hover:text-red-600 transition-all"
                           >
                             {item.name}
                           </Link>
@@ -162,32 +166,34 @@ export default function Header() {
               </div>
 
               {/* Support Dropdown */}
-              <div className="relative flex items-center" ref={supportDropdownRef}>
+              <div className="relative flex items-center h-full" ref={supportDropdownRef}>
                 <button
                   onClick={() => {
                     setSupportDropdownOpen((prev) => !prev);
                     setMediaDropdownOpen(false);
                   }}
-                  className={`flex items-center gap-1.5 ${navItemStyles} text-black/80 hover:text-red-600`}
+                  className={`flex items-center gap-1.5 ${navItemStyles} ${
+                    supportDropdownOpen ? "text-red-600" : "text-black/80"
+                  } hover:text-red-600`}
                 >
                   Support
-                  <span className="text-[10px] translate-y-[1px]">▼</span>
+                  <span className={`text-[10px] transition-transform duration-300 ${supportDropdownOpen ? "rotate-180" : ""}`}>▼</span>
                 </button>
 
                 <AnimatePresence>
                   {supportDropdownOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 12 }}
+                      initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 12 }}
-                      className="absolute right-0 top-full mt-6 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                      exit={{ opacity: 0, y: 15 }}
+                      className="absolute left-1/2 -translate-x-1/2 top-[calc(100%-10px)] w-[260px] rounded-2xl border border-black/5 bg-white p-4 shadow-[0_20px_50px_rgba(0,0,0,0.12)] z-[60]"
                     >
                       <div className="flex flex-col gap-1">
                         {supportLinks.map((item) => (
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="rounded-xl px-4 py-3 text-[13px] font-semibold text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
+                            className="rounded-lg px-4 py-2.5 text-[13px] font-semibold text-black/70 hover:bg-red-50 hover:text-red-600 transition-all"
                           >
                             {item.name}
                           </Link>
@@ -209,15 +215,15 @@ export default function Header() {
               {/* Request Quote Button */}
               <Link
                 href="/product-enquiry"
-                className="inline-flex items-center justify-center rounded-full bg-red-600 px-7 h-12 text-[13px] font-bold uppercase tracking-[0.14em] text-white transition-all hover:bg-red-700 shadow-md ml-2"
+                className="inline-flex items-center justify-center rounded-full bg-red-600 px-7 h-12 text-[13px] font-bold uppercase tracking-[0.14em] text-white transition-all hover:bg-red-700 shadow-md ml-2 shrink-0"
               >
                 Request Quote
               </Link>
             </nav>
 
-            {/* Mobile Toggle */}
+            {/* Mobile Hamburger */}
             <button
-              className="xl:hidden flex items-center justify-center w-11 h-11 rounded-full bg-white shadow-md border border-black/5"
+              className="xl:hidden flex items-center justify-center w-11 h-11 rounded-full bg-white shadow-sm border border-black/5"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
