@@ -40,8 +40,8 @@ export default function Header() {
   const mediaDropdownRef = useRef<HTMLDivElement | null>(null);
   const supportDropdownRef = useRef<HTMLDivElement | null>(null);
 
-  // STRICT UNIFORM SIZE: 14px, Bold, Consistent Tracking
-  const navItemStyles = "text-[14px] leading-none uppercase tracking-[0.14em] font-bold transition-all duration-300";
+  // TYPOGRAPHY: 14px, Bold, Uppercase, Non-wrapping
+  const navItemStyles = "text-[14px] leading-none uppercase tracking-[0.14em] font-bold whitespace-nowrap transition-all duration-300";
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -53,43 +53,22 @@ export default function Header() {
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
     };
-
     onScroll();
-
-    window.addEventListener("scroll", onScroll, {
-      passive: true,
-    });
-
-    return () =>
-      window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
     const onClickOutside = (event: MouseEvent) => {
-      if (
-        mediaDropdownRef.current &&
-        !mediaDropdownRef.current.contains(event.target as Node)
-      ) {
+      if (mediaDropdownRef.current && !mediaDropdownRef.current.contains(event.target as Node)) {
         setMediaDropdownOpen(false);
       }
-      if (
-        supportDropdownRef.current &&
-        !supportDropdownRef.current.contains(event.target as Node)
-      ) {
+      if (supportDropdownRef.current && !supportDropdownRef.current.contains(event.target as Node)) {
         setSupportDropdownOpen(false);
       }
     };
-
-    document.addEventListener(
-      "mousedown",
-      onClickOutside
-    );
-
-    return () =>
-      document.removeEventListener(
-        "mousedown",
-        onClickOutside
-      );
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
   const isHome = pathname === "/";
@@ -98,11 +77,11 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        transparent ? "pt-5" : "pt-4"
+        transparent ? "pt-6" : "pt-4"
       }`}
     >
-      {/* Navbar */}
-      <div className="max-w-7xl mx-auto px-3 md:px-6">
+      {/* Max width increased to [1440px] to accommodate the full horizontal menu */}
+      <div className="max-w-[1440px] mx-auto px-4 md:px-6">
         <div
           className={`transition-all duration-500 rounded-full ${
             transparent
@@ -110,57 +89,49 @@ export default function Header() {
               : "bg-white/95 backdrop-blur-xl border border-black/5 shadow-[0_10px_40px_rgba(0,0,0,0.08)]"
           }`}
         >
+          {/* Header Height: Increased to 100px / 90px for more breathing room */}
           <div
-            className={`flex items-center justify-between transition-all duration-500 px-5 md:px-8 xl:px-10 ${
-              transparent ? "h-[92px]" : "h-[82px]"
+            className={`flex items-center justify-between transition-all duration-500 px-6 md:px-10 xl:px-12 ${
+              transparent ? "h-[100px]" : "h-[90px]"
             }`}
           >
-            {/* Logo */}
-            <Link
-              href="/"
-              className="flex items-center shrink-0"
-            >
+            {/* Logo: Sized up for better visibility */}
+            <Link href="/" className="flex items-center shrink-0">
               <Image
                 src="/logo4.png"
                 alt="Kaaveri TMT"
-                width={280}
-                height={80}
+                width={300}
+                height={90}
                 priority
-                className="h-11 md:h-13 xl:h-16 w-auto object-contain"
+                className="h-14 md:h-16 xl:h-18 w-auto object-contain"
               />
             </Link>
 
-            {/* Desktop Menu - ALL SIZES FORCED TO 14px */}
-            <nav className="hidden xl:flex items-center gap-10">
+            {/* Desktop Navigation: perfectly centered vertically via items-center */}
+            <nav className="hidden xl:flex items-center gap-8 2xl:gap-10">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={`relative ${navItemStyles} hover:text-red-600 ${
-                    pathname === link.href
-                      ? "text-black"
-                      : "text-black/80"
+                    pathname === link.href ? "text-black" : "text-black/80"
                   }`}
                 >
                   {link.name}
-
                   {pathname === link.href && (
-                    <span className="absolute left-0 top-[calc(100%+8px)] h-[2px] w-full bg-black rounded-full" />
+                    <span className="absolute left-0 top-[calc(100%+14px)] h-[2px] w-full bg-black rounded-full" />
                   )}
                 </Link>
               ))}
 
-              {/* Media Dropdown */}
-              <div
-                className="relative flex items-center"
-                ref={mediaDropdownRef}
-              >
+              {/* Media Dropdown Button */}
+              <div className="relative flex items-center" ref={mediaDropdownRef}>
                 <button
                   onClick={() => {
                     setMediaDropdownOpen((prev) => !prev);
                     setSupportDropdownOpen(false);
                   }}
-                  className={`flex items-center gap-1 ${navItemStyles} text-black/80 hover:text-red-600`}
+                  className={`flex items-center gap-1.5 ${navItemStyles} text-black/80 hover:text-red-600`}
                 >
                   Media
                   <span className="text-[10px] translate-y-[1px]">▼</span>
@@ -172,15 +143,14 @@ export default function Header() {
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 12 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute right-0 top-full mt-5 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                      className="absolute right-0 top-full mt-6 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                     >
-                      <div className="grid grid-cols-1 gap-2">
+                      <div className="flex flex-col gap-1">
                         {mediaLinks.map((item) => (
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="rounded-xl px-4 py-3 text-[13px] font-medium text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
+                            className="rounded-xl px-4 py-3 text-[13px] font-semibold text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
                           >
                             {item.name}
                           </Link>
@@ -191,17 +161,14 @@ export default function Header() {
                 </AnimatePresence>
               </div>
 
-              {/* Support Dropdown */}
-              <div
-                className="relative flex items-center"
-                ref={supportDropdownRef}
-              >
+              {/* Support Dropdown Button */}
+              <div className="relative flex items-center" ref={supportDropdownRef}>
                 <button
                   onClick={() => {
                     setSupportDropdownOpen((prev) => !prev);
                     setMediaDropdownOpen(false);
                   }}
-                  className={`flex items-center gap-1 ${navItemStyles} text-black/80 hover:text-red-600`}
+                  className={`flex items-center gap-1.5 ${navItemStyles} text-black/80 hover:text-red-600`}
                 >
                   Support
                   <span className="text-[10px] translate-y-[1px]">▼</span>
@@ -213,15 +180,14 @@ export default function Header() {
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 12 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute right-0 top-full mt-5 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                      className="absolute right-0 top-full mt-6 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                     >
-                      <div className="grid grid-cols-1 gap-2">
+                      <div className="flex flex-col gap-1">
                         {supportLinks.map((item) => (
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="rounded-xl px-4 py-3 text-[13px] font-medium text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
+                            className="rounded-xl px-4 py-3 text-[13px] font-semibold text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
                           >
                             {item.name}
                           </Link>
@@ -232,131 +198,74 @@ export default function Header() {
                 </AnimatePresence>
               </div>
 
-              {/* Careers */}
-              <Link
-                href="/careers"
-                className={`${navItemStyles} text-black/80 hover:text-red-600`}
-              >
+              <Link href="/careers" className={`${navItemStyles} text-black/80 hover:text-red-600`}>
                 Careers
               </Link>
 
-              {/* Contact Us */}
-              <Link
-                href="/contact-us"
-                className={`${navItemStyles} text-black/80 hover:text-red-600`}
-              >
+              <Link href="/contact-us" className={`${navItemStyles} text-black/80 hover:text-red-600`}>
                 Contact Us
               </Link>
 
-              {/* CTA - Size Balanced */}
+              {/* Request Quote Button: Increased height to match header scale */}
               <Link
                 href="/product-enquiry"
-                className="inline-flex items-center justify-center rounded-full bg-red-600 px-8 h-12 text-[13px] font-bold uppercase tracking-[0.14em] text-white transition hover:bg-red-700"
+                className="inline-flex items-center justify-center rounded-full bg-red-600 px-8 h-14 text-[14px] font-bold uppercase tracking-[0.14em] text-white transition-all hover:bg-red-700 active:scale-95 shadow-md ml-2"
               >
                 Request Quote
               </Link>
             </nav>
 
-            {/* Hamburger */}
+            {/* Mobile Hamburger Menu */}
             <button
-              className="xl:hidden flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md"
-              onClick={() =>
-                setMobileMenuOpen(!mobileMenuOpen)
-              }
+              className="xl:hidden flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md border border-black/5"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-7 h-7"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-7 h-7">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Content Remains Same */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-white z-40 pt-28 px-6 overflow-y-auto"
+            className="fixed inset-0 bg-white z-40 pt-32 px-6 overflow-y-auto"
           >
-            <div className="flex flex-col items-center gap-6">
+            <div className="flex flex-col items-center gap-6 pb-20">
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-xl font-bold uppercase tracking-[0.12em]"
-                >
+                <Link key={link.href} href={link.href} className="text-xl font-bold uppercase tracking-[0.12em]">
                   {link.name}
                 </Link>
               ))}
-
-              <div className="w-full max-md pt-4">
-                <div className="text-center text-base font-black uppercase tracking-[0.16em] mb-4">
-                  Media
-                </div>
-
+              <div className="w-full max-w-md pt-4 border-t border-black/5">
+                <div className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-black/40 mb-6">Media</div>
                 <div className="grid gap-2">
                   {mediaLinks.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="rounded-xl px-4 py-3 text-center text-base hover:bg-yellow-50"
-                    >
+                    <Link key={item.href} href={item.href} className="rounded-xl px-4 py-3 text-center text-base font-medium hover:bg-yellow-50">
                       {item.name}
                     </Link>
                   ))}
                 </div>
               </div>
-
-              <div className="w-full max-md pt-4">
-                <div className="text-center text-base font-black uppercase tracking-[0.16em] mb-4">
-                  Support
-                </div>
-
+              <div className="w-full max-w-md pt-4 border-t border-black/5">
+                <div className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-black/40 mb-6">Support</div>
                 <div className="grid gap-2">
                   {supportLinks.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="rounded-xl px-4 py-3 text-center text-base hover:bg-yellow-50"
-                    >
+                    <Link key={item.href} href={item.href} className="rounded-xl px-4 py-3 text-center text-base font-medium hover:bg-yellow-50">
                       {item.name}
                     </Link>
                   ))}
                 </div>
               </div>
-
-              <Link
-                href="/careers"
-                className="text-xl font-bold uppercase tracking-[0.12em]"
-              >
-                Careers
-              </Link>
-
-              <Link
-                href="/contact-us"
-                className="text-xl font-bold uppercase tracking-[0.12em]"
-              >
-                Contact Us
-              </Link>
-
-              <Link
-                href="/product-enquiry"
-                className="rounded-full bg-red-600 px-10 py-5 text-base font-bold uppercase tracking-[0.14em] text-white"
-              >
+              <Link href="/careers" className="text-xl font-bold uppercase tracking-[0.12em]">Careers</Link>
+              <Link href="/contact-us" className="text-xl font-bold uppercase tracking-[0.12em]">Contact Us</Link>
+              <Link href="/product-enquiry" className="rounded-full bg-red-600 px-10 py-5 text-base font-bold uppercase text-white shadow-lg">
                 Request Quote
               </Link>
             </div>
