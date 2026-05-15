@@ -120,8 +120,8 @@ export default function Header() {
               <Image
                 src="/logo4.png"
                 alt="Kaaveri TMT"
-                width={190}
-                height={60}
+                width={210}
+                height={90}
                 priority
                 className="h-14 md:h-14 xl:h-11 w-auto object-contain"
               />
