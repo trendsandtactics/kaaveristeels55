@@ -88,39 +88,42 @@ export default function Header() {
   const transparent = isHome && !scrolled;
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 overflow-visible">
+    <header className="fixed top-0 left-0 w-full z-50">
       <div
         className={`w-full transition-all duration-500 ${
           transparent ? "pt-5" : "pt-4"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-3 md:px-6">
+        <div className="max-w-[1380px] mx-auto px-4 xl:px-5">
           <div
-            className={`relative overflow-visible rounded-full transition-all duration-500 ${
+            className={`relative rounded-full overflow-visible transition-all duration-500 ${
               transparent
                 ? "bg-transparent"
                 : "bg-white/95 backdrop-blur-xl border border-black/5 shadow-[0_10px_40px_rgba(0,0,0,0.08)]"
             }`}
           >
             <div
-              className={`flex items-center justify-between px-5 md:px-8 xl:px-10 transition-all duration-500 ${
-                transparent ? "h-[100px]" : "h-[88px]"
+              className={`flex items-center justify-between px-5 md:px-6 xl:px-7 transition-all duration-500 ${
+                transparent ? "h-[92px]" : "h-[82px]"
               }`}
             >
               {/* Logo */}
-              <Link href="/" className="flex items-center shrink-0">
+              <Link
+                href="/"
+                className="flex items-center shrink-0 mr-10 xl:mr-14"
+              >
                 <Image
                   src="/logo4.png"
                   alt="Kaaveri TMT"
-                  width={320}
-                  height={140}
+                  width={250}
+                  height={110}
                   priority
-                  className="h-20 sm:h-24 md:h-24 lg:h-24 xl:h-20 w-auto object-contain"
+                  className="h-14 sm:h-16 md:h-16 xl:h-14 w-auto object-contain"
                 />
               </Link>
 
-              {/* Desktop */}
-              <nav className="hidden xl:flex items-center gap-8">
+              {/* Desktop Menu */}
+              <nav className="hidden xl:flex items-center gap-6">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
@@ -160,7 +163,7 @@ export default function Header() {
                       <motion.div
                         initial={{
                           opacity: 0,
-                          y: 12,
+                          y: 10,
                         }}
                         animate={{
                           opacity: 1,
@@ -168,19 +171,19 @@ export default function Header() {
                         }}
                         exit={{
                           opacity: 0,
-                          y: 12,
+                          y: 10,
                         }}
                         transition={{
                           duration: 0.2,
                         }}
-                        className="absolute right-0 top-[85%] mt-2 z-50 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                        className="absolute right-0 top-full mt-3 z-50 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                       >
                         <div className="grid gap-2">
                           {mediaLinks.map((item) => (
                             <Link
                               key={item.href}
                               href={item.href}
-                              className="whitespace-nowrap rounded-xl px-3 py-2 text-sm text-black/80 hover:bg-yellow-50 hover:text-red-600"
+                              className="rounded-xl px-3 py-2 text-sm hover:bg-yellow-50"
                             >
                               {item.name}
                             </Link>
@@ -212,7 +215,7 @@ export default function Header() {
                       <motion.div
                         initial={{
                           opacity: 0,
-                          y: 12,
+                          y: 10,
                         }}
                         animate={{
                           opacity: 1,
@@ -220,19 +223,19 @@ export default function Header() {
                         }}
                         exit={{
                           opacity: 0,
-                          y: 12,
+                          y: 10,
                         }}
                         transition={{
                           duration: 0.2,
                         }}
-                        className="absolute right-0 top-[85%] mt-2 z-50 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+                        className="absolute right-0 top-full mt-3 z-50 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                       >
                         <div className="grid gap-2">
                           {supportLinks.map((item) => (
                             <Link
                               key={item.href}
                               href={item.href}
-                              className="whitespace-nowrap rounded-xl px-3 py-2 text-sm text-black/80 hover:bg-yellow-50 hover:text-red-600"
+                              className="rounded-xl px-3 py-2 text-sm hover:bg-yellow-50"
                             >
                               {item.name}
                             </Link>
@@ -245,21 +248,22 @@ export default function Header() {
 
                 <Link
                   href="/careers"
-                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80"
+                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold"
                 >
                   Careers
                 </Link>
 
                 <Link
                   href="/contact-us"
-                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80"
+                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold"
                 >
                   Contact Us
                 </Link>
 
+                {/* CTA */}
                 <Link
                   href="/product-enquiry"
-                  className="inline-flex whitespace-nowrap items-center justify-center rounded-full bg-red-600 px-6 h-11 text-[11px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-red-700"
+                  className="inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-full bg-red-600 px-5 h-10 text-[10px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-red-700"
                 >
                   Request Quote
                 </Link>
@@ -286,14 +290,14 @@ export default function Header() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-white z-40 pt-28 px-6 overflow-y-auto"
+            className="fixed inset-0 bg-white z-40 pt-28 px-6"
           >
             <div className="flex flex-col items-center gap-6">
-              {[...navLinks].map((link) => (
+              {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="whitespace-nowrap text-lg font-semibold uppercase"
+                  className="text-lg font-semibold uppercase"
                 >
                   {link.name}
                 </Link>
@@ -301,7 +305,7 @@ export default function Header() {
 
               <Link
                 href="/product-enquiry"
-                className="whitespace-nowrap rounded-full bg-red-600 px-7 py-4 text-sm font-semibold uppercase text-white"
+                className="rounded-full bg-red-600 px-7 py-4 text-sm font-semibold uppercase text-white"
               >
                 Request Quote
               </Link>
