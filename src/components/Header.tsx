@@ -114,7 +114,7 @@ export default function Header() {
               </Link>
 
               {/* Desktop Menu */}
-              <nav className="hidden xl:flex items-center gap-8 flex-1">
+              <nav className="hidden xl:flex items-center gap-8">
 
                 {navLinks.map((link) => (
                   <Link
@@ -153,21 +153,10 @@ export default function Header() {
                   <AnimatePresence>
                     {mediaDropdownOpen && (
                       <motion.div
-                        initial={{
-                          opacity: 0,
-                          y: 10,
-                        }}
-                        animate={{
-                          opacity: 1,
-                          y: 0,
-                        }}
-                        exit={{
-                          opacity: 0,
-                          y: 10,
-                        }}
-                        transition={{
-                          duration: 0.2,
-                        }}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
                         className="absolute top-full left-0 mt-3 z-50 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                       >
                         <div className="grid gap-2">
@@ -205,21 +194,10 @@ export default function Header() {
                   <AnimatePresence>
                     {supportDropdownOpen && (
                       <motion.div
-                        initial={{
-                          opacity: 0,
-                          y: 10,
-                        }}
-                        animate={{
-                          opacity: 1,
-                          y: 0,
-                        }}
-                        exit={{
-                          opacity: 0,
-                          y: 10,
-                        }}
-                        transition={{
-                          duration: 0.2,
-                        }}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
                         className="absolute top-full left-0 mt-3 z-50 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                       >
                         <div className="grid gap-2">
@@ -255,7 +233,7 @@ export default function Header() {
                 {/* CTA */}
                 <Link
                   href="/product-enquiry"
-                  className="ml-auto inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-full bg-red-600 px-6 h-11 text-[11px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-red-700"
+                  className="inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-full bg-red-600 px-6 h-11 text-[11px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-red-700"
                 >
                   Request Quote
                 </Link>
@@ -274,37 +252,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-white z-40 pt-28 px-6"
-          >
-            <div className="flex flex-col items-center gap-6">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-lg font-semibold uppercase"
-                >
-                  {link.name}
-                </Link>
-              ))}
-
-              <Link
-                href="/product-enquiry"
-                className="rounded-full bg-red-600 px-7 py-4 text-sm font-semibold uppercase text-white"
-              >
-                Request Quote
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   );
 }
