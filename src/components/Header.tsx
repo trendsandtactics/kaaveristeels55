@@ -57,7 +57,8 @@ export default function Header() {
       passive: true,
     });
 
-    return () => window.removeEventListener("scroll", onScroll);
+    return () =>
+      window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -76,9 +77,16 @@ export default function Header() {
       }
     };
 
-    document.addEventListener("mousedown", onClickOutside);
+    document.addEventListener(
+      "mousedown",
+      onClickOutside
+    );
 
-    return () => document.removeEventListener("mousedown", onClickOutside);
+    return () =>
+      document.removeEventListener(
+        "mousedown",
+        onClickOutside
+      );
   }, []);
 
   const isHome = pathname === "/";
@@ -86,13 +94,14 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
         transparent ? "pt-5" : "pt-4"
       }`}
     >
+      {/* Navbar */}
       <div className="max-w-7xl mx-auto px-3 md:px-6">
         <div
-          className={`transition-all duration-500 rounded-full relative ${
+          className={`transition-all duration-500 rounded-full ${
             transparent
               ? "bg-transparent"
               : "bg-white/95 backdrop-blur-xl border border-black/5 shadow-[0_10px_40px_rgba(0,0,0,0.08)]"
@@ -100,31 +109,31 @@ export default function Header() {
         >
           <div
             className={`flex items-center justify-between transition-all duration-500 px-5 md:px-8 xl:px-10 ${
-              transparent ? "h-[92px]" : "h-[82px]"
+              transparent ? "h-[82px]" : "h-[72px]"
             }`}
           >
-            {/* Logo — fixed min-width so nav never crowds it */}
+            {/* Logo */}
             <Link
               href="/"
-              className="flex items-center shrink-0 min-w-[240px]"
+              className="flex items-center shrink-0"
             >
               <Image
                 src="/logo4.png"
                 alt="Kaaveri TMT"
-                width={280}
-                height={80}
+                width={190}
+                height={60}
                 priority
-                className="h-11 md:h-13 xl:h-16 w-auto object-contain"
+                className="h-9 md:h-10 xl:h-11 w-auto object-contain"
               />
             </Link>
 
-            {/* Desktop Nav — ml-16 creates a clean gap after the logo */}
-            <nav className="hidden xl:flex items-center gap-8 ml-16">
+            {/* Desktop Menu */}
+            <nav className="hidden xl:flex items-center gap-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative text-[14px] uppercase tracking-[0.14em] font-bold transition-colors duration-300 hover:text-red-600 ${
+                  className={`relative text-[11px] uppercase tracking-[0.14em] font-semibold transition-colors duration-300 hover:text-red-600 ${
                     pathname === link.href
                       ? "text-black"
                       : "text-black/80"
@@ -140,7 +149,7 @@ export default function Header() {
 
               {/* Media Dropdown */}
               <div
-                className="relative flex items-center h-full"
+                className="relative"
                 ref={mediaDropdownRef}
               >
                 <button
@@ -148,10 +157,10 @@ export default function Header() {
                     setMediaDropdownOpen((prev) => !prev);
                     setSupportDropdownOpen(false);
                   }}
-                  className="flex items-center gap-1 text-[14px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600 transition"
+                  className="flex items-center gap-1 text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
                 >
                   Media
-                  <span className="text-[11px]">▼</span>
+                  <span className="text-[9px]">▾</span>
                 </button>
 
                 <AnimatePresence>
@@ -161,14 +170,14 @@ export default function Header() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 12 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute left-0 top-full mt-2 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)] z-[110]"
+                      className="absolute right-0 top-full mt-5 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                     >
                       <div className="grid grid-cols-1 gap-2">
                         {mediaLinks.map((item) => (
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="rounded-xl px-4 py-3 text-[13px] font-medium text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
+                            className="rounded-xl px-3 py-2 text-sm text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
                           >
                             {item.name}
                           </Link>
@@ -181,7 +190,7 @@ export default function Header() {
 
               {/* Support Dropdown */}
               <div
-                className="relative flex items-center h-full"
+                className="relative"
                 ref={supportDropdownRef}
               >
                 <button
@@ -189,10 +198,10 @@ export default function Header() {
                     setSupportDropdownOpen((prev) => !prev);
                     setMediaDropdownOpen(false);
                   }}
-                  className="flex items-center gap-1 text-[14px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600 transition"
+                  className="flex items-center gap-1 text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
                 >
                   Support
-                  <span className="text-[11px]">▼</span>
+                  <span className="text-[9px]">▾</span>
                 </button>
 
                 <AnimatePresence>
@@ -202,14 +211,14 @@ export default function Header() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 12 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute left-0 top-full mt-2 w-[280px] rounded-3xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_rgba(0,0,0,0.15)] z-[110]"
+                      className="absolute right-0 top-full mt-5 w-[260px] rounded-3xl border border-black/10 bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
                     >
                       <div className="grid grid-cols-1 gap-2">
                         {supportLinks.map((item) => (
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="rounded-xl px-4 py-3 text-[13px] font-medium text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
+                            className="rounded-xl px-3 py-2 text-sm text-black/80 hover:bg-yellow-50 hover:text-red-600 transition"
                           >
                             {item.name}
                           </Link>
@@ -220,32 +229,37 @@ export default function Header() {
                 </AnimatePresence>
               </div>
 
+              {/* Careers */}
               <Link
                 href="/careers"
-                className="text-[14px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600 transition"
+                className="text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
               >
                 Careers
               </Link>
 
+              {/* Contact Us */}
               <Link
                 href="/contact-us"
-                className="text-[14px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600 transition"
+                className="text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600 transition"
               >
                 Contact Us
               </Link>
 
+              {/* CTA */}
               <Link
                 href="/product-enquiry"
-                className="inline-flex items-center justify-center rounded-full bg-red-600 px-8 h-12 text-[13px] font-bold uppercase tracking-[0.14em] text-white transition hover:bg-red-700 whitespace-nowrap ml-2"
+                className="inline-flex items-center justify-center rounded-full bg-red-600 px-6 h-11 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-red-700"
               >
                 Request Quote
               </Link>
             </nav>
 
-            {/* Mobile Hamburger */}
+            {/* Hamburger */}
             <button
-              className="xl:hidden flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-md"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="xl:hidden flex items-center justify-center w-11 h-11 rounded-full bg-white shadow-md"
+              onClick={() =>
+                setMobileMenuOpen(!mobileMenuOpen)
+              }
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -253,7 +267,7 @@ export default function Header() {
                 viewBox="0 0 24 24"
                 strokeWidth={2}
                 stroke="currentColor"
-                className="w-7 h-7"
+                className="w-6 h-6"
               >
                 <path
                   strokeLinecap="round"
@@ -265,6 +279,87 @@ export default function Header() {
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-white z-40 pt-28 px-6 overflow-y-auto"
+          >
+            <div className="flex flex-col items-center gap-6">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-lg font-semibold uppercase tracking-[0.12em]"
+                >
+                  {link.name}
+                </Link>
+              ))}
+
+              <div className="w-full max-w-md pt-4">
+                <div className="text-center text-sm font-bold uppercase tracking-[0.16em] mb-4">
+                  Media
+                </div>
+
+                <div className="grid gap-2">
+                  {mediaLinks.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="rounded-xl px-4 py-3 text-center text-sm hover:bg-yellow-50"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="w-full max-w-md pt-4">
+                <div className="text-center text-sm font-bold uppercase tracking-[0.16em] mb-4">
+                  Support
+                </div>
+
+                <div className="grid gap-2">
+                  {supportLinks.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="rounded-xl px-4 py-3 text-center text-sm hover:bg-yellow-50"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <Link
+                href="/careers"
+                className="text-lg font-semibold uppercase tracking-[0.12em]"
+              >
+                Careers
+              </Link>
+
+              <Link
+                href="/contact-us"
+                className="text-lg font-semibold uppercase tracking-[0.12em]"
+              >
+                Contact Us
+              </Link>
+
+              <Link
+                href="/product-enquiry"
+                className="rounded-full bg-red-600 px-7 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-white"
+              >
+                Request Quote
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
