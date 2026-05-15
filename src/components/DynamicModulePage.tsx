@@ -70,25 +70,26 @@ export default function DynamicModulePage({
 
   useEffect(() => {
     const controller = new AbortController();
-    const targetUrl = `/api/public/content/${module}?q=${encodeURIComponent(debouncedQ)}&limit=1000`;
+    const cacheKey = `/api/public/content/${module}?q=${encodeURIComponent(debouncedQ)}&limit=1000`;
+    const fetchUrl = `${cacheKey}&_t=${Date.now()}`;
 
-    if (swrCache.has(targetUrl)) {
-      setItems(swrCache.get(targetUrl)!);
+    if (swrCache.has(cacheKey)) {
+      setItems(swrCache.get(cacheKey)!);
       setLoading(false);
     } else {
       setLoading(true);
     }
 
     const requestInit: RequestInit = {
-      cache: "no-cache",
+      cache: "no-store",
       signal: controller.signal,
     };
 
-    fetch(targetUrl, requestInit)
+    fetch(fetchUrl, requestInit)
       .then((res) => res.json())
       .then((data) => {
         const fetchedItems = data.data ?? [];
-        swrCache.set(targetUrl, fetchedItems);
+        swrCache.set(cacheKey, fetchedItems);
         setItems(fetchedItems);
       })
       .catch((error) => {

@@ -116,23 +116,24 @@ export default function AdminContentManager() {
     // Prevent generic content fetching when specialized panels are active
     if (activeDef.kind === "certifications") return;
     
-    const url = activeDef.kind === "support" 
+    const baseUrl = activeDef.kind === "support" 
       ? endpointForSupportModule(activeModule as SupportModuleName)
       : `/api/admin/content/${activeModule}?limit=5000`;
 
-    if (!bypassCache && adminCache.has(url)) {
-      setItems(adminCache.get(url)!);
+    if (!bypassCache && adminCache.has(baseUrl)) {
+      setItems(adminCache.get(baseUrl)!);
     } else {
       setLoading(true);
     }
 
     setMessage("");
     try {
-      const response = await fetch(url, { cache: "no-cache" });
+      const fetchUrl = bypassCache ? `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}t=${Date.now()}` : baseUrl;
+      const response = await fetch(fetchUrl, { cache: "no-store" });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Unable to load records.");
       const resultItems = data.data ?? [];
-      adminCache.set(url, resultItems);
+      adminCache.set(baseUrl, resultItems);
       setItems(resultItems);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Unable to load records.");
