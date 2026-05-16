@@ -10,7 +10,7 @@ import {
 
 export default function Footer() {
     return (
-        <footer className="w-full bg-[#0a0a0a] border-t-4 border-accent-red py-16 px-6 md:px-12 relative overflow-hidden">
+        <footer className="w-full bg-[#0a0a0a] border-t-4 border-accent-red py-16 px-6 md:px-12 relative overflow-hidden snap-start">
 
             {/* Background Glow */}
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent-red/10 rounded-full blur-[100px] pointer-events-none" />
