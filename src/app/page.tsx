@@ -50,7 +50,7 @@ export default function Home() {
         const targetTop = sections[nextIndex].getBoundingClientRect().top + window.scrollY;
         
         animate(window.scrollY, targetTop - headerOffset, {
-          duration: 0.5,
+          duration: 0.3,
           ease: [0.22, 1, 0.36, 1], // Fast, snappy, and attractive easing curve
           onUpdate: (latest) => window.scrollTo(0, latest)
         });
@@ -58,7 +58,7 @@ export default function Home() {
         // Debounce scrolling so the user can scroll again right after the transition
         wheelTimer = setTimeout(() => {
           isScrolling = false;
-        }, 600);
+        }, 400);
       }
     };
 
