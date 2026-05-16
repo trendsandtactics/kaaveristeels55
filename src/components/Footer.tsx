@@ -48,7 +48,7 @@ export default function Footer() {
                         Navigation
                     </h3>
 
-                    <ul className="space-y-4">
+                    <ul className="flex flex-wrap items-center gap-x-6 gap-y-4">
                         {[
                             "About Us",
                             "Products",
