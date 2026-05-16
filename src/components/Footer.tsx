@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -9,43 +9,104 @@ import {
     MapPin,
     Phone,
     Mail,
+    ChevronLeft,
+    ChevronRight,
 } from "lucide-react";
 
 export default function Footer() {
+
+    const addresses = [
+        {
+            title: "Unit 1",
+            content: (
+                <>
+                    No.7/1 & 4/3, Komal Road,
+                    <br />
+                    Maruthur Village,
+                    <br />
+                    Therizhandur Post,
+                    <br />
+                    Kuttalam Taluk,
+                    <br />
+                    Mayiladuthurai District - 609 808
+                </>
+            ),
+        },
+        {
+            title: "Unit 2",
+            content: (
+                <>
+                    S.F.No: 22/1A,
+                    <br />
+                    Musiri – Thuraiyur Main Road,
+                    <br />
+                    Jambunathapuram Post,
+                    <br />
+                    Musiri Taluk,
+                    <br />
+                    Trichy – 621 205
+                </>
+            ),
+        },
+    ];
+
+    const [activeAddress, setActiveAddress] = useState(0);
+
+    // Auto Scroll
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveAddress((prev) =>
+                prev === addresses.length - 1 ? 0 : prev + 1
+            );
+        }, 4000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const nextAddress = () => {
+        setActiveAddress((prev) =>
+            prev === addresses.length - 1 ? 0 : prev + 1
+        );
+    };
+
+    const prevAddress = () => {
+        setActiveAddress((prev) =>
+            prev === 0 ? addresses.length - 1 : prev - 1
+        );
+    };
+
     return (
         <footer className="w-full bg-[#050505] border-t-4 border-accent-red py-16 px-6 md:px-10 lg:px-12 relative overflow-hidden scroll-section">
 
             {/* Background Glow */}
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent-red/10 rounded-full blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent-yellow/10 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-yellow-500/10 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto relative z-10">
 
                 {/* Main Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-14">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">
 
-                    {/* Brand Section */}
+                    {/* Brand */}
                     <div>
 
                         <Link
                             href="/"
-                            className="inline-block mb-6 hover:scale-105 transition-transform duration-300"
+                            className="inline-flex items-center justify-center mb-6 bg-white rounded-2xl p-5 shadow-2xl hover:scale-105 transition-transform duration-300"
                         >
-                            <div className="bg-white/5 border border-white/10 rounded-xl p-4 shadow-xl">
-                                <Image
-                                    src="/image/kaveerilogo.png"
-                                    alt="KAAVERI Logo"
-                                    width={170}
-                                    height={60}
-                                    className="object-contain"
-                                />
-                            </div>
+                            <Image
+                                src="/image/kaveerilogo.png"
+                                alt="KAAVERI Logo"
+                                width={180}
+                                height={65}
+                                className="object-contain"
+                            />
                         </Link>
 
-                        <p className="font-body text-white/65 text-sm leading-7 mb-6">
+                        <p className="text-white/65 text-sm leading-7 mb-6">
                             Leading the future of construction with premium
                             TMT bars and structural steel products engineered
-                            for strength, safety, and sustainability.
+                            for strength, durability, and sustainability.
                         </p>
 
                         <div className="w-14 h-1 bg-accent-red rounded-full" />
@@ -53,174 +114,124 @@ export default function Footer() {
                     </div>
 
 
-                    {/* Navigation */}
+                    {/* Company Links */}
                     <div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                        <h3 className="text-xl mb-6 text-white tracking-wide font-semibold">
+                            Company
+                        </h3>
 
-                            {/* Company */}
-                            <div>
+                        <ul className="space-y-4">
 
-                                <h3 className="font-heading text-xl mb-6 text-white tracking-wide">
-                                    Company
-                                </h3>
+                            {[
+                                { name: "Home", href: "/" },
+                                { name: "About Us", href: "/about-us" },
+                                { name: "Products", href: "/products" },
+                                { name: "Dealers", href: "/dealers" },
+                                { name: "Careers", href: "/careers" },
+                                { name: "Contact Us", href: "/contact-us" },
+                            ].map((item) => (
+                                <li key={item.name}>
 
-                                <ul className="space-y-4">
+                                    <Link
+                                        href={item.href}
+                                        className="text-white/65 hover:text-accent-red text-sm uppercase tracking-widest transition-all duration-300 flex items-center gap-3 group"
+                                    >
+                                        <span className="w-1.5 h-1.5 rounded-full bg-accent-red group-hover:scale-125 transition-transform" />
 
-                                    {[
-                                        { name: "Home", href: "/" },
-                                        { name: "About Us", href: "/about-us" },
-                                        { name: "Products", href: "/products" },
-                                        { name: "Dealers", href: "/dealers" },
-                                        { name: "Careers", href: "/careers" },
-                                        { name: "Contact Us", href: "/contact-us" },
-                                    ].map((item) => (
-                                        <li key={item.name}>
+                                        {item.name}
+                                    </Link>
 
-                                            <Link
-                                                href={item.href}
-                                                className="text-white/65 hover:text-accent-red text-sm uppercase tracking-widest transition-all duration-300 flex items-center gap-3 group"
-                                            >
-                                                <span className="w-1.5 h-1.5 rounded-full bg-accent-red group-hover:scale-125 transition-transform" />
+                                </li>
+                            ))}
 
-                                                {item.name}
-                                            </Link>
+                        </ul>
 
-                                        </li>
-                                    ))}
-
-                                </ul>
-
-                            </div>
+                    </div>
 
 
-                            {/* Support */}
-                            <div>
+                    {/* Address Slider */}
+                    <div>
 
-                                <h3 className="font-heading text-xl mb-6 text-white tracking-wide">
-                                    Support
-                                </h3>
+                        <div className="flex items-center justify-between mb-6">
 
-                                <ul className="space-y-4">
+                            <h3 className="text-xl text-white tracking-wide font-semibold">
+                                Contact Us
+                            </h3>
 
-                                    {[
-                                        {
-                                            name: "Brochure",
-                                            href: "/product-brochure",
-                                        },
-                                        {
-                                            name: "Calculator",
-                                            href: "/construction-steel-calculator",
-                                        },
-                                        {
-                                            name: "Certificates",
-                                            href: "/certifications",
-                                        },
-                                        {
-                                            name: "Get Quote",
-                                            href: "/product-enquiry",
-                                        },
-                                        {
-                                            name: "Trust On Site",
-                                            href: "/trust-on-site",
-                                        },
-                                    ].map((item) => (
-                                        <li key={item.name}>
+                            <div className="flex items-center gap-2">
 
-                                            <Link
-                                                href={item.href}
-                                                className="text-white/65 hover:text-accent-red text-sm uppercase tracking-widest transition-all duration-300 flex items-center gap-3 group"
-                                            >
-                                                <span className="w-1.5 h-1.5 rounded-full bg-accent-red group-hover:scale-125 transition-transform" />
+                                <button
+                                    onClick={prevAddress}
+                                    className="w-9 h-9 rounded-full border border-white/10 bg-white/5 hover:bg-accent-red hover:border-accent-red text-white flex items-center justify-center transition-all duration-300"
+                                >
+                                    <ChevronLeft size={16} />
+                                </button>
 
-                                                {item.name}
-                                            </Link>
-
-                                        </li>
-                                    ))}
-
-                                </ul>
+                                <button
+                                    onClick={nextAddress}
+                                    className="w-9 h-9 rounded-full border border-white/10 bg-white/5 hover:bg-accent-red hover:border-accent-red text-white flex items-center justify-center transition-all duration-300"
+                                >
+                                    <ChevronRight size={16} />
+                                </button>
 
                             </div>
 
                         </div>
 
-                    </div>
 
+                        {/* Animated Address Card */}
+                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 min-h-[250px] backdrop-blur-sm hover:border-accent-red transition-all duration-500">
 
-                    {/* Contact */}
-                    <div>
-
-                        <h3 className="font-heading text-xl mb-6 text-white tracking-wide">
-                            Contact Us
-                        </h3>
-
-                        <div className="space-y-8 text-white/65 text-sm leading-7">
-
-                            {/* Unit 1 */}
                             <div className="flex items-start gap-4">
 
                                 <MapPin
-                                    size={18}
+                                    size={20}
                                     className="text-accent-red mt-1 shrink-0"
                                 />
 
-                                <div>
+                                <div
+                                    key={activeAddress}
+                                    className="animate-fadeIn"
+                                >
 
-                                    <h4 className="text-white font-semibold mb-2">
-                                        Unit 1
+                                    <h4 className="text-white font-semibold text-lg mb-3">
+                                        {addresses[activeAddress].title}
                                     </h4>
 
-                                    <p>
-                                        No.7/1 & 4/3, Komal Road,
-                                        <br />
-                                        Maruthur Village,
-                                        <br />
-                                        Therizhandur Post,
-                                        <br />
-                                        Kuttalam Taluk,
-                                        <br />
-                                        Mayiladuthurai District - 609 808
-                                    </p>
+                                    <div className="text-white/65 text-sm leading-7">
+                                        {addresses[activeAddress].content}
+                                    </div>
 
                                 </div>
 
                             </div>
 
 
-                            {/* Unit 2 */}
-                            <div className="flex items-start gap-4">
+                            {/* Dots */}
+                            <div className="flex items-center gap-2 mt-6">
 
-                                <MapPin
-                                    size={18}
-                                    className="text-accent-red mt-1 shrink-0"
-                                />
-
-                                <div>
-
-                                    <h4 className="text-white font-semibold mb-2">
-                                        Unit 2
-                                    </h4>
-
-                                    <p>
-                                        S.F.No: 22/1A,
-                                        <br />
-                                        Musiri – Thuraiyur Main Road,
-                                        <br />
-                                        Jambunathapuram Post,
-                                        <br />
-                                        Musiri Taluk,
-                                        <br />
-                                        Trichy – 621 205
-                                    </p>
-
-                                </div>
+                                {addresses.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setActiveAddress(index)}
+                                        className={`h-2 rounded-full transition-all duration-300 ${
+                                            activeAddress === index
+                                                ? "w-8 bg-accent-red"
+                                                : "w-2 bg-white/30"
+                                        }`}
+                                    />
+                                ))}
 
                             </div>
 
+                        </div>
 
-                            {/* Phone */}
-                            <div className="flex items-center gap-4">
+
+                        {/* Contact */}
+                        <div className="mt-6 space-y-4 text-sm">
+
+                            <div className="flex items-center gap-4 text-white/65">
 
                                 <Phone
                                     size={18}
@@ -231,9 +242,7 @@ export default function Footer() {
 
                             </div>
 
-
-                            {/* Email */}
-                            <div className="flex items-center gap-4 break-all">
+                            <div className="flex items-center gap-4 text-white/65 break-all">
 
                                 <Mail
                                     size={18}
@@ -249,41 +258,40 @@ export default function Footer() {
                     </div>
 
 
-                    {/* Right Column */}
+                    {/* Right */}
                     <div className="flex flex-col gap-12">
 
                         {/* Certifications */}
                         <div>
 
-                            <h3 className="font-heading text-xl mb-6 text-white tracking-wide">
+                            <h3 className="text-xl mb-6 text-white tracking-wide font-semibold">
                                 Certifications
                             </h3>
 
                             <div className="grid grid-cols-2 gap-4">
 
                                 {/* ISO */}
-                                <div className="group bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-center hover:border-accent-red hover:bg-white/10 transition-all duration-300 min-h-[120px] shadow-lg">
+                                <div className="group bg-white rounded-2xl p-5 flex items-center justify-center hover:scale-105 transition-all duration-300 shadow-xl min-h-[120px]">
 
                                     <Image
-                                        src="/iso.png"
+                                        src="/image/iso.png"
                                         alt="ISO Certification"
-                                        width={140}
+                                        width={130}
                                         height={70}
-                                        className="object-contain group-hover:scale-105 transition-transform duration-300"
+                                        className="object-contain"
                                     />
 
                                 </div>
 
-
                                 {/* NISST */}
-                                <div className="group bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center justify-center hover:border-accent-red hover:bg-white/10 transition-all duration-300 min-h-[120px] shadow-lg">
+                                <div className="group bg-white rounded-2xl p-5 flex items-center justify-center hover:scale-105 transition-all duration-300 shadow-xl min-h-[120px]">
 
                                     <Image
-                                        src="/nisst.png"
+                                        src="/image/nisst.png"
                                         alt="NISST Certification"
-                                        width={140}
+                                        width={130}
                                         height={70}
-                                        className="object-contain group-hover:scale-105 transition-transform duration-300"
+                                        className="object-contain"
                                     />
 
                                 </div>
@@ -296,7 +304,7 @@ export default function Footer() {
                         {/* Social */}
                         <div>
 
-                            <h3 className="font-heading text-xl mb-6 text-white tracking-wide">
+                            <h3 className="text-xl mb-6 text-white tracking-wide font-semibold">
                                 Follow Us
                             </h3>
 
