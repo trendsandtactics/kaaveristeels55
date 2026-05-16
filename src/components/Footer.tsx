@@ -308,7 +308,7 @@ export default function Footer() {
                             <div className="flex items-center gap-6">
 
                                 <Image
-                                    src="/image/iso.png"
+                                    src="/iso.png"
                                     alt="ISO"
                                     width={110}
                                     height={70}
@@ -318,7 +318,7 @@ export default function Footer() {
                                 <div className="w-px h-20 bg-white/10" />
 
                                 <Image
-                                    src="/image/nisst.png"
+                                    src="/nisst.png"
                                     alt="NISST"
                                     width={110}
                                     height={70}
