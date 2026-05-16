@@ -10,7 +10,7 @@ import {
 
 export default function Footer() {
     return (
-        <footer className="w-full bg-[#0a0a0a] border-t-4 border-accent-red py-16 px-6 md:px-12 relative overflow-hidden scroll-section">
+        <footer className="w-full bg-[#0a0a0a] border-t-4 border-accent-red py-16 px-6 md:px-12 relative overflow-hidden snap-start">
 
             {/* Background Glow */}
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent-red/10 rounded-full blur-[100px] pointer-events-none" />
@@ -40,6 +40,7 @@ export default function Footer() {
 
                     <div className="w-12 h-1 bg-accent-red mb-6" />
                 </div>
+
 
                 {/* Navigation */}
                 <div>
@@ -73,37 +74,72 @@ export default function Footer() {
                     </ul>
                 </div>
 
+
                 {/* Contact */}
                 <div>
                     <h3 className="font-heading text-xl mb-6 text-white tracking-wider">
                         Contact Us
                     </h3>
 
-                    <ul className="space-y-4 font-body text-white/70 text-sm font-medium">
+                    <ul className="space-y-6 font-body text-white/70 text-sm font-medium">
 
+                        {/* Unit 1 */}
                         <li className="flex items-start gap-3">
                             <span className="text-accent-red mt-1">📍</span>
                             <span>
+                                <span className="text-white font-bold block mb-1">
+                                    Unit 1
+                                </span>
+
                                 No.7/1 & 4/3, Komal Road,
                                 <br />
-                                Maruthur Village, Therizhandur Post,
+                                Maruthur Village,
                                 <br />
-                                Kuttalam Taluk, Mayiladuthurai
+                                Therizhandur Post,
                                 <br />
-                                District - 609 808
+                                Kuttalam Taluk,
+                                <br />
+                                Mayiladuthurai District - 609 808
                             </span>
                         </li>
 
+
+                        {/* Unit 2 */}
+                        <li className="flex items-start gap-3">
+                            <span className="text-accent-red mt-1">📍</span>
+                            <span>
+                                <span className="text-white font-bold block mb-1">
+                                    Unit 2
+                                </span>
+
+                                S.F.No: 22/1A,
+                                <br />
+                                Musiri – Thuraiyur Main Road,
+                                <br />
+                                Jambunathapuram Post,
+                                <br />
+                                Musiri Taluk,
+                                <br />
+                                Trichy – 621 205
+                            </span>
+                        </li>
+
+
+                        {/* Phone */}
                         <li className="flex items-center gap-3">
                             <span className="text-accent-red">📞</span>
                             <span>+91 88558 24555</span>
                         </li>
 
+
+                        {/* Landline */}
                         <li className="flex items-center gap-3">
                             <span className="text-accent-red">☎️</span>
                             <span>04123 456789</span>
                         </li>
 
+
+                        {/* Email */}
                         <li className="flex items-center gap-3 break-all">
                             <span className="text-accent-red">✉️</span>
                             <span>info@kaaveristeel.co.in</span>
@@ -112,8 +148,10 @@ export default function Footer() {
                     </ul>
                 </div>
 
-                {/* Right Column: Certifications & Social */}
+
+                {/* Right Column */}
                 <div className="flex flex-col gap-10">
+
                     {/* Certifications */}
                     <div>
                         <h3 className="font-heading text-xl mb-6 text-white tracking-wider">
@@ -133,7 +171,8 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Social Icons */}
+
+                    {/* Social */}
                     <div>
                         <h3 className="font-heading text-xl mb-6 text-white tracking-wider">
                             Follow Us
@@ -141,25 +180,22 @@ export default function Footer() {
 
                         <div className="flex items-center gap-4 flex-wrap">
 
-                            {/* Instagram */}
                             <Link
-                                href="https://www.instagram.com/kaaveritmtbarsandstructural?igsh=eGliNzQ2cWtzcDBp"
+                                href="https://www.instagram.com/kaaveritmtbarsandstructural"
                                 target="_blank"
                                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
                             >
                                 <Instagram size={18} />
                             </Link>
 
-                            {/* LinkedIn */}
                             <Link
-                                href="https://www.linkedin.com/company/kaaveritmtbarsandstructural/"
+                                href="https://www.linkedin.com/company/kaaveritmtbarsandstructural"
                                 target="_blank"
                                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
                             >
                                 <Linkedin size={18} />
                             </Link>
 
-                            {/* YouTube */}
                             <Link
                                 href="https://www.youtube.com/@KAAVERITMTBARSANDSTRUCTURAL"
                                 target="_blank"
@@ -168,24 +204,14 @@ export default function Footer() {
                                 <Youtube size={18} />
                             </Link>
 
-                            {/* X / Twitter */}
                             <Link
                                 href="https://x.com/kaaveritmt"
                                 target="_blank"
                                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-accent-red hover:border-accent-red transition-all duration-300"
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                >
-                                    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.847h-7.406l-5.8-7.584-6.64 7.584H.474l8.6-9.83L0 1.153h7.594l5.243 6.932L18.901 1.153Zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403Z" />
-                                </svg>
+                                X
                             </Link>
 
-                            {/* WhatsApp */}
                             <Link
                                 href="https://wa.me/918855824555"
                                 target="_blank"
@@ -197,13 +223,15 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
+
             </div>
 
-            {/* Bottom Bar */}
+
+            {/* Bottom */}
             <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 relative z-10">
 
                 <p className="font-body text-white/50 text-xs tracking-widest uppercase font-bold">
-                    &copy; {new Date().getFullYear()} KAAVERI Steel. All Rights Reserved.
+                    © {new Date().getFullYear()} KAAVERI Steel. All Rights Reserved.
                 </p>
 
                 <div className="flex gap-6">
@@ -223,7 +251,9 @@ export default function Footer() {
                     </Link>
 
                 </div>
+
             </div>
+
         </footer>
     );
 }
