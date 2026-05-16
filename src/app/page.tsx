@@ -50,15 +50,15 @@ export default function Home() {
         const targetTop = sections[nextIndex].getBoundingClientRect().top + window.scrollY;
         
         animate(window.scrollY, targetTop - headerOffset, {
-          duration: 0.9,
-          ease: [0.76, 0, 0.24, 1], // Gorgeous custom cinematic easing curve
+          duration: 0.5,
+          ease: [0.22, 1, 0.36, 1], // Fast, snappy, and attractive easing curve
           onUpdate: (latest) => window.scrollTo(0, latest)
         });
         
-        // Debounce scrolling so the awesome transition finishes beautifully
+        // Debounce scrolling so the user can scroll again right after the transition
         wheelTimer = setTimeout(() => {
           isScrolling = false;
-        }, 1000);
+        }, 600);
       }
     };
 
