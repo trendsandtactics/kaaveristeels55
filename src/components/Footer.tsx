@@ -10,7 +10,7 @@ import {
 
 export default function Footer() {
     return (
-        <footer className="w-full bg-[#0a0a0a] border-t-4 border-accent-red py-16 px-6 md:px-12 relative overflow-hidden snap-start">
+        <footer className="w-full bg-[#0a0a0a] border-t-4 border-accent-red py-16 px-6 md:px-12 relative overflow-hidden scroll-section">
 
             {/* Background Glow */}
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent-red/10 rounded-full blur-[100px] pointer-events-none" />
@@ -44,34 +44,57 @@ export default function Footer() {
 
                 {/* Navigation */}
                 <div>
-                    <h3 className="font-heading text-xl mb-6 text-white tracking-wider">
-                        Navigation
-                    </h3>
-
-                    <ul className="flex flex-wrap items-center gap-x-6 gap-y-4">
-                        {[
-                            "About Us",
-                            "Products",
-                            "Infrastructure",
-                            "Projects",
-                            "Sustainability",
-                            "Contact",
-                        ].map((item) => (
-                            <li key={item}>
-                                <Link
-                                    href={
-                                        item === "Contact"
-                                            ? "/contact-us"
-                                            : `/${item.toLowerCase().replace(/\s+/g, "-")}`
-                                    }
-                                    className="font-body text-white/70 hover:text-accent-red text-sm uppercase tracking-widest transition-colors flex items-center gap-2 font-medium"
-                                >
-                                    <span className="w-1 h-1 rounded-full bg-accent-red" />
-                                    {item}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <h3 className="font-heading text-xl mb-6 text-white tracking-wider">
+                                Company
+                            </h3>
+                            <ul className="space-y-4">
+                                {[
+                                    { name: "Home", href: "/" },
+                                    { name: "About Us", href: "/about-us" },
+                                    { name: "Products", href: "/products" },
+                                    { name: "Dealers", href: "/dealers" },
+                                    { name: "Careers", href: "/careers" },
+                                    { name: "Contact Us", href: "/contact-us" },
+                                ].map((item) => (
+                                    <li key={item.name}>
+                                        <Link
+                                            href={item.href}
+                                            className="font-body text-white/70 hover:text-accent-red text-sm uppercase tracking-widest transition-colors flex items-center gap-2 font-medium"
+                                        >
+                                            <span className="w-1 h-1 rounded-full bg-accent-red" />
+                                            {item.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="font-heading text-xl mb-6 text-white tracking-wider">
+                                Support
+                            </h3>
+                            <ul className="space-y-4">
+                                {[
+                                    { name: "Brochure", href: "/product-brochure" },
+                                    { name: "Calculator", href: "/construction-steel-calculator" },
+                                    { name: "Certificates", href: "/certifications" },
+                                    { name: "Get Quote", href: "/product-enquiry" },
+                                    { name: "Trust On Site", href: "/trust-on-site" },
+                                ].map((item) => (
+                                    <li key={item.name}>
+                                        <Link
+                                            href={item.href}
+                                            className="font-body text-white/70 hover:text-accent-red text-sm uppercase tracking-widest transition-colors flex items-center gap-2 font-medium"
+                                        >
+                                            <span className="w-1 h-1 rounded-full bg-accent-red" />
+                                            {item.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
 

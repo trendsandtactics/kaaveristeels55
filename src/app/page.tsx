@@ -8,6 +8,7 @@ import HomeProducts from "@/components/HomeProducts";
 import SteelCalculator from "@/components/Calculators/SteelCalculator";
 import MapEmbed from "@/components/MapEmbed";
 import TrustOnsite from "@/components/trustonsite";
+import { animate } from "framer-motion";
 
 export default function Home() {
   useEffect(() => {
@@ -48,12 +49,13 @@ export default function Home() {
         isScrolling = true;
         const targetTop = sections[nextIndex].getBoundingClientRect().top + window.scrollY;
         
-        window.scrollTo({
-          top: targetTop - headerOffset,
-          behavior: "smooth"
+        animate(window.scrollY, targetTop - headerOffset, {
+          duration: 0.9,
+          ease: [0.76, 0, 0.24, 1], // Gorgeous custom cinematic easing curve
+          onUpdate: (latest) => window.scrollTo(0, latest)
         });
         
-        // Debounce scrolling so the smooth transition finishes beautifully (1000ms delay)
+        // Debounce scrolling so the awesome transition finishes beautifully
         wheelTimer = setTimeout(() => {
           isScrolling = false;
         }, 1000);
