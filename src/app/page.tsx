@@ -8,29 +8,43 @@ import TrustOnsite from "@/components/trustonsite";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between w-full relative pt-20 md:pt-24">
+    <div className="flex flex-col items-center w-full relative pt-20 md:pt-24">
       
-      {/* Scrollytelling Hero Area */}
-      <SteelScroll />
+      <section className="snap-start scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+        {/* Scrollytelling Hero Area */}
+        <SteelScroll />
+      </section>
 
-      {/* About Section */}
-      <HomeAbout />
+      <section className="snap-start scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+        {/* About Section */}
+        <HomeAbout />
+      </section>
 
-      {/* Products Section */}
-      <HomeProducts />
+      <section className="snap-start scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+        {/* Products Section */}
+        <HomeProducts />
+      </section>
 
-      {/* Green Steel Certification Section */}
-      <GreenSteel />
+      <section className="snap-start scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+        {/* Green Steel Certification Section */}
+        <GreenSteel />
+      </section>
 
-      {/* Calculator Section */}
-      <SteelCalculator />
+      <section className="snap-start scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+        {/* Calculator Section */}
+        <SteelCalculator />
+      </section>
 
-      {/* Trust Section */}
-      <TrustOnsite />
+      <section className="snap-start scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+        {/* Trust Section */}
+        <TrustOnsite />
+      </section>
 
-      {/* Map Section */}
-      <MapEmbed />
+      <section className="snap-start scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+        {/* Map Section */}
+        <MapEmbed />
+      </section>
 
-    </main>
+    </div>
   );
 }
