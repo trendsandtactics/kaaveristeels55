@@ -54,7 +54,7 @@ export default function Footer() {
 
     const [activeAddress, setActiveAddress] = useState(0);
 
-    // Auto scroll address
+    // AUTO SCROLL
     useEffect(() => {
 
         const interval = setInterval(() => {
@@ -67,7 +67,7 @@ export default function Footer() {
 
         return () => clearInterval(interval);
 
-    }, [addresses.length]);
+    }, []);
 
 
     const nextAddress = () => {
@@ -86,41 +86,42 @@ export default function Footer() {
 
     };
 
+
     return (
 
-        <footer className="w-full bg-[#050505] border-t-4 border-accent-red py-16 px-6 md:px-10 lg:px-12 relative overflow-hidden">
+        <footer className="w-full bg-black border-t border-red-500/20 py-16 px-6 md:px-10 relative overflow-hidden">
 
             {/* Background Glow */}
-            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-red-500/10 rounded-full blur-[120px]" />
 
-            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-yellow-500/10 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-yellow-500/10 rounded-full blur-[120px]" />
 
 
             <div className="max-w-7xl mx-auto relative z-10">
 
-                {/* Main Grid */}
+                {/* MAIN GRID */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">
 
-                    {/* Brand */}
+                    {/* LOGO */}
                     <div>
 
                         <Link
                             href="/"
-                            className="inline-flex items-center justify-center mb-6 bg-white rounded-2xl p-5 shadow-2xl hover:scale-105 transition-transform duration-300"
+                            className="inline-block mb-8 hover:scale-105 transition-transform duration-300"
                         >
 
                             <Image
                                 src="/image/kaveerilogo.png"
                                 alt="KAAVERI Logo"
-                                width={180}
-                                height={65}
+                                width={240}
+                                height={80}
                                 className="object-contain"
                             />
 
                         </Link>
 
 
-                        <p className="text-white/65 text-sm leading-7 mb-6">
+                        <p className="text-white/70 text-[17px] leading-9 max-w-[320px]">
 
                             Leading the future of construction with premium
                             TMT bars and structural steel products engineered
@@ -128,37 +129,38 @@ export default function Footer() {
 
                         </p>
 
-                        <div className="w-14 h-1 bg-accent-red rounded-full" />
+
+                        <div className="w-16 h-1 bg-red-500 rounded-full mt-8" />
 
                     </div>
 
 
-                    {/* Company */}
+                    {/* COMPANY */}
                     <div>
 
-                        <h3 className="text-xl mb-6 text-white tracking-wide font-semibold">
+                        <h3 className="text-4xl font-semibold text-white mb-8">
                             Company
                         </h3>
 
-                        <ul className="space-y-4">
+                        <ul className="space-y-6">
 
                             {[
-                                { name: "Home", href: "/" },
-                                { name: "About Us", href: "/about-us" },
-                                { name: "Products", href: "/products" },
-                                { name: "Dealers", href: "/dealers" },
-                                { name: "Careers", href: "/careers" },
-                                { name: "Contact Us", href: "/contact-us" },
+                                { name: "HOME", href: "/" },
+                                { name: "ABOUT US", href: "/about-us" },
+                                { name: "PRODUCTS", href: "/products" },
+                                { name: "DEALERS", href: "/dealers" },
+                                { name: "CAREERS", href: "/careers" },
+                                { name: "CONTACT US", href: "/contact-us" },
                             ].map((item) => (
 
                                 <li key={item.name}>
 
                                     <Link
                                         href={item.href}
-                                        className="text-white/65 hover:text-red-500 text-sm uppercase tracking-widest transition-all duration-300 flex items-center gap-3 group"
+                                        className="flex items-center gap-4 text-white/70 hover:text-red-500 transition-all duration-300 tracking-[0.2em] text-sm"
                                     >
 
-                                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 group-hover:scale-125 transition-transform" />
+                                        <span className="w-2 h-2 rounded-full bg-red-500" />
 
                                         {item.name}
 
@@ -173,34 +175,34 @@ export default function Footer() {
                     </div>
 
 
-                    {/* Contact Slider */}
+                    {/* CONTACT */}
                     <div>
 
-                        <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center justify-between mb-8">
 
-                            <h3 className="text-xl text-white tracking-wide font-semibold">
+                            <h3 className="text-4xl font-semibold text-white">
                                 Contact Us
                             </h3>
 
 
-                            {/* Controls */}
-                            <div className="flex items-center gap-2">
+                            {/* Buttons */}
+                            <div className="flex items-center gap-3">
 
                                 <button
                                     onClick={prevAddress}
-                                    className="w-9 h-9 rounded-full border border-white/10 bg-white/5 hover:bg-red-500 hover:border-red-500 text-white flex items-center justify-center transition-all duration-300"
+                                    className="w-11 h-11 rounded-full border border-white/20 text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 flex items-center justify-center"
                                 >
 
-                                    <ChevronLeft size={16} />
+                                    <ChevronLeft size={18} />
 
                                 </button>
 
                                 <button
                                     onClick={nextAddress}
-                                    className="w-9 h-9 rounded-full border border-white/10 bg-white/5 hover:bg-red-500 hover:border-red-500 text-white flex items-center justify-center transition-all duration-300"
+                                    className="w-11 h-11 rounded-full border border-white/20 text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 flex items-center justify-center"
                                 >
 
-                                    <ChevronRight size={16} />
+                                    <ChevronRight size={18} />
 
                                 </button>
 
@@ -209,23 +211,28 @@ export default function Footer() {
                         </div>
 
 
-                        {/* Address Card */}
-                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 min-h-[250px] backdrop-blur-sm hover:border-red-500 transition-all duration-500">
+                        {/* ADDRESS */}
+                        <div
+                            key={activeAddress}
+                            className="transition-all duration-500"
+                        >
 
-                            <div className="flex items-start gap-4">
+                            <div className="flex items-start gap-4 mb-10">
 
                                 <MapPin
-                                    size={20}
+                                    size={22}
                                     className="text-red-500 mt-1 shrink-0"
                                 />
 
-                                <div key={activeAddress}>
+                                <div>
 
-                                    <h4 className="text-white font-semibold text-lg mb-3">
+                                    <h4 className="text-white text-2xl font-semibold mb-5">
+
                                         {addresses[activeAddress].title}
+
                                     </h4>
 
-                                    <div className="text-white/65 text-sm leading-7">
+                                    <div className="text-white/70 text-lg leading-10">
 
                                         {addresses[activeAddress].content}
 
@@ -235,36 +242,36 @@ export default function Footer() {
 
                             </div>
 
+                        </div>
 
-                            {/* Dots */}
-                            <div className="flex items-center gap-2 mt-6">
 
-                                {addresses.map((_, index) => (
+                        {/* DOTS */}
+                        <div className="flex items-center gap-3 mb-10">
 
-                                    <button
-                                        key={index}
-                                        onClick={() => setActiveAddress(index)}
-                                        className={`h-2 rounded-full transition-all duration-300 ${
-                                            activeAddress === index
-                                                ? "w-8 bg-red-500"
-                                                : "w-2 bg-white/30"
-                                        }`}
-                                    />
+                            {addresses.map((_, index) => (
 
-                                ))}
+                                <button
+                                    key={index}
+                                    onClick={() => setActiveAddress(index)}
+                                    className={`transition-all duration-300 rounded-full ${
+                                        activeAddress === index
+                                            ? "w-10 h-2 bg-red-500"
+                                            : "w-2 h-2 bg-white/30"
+                                    }`}
+                                />
 
-                            </div>
+                            ))}
 
                         </div>
 
 
-                        {/* Phone & Email */}
-                        <div className="mt-6 space-y-4 text-sm">
+                        {/* PHONE */}
+                        <div className="space-y-6">
 
-                            <div className="flex items-center gap-4 text-white/65">
+                            <div className="flex items-center gap-4 text-white/70 text-lg">
 
                                 <Phone
-                                    size={18}
+                                    size={20}
                                     className="text-red-500"
                                 />
 
@@ -273,10 +280,10 @@ export default function Footer() {
                             </div>
 
 
-                            <div className="flex items-center gap-4 text-white/65 break-all">
+                            <div className="flex items-center gap-4 text-white/70 text-lg break-all">
 
                                 <Mail
-                                    size={18}
+                                    size={20}
                                     className="text-red-500"
                                 />
 
@@ -289,70 +296,61 @@ export default function Footer() {
                     </div>
 
 
-                    {/* Certifications & Social */}
-                    <div className="flex flex-col gap-12">
+                    {/* RIGHT */}
+                    <div>
 
-                        {/* Certifications */}
-                        <div>
+                        {/* CERTIFICATIONS */}
+                        <div className="mb-14">
 
-                            <h3 className="text-xl mb-6 text-white tracking-wide font-semibold">
+                            <h3 className="text-4xl font-semibold text-white mb-10">
                                 Certifications
                             </h3>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="flex items-center gap-10">
 
-                                {/* ISO */}
-                                <div className="group bg-white rounded-2xl p-5 flex items-center justify-center hover:scale-105 transition-all duration-300 shadow-xl min-h-[120px]">
+                                <Image
+                                    src="/image/iso.png"
+                                    alt="ISO"
+                                    width={150}
+                                    height={100}
+                                    className="object-contain opacity-90 hover:opacity-100 transition-all duration-300"
+                                />
 
-                                    <Image
-                                        src="/image/iso.png"
-                                        alt="ISO Certification"
-                                        width={130}
-                                        height={70}
-                                        className="object-contain"
-                                    />
+                                <div className="w-px h-28 bg-white/10" />
 
-                                </div>
-
-
-                                {/* NISST */}
-                                <div className="group bg-white rounded-2xl p-5 flex items-center justify-center hover:scale-105 transition-all duration-300 shadow-xl min-h-[120px]">
-
-                                    <Image
-                                        src="/image/nisst.png"
-                                        alt="NISST Certification"
-                                        width={130}
-                                        height={70}
-                                        className="object-contain"
-                                    />
-
-                                </div>
+                                <Image
+                                    src="/image/nisst.png"
+                                    alt="NISST"
+                                    width={150}
+                                    height={100}
+                                    className="object-contain opacity-90 hover:opacity-100 transition-all duration-300"
+                                />
 
                             </div>
 
                         </div>
 
 
-                        {/* Social */}
+                        {/* SOCIAL */}
                         <div>
 
-                            <h3 className="text-xl mb-6 text-white tracking-wide font-semibold">
+                            <h3 className="text-4xl font-semibold text-white mb-8">
                                 Follow Us
                             </h3>
 
-                            <div className="flex items-center gap-4 flex-wrap">
+                            <div className="flex items-center gap-5 flex-wrap">
 
                                 {[
                                     {
-                                        icon: <Instagram size={18} />,
+                                        icon: <Instagram size={20} />,
                                         href: "https://www.instagram.com/kaaveritmtbarsandstructural",
                                     },
                                     {
-                                        icon: <Linkedin size={18} />,
+                                        icon: <Linkedin size={20} />,
                                         href: "https://www.linkedin.com/company/kaaveritmtbarsandstructural",
                                     },
                                     {
-                                        icon: <Youtube size={18} />,
+                                        icon: <Youtube size={20} />,
                                         href: "https://www.youtube.com/@KAAVERITMTBARSANDSTRUCTURAL",
                                     },
                                     {
@@ -360,7 +358,7 @@ export default function Footer() {
                                         href: "https://x.com/kaaveritmt",
                                     },
                                     {
-                                        icon: <MessageCircle size={18} />,
+                                        icon: <MessageCircle size={20} />,
                                         href: "https://wa.me/918855824555",
                                     },
                                 ].map((social, index) => (
@@ -369,7 +367,7 @@ export default function Footer() {
                                         key={index}
                                         href={social.href}
                                         target="_blank"
-                                        className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 hover:scale-110"
+                                        className="w-14 h-14 rounded-full border border-white/10 bg-white/5 text-white/70 hover:bg-red-500 hover:border-red-500 hover:text-white transition-all duration-300 flex items-center justify-center"
                                     >
 
                                         {social.icon}
@@ -387,27 +385,30 @@ export default function Footer() {
                 </div>
 
 
-                {/* Bottom */}
-                <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+                {/* BOTTOM */}
+                <div className="mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
 
-                    <p className="text-white/45 text-xs tracking-[0.2em] uppercase font-semibold">
+                    <p className="text-white/40 text-sm tracking-[0.25em] uppercase">
 
-                        © {new Date().getFullYear()} KAAVERI Steel. All Rights Reserved.
+                        © {new Date().getFullYear()} KAAVERI STEEL. ALL RIGHTS RESERVED.
 
                     </p>
+
 
                     <div className="flex items-center gap-6 flex-wrap justify-center">
 
                         <Link
                             href="#"
-                            className="text-white/45 hover:text-red-500 text-xs tracking-[0.2em] uppercase transition-colors duration-300 font-semibold"
+                            className="text-white/40 hover:text-red-500 transition-colors duration-300 text-sm tracking-[0.2em] uppercase"
                         >
                             Privacy Policy
                         </Link>
 
+                        <div className="w-px h-4 bg-white/20" />
+
                         <Link
                             href="#"
-                            className="text-white/45 hover:text-red-500 text-xs tracking-[0.2em] uppercase transition-colors duration-300 font-semibold"
+                            className="text-white/40 hover:text-red-500 transition-colors duration-300 text-sm tracking-[0.2em] uppercase"
                         >
                             Terms Of Service
                         </Link>
@@ -419,5 +420,6 @@ export default function Footer() {
             </div>
 
         </footer>
+
     );
 }
