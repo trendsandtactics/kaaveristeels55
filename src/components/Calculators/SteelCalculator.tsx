@@ -10,17 +10,10 @@ export default function SteelCalculator() {
   const [phone, setPhone] = useState("");
   const [structureType, setStructureType] = useState("");
   const [area, setArea] = useState("");
-<<<<<<< HEAD
-  const [floors, setFloors] = useState<number | null>(null);
-  const [estimatedSteel, setEstimatedSteel] = useState<number | null>(null);
-  const [diameter, setDiameter] = useState<number | null>(null);
-  const [length, setLength] = useState<number | null>(null);
-=======
   const [floors, setFloors] = useState("");
   const [estimatedSteel, setEstimatedSteel] = useState<number | null>(null);
   const [diameter, setDiameter] = useState("");
   const [length, setLength] = useState("");
->>>>>>> a4daf56 (hto)
   const [quantity, setQuantity] = useState("");
   const [estimatedWeight, setEstimatedWeight] = useState<number | null>(null);
   const [bundleCount, setBundleCount] = useState<number | null>(null);
