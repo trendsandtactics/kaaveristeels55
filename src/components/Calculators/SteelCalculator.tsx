@@ -10,10 +10,10 @@ export default function SteelCalculator() {
   const [phone, setPhone] = useState("");
   const [structureType, setStructureType] = useState("residential");
   const [area, setArea] = useState("");
-  const [floors, setFloors] = useState("1");
+  const [floors, setFloors] = useState<number | null>(null);
   const [estimatedSteel, setEstimatedSteel] = useState<number | null>(null);
-  const [diameter, setDiameter] = useState("8");
-  const [length, setLength] = useState("12");
+  const [diameter, setDiameter] = useState<number | null>(null);
+  const [length, setLength] = useState<number | null>(null);
   const [quantity, setQuantity] = useState("");
   const [estimatedWeight, setEstimatedWeight] = useState<number | null>(null);
   const [bundleCount, setBundleCount] = useState<number | null>(null);
