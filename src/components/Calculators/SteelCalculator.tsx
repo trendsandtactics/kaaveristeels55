@@ -8,12 +8,19 @@ export default function SteelCalculator() {
   const [activeTab, setActiveTab] = useState<"construction" | "weight">("construction");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [structureType, setStructureType] = useState("residential");
+  const [structureType, setStructureType] = useState("");
   const [area, setArea] = useState("");
+<<<<<<< HEAD
   const [floors, setFloors] = useState<number | null>(null);
   const [estimatedSteel, setEstimatedSteel] = useState<number | null>(null);
   const [diameter, setDiameter] = useState<number | null>(null);
   const [length, setLength] = useState<number | null>(null);
+=======
+  const [floors, setFloors] = useState("");
+  const [estimatedSteel, setEstimatedSteel] = useState<number | null>(null);
+  const [diameter, setDiameter] = useState("");
+  const [length, setLength] = useState("");
+>>>>>>> a4daf56 (hto)
   const [quantity, setQuantity] = useState("");
   const [estimatedWeight, setEstimatedWeight] = useState<number | null>(null);
   const [bundleCount, setBundleCount] = useState<number | null>(null);
@@ -77,6 +84,11 @@ export default function SteelCalculator() {
 
   const calculateConstruction = () => {
     if (!validateLead()) return;
+
+    if (!structureType || !area || !floors) {
+      alert("Please enter Structure Type, Area, and Floors to calculate.");
+      return;
+    }
 
     // Use dynamic multipliers or fallback to defaults
     const defaultMultipliers: Record<string, number> = { residential: 4, commercial: 5, infrastructure: 6 };
@@ -247,6 +259,7 @@ export default function SteelCalculator() {
                       onChange={(e) => setStructureType(e.target.value)}
                       className="p-3 border rounded-xl w-full"
                     >
+                      <option value="" disabled>Select Structure Type</option>
                       <option value="residential">Residential</option>
                       <option value="commercial">Commercial</option>
                       <option value="infrastructure">Infrastructure</option>
