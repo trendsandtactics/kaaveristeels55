@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { MapPin, Phone, Mail, LocateFixed } from "lucide-react";
+import Image from "next/image";
+import { resolveMediaUrl } from "@/lib/media";
 
 interface Dealer {
   id: number;
@@ -14,6 +16,7 @@ interface Dealer {
   mapUrl?: string;
   latitude?: string;
   longitude?: string;
+  coverImage?: string | null;
 }
 
 function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
@@ -86,6 +89,7 @@ export default function DealersPage() {
           mapUrl: extra?.map_url || "",
           latitude: extra?.latitude || "",
           longitude: extra?.longitude || "",
+          coverImage: item.cover_image || null,
         };
       });
 
@@ -101,6 +105,7 @@ export default function DealersPage() {
             phone: "+91 98765 43210",
             email: "chennai@kaaveristeel.com",
             mapUrl: "https://maps.google.com/maps?q=Guindy,%20Chennai&t=&z=13&ie=UTF8&iwloc=&output=embed",
+            coverImage: null,
           },
           {
             id: 2,
@@ -111,6 +116,7 @@ export default function DealersPage() {
             phone: "+91 87654 32109",
             email: "madurai@kaaveristeel.com",
             mapUrl: "https://maps.google.com/maps?q=Bypass%20Road,%20Madurai&t=&z=13&ie=UTF8&iwloc=&output=embed",
+            coverImage: null,
           }
         );
       }
@@ -363,23 +369,36 @@ export default function DealersPage() {
                 </span>
               )}
             </div>
-                <div className="mt-4 space-y-3">
-                  <div className="flex items-start gap-3 text-sm md:text-base text-gray-700">
-                    <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-red-600" />
-                    <p className="font-medium leading-tight">{dealer.address}, {dealer.city}, {dealer.state}</p>
+                <div className="mt-4 flex flex-col sm:flex-row gap-4">
+                  {dealer.coverImage && (
+                    <div className="relative w-full sm:w-32 h-48 sm:h-32 rounded-xl overflow-hidden shrink-0 border border-black/10">
+                      <Image
+                        src={resolveMediaUrl(dealer.coverImage, "/image/kaaveriabout.png")}
+                        alt={dealer.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, 128px"
+                      />
+                    </div>
+                  )}
+                  <div className="space-y-3 flex-1">
+                    <div className="flex items-start gap-3 text-sm md:text-base text-gray-700">
+                      <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-red-600" />
+                      <p className="font-medium leading-tight">{dealer.address}, {dealer.city}, {dealer.state}</p>
+                    </div>
+                    {dealer.phone && (
+                      <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
+                        <Phone className="w-5 h-5 shrink-0 text-red-600" />
+                        <p className="font-medium">{dealer.phone}</p>
+                      </div>
+                    )}
+                    {dealer.email && (
+                      <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
+                        <Mail className="w-5 h-5 shrink-0 text-red-600" />
+                        <a href={`mailto:${dealer.email}`} className="font-medium hover:text-red-600 hover:underline transition-colors">{dealer.email}</a>
+                      </div>
+                    )}
                   </div>
-                  {dealer.phone && (
-                    <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
-                      <Phone className="w-5 h-5 shrink-0 text-red-600" />
-                      <p className="font-medium">{dealer.phone}</p>
-                    </div>
-                  )}
-                  {dealer.email && (
-                    <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
-                      <Mail className="w-5 h-5 shrink-0 text-red-600" />
-                      <a href={`mailto:${dealer.email}`} className="font-medium hover:text-red-600 hover:underline transition-colors">{dealer.email}</a>
-                    </div>
-                  )}
                 </div>
               </div>
             ))}
