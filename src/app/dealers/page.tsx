@@ -359,6 +359,17 @@ export default function DealersPage() {
                     : "border-black/10 bg-white hover:shadow-lg hover:-translate-y-1 hover:border-black/20"
                 }`}
               >
+            {dealer.coverImage && (
+              <div className="relative w-full h-56 sm:h-64 mb-5 rounded-xl overflow-hidden shrink-0 border border-black/10">
+                <Image
+                  src={resolveMediaUrl(dealer.coverImage, "/image/kaaveriabout.png")}
+                  alt={dealer.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+            )}
             <div className="flex justify-between items-start gap-2">
               <h3 className="font-sans text-xl md:text-2xl font-bold text-gray-900">
                 {dealer.title}
@@ -369,37 +380,24 @@ export default function DealersPage() {
                 </span>
               )}
             </div>
-                <div className="mt-4 flex flex-col sm:flex-row gap-4">
-                  {dealer.coverImage && (
-                    <div className="relative w-full sm:w-32 h-48 sm:h-32 rounded-xl overflow-hidden shrink-0 border border-black/10">
-                      <Image
-                        src={resolveMediaUrl(dealer.coverImage, "/image/kaaveriabout.png")}
-                        alt={dealer.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 100vw, 128px"
-                      />
-                    </div>
-                  )}
-                  <div className="space-y-3 flex-1">
-                    <div className="flex items-start gap-3 text-sm md:text-base text-gray-700">
-                      <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-red-600" />
-                      <p className="font-medium leading-tight">{dealer.address}, {dealer.city}, {dealer.state}</p>
-                    </div>
-                    {dealer.phone && (
-                      <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
-                        <Phone className="w-5 h-5 shrink-0 text-red-600" />
-                        <p className="font-medium">{dealer.phone}</p>
-                      </div>
-                    )}
-                    {dealer.email && (
-                      <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
-                        <Mail className="w-5 h-5 shrink-0 text-red-600" />
-                        <a href={`mailto:${dealer.email}`} className="font-medium hover:text-red-600 hover:underline transition-colors">{dealer.email}</a>
-                      </div>
-                    )}
-                  </div>
+            <div className="mt-4 space-y-3">
+              <div className="flex items-start gap-3 text-sm md:text-base text-gray-700">
+                <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-red-600" />
+                <p className="font-medium leading-tight">{dealer.address}, {dealer.city}, {dealer.state}</p>
+              </div>
+              {dealer.phone && (
+                <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
+                  <Phone className="w-5 h-5 shrink-0 text-red-600" />
+                  <p className="font-medium">{dealer.phone}</p>
                 </div>
+              )}
+              {dealer.email && (
+                <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
+                  <Mail className="w-5 h-5 shrink-0 text-red-600" />
+                  <a href={`mailto:${dealer.email}`} className="font-medium hover:text-red-600 hover:underline transition-colors">{dealer.email}</a>
+                </div>
+              )}
+            </div>
               </div>
             ))}
             {visibleCount < filteredDealers.length && (
