@@ -20,7 +20,7 @@ export default function EnquiryForm() {
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setLoading(true);
-    setStatusMessage("");
+    setStatusMessage("Submitting...");
 
     try {
       const response = await fetch("/api/enquiries", {
@@ -29,21 +29,18 @@ export default function EnquiryForm() {
         body: JSON.stringify(form),
       });
 
-      let data: { error?: string } = {};
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await response.json();
-      } else {
-        throw new Error("Server returned an invalid response.");
-      }
-
       if (!response.ok) {
-        setStatusMessage(data.error ?? "Submission failed.");
-        setLoading(false);
-        return;
+        let errorMsg = "Submission failed.";
+        try {
+          const data = await response.json();
+          errorMsg = data.error || `Submission failed with status: ${response.status}`;
+        } catch {
+          errorMsg = `Submission failed with status: ${response.status}`;
+        }
+        throw new Error(errorMsg);
       }
 
-      setStatusMessage("Enquiry submitted successfully.");
+      setStatusMessage("Enquiry submitted successfully. We will be in touch!");
       setForm({
         name: "",
         email: "",
@@ -52,12 +49,11 @@ export default function EnquiryForm() {
         product_name: "",
         message: "",
       });
-    } catch {
-      // ESLint-safe: no unused variable
-      setStatusMessage("Something went wrong. Please try again.");
+    } catch (error: unknown) {
+      setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -153,7 +149,7 @@ export default function EnquiryForm() {
 
           <button
             disabled={loading}
-            className="w-full rounded-lg bg-red-600 hover:bg-red-700 transition text-white py-3 font-semibold"
+            className="w-full rounded-lg bg-red-600 hover:bg-red-700 transition text-white py-3 font-semibold disabled:opacity-70"
           >
             {loading ? "Submitting..." : "Submit Enquiry"}
           </button>
@@ -161,9 +157,15 @@ export default function EnquiryForm() {
 
         {/* Status Message */}
         {statusMessage && (
-          <p className="text-sm mt-4 text-black/70 text-center">
+          <div className={`mt-6 p-4 rounded-lg text-sm font-semibold text-center ${
+            statusMessage.includes("successfully") 
+              ? "bg-green-50 text-green-700 border border-green-200" 
+              : statusMessage.includes("Submitting")
+              ? "bg-blue-50 text-blue-700 border border-blue-200"
+              : "bg-red-50 text-red-700 border border-red-200"
+          }`}>
             {statusMessage}
-          </p>
+          </div>
         )}
       </div>
     </section>

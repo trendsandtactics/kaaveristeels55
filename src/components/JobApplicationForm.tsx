@@ -88,14 +88,15 @@ ${form.cover_letter || "N/A"}
         }),
       });
 
-      let data: { error?: string } = {};
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await response.json();
-      }
-
       if (!response.ok) {
-        throw new Error(data.error || "Application submission failed.");
+        let errorMsg = "Application submission failed.";
+        try {
+          const data = await response.json();
+          errorMsg = data.error || `Application submission failed with status: ${response.status}`;
+        } catch {
+          errorMsg = `Application submission failed with status: ${response.status}`;
+        }
+        throw new Error(errorMsg);
       }
 
       setStatusMessage("Application submitted successfully. We will be in touch!");
