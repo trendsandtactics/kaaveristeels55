@@ -37,7 +37,7 @@ export default function MapEmbed() {
   const Icon = activeLocation.icon;
 
   return (
-    <section className="relative w-full py-12 md:py-16 px-6 md:px-12 overflow-hidden">
+    <section className="relative w-full py-12 md:py-16 px-6 md:px-12">
 
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
@@ -122,10 +122,15 @@ export default function MapEmbed() {
                   ))}
                 </div>
 
-                <div className="mt-6 flex items-center gap-2 font-sans text-red-700 font-semibold">
-                  <MapPin size={16} />
-                  <span className="text-sm font-sans">Find us on Google Maps</span>
-                </div>
+            <a 
+              href={activeLocation.map.replace("&output=embed", "")} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="mt-6 inline-flex items-center gap-2 font-sans text-red-700 font-semibold hover:text-red-800 transition-colors cursor-pointer"
+            >
+              <MapPin size={16} />
+              <span className="text-sm font-sans">Find us on Google Maps</span>
+            </a>
 
                 <div className="mt-5 h-[2px] w-16 rounded-full bg-red-500" />
               </div>
@@ -134,7 +139,7 @@ export default function MapEmbed() {
               <div className="relative min-h-[280px] md:min-h-[360px]">
                 <iframe
                   src={activeLocation.map}
-                  className="absolute inset-0 w-full h-full border-0"
+                className="absolute inset-0 w-full h-full border-0 pointer-events-none md:pointer-events-auto"
                   loading="lazy"
                 />
                 <div className="pointer-events-none absolute inset-0 ring-1 ring-black/10" />

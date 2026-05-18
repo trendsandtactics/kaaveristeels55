@@ -31,7 +31,7 @@ export default function HomeAbout() {
   }, []);
 
   return (
-    <section className="relative w-full py-16 px-6 md:px-12 overflow-hidden">
+    <section className="relative w-full py-16 px-6 md:px-12 overflow-x-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
