@@ -22,33 +22,36 @@ export default function EnquiryForm() {
     setLoading(true);
     setStatusMessage("Submitting...");
 
+    const formData = {
+      ...form,
+      _subject: `New Website Enquiry: ${form.enquiry_type}`,
+    };
+
     try {
-      const response = await fetch("/api/enquiries", {
+      const response = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        let errorMsg = "Submission failed.";
-        try {
-          const data = await response.json();
-          errorMsg = data.error || `Submission failed with status: ${response.status}`;
-        } catch {
-          errorMsg = `Submission failed with status: ${response.status}`;
-        }
-        throw new Error(errorMsg);
+      const data = await response.json();
+
+      if (data.success) {
+        setStatusMessage("Enquiry submitted successfully. We will be in touch!");
+        setForm({
+          name: "",
+          email: "",
+          phone: "",
+          enquiry_type: "product",
+          product_name: "",
+          message: "",
+        });
+      } else {
+        throw new Error(data.message || "Something went wrong. Please try again.");
       }
-
-      setStatusMessage("Enquiry submitted successfully. We will be in touch!");
-      setForm({
-        name: "",
-        email: "",
-        phone: "",
-        enquiry_type: "product",
-        product_name: "",
-        message: "",
-      });
     } catch (error: unknown) {
       setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
     } finally {

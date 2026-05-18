@@ -37,72 +37,38 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
     setLoading(true);
     setStatusMessage("Submitting application...");
 
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("email", form.email);
+    formData.append("phone", form.phone);
+    formData.append("Applying for", jobTitle || "General Application");
+    if (careerId) {
+      formData.append("career_id", String(careerId));
+    }
+    formData.append("Relevant Experience", form.q_experience);
+    formData.append("Why this role?", form.q_why_us);
+    formData.append("Cover Letter", form.cover_letter);
+    if (file) {
+      formData.append("resume", file);
+    }
+    formData.append("_subject", `Job Application: ${jobTitle || form.name}`);
+
     try {
-      let resume_url = "";
-
-      // 1. Upload Resume if a file was selected
-      if (file) {
-        setStatusMessage("Uploading resume...");
-        const formData = new FormData();
-        formData.append("file", file);
-
-        const uploadRes = await fetch("/api/uploads", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!uploadRes.ok) {
-          const err = await uploadRes.json().catch(() => ({}));
-          throw new Error(err.error || "Failed to upload resume.");
-        }
-
-        const uploadData = await uploadRes.json();
-        resume_url = uploadData.url;
-      }
-
-      // 2. Format questions into the cover letter field matching your SQL schema
-      const combinedCoverLetter = `
---- QUESTIONNAIRE ---
-Q: Relevant Experience?
-A: ${form.q_experience || "N/A"}
-
-Q: Why this role?
-A: ${form.q_why_us || "N/A"}
-
---- ADDITIONAL COVER LETTER ---
-${form.cover_letter || "N/A"}
-      `.trim();
-
-      // 3. Submit Application to Database
-      setStatusMessage("Saving application...");
-      const response = await fetch("/api/job-applications", {
+      const response = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          career_id: careerId || null,
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          cover_letter: combinedCoverLetter,
-          resume_url,
-        }),
+        body: formData,
       });
 
-      if (!response.ok) {
-        let errorMsg = "Application submission failed.";
-        try {
-          const data = await response.json();
-          errorMsg = data.error || `Application submission failed with status: ${response.status}`;
-        } catch {
-          errorMsg = `Application submission failed with status: ${response.status}`;
-        }
-        throw new Error(errorMsg);
-      }
+      const data = await response.json();
 
-      setStatusMessage("Application submitted successfully. We will be in touch!");
-      setForm({ name: "", email: "", phone: "", q_experience: "", q_why_us: "", cover_letter: "" });
-      setFile(null);
-      if (fileInputRef.current) fileInputRef.current.value = "";
+      if (data.success) {
+        setStatusMessage("Application submitted successfully. We will be in touch!");
+        setForm({ name: "", email: "", phone: "", q_experience: "", q_why_us: "", cover_letter: "" });
+        setFile(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+      } else {
+        throw new Error(data.message || "Something went wrong. Please try again.");
+      }
     } catch (error: unknown) {
       setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
     } finally {

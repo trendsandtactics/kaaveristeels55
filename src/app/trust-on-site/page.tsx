@@ -33,23 +33,35 @@ export default function TrustOnSitePage() {
     setLoading(true);
     setSuccess("");
 
+    const formData = {
+      name,
+      phone,
+      location,
+      enquiry_type: "site_visit",
+      _subject: "New Trust On Site Visit Request",
+    };
+
     try {
-      await fetch("/api/enquiries", {
+      const response = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          phone,
-          enquiry_type: "site_visit",
-          message: `Requested a Trust On Site visit at: ${location || "No location provided"}`,
-        }),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
       });
-      setSuccess("Request submitted! Our team will contact you shortly.");
-      setName("");
-      setPhone("");
-      setLocation("");
+      const data = await response.json();
+      if (data.success) {
+        setSuccess("Request submitted! Our team will contact you shortly.");
+        setName("");
+        setPhone("");
+        setLocation("");
+      } else {
+        throw new Error(data.message || "Something went wrong. Please try again.");
+      }
     } catch (err) {
       console.error("Failed to submit site visit", err);
+      setSuccess(err instanceof Error ? err.message : "An error occurred. Please try again.");
     }
     setLoading(false);
   };
