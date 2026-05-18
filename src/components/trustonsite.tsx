@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function MapEmbed() {
+export default function TrustOnSite() {
   return (
     <section className="relative w-full pt-28 pb-8 md:pt-32 md:pb-10 flex items-center">
 

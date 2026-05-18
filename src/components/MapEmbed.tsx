@@ -139,7 +139,7 @@ export default function MapEmbed() {
               <div className="relative min-h-[280px] md:min-h-[360px]">
                 <iframe
                   src={activeLocation.map}
-                className="absolute inset-0 w-full h-full border-0 pointer-events-none md:pointer-events-auto"
+                className="absolute inset-0 w-full h-full border-0 pointer-events-none"
                   loading="lazy"
                 />
                 <div className="pointer-events-none absolute inset-0 ring-1 ring-black/10" />
