@@ -58,7 +58,7 @@ export default function TrustOnSitePage() {
     <main className="w-full bg-[#f3f4f6]">
 
       {/* 🌟 HERO SECTION */}
-    <section className="relative pt-28 pb-6 md:pt-32 md:pb-8 overflow-hidden">
+    <section className="relative pt-28 pb-6 md:pt-32 md:pb-8">
 
   {/* 🌆 Background Image */}
   <div className="absolute inset-0">
@@ -192,7 +192,7 @@ export default function TrustOnSitePage() {
 
 
       {/* 📞 CTA */}
- <section id="book-test" className="relative py-16 px-4 md:px-10 overflow-hidden">
+ <section id="book-test" className="relative py-16 px-4 md:px-10">
 
   {/* Full Section Gradient (no inner red box) */}
   <div className="absolute inset-0 bg-gradient-to-br from-red-800 via-red-700 to-red-600"></div>
