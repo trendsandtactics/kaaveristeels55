@@ -123,7 +123,7 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold transition-colors duration-300 hover:text-red-600 ${
+                    className={`relative whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold transition-colors duration-300 hover:text-red-600 ${
                       pathname === link.href
                         ? "text-black"
                         : "text-black/80"
@@ -147,7 +147,7 @@ export default function Header() {
                       setMediaDropdownOpen((prev) => !prev);
                       setSupportDropdownOpen(false);
                     }}
-                    className="flex items-center gap-1 whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600"
+                    className="flex items-center gap-1 whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
                   >
                     Media
                     <span className="text-[9px]">▾</span>
@@ -188,7 +188,7 @@ export default function Header() {
                       setSupportDropdownOpen((prev) => !prev);
                       setMediaDropdownOpen(false);
                     }}
-                    className="flex items-center gap-1 whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600"
+                    className="flex items-center gap-1 whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
                   >
                     Support
                     <span className="text-[9px]">▾</span>
@@ -222,7 +222,7 @@ export default function Header() {
                 {/* Careers */}
                 <Link
                   href="/careers"
-                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600"
+                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
                 >
                   Careers
                 </Link>
@@ -230,7 +230,7 @@ export default function Header() {
                 {/* Contact */}
                 <Link
                   href="/contact-us"
-                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-semibold text-black/80 hover:text-red-600"
+                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
                 >
                   Contact Us
                 </Link>
@@ -238,7 +238,7 @@ export default function Header() {
                 {/* CTA */}
                 <Link
                   href="/product-enquiry"
-                  className="inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-full bg-red-600 px-6 h-11 text-[11px] font-semibold uppercase tracking-[0.14em] text-white hover:bg-red-700 transition-colors duration-300"
+                  className="inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-full bg-red-600 px-6 h-11 text-[11px] font-bold uppercase tracking-[0.14em] text-white hover:bg-red-700 transition-colors duration-300"
                 >
                   Request Quote
                 </Link>
@@ -246,12 +246,21 @@ export default function Header() {
 
               {/* Mobile Menu Button */}
               <button
-                className="xl:hidden ml-auto flex items-center justify-center w-11 h-11 rounded-full bg-white shadow-md"
+                className="xl:hidden ml-auto flex items-center justify-center w-11 h-11 rounded-full bg-white text-black shadow-md"
                 onClick={() =>
                   setMobileMenuOpen(!mobileMenuOpen)
                 }
               >
-                ☰
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
               </button>
             </div>
           </div>

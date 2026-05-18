@@ -176,7 +176,7 @@ export default function SteelCalculator() {
   };
 
   return (
-    <section className="relative w-full overflow-hidden bg-gray-900">
+    <section className="relative w-full bg-gray-900">
       
       {/* BACKGROUND */}
       <div className="absolute inset-0 z-0">
