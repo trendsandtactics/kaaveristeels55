@@ -90,7 +90,7 @@ export default function Footer() {
 
     return (
 
-        <footer className="relative bg-black overflow-y-auto overflow-x-hidden max-h-[60vh] lg:max-h-[50vh] border-t border-red-500/10 pt-16 pb-8 px-6 md:px-10">
+        <footer id="footer" className="relative bg-black overflow-hidden border-t border-red-500/10 pt-16 pb-8 px-6 md:px-10">
 
             {/* Glow */}
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-red-500/10 blur-[120px] rounded-full" />

@@ -300,7 +300,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                     <p className="font-body text-black/80 font-medium text-lg mb-8 max-w-2xl">
                         Get in touch with our experts to find the right steel solutions for your specific project requirements.
                     </p>
-                    <Link href="/contact-us">
+                    <Link href="#footer">
                         <button className="px-10 py-4 bg-black text-white font-body text-sm uppercase tracking-[0.2em] font-bold hover:bg-accent-red transition-colors duration-300 shadow-xl rounded-sm">
                             Request a Quote
                         </button>
