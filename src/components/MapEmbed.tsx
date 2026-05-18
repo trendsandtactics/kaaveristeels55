@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Factory } from "lucide-react";
 
@@ -32,9 +32,25 @@ const locations = [
 
 export default function MapEmbed() {
   const [activeTab, setActiveTab] = useState(0);
+  const [isInteractive, setIsInteractive] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const activeLocation = locations[activeTab];
   const Icon = activeLocation.icon;
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (mapContainerRef.current && !mapContainerRef.current.contains(e.target as Node)) {
+        setIsInteractive(false);
+      }
+    };
+    if (isInteractive) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isInteractive]);
 
   return (
     <section className="relative w-full py-12 md:py-16 px-6 md:px-12">
@@ -75,7 +91,10 @@ export default function MapEmbed() {
           {locations.map((loc, index) => (
             <button
               key={index}
-              onClick={() => setActiveTab(index)}
+              onClick={() => {
+                setActiveTab(index);
+                setIsInteractive(false);
+              }}
             className={`px-5 md:px-6 py-2.5 rounded-full text-sm md:text-base font-sans font-semibold transition-all duration-300 border ${
                 activeTab === index
                   ? "bg-red-700 text-white border-red-700 shadow-md"
@@ -136,13 +155,27 @@ export default function MapEmbed() {
               </div>
 
               {/* Map */}
-              <div className="relative min-h-[280px] md:min-h-[360px]">
+              <div 
+                ref={mapContainerRef}
+                className="relative min-h-[280px] md:min-h-[360px] group cursor-pointer"
+                onClick={() => !isInteractive && setIsInteractive(true)}
+              >
                 <iframe
                   src={activeLocation.map}
-                className="absolute inset-0 w-full h-full border-0 pointer-events-none"
+                  className={`absolute inset-0 w-full h-full border-0 transition-all duration-300 ${
+                    isInteractive ? "pointer-events-auto" : "pointer-events-none"
+                  }`}
                   loading="lazy"
                 />
                 <div className="pointer-events-none absolute inset-0 ring-1 ring-black/10" />
+                
+                {!isInteractive && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/5 hover:bg-black/10 transition-colors">
+                    <div className="bg-white/95 text-black px-5 py-2 rounded-full font-sans text-sm font-semibold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                      Click to interact
+                    </div>
+                  </div>
+                )}
               </div>
 
             </motion.div>
