@@ -277,47 +277,63 @@ export default function Header() {
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="xl:hidden fixed inset-0 top-[94px] z-40 bg-white/95 backdrop-blur-xl shadow-lg"
-          >
-            <div className="h-full overflow-y-auto p-8 pt-12">
-              <nav className="flex flex-col items-center gap-8">
-                {[
-                  ...navLinks,
-                  ...mediaLinks,
-                  ...supportLinks,
-                  { name: "Careers", href: "/careers" },
-                  { name: "Contact Us", href: "/contact-us" },
-                ].map((link) => (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="xl:hidden fixed inset-0 bg-black/20 z-30"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            {/* Menu Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="xl:hidden fixed inset-y-0 right-0 w-full max-w-xs z-40 bg-white shadow-2xl"
+            >
+              <div className="h-full overflow-y-auto p-6 pt-24">
+                <h2 className="px-4 text-sm font-semibold uppercase tracking-wider text-gray-500 mb-4">
+                  Menu
+                </h2>
+                <nav className="flex flex-col gap-1">
+                  {[
+                    ...navLinks,
+                    ...mediaLinks,
+                    ...supportLinks,
+                    { name: "Careers", href: "/careers" },
+                    { name: "Contact Us", href: "/contact-us" },
+                  ].map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={`block rounded-md px-4 py-3 text-base font-semibold transition-colors duration-200 ${
+                        pathname === link.href
+                          ? "text-red-600 bg-red-50"
+                          : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
+                      }`}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
                   <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`text-lg font-bold uppercase tracking-wider transition-colors duration-300 ${
-                      pathname === link.href
-                        ? "text-red-600"
-                        : "text-black/80 hover:text-red-500"
-                    }`}
+                    href="/product-enquiry"
+                    className="mt-6 mx-4 inline-flex items-center justify-center rounded-full bg-red-600 px-8 py-3 text-sm font-bold uppercase tracking-widest text-white shadow-lg hover:bg-red-700 transition-colors duration-300"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    {link.name}
+                    Request Quote
                   </Link>
-                ))}
-                <Link
-                  href="/product-enquiry"
-                  className="mt-4 inline-flex items-center justify-center rounded-full bg-red-600 px-8 py-4 text-sm font-bold uppercase tracking-widest text-white hover:bg-red-700 transition-colors duration-300"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Request Quote
-                </Link>
-              </nav>
-            </div>
-          </motion.div>
+                </nav>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>
