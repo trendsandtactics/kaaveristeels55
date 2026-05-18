@@ -107,7 +107,7 @@ export default function Footer() {
                     <div>
 
                         <Link
-                            href="/"
+                            href="/#top"
                             className="inline-block mb-6 hover:scale-105 transition-all duration-300"
                         >
 
@@ -156,7 +156,7 @@ export default function Footer() {
                                 <li key={item.name}>
 
                                     <Link
-                                        href={item.href}
+                                        href={`${item.href}#top`}
                                         className="group flex items-center gap-3 text-white/65 hover:text-red-500 transition-all duration-300 tracking-[0.2em] text-[13px]"
                                     >
 

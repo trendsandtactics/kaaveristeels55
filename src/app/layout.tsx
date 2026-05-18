@@ -33,7 +33,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} ${playfair.variable} font-body antialiased bg-background text-foreground flex flex-col min-h-screen`}>
         <Header />
-        <main className="flex-grow">
+        <main id="top" className="flex-grow">
           {children}
         </main>
         <Footer />
