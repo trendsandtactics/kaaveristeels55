@@ -14,6 +14,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     await getPool().query("DELETE FROM enquiries WHERE id = ?", [id]);
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error("Error deleting enquiry:", error);
     return NextResponse.json({ error: "Unable to delete enquiry." }, { status: 500 });
   }
 }
