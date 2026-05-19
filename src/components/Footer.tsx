@@ -55,7 +55,7 @@ const addresses = [
 export default function Footer() {
     const [activeAddress, setActiveAddress] = useState(0);
 
-    // AUTO SCROLL
+    // AUTO ADDRESS SCROLL
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveAddress((prev) =>
@@ -155,7 +155,7 @@ export default function Footer() {
                                 <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
                             </div>
 
-                            {/* SCROLL BUTTONS */}
+                            {/* ADDRESS SLIDER BUTTONS */}
                             <div className="hidden md:flex items-center gap-2">
                                 <button
                                     onClick={prevAddress}
@@ -245,54 +245,46 @@ export default function Footer() {
 
                             <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
 
-                            {/* CERTIFICATE LOGOS SINGLE LINE */}
-                            <div className="flex items-center gap-3 md:gap-4 overflow-x-auto scrollbar-hide">
+                            {/* CERTIFICATE LOGOS */}
+                            <div className="flex items-center justify-between gap-3">
                                 <Image
                                     src="/iso.png"
                                     alt="ISO"
-                                    width={58}
-                                    height={58}
-                                    className="object-contain min-w-[58px]"
+                                    width={55}
+                                    height={55}
+                                    className="object-contain"
                                 />
-
-                                <div className="w-px h-10 bg-white/10" />
 
                                 <Image
                                     src="/nisst.png"
                                     alt="NISST"
-                                    width={58}
-                                    height={58}
-                                    className="object-contain min-w-[58px]"
+                                    width={55}
+                                    height={55}
+                                    className="object-contain"
                                 />
-
-                                <div className="w-px h-10 bg-white/10" />
 
                                 <Image
                                     src="/bis.png"
                                     alt="BIS"
-                                    width={58}
-                                    height={58}
-                                    className="object-contain min-w-[58px]"
+                                    width={55}
+                                    height={55}
+                                    className="object-contain"
                                 />
-
-                                <div className="w-px h-10 bg-white/10" />
 
                                 <Image
                                     src="/cert1.png"
                                     alt="CERT1"
-                                    width={58}
-                                    height={58}
-                                    className="object-contain min-w-[58px]"
+                                    width={55}
+                                    height={55}
+                                    className="object-contain"
                                 />
-
-                                <div className="w-px h-10 bg-white/10" />
 
                                 <Image
                                     src="/cert2.png"
                                     alt="CERT2"
-                                    width={58}
-                                    height={58}
-                                    className="object-contain min-w-[58px]"
+                                    width={55}
+                                    height={55}
+                                    className="object-contain"
                                 />
                             </div>
                         </div>
@@ -308,8 +300,8 @@ export default function Footer() {
 
                             <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
 
-                            {/* SOCIAL SINGLE LINE */}
-                            <div className="flex items-center gap-4 overflow-x-auto scrollbar-hide">
+                            {/* SOCIAL ICONS */}
+                            <div className="flex items-center gap-4">
                                 {[
                                     {
                                         icon: <Instagram size={20} />,
@@ -336,7 +328,7 @@ export default function Footer() {
                                         key={index}
                                         href={social.href}
                                         target="_blank"
-                                        className="min-w-[56px] w-14 h-14 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:border-red-500 hover:bg-red-500/10 transition-all duration-300 shadow-[0_0_20px_rgba(255,0,0,0.15)]"
+                                        className="w-14 h-14 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:border-red-500 hover:bg-red-500/10 transition-all duration-300 shadow-[0_0_20px_rgba(255,0,0,0.15)]"
                                     >
                                         {social.icon}
                                     </Link>
