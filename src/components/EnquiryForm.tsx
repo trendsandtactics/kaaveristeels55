@@ -22,23 +22,14 @@ export default function EnquiryForm() {
     setLoading(true);
     setStatusMessage("Submitting...");
 
-    const payload = {
-      name: form.name,
-      email: form.email,
-      phone: form.phone,
-      product_type: form.enquiry_type,
-      quantity: 1, // Default value, as it's required by the API but not in the form
-      notes: form.product_name ? `Product: ${form.product_name}\n\n${form.message}` : form.message,
-    };
-
     try {
-      const response = await fetch("/api/quote-requests", {
+      const response = await fetch("/api/enquiries", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(form),
       });
 
       const data = await response.json();

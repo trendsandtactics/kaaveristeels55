@@ -86,7 +86,7 @@ function parseCSV(text: string): string[][] {
 }
 
 function endpointForSupportModule(module: SupportModuleName): string {
-  if (module === "enquiries") return "/api/quote-requests";
+  if (module === "enquiries") return "/api/enquiries";
   if (module === "contact_messages") return "/api/contact-messages";
   return "/api/job-applications";
 }
