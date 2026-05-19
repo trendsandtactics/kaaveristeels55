@@ -86,7 +86,7 @@ function parseCSV(text: string): string[][] {
 }
 
 function endpointForSupportModule(module: SupportModuleName): string {
-  if (module === "enquiries") return "/api/enquiries";
+  if (module === "enquiries") return "/api/quote-requests";
   if (module === "contact_messages") return "/api/contact-messages";
   return "/api/job-applications";
 }
@@ -133,7 +133,7 @@ export default function AdminContentManager() {
       const response = await fetch(fetchUrl, { cache: "no-store" });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Unable to load records.");
-      const resultItems = data.data ?? [];
+      const resultItems = Array.isArray(data) ? data : (data.data ?? data.items ?? data.quote_requests ?? []);
       adminCache.set(baseUrl, resultItems);
       setItems(resultItems);
     } catch (error) {
@@ -822,10 +822,10 @@ export default function AdminContentManager() {
               </>
             ) : (
               <>
-                <p><strong>Type:</strong> <span className="font-semibold uppercase">{String(viewingItem.enquiry_type ?? "N/A")}</span></p>
+                <p><strong>Type:</strong> <span className="font-semibold uppercase">{String(viewingItem.enquiry_type ?? viewingItem.product_type ?? "N/A")}</span></p>
                 {viewingItem.product_name ? <p><strong>Product:</strong> {String(viewingItem.product_name)}</p> : null}
                 <p className="font-semibold mt-4">Message:</p>
-                <div className="max-h-60 overflow-y-auto whitespace-pre-wrap rounded-lg border bg-slate-50 p-3 text-slate-800">{String(viewingItem.message ?? "No message provided.")}</div>
+                <div className="max-h-60 overflow-y-auto whitespace-pre-wrap rounded-lg border bg-slate-50 p-3 text-slate-800">{String(viewingItem.message ?? viewingItem.notes ?? "No message provided.")}</div>
               </>
             )}
           </div>
@@ -955,7 +955,7 @@ export default function AdminContentManager() {
                   {activeDef.kind === "content" ? (
                     <span className="inline-flex rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold capitalize text-slate-700">{String(row.status ?? "-")}</span>
                   ) : (
-                <span className="inline-flex rounded-full bg-blue-100 text-blue-700 px-2.5 py-1 text-xs font-bold uppercase tracking-wider">{String(row.enquiry_type ?? row.subject ?? (activeModule === "job_applications" ? "Job App" : "enquiry"))}</span>
+                <span className="inline-flex rounded-full bg-blue-100 text-blue-700 px-2.5 py-1 text-xs font-bold uppercase tracking-wider">{String(row.enquiry_type ?? row.product_type ?? row.subject ?? (activeModule === "job_applications" ? "Job App" : "enquiry"))}</span>
                   )}
                 </td>
                 <td className="px-3 py-3 pr-3 text-slate-600">
