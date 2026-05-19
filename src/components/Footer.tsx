@@ -246,7 +246,7 @@ export default function Footer() {
                             <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
 
                             {/* CERTIFICATE LOGOS */}
-                            <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-4">
                                 <Image
                                     src="/iso.png"
                                     alt="ISO"
