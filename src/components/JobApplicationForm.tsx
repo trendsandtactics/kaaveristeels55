@@ -41,33 +41,31 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
     formData.append("name", form.name);
     formData.append("email", form.email);
     formData.append("phone", form.phone);
-    formData.append("Applying for", jobTitle || "General Application");
+    formData.append("job_title", jobTitle || "General Application");
     if (careerId) {
       formData.append("career_id", String(careerId));
     }
-    formData.append("Relevant Experience", form.q_experience);
-    formData.append("Why this role?", form.q_why_us);
-    formData.append("Cover Letter", form.cover_letter);
+    const coverLetterContent = `Relevant Experience:\n${form.q_experience}\n\nWhy this role?:\n${form.q_why_us}\n\nAdditional Cover Letter:\n${form.cover_letter}`;
+    formData.append("cover_letter", coverLetterContent);
     if (file) {
       formData.append("resume", file);
     }
-    formData.append("_subject", `Job Application: ${jobTitle || form.name}`);
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+      const response = await fetch("/api/job-applications", {
         method: "POST",
         body: formData,
       });
 
       const data = await response.json();
 
-      if (data.success) {
+      if (response.ok) {
         setStatusMessage("Application submitted successfully. We will be in touch!");
         setForm({ name: "", email: "", phone: "", q_experience: "", q_why_us: "", cover_letter: "" });
         setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
       } else {
-        throw new Error(data.message || "Something went wrong. Please try again.");
+        throw new Error(data.error || data.message || "Something went wrong. Please try again.");
       }
     } catch (error: unknown) {
       setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
