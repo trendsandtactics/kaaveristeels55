@@ -310,8 +310,8 @@ export default function Footer() {
                                 <Image
                                     src="/iso.png"
                                     alt="ISO"
-                                    width={110}
-                                    height={70}
+                                    width={90}
+                                    height={50}
                                     className="object-contain opacity-90 hover:opacity-100 transition-all duration-300"
                                 />
 
@@ -320,10 +320,22 @@ export default function Footer() {
                                 <Image
                                     src="/nisst.png"
                                     alt="NISST"
-                                    width={110}
-                                    height={70}
+                                    width={90}
+                                    height={50}
                                     className="object-contain opacity-90 hover:opacity-100 transition-all duration-300"
                                 />
+
+                                 <div className="w-px h-20 bg-white/10" />
+
+                                <Image
+                                    src="/bis.png"
+                                    alt="BIS"
+                                    width={90}
+                                    height={50}
+                                    className="object-contain opacity-90 hover:opacity-100 transition-all duration-300"
+                                />
+
+                            </div>
 
                             </div>
 
