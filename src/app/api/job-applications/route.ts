@@ -1,61 +1,30 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getPool } from "@/lib/mysql";
-import nodemailer from "nodemailer";
+import { ResultSetHeader } from "mysql2";
 
-export async function GET() {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } | Promise<{ id: string }> }
+) {
   try {
-    const [rows] = await getPool().query("SELECT * FROM job_applications ORDER BY created_at DESC");
-    return NextResponse.json({ data: rows });
-  } catch (error) {
-    console.error("Fetch Job Applications Error:", error);
-    return NextResponse.json({ error: "Failed to fetch job applications" }, { status: 500 });
-  }
-}
+    // Safely extract the ID supporting both Next.js 14 and Next.js 15
+    const resolvedParams = await Promise.resolve(params);
+    const id = parseInt(resolvedParams.id, 10);
 
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-    const { career_id, name, email, phone, cover_letter, resume_url } = body;
-
-    if (!name || !email || !phone) {
-      return NextResponse.json({ error: "Name, email, and phone are required" }, { status: 400 });
+    if (isNaN(id)) {
+      return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
 
-    const [result] = await getPool().query(
-      "INSERT INTO job_applications (career_id, name, email, phone, cover_letter, resume_url) VALUES (?, ?, ?, ?, ?, ?)",
-      [career_id || null, name, email, phone, cover_letter || "", resume_url || ""]
-    );
+    const pool = getPool();
+    const [result] = await pool.execute<ResultSetHeader>('DELETE FROM job_applications WHERE id = ?', [id]);
 
-    // Send email notification
-    try {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: "karthikjungleemara@gmail.com",
-          pass: "vqfk acte ljlb rmmo",
-        },
-      });
-
-      await transporter.sendMail({
-        from: '"Kaaveri Steels" <karthikjungleemara@gmail.com>',
-        to: "karthikjungleemara@gmail.com",
-        subject: `New Job Application Submission - ${name}`,
-        text: `A new job application has been submitted:
-
-Career ID: ${career_id || "N/A"}
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Cover Letter: ${cover_letter || "N/A"}
-Resume URL: ${resume_url || "N/A"}`,
-      });
-    } catch (emailError) {
-      console.error("Email Notification Error:", emailError);
+    if (result.affectedRows === 0) {
+      return NextResponse.json({ error: "Job application not found in database" }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, id: (result as { insertId: number }).insertId });
-  } catch (error) {
-    console.error("Create Job Application Error:", error);
-    return NextResponse.json({ error: "Failed to submit application" }, { status: 500 });
+    return NextResponse.json({ message: "Job application deleted successfully" }, { status: 200 });
+  } catch (error: any) {
+    console.error("Error deleting job application:", error);
+    return NextResponse.json({ error: "Failed to delete job application" }, { status: 500 });
   }
 }
