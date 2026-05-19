@@ -81,11 +81,11 @@ export default function Footer() {
     return (
         <footer id="footer" className="scroll-section relative overflow-hidden bg-black border-t border-red-500/10">
             {/* RED GLOW */}
-            <div className="absolute left-[-160px] bottom-[-160px] w-[450px] h-[450px] bg-red-600/10 blur-[130px] rounded-full" />
+            <div className="absolute left-[-100px] bottom-[-100px] md:left-[-160px] md:bottom-[-160px] w-[300px] h-[300px] md:w-[450px] md:h-[450px] bg-red-600/10 blur-[130px] rounded-full pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-6 md:px-10 pt-16 pb-8 relative z-10">
                 {/* TOP SECTION */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-10 lg:gap-14">
                     {/* LOGO */}
                     <div>
                         <Link href="/#top">
@@ -98,7 +98,7 @@ export default function Footer() {
                             />
                         </Link>
 
-                        <p className="text-white/70 text-[15px] leading-[2.3] max-w-[290px]">
+                        <p className="text-white/70 text-[15px] leading-[2.3] sm:max-w-[290px]">
                             Premium TMT bars and structural steel products
                             engineered for durability, strength, and
                             sustainability.
@@ -156,7 +156,7 @@ export default function Footer() {
                             </div>
 
                             {/* ADDRESS SCROLL BUTTONS */}
-                            <div className="hidden md:flex items-center gap-2">
+                        <div className="hidden sm:flex items-center gap-2">
                                 <button
                                     onClick={prevAddress}
                                     className="w-11 h-11 rounded-full border border-white/10 bg-white/5 text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 flex items-center justify-center"
@@ -218,7 +218,7 @@ export default function Footer() {
                             <div className="flex items-center gap-4 text-white/70 text-[15px]">
                                 <Phone
                                     size={17}
-                                    className="text-red-500"
+                                    className="text-red-500 shrink-0"
                                 />
 
                                 <span>+91 88558 24555</span>
@@ -227,7 +227,7 @@ export default function Footer() {
                             <div className="flex items-center gap-4 text-white/70 text-[15px] break-all">
                                 <Mail
                                     size={17}
-                                    className="text-red-500"
+                                    className="text-red-500 shrink-0"
                                 />
 
                                 <span>info@kaaveristeel.co.in</span>
@@ -246,7 +246,7 @@ export default function Footer() {
                             <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
 
                             {/* CERTIFICATE LOGOS */}
-                            <div className="flex items-center gap-4">
+                            <div className="flex flex-wrap items-center gap-4">
                                 <Image
                                     src="/iso.png"
                                     alt="ISO"
@@ -285,7 +285,7 @@ export default function Footer() {
                             <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
 
                             {/* SOCIAL ICONS */}
-                            <div className="flex items-center gap-3">
+                            <div className="flex flex-wrap items-center gap-3">
                                 {[
                                     {
                                         icon: <Instagram size={18} />,
