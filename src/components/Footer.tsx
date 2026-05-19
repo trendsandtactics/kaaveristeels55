@@ -55,6 +55,7 @@ const addresses = [
 export default function Footer() {
     const [activeAddress, setActiveAddress] = useState(0);
 
+    // AUTO SCROLL
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveAddress((prev) =>
@@ -78,15 +79,12 @@ export default function Footer() {
     };
 
     return (
-        <footer
-            id="footer"
-            className="relative bg-black overflow-hidden border-t border-red-500/10"
-        >
+        <footer className="relative overflow-hidden bg-black border-t border-red-500/10">
             {/* RED GLOW */}
-            <div className="absolute left-0 bottom-0 w-[400px] h-[400px] bg-red-600/10 blur-[120px] rounded-full" />
+            <div className="absolute left-[-150px] bottom-[-150px] w-[450px] h-[450px] bg-red-600/10 blur-[130px] rounded-full" />
 
-            <div className="max-w-7xl mx-auto px-6 md:px-10 pt-14 pb-6 relative z-10">
-                {/* TOP GRID */}
+            <div className="max-w-7xl mx-auto px-6 md:px-10 pt-16 pb-8 relative z-10">
+                {/* TOP SECTION */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">
                     {/* LOGO */}
                     <div>
@@ -94,24 +92,24 @@ export default function Footer() {
                             <Image
                                 src="/image/kaveerilogo.png"
                                 alt="KAAVERI"
-                                width={220}
-                                height={70}
+                                width={230}
+                                height={80}
                                 className="object-contain mb-8"
                             />
                         </Link>
 
-                        <p className="text-white/70 text-[15px] leading-[2.2] max-w-[280px]">
+                        <p className="text-white/70 text-[15px] leading-[2.3] max-w-[290px]">
                             Premium TMT bars and structural steel products
                             engineered for durability, strength, and
                             sustainability.
                         </p>
 
-                        <div className="w-12 h-[3px] bg-red-500 rounded-full mt-8" />
+                        <div className="w-14 h-[3px] bg-red-500 rounded-full mt-8" />
                     </div>
 
                     {/* QUICK LINKS */}
                     <div>
-                        <h3 className="text-white uppercase tracking-[0.08em] text-[30px] font-bold mb-3">
+                        <h3 className="text-white uppercase tracking-[0.12em] text-[18px] font-bold mb-3">
                             Quick Links
                         </h3>
 
@@ -132,10 +130,10 @@ export default function Footer() {
                                 >
                                     <Link
                                         href={`${item.href}#top`}
-                                        className="group flex items-center gap-3 text-white/65 hover:text-red-500 transition-all duration-300 text-[14px] tracking-[0.25em]"
+                                        className="group flex items-center gap-3 text-white/70 hover:text-red-500 transition-all duration-300 text-[14px] tracking-[0.22em]"
                                     >
                                         <ArrowIcon
-                                            size={14}
+                                            size={13}
                                             className="text-red-500"
                                         />
 
@@ -150,45 +148,50 @@ export default function Footer() {
                     <div>
                         <div className="flex items-center justify-between">
                             <div>
-                                <h3 className="text-white uppercase tracking-[0.08em] text-[30px] font-bold mb-3">
+                                <h3 className="text-white uppercase tracking-[0.12em] text-[18px] font-bold mb-3">
                                     Contact
                                 </h3>
 
                                 <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
                             </div>
 
-                            {/* SLIDER BUTTONS */}
+                            {/* SCROLL BUTTONS */}
                             <div className="hidden md:flex items-center gap-2">
                                 <button
                                     onClick={prevAddress}
-                                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 text-white hover:bg-red-500 transition-all duration-300 flex items-center justify-center"
+                                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 flex items-center justify-center"
                                 >
-                                    <ChevronLeft size={16} />
+                                    <ChevronLeft size={15} />
                                 </button>
 
                                 <button
                                     onClick={nextAddress}
-                                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 text-white hover:bg-red-500 transition-all duration-300 flex items-center justify-center"
+                                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 flex items-center justify-center"
                                 >
-                                    <ChevronRight size={16} />
+                                    <ChevronRight size={15} />
                                 </button>
                             </div>
                         </div>
 
                         {/* ADDRESS */}
-                        <div className="flex items-start gap-4">
-                            <MapPin
-                                size={18}
-                                className="text-red-500 mt-1 shrink-0"
-                            />
+                        <div
+                            key={activeAddress}
+                            className="transition-all duration-500"
+                        >
+                            <div className="flex items-start gap-4">
+                                <MapPin
+                                    size={18}
+                                    className="text-red-500 mt-1 shrink-0"
+                                />
 
-                            <div>
-                                <h4 className="text-white text-[18px] font-semibold mb-4">
-                                    {addresses[activeAddress].title}
-                                </h4>
+                                <div>
+                                    <h4 className="text-white text-[18px] font-semibold mb-4">
+                                        {addresses[activeAddress].title}
+                                    </h4>
 
-                                <div className="text-white/70 text-[15px] leading-[2.2]">
-                                    {addresses[activeAddress].content}
+                                    <div className="text-white/70 text-[15px] leading-[2.2]">
+                                        {addresses[activeAddress].content}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -214,7 +217,7 @@ export default function Footer() {
                         <div className="space-y-5">
                             <div className="flex items-center gap-4 text-white/70 text-[15px]">
                                 <Phone
-                                    size={18}
+                                    size={17}
                                     className="text-red-500"
                                 />
 
@@ -223,7 +226,7 @@ export default function Footer() {
 
                             <div className="flex items-center gap-4 text-white/70 text-[15px] break-all">
                                 <Mail
-                                    size={18}
+                                    size={17}
                                     className="text-red-500"
                                 />
 
@@ -236,60 +239,60 @@ export default function Footer() {
                     <div>
                         {/* CERTIFICATIONS */}
                         <div>
-                            <h3 className="text-white uppercase tracking-[0.08em] text-[30px] font-bold mb-3">
+                            <h3 className="text-white uppercase tracking-[0.12em] text-[18px] font-bold mb-3">
                                 Certifications
                             </h3>
 
-                            <div className="w-6 h-[3px] bg-red-500 rounded-full mb-10" />
+                            <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
 
-                            {/* LOGOS */}
-                            <div className="flex items-center gap-4 md:gap-5 flex-wrap">
+                            {/* CERTIFICATE LOGOS SINGLE LINE */}
+                            <div className="flex items-center gap-3 md:gap-4 overflow-x-auto scrollbar-hide">
                                 <Image
                                     src="/iso.png"
                                     alt="ISO"
-                                    width={60}
-                                    height={60}
-                                    className="object-contain opacity-90 hover:opacity-100 transition-all duration-300"
+                                    width={58}
+                                    height={58}
+                                    className="object-contain min-w-[58px]"
                                 />
 
-                                <div className="w-px h-12 bg-white/10" />
+                                <div className="w-px h-10 bg-white/10" />
 
                                 <Image
                                     src="/nisst.png"
                                     alt="NISST"
-                                    width={60}
-                                    height={60}
-                                    className="object-contain opacity-90 hover:opacity-100 transition-all duration-300"
+                                    width={58}
+                                    height={58}
+                                    className="object-contain min-w-[58px]"
                                 />
 
-                                <div className="w-px h-12 bg-white/10" />
+                                <div className="w-px h-10 bg-white/10" />
 
                                 <Image
                                     src="/bis.png"
                                     alt="BIS"
-                                    width={60}
-                                    height={60}
-                                    className="object-contain opacity-90 hover:opacity-100 transition-all duration-300"
+                                    width={58}
+                                    height={58}
+                                    className="object-contain min-w-[58px]"
                                 />
 
-                                <div className="w-px h-12 bg-white/10" />
+                                <div className="w-px h-10 bg-white/10" />
 
                                 <Image
                                     src="/cert1.png"
-                                    alt="CERT"
-                                    width={60}
-                                    height={60}
-                                    className="object-contain opacity-90 hover:opacity-100 transition-all duration-300"
+                                    alt="CERT1"
+                                    width={58}
+                                    height={58}
+                                    className="object-contain min-w-[58px]"
                                 />
 
-                                <div className="w-px h-12 bg-white/10" />
+                                <div className="w-px h-10 bg-white/10" />
 
                                 <Image
                                     src="/cert2.png"
-                                    alt="CERT"
-                                    width={60}
-                                    height={60}
-                                    className="object-contain opacity-90 hover:opacity-100 transition-all duration-300"
+                                    alt="CERT2"
+                                    width={58}
+                                    height={58}
+                                    className="object-contain min-w-[58px]"
                                 />
                             </div>
                         </div>
@@ -299,13 +302,14 @@ export default function Footer() {
 
                         {/* FOLLOW US */}
                         <div>
-                            <h3 className="text-white uppercase tracking-[0.08em] text-[30px] font-bold mb-3">
+                            <h3 className="text-white uppercase tracking-[0.12em] text-[18px] font-bold mb-3">
                                 Follow Us
                             </h3>
 
                             <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
 
-                            <div className="flex items-center gap-4 flex-wrap">
+                            {/* SOCIAL SINGLE LINE */}
+                            <div className="flex items-center gap-4 overflow-x-auto scrollbar-hide">
                                 {[
                                     {
                                         icon: <Instagram size={20} />,
@@ -332,7 +336,7 @@ export default function Footer() {
                                         key={index}
                                         href={social.href}
                                         target="_blank"
-                                        className="w-14 h-14 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:border-red-500 hover:bg-red-500/10 transition-all duration-300 shadow-[0_0_20px_rgba(255,0,0,0.15)]"
+                                        className="min-w-[56px] w-14 h-14 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:border-red-500 hover:bg-red-500/10 transition-all duration-300 shadow-[0_0_20px_rgba(255,0,0,0.15)]"
                                     >
                                         {social.icon}
                                     </Link>
@@ -344,7 +348,7 @@ export default function Footer() {
 
                 {/* BOTTOM */}
                 <div className="mt-16 pt-6 border-t border-red-500/30 flex flex-col md:flex-row items-center justify-between gap-5">
-                    <p className="text-white/40 uppercase tracking-[0.3em] text-[11px] text-center">
+                    <p className="text-white/35 uppercase tracking-[0.25em] text-[11px] text-center">
                         © {new Date().getFullYear()}{" "}
                         <span className="text-red-500">
                             KAAVERI STEEL
@@ -355,7 +359,7 @@ export default function Footer() {
                     <div className="flex items-center gap-5 flex-wrap justify-center">
                         <Link
                             href="#"
-                            className="text-white/40 hover:text-red-500 transition-all duration-300 uppercase tracking-[0.2em] text-[11px]"
+                            className="text-white/35 hover:text-red-500 transition-all duration-300 uppercase tracking-[0.2em] text-[11px]"
                         >
                             Privacy Policy
                         </Link>
@@ -364,7 +368,7 @@ export default function Footer() {
 
                         <Link
                             href="#"
-                            className="text-white/40 hover:text-red-500 transition-all duration-300 uppercase tracking-[0.2em] text-[11px]"
+                            className="text-white/35 hover:text-red-500 transition-all duration-300 uppercase tracking-[0.2em] text-[11px]"
                         >
                             Terms Of Service
                         </Link>
