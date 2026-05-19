@@ -22,7 +22,6 @@ export default function EnquiryForm() {
     setLoading(true);
     setStatusMessage("Submitting...");
 
-    const formData = form;
     const payload = {
       name: form.name,
       email: form.email,
@@ -39,7 +38,6 @@ export default function EnquiryForm() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(formData),
         body: JSON.stringify(payload),
       });
 

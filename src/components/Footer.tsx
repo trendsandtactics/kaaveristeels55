@@ -15,9 +15,7 @@ import {
     ChevronRight,
 } from "lucide-react";
 
-export default function Footer() {
-
-    const addresses = [
+const addresses = [
         {
             title: "Unit 1",
             content: (
@@ -51,6 +49,8 @@ export default function Footer() {
             ),
         },
     ];
+
+export default function Footer() {
 
     const [activeAddress, setActiveAddress] = useState(0);
 
