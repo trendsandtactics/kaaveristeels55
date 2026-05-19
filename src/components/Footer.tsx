@@ -81,7 +81,7 @@ export default function Footer() {
     return (
         <footer className="relative overflow-hidden bg-black border-t border-red-500/10">
             {/* RED GLOW */}
-            <div className="absolute left-[-150px] bottom-[-150px] w-[450px] h-[450px] bg-red-600/10 blur-[130px] rounded-full" />
+            <div className="absolute left-[-160px] bottom-[-160px] w-[450px] h-[450px] bg-red-600/10 blur-[130px] rounded-full" />
 
             <div className="max-w-7xl mx-auto px-6 md:px-10 pt-16 pb-8 relative z-10">
                 {/* TOP SECTION */}
@@ -155,20 +155,20 @@ export default function Footer() {
                                 <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
                             </div>
 
-                            {/* ADDRESS SLIDER BUTTONS */}
+                            {/* ADDRESS SCROLL BUTTONS */}
                             <div className="hidden md:flex items-center gap-2">
                                 <button
                                     onClick={prevAddress}
-                                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 flex items-center justify-center"
+                                    className="w-11 h-11 rounded-full border border-white/10 bg-white/5 text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 flex items-center justify-center"
                                 >
-                                    <ChevronLeft size={15} />
+                                    <ChevronLeft size={16} />
                                 </button>
 
                                 <button
                                     onClick={nextAddress}
-                                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 flex items-center justify-center"
+                                    className="w-11 h-11 rounded-full border border-white/10 bg-white/5 text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 flex items-center justify-center"
                                 >
-                                    <ChevronRight size={15} />
+                                    <ChevronRight size={16} />
                                 </button>
                             </div>
                         </div>
@@ -246,44 +246,28 @@ export default function Footer() {
                             <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
 
                             {/* CERTIFICATE LOGOS */}
-                            <div className="flex items-center justify-between gap-3">
+                            <div className="flex items-center justify-between gap-2">
                                 <Image
                                     src="/iso.png"
                                     alt="ISO"
-                                    width={55}
-                                    height={55}
+                                    width={48}
+                                    height={48}
                                     className="object-contain"
                                 />
 
                                 <Image
                                     src="/nisst.png"
                                     alt="NISST"
-                                    width={55}
-                                    height={55}
+                                    width={48}
+                                    height={48}
                                     className="object-contain"
                                 />
 
                                 <Image
                                     src="/bis.png"
                                     alt="BIS"
-                                    width={55}
-                                    height={55}
-                                    className="object-contain"
-                                />
-
-                                <Image
-                                    src="/cert1.png"
-                                    alt="CERT1"
-                                    width={55}
-                                    height={55}
-                                    className="object-contain"
-                                />
-
-                                <Image
-                                    src="/cert2.png"
-                                    alt="CERT2"
-                                    width={55}
-                                    height={55}
+                                    width={48}
+                                    height={48}
                                     className="object-contain"
                                 />
                             </div>
@@ -301,18 +285,18 @@ export default function Footer() {
                             <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
 
                             {/* SOCIAL ICONS */}
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-3">
                                 {[
                                     {
-                                        icon: <Instagram size={20} />,
+                                        icon: <Instagram size={18} />,
                                         href: "https://www.instagram.com/kaaveritmtbarsandstructural",
                                     },
                                     {
-                                        icon: <Linkedin size={20} />,
+                                        icon: <Linkedin size={18} />,
                                         href: "https://www.linkedin.com/company/kaaveritmtbarsandstructural",
                                     },
                                     {
-                                        icon: <Youtube size={20} />,
+                                        icon: <Youtube size={18} />,
                                         href: "https://www.youtube.com/@KAAVERITMTBARSANDSTRUCTURAL",
                                     },
                                     {
@@ -320,7 +304,7 @@ export default function Footer() {
                                         href: "https://x.com/kaaveritmt",
                                     },
                                     {
-                                        icon: <MessageCircle size={20} />,
+                                        icon: <MessageCircle size={18} />,
                                         href: "https://wa.me/918855824555",
                                     },
                                 ].map((social, index) => (
@@ -328,7 +312,7 @@ export default function Footer() {
                                         key={index}
                                         href={social.href}
                                         target="_blank"
-                                        className="w-14 h-14 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:border-red-500 hover:bg-red-500/10 transition-all duration-300 shadow-[0_0_20px_rgba(255,0,0,0.15)]"
+                                        className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center text-white hover:border-red-500 hover:bg-red-500/10 transition-all duration-300 shadow-[0_0_15px_rgba(255,0,0,0.15)]"
                                     >
                                         {social.icon}
                                     </Link>
