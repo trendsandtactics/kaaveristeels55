@@ -21,7 +21,7 @@ export async function GET(
     }
 
     return NextResponse.json(rows[0]);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching quote request:", error);
     return NextResponse.json({ error: "Failed to fetch quote request" }, { status: 500 });
   }
@@ -46,7 +46,7 @@ export async function DELETE(
     }
 
     return NextResponse.json({ message: "Enquiry deleted successfully" }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error deleting quote request:", error);
     return NextResponse.json({ error: "Failed to delete quote request" }, { status: 500 });
   }

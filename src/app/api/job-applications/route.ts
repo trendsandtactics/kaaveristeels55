@@ -23,7 +23,7 @@ export async function DELETE(
     }
 
     return NextResponse.json({ message: "Job application deleted successfully" }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error deleting job application:", error);
     return NextResponse.json({ error: "Failed to delete job application" }, { status: 500 });
   }
