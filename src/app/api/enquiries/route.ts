@@ -9,7 +9,7 @@ export const revalidate = 0;
 export async function GET(request: NextRequest) {
   try {
     await ensureDynamicCmsTables();
-    const [rows] = await getPool().query("SELECT * FROM quote_requests ORDER BY created_at DESC LIMIT 500");
+    const [rows] = await getPool().query("SELECT * FROM enquiries ORDER BY created_at DESC LIMIT 500");
     return NextResponse.json(
       { data: rows },
       {
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     const values = Object.values(body);
     const placeholders = keys.map(() => "?").join(", ");
     const escapedKeys = keys.map((k) => `\`${k}\``).join(", ");
-    await getPool().query(`INSERT INTO quote_requests (${escapedKeys}) VALUES (${placeholders})`, values);
+    await getPool().query(`INSERT INTO enquiries (${escapedKeys}) VALUES (${placeholders})`, values);
     return NextResponse.json({ ok: true, message: "Enquiry saved successfully." });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to save enquiry.";
