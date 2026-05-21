@@ -55,7 +55,7 @@ export default function ProductEnquiryPage() {
         product_name: "",
         message: "",
       });
-    } catch (error) {
+    } catch {
       setMessage("Network error. Please try again.");
     }
     setLoading(false);
