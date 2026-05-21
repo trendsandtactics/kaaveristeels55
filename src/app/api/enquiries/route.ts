@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ensureDynamicCmsTables } from "@/lib/dynamic-cms";
 import { getPool } from "@/lib/mysql";
+import { unstable_noStore as noStore } from "next/cache";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: NextRequest) {
+  noStore();
   try {
     await ensureDynamicCmsTables();
-    const [rows] = await getPool().query("SELECT * FROM enquiries ORDER BY created_at DESC LIMIT 500");
+    const [rows] = await getPool().query("SELECT * FROM enquiries LIMIT 500");
     return NextResponse.json(
       { data: rows },
       {
@@ -19,6 +21,7 @@ export async function GET(request: NextRequest) {
       }
     );
   } catch (error) {
+    console.error("Database fetch error:", error);
     const message = error instanceof Error ? error.message : "Unable to fetch enquiries.";
     return NextResponse.json({ error: message }, { status: 500 });
   }
