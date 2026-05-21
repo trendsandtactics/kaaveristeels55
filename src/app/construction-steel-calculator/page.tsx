@@ -68,11 +68,14 @@ export default function SteelCalculator() {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          name,
-          phone,
-          enquiry_type: "calculator",
-          message,
+          Name: name,
+          Phone: phone,
+          Email: "no-email@provided.com",
+          Type: "Steel Calculator",
+          Details: message,
           _subject: "New Steel Calculator Enquiry",
+          _captcha: "false",
+          _template: "table"
         }),
       });
       const emailData = await emailResponse.json();
@@ -89,7 +92,7 @@ export default function SteelCalculator() {
         }),
       });
 
-      if (!response.ok || !emailData.success) {
+      if (!response.ok || (emailData.success !== "true" && emailData.success !== true)) {
         throw new Error(emailData.message || "Something went wrong.");
       }
     } catch (err) {
