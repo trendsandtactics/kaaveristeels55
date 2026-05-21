@@ -227,11 +227,21 @@ export default function AdminContentManager() {
     
     let url = `/api/admin/content/${activeModule}/${id}`;
     if (activeDef.kind === "support") {
-      url = `${endpointForSupportModule(activeModule as SupportModuleName)}/${id}`;
+      if (activeModule === "enquiries") {
+        url = `/api/enquiries?id=${id}`;
+      } else {
+        url = `${endpointForSupportModule(activeModule as SupportModuleName)}/${id}`;
+      }
     }
 
     const response = await fetch(url, { method: "DELETE" });
-    const data = await response.json();
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      setMessage("Server returned an invalid response. Check terminal logs.");
+      return;
+    }
     if (!response.ok) {
       setMessage(data.error ?? "Delete failed.");
       return;
@@ -259,7 +269,11 @@ export default function AdminContentManager() {
           try {
             let url = `/api/admin/content/${activeModule}/${id}`;
             if (activeDef.kind === "support") {
-              url = `${endpointForSupportModule(activeModule as SupportModuleName)}/${id}`;
+              if (activeModule === "enquiries") {
+                url = `/api/enquiries?id=${id}`;
+              } else {
+                url = `${endpointForSupportModule(activeModule as SupportModuleName)}/${id}`;
+              }
             }
             const response = await fetch(url, { method: "DELETE" });
             if (response.ok) success++; else fail++;
