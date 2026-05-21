@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ensureDynamicCmsTables } from "@/lib/dynamic-cms";
 import { getPool } from "@/lib/mysql";
 import { unstable_noStore as noStore } from "next/cache";
+import nodemailer from "nodemailer";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -55,6 +56,31 @@ export async function POST(request: NextRequest) {
     const placeholders = keys.map(() => "?").join(", ");
     const escapedKeys = keys.map((k) => `\`${k}\``).join(", ");
     await getPool().query(`INSERT INTO enquiries (${escapedKeys}) VALUES (${placeholders})`, values);
+
+    // Send email notification via nodemailer
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "karthikjungleemara@gmail.com",
+          pass: "vqfk acte ljlb rmmo",
+        },
+      });
+
+      const emailBody = keys.map((key, index) => {
+        return `${key.replace(/_/g, ' ').toUpperCase()}: ${values[index] || "N/A"}`;
+      }).join("\n");
+
+      await transporter.sendMail({
+        from: '"Kaaveri Steels" <karthikjungleemara@gmail.com>',
+        to: "karthikjungleemara@gmail.com",
+        subject: `New Enquiry Submitted (${body.enquiry_type || "General"})`,
+        text: `A new enquiry has been saved to the database:\n\n${emailBody}`,
+      });
+    } catch (emailError) {
+      console.error("Email Notification Error:", emailError);
+    }
+
     return NextResponse.json({ ok: true, message: "Enquiry saved successfully." });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to save enquiry.";
