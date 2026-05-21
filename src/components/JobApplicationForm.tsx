@@ -52,6 +52,27 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
     }
 
     try {
+      // 1. Send Email via formsubmit.co
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          job_title: jobTitle || "General Application",
+          q_experience: form.q_experience,
+          q_why_us: form.q_why_us,
+          cover_letter: form.cover_letter,
+          _subject: `New Job Application: ${jobTitle || "General Application"}`,
+        }),
+      });
+      const emailData = await emailResponse.json();
+
+      // 2. Store in SQL
       const response = await fetch("/api/job-applications", {
         method: "POST",
         body: formData,
@@ -59,13 +80,13 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
 
       const data = await response.json();
 
-      if (response.ok) {
+      if (response.ok && emailData.success) {
         setStatusMessage("Application submitted successfully. We will be in touch!");
         setForm({ name: "", email: "", phone: "", q_experience: "", q_why_us: "", cover_letter: "" });
         setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
       } else {
-        throw new Error(data.error || data.message || "Something went wrong. Please try again.");
+        throw new Error(data.error || data.message || emailData.message || "Something went wrong. Please try again.");
       }
     } catch (error: unknown) {
       setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");

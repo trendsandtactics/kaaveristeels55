@@ -8,14 +8,33 @@ export default function MapFeedbackPage() {
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
-    const response = await fetch("/api/contact-messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
-    const data = await response.json();
-    if (!response.ok) {
-      setFeedback(data.error ?? "Failed to send message.");
-      return;
+    
+    try {
+      // 1. Send Email via formsubmit.co
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ ...form, _subject: "New Map Feedback/Contact Request" }),
+      });
+      const emailData = await emailResponse.json();
+
+      // 2. Store in SQL
+      const response = await fetch("/api/contact-messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+      const data = await response.json();
+      
+      if (!response.ok || !emailData.success) {
+        setFeedback(data.error ?? emailData.message ?? "Failed to send message.");
+        return;
+      }
+      
+      setFeedback("Message sent successfully.");
+      setForm({ name: "", email: "", phone: "", subject: "", message: "" });
+    } catch {
+      setFeedback("Network error. Please try again.");
     }
-    setFeedback("Message sent successfully.");
-    setForm({ name: "", email: "", phone: "", subject: "", message: "" });
   };
 
   return (

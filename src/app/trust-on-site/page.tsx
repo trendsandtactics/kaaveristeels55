@@ -42,6 +42,18 @@ export default function TrustOnSitePage() {
     };
 
     try {
+      // 1. Send Email via formsubmit.co
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const emailData = await emailResponse.json();
+
+      // 2. Store in SQL
       const sqlResponse = await fetch("/api/enquiries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -53,13 +65,13 @@ export default function TrustOnSitePage() {
         }),
       });
 
-      if (sqlResponse.ok) {
+      if (sqlResponse.ok && emailData.success) {
         setSuccess("Request submitted! Our team will contact you shortly.");
         setName("");
         setPhone("");
         setLocation("");
       } else {
-        throw new Error("Something went wrong. Please try again.");
+        throw new Error(emailData.message || "Something went wrong. Please try again.");
       }
     } catch (err) {
       console.error("Failed to submit site visit", err);

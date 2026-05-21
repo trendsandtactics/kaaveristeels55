@@ -20,6 +20,18 @@ export default function ProductEnquiryPage() {
     setMessage("");
 
     try {
+      // 1. Send Email via formsubmit.co
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ ...form, _subject: "New Product/Dealer Enquiry" }),
+      });
+      const emailData = await emailResponse.json();
+
+      // 2. Store in SQL
       const response = await fetch("/api/enquiries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -28,8 +40,8 @@ export default function ProductEnquiryPage() {
 
       const data = await response.json();
 
-      if (!response.ok) {
-        setMessage(data.error ?? "Submission failed.");
+      if (!response.ok || !emailData.success) {
+        setMessage(data.error ?? emailData.message ?? "Submission failed.");
         setLoading(false);
         return;
       }

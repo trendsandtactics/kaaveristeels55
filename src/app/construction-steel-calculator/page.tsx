@@ -60,7 +60,25 @@ export default function SteelCalculator() {
 
   const saveEnquiry = async (message: string) => {
     try {
-      await fetch("/api/enquiries", {
+      // 1. Send Email via formsubmit.co
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          phone,
+          enquiry_type: "calculator",
+          message,
+          _subject: "New Steel Calculator Enquiry",
+        }),
+      });
+      const emailData = await emailResponse.json();
+
+      // 2. Store in SQL
+      const response = await fetch("/api/enquiries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -70,6 +88,10 @@ export default function SteelCalculator() {
           message,
         }),
       });
+
+      if (!response.ok || !emailData.success) {
+        throw new Error(emailData.message || "Something went wrong.");
+      }
     } catch (err) {
       console.error("Failed to save enquiry", err);
     }
