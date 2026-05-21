@@ -23,6 +23,18 @@ export default function EnquiryForm() {
     setStatusMessage("Submitting...");
 
     try {
+      // 1. Send Email
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ ...form, _subject: "New Enquiry Request" }),
+      });
+      const emailData = await emailResponse.json();
+
+      // 2. Store in SQL
       const response = await fetch("/api/enquiries", {
         method: "POST",
         headers: {
@@ -34,7 +46,7 @@ export default function EnquiryForm() {
 
       const data = await response.json();
 
-      if (response.ok) {
+      if (response.ok && emailData.success) {
         setStatusMessage("Enquiry submitted successfully. We will be in touch!");
         setForm({
           name: "",
@@ -45,7 +57,7 @@ export default function EnquiryForm() {
           message: "",
         });
       } else {
-        throw new Error(data.error || data.message || "Something went wrong. Please try again.");
+        throw new Error(data.error || data.message || emailData.message || "Something went wrong. Please try again.");
       }
     } catch (error: unknown) {
       setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");

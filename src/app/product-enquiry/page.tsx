@@ -19,29 +19,45 @@ export default function ProductEnquiryPage() {
     setLoading(true);
     setMessage("");
 
-    const response = await fetch("/api/enquiries", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    try {
+      // 1. Send Email
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ ...form, _subject: "New Product/Dealer Enquiry" }),
+      });
+      const emailData = await emailResponse.json();
 
-    const data = await response.json();
+      // 2. Store in SQL
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    if (!response.ok) {
-      setMessage(data.error ?? "Submission failed.");
-      setLoading(false);
-      return;
+      const data = await response.json();
+
+      if (!response.ok || !emailData.success) {
+        setMessage(data.error ?? emailData.message ?? "Submission failed.");
+        setLoading(false);
+        return;
+      }
+
+      setMessage("Enquiry submitted successfully.");
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        enquiry_type: "product",
+        product_name: "",
+        message: "",
+      });
+    } catch (error) {
+      setMessage("Network error. Please try again.");
     }
-
-    setMessage("Enquiry submitted successfully.");
-    setForm({
-      name: "",
-      email: "",
-      phone: "",
-      enquiry_type: "product",
-      product_name: "",
-      message: "",
-    });
     setLoading(false);
   };
 
