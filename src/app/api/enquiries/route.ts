@@ -3,13 +3,21 @@ import { ensureDynamicCmsTables } from "@/lib/dynamic-cms";
 import { getPool } from "@/lib/mysql";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: NextRequest) {
   try {
     await ensureDynamicCmsTables();
     const [rows] = await getPool().query("SELECT * FROM enquiries ORDER BY created_at DESC LIMIT 500");
-    return NextResponse.json({ data: rows });
+    return NextResponse.json(
+      { data: rows },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        },
+      }
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to fetch enquiries.";
     return NextResponse.json({ error: message }, { status: 500 });
