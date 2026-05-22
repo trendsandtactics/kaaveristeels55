@@ -201,7 +201,7 @@ export default function SteelCalculator() {
   };
 
   return (
-    <section className="relative w-full overflow-hidden bg-gray-900">
+    <section className="relative w-full min-h-screen overflow-hidden bg-gray-900 flex items-center">
       
       {/* BACKGROUND */}
       <div className="absolute inset-0 z-0">
@@ -209,42 +209,44 @@ export default function SteelCalculator() {
           src="/steel.png"
           alt="Steel"
           fill
-          className="object-cover object-center md:object-left"
+          className="object-cover object-center lg:object-left"
+          priority
         />
-        <div className="absolute inset-0 bg-black/5 md:bg-transparent" />
+        <div className="absolute inset-0 bg-black/60 lg:bg-black/20" />
       </div>
 
       {/* CONTENT */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 md:py-40 flex justify-center md:justify-end items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex justify-center lg:justify-end items-center">
         
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="w-full max-w-md"
+          className="w-full max-w-md sm:max-w-lg lg:max-w-md xl:max-w-lg"
         >
           <div className="rounded-3xl bg-white/95 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20">
             
             {/* HEADER */}
-            <div className="bg-red-800 p-6 text-white text-center">
-              <h2 className="text-xl font-bold">Steel Calculator</h2>
-              <p className="text-[10px] uppercase tracking-widest">Fast & Accurate Estimation</p>
+            <div className="bg-red-800 p-5 sm:p-6 text-white text-center">
+              <h2 className="text-xl sm:text-2xl font-bold">Steel Calculator</h2>
+              <p className="text-[10px] sm:text-xs uppercase tracking-widest mt-1">Fast & Accurate Estimation</p>
             </div>
 
             {/* BODY */}
-            <div className="p-6 md:p-8 space-y-4">
+            <div className="p-5 sm:p-6 md:p-8 space-y-4 sm:space-y-5">
               
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <input
                   placeholder="Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="p-3 rounded-xl border border-gray-200 focus:border-red-800 outline-none"
+                  className="p-3 sm:p-3.5 rounded-xl border border-gray-200 focus:border-red-800 outline-none text-sm sm:text-base w-full"
                 />
                 <input
+                  type="tel"
                   placeholder="Phone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="p-3 rounded-xl border border-gray-200 focus:border-red-800 outline-none"
+                  className="p-3 sm:p-3.5 rounded-xl border border-gray-200 focus:border-red-800 outline-none text-sm sm:text-base w-full"
                 />
               </div>
 
@@ -252,16 +254,16 @@ export default function SteelCalculator() {
               <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1">
                 <button
                   onClick={() => setActiveTab("construction")}
-                  className={`py-2 rounded-lg ${
-                    activeTab === "construction" ? "bg-white text-red-800" : "text-gray-500"
+                  className={`py-2 sm:py-2.5 rounded-lg text-sm sm:text-base font-medium transition-colors ${
+                    activeTab === "construction" ? "bg-white text-red-800 shadow-sm" : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   Construction
                 </button>
                 <button
                   onClick={() => setActiveTab("weight")}
-                  className={`py-2 rounded-lg ${
-                    activeTab === "weight" ? "bg-white text-red-800" : "text-gray-500"
+                  className={`py-2 sm:py-2.5 rounded-lg text-sm sm:text-base font-medium transition-colors ${
+                    activeTab === "weight" ? "bg-white text-red-800 shadow-sm" : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   Weight
@@ -270,12 +272,12 @@ export default function SteelCalculator() {
 
               <AnimatePresence mode="wait">
                 {activeTab === "construction" ? (
-                  <motion.div key="c" className="space-y-4">
+                  <motion.div key="c" className="space-y-4 sm:space-y-5">
                     
                     <select
                       value={structureType}
                       onChange={(e) => setStructureType(e.target.value)}
-                      className="p-3 border rounded-xl w-full"
+                      className="p-3 sm:p-3.5 border border-gray-200 rounded-xl w-full text-sm sm:text-base outline-none focus:border-red-800 bg-white"
                     >
                       <option value="" disabled>Select Structure Type</option>
                       <option value="residential">Residential</option>
@@ -283,29 +285,33 @@ export default function SteelCalculator() {
                       <option value="infrastructure">Infrastructure</option>
                     </select>
 
-                    <input
-                      placeholder="Area"
-                      value={area}
-                      onChange={(e) => setArea(e.target.value)}
-                      className="p-3 border rounded-xl w-full focus:border-red-800"
-                    />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      <input
+                        type="number"
+                        placeholder="Area (sqft)"
+                        value={area}
+                        onChange={(e) => setArea(e.target.value)}
+                        className="p-3 sm:p-3.5 border border-gray-200 rounded-xl w-full focus:border-red-800 outline-none text-sm sm:text-base"
+                      />
 
-                    <input
-                      placeholder="Floors"
-                      value={floors}
-                      onChange={(e) => setFloors(e.target.value)}
-                      className="p-3 border rounded-xl w-full focus:border-red-800"
-                    />
+                      <input
+                        type="number"
+                        placeholder="Floors"
+                        value={floors}
+                        onChange={(e) => setFloors(e.target.value)}
+                        className="p-3 sm:p-3.5 border border-gray-200 rounded-xl w-full focus:border-red-800 outline-none text-sm sm:text-base"
+                      />
+                    </div>
 
                     <button
                       onClick={calculateConstruction}
-                      className="w-full bg-red-800 hover:bg-red-900 text-white py-3 rounded-xl"
+                      className="w-full bg-red-800 hover:bg-red-900 text-white py-3 sm:py-3.5 rounded-xl font-medium transition-colors text-sm sm:text-base"
                     >
                       Calculate Steel
                     </button>
 
                     {estimatedSteel && (
-                      <div className="bg-red-50 border border-red-200 p-4 rounded-xl text-center">
+                      <div className="bg-red-50 border border-red-200 p-4 sm:p-5 rounded-xl text-center">
                         <p className="text-red-800">Estimated Steel</p>
                         <p className="text-red-900 text-2xl font-bold">
                           {estimatedSteel} kg
@@ -314,32 +320,37 @@ export default function SteelCalculator() {
                     )}
                   </motion.div>
                 ) : (
-                  <motion.div key="w" className="space-y-4">
+                  <motion.div key="w" className="space-y-4 sm:space-y-5">
 
                     <input
-                      placeholder="Diameter"
+                      type="number"
+                      placeholder="Diameter (mm)"
                       value={diameter}
                       onChange={(e) => setDiameter(e.target.value)}
-                      className="p-3 border rounded-xl w-full focus:border-red-800"
+                      className="p-3 sm:p-3.5 border border-gray-200 rounded-xl w-full focus:border-red-800 outline-none text-sm sm:text-base"
                     />
 
-                    <input
-                      placeholder="Length"
-                      value={length}
-                      onChange={(e) => setLength(e.target.value)}
-                      className="p-3 border rounded-xl w-full focus:border-red-800"
-                    />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      <input
+                        type="number"
+                        placeholder="Length (m)"
+                        value={length}
+                        onChange={(e) => setLength(e.target.value)}
+                        className="p-3 sm:p-3.5 border border-gray-200 rounded-xl w-full focus:border-red-800 outline-none text-sm sm:text-base"
+                      />
 
-                    <input
-                      placeholder="Quantity"
-                      value={quantity}
-                      onChange={(e) => setQuantity(e.target.value)}
-                      className="p-3 border rounded-xl w-full focus:border-red-800"
-                    />
+                      <input
+                        type="number"
+                        placeholder="Quantity"
+                        value={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
+                        className="p-3 sm:p-3.5 border border-gray-200 rounded-xl w-full focus:border-red-800 outline-none text-sm sm:text-base"
+                      />
+                    </div>
 
                     <button
                       onClick={calculateWeight}
-                      className="w-full bg-red-800 hover:bg-red-900 text-white py-3 rounded-xl"
+                      className="w-full bg-red-800 hover:bg-red-900 text-white py-3 sm:py-3.5 rounded-xl font-medium transition-colors text-sm sm:text-base"
                     >
                       Calculate Weight
                     </button>
