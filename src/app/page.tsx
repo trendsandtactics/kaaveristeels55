@@ -12,6 +12,11 @@ import { animate } from "framer-motion";
 
 export default function Home() {
   useEffect(() => {
+    // Disable scroll-jacking on mobile, tablets, and short laptop screens
+    // to ensure users can naturally scroll through content that is taller than their viewport.
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice || window.innerWidth < 1024 || window.innerHeight < 750) return;
+
     let isScrolling = false;
     let wheelTimer: NodeJS.Timeout;
 
@@ -72,37 +77,37 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center w-full relative pt-20 md:pt-24">
       
-      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 w-full flex flex-col lg:min-h-[calc(100svh-6rem)]">
         {/* Scrollytelling Hero Area */}
         <SteelScroll />
       </section>
 
-      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 w-full flex flex-col justify-center lg:min-h-[calc(100svh-6rem)]">
         {/* About Section */}
         <HomeAbout />
       </section>
 
-      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 w-full flex flex-col justify-center lg:min-h-[calc(100svh-6rem)]">
         {/* Products Section */}
         <HomeProducts />
       </section>
 
-      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 w-full flex flex-col justify-center lg:min-h-[calc(100svh-6rem)]">
         {/* Green Steel Certification Section */}
         <GreenSteel />
       </section>
 
-      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 w-full flex flex-col justify-center lg:min-h-[calc(100svh-6rem)]">
         {/* Calculator Section */}
         <SteelCalculator />
       </section>
 
-      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 w-full flex flex-col justify-center lg:min-h-[calc(100svh-6rem)]">
         {/* Trust Section */}
         <TrustOnsite />
       </section>
 
-      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 min-h-[calc(100svh-5rem)] md:min-h-[calc(100svh-6rem)] w-full flex flex-col justify-center">
+      <section className="scroll-section scroll-mt-20 md:scroll-mt-24 w-full flex flex-col justify-center lg:min-h-[calc(100svh-6rem)]">
         {/* Map Section */}
         <MapEmbed />
       </section>
