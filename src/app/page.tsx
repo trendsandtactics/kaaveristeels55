@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     // Disable scroll-jacking strictly on mobile phones only.
     // Tablets and laptops will retain the presentation-like snap scrolling.
-    if (window.innerWidth < 768) return;
+    if (window.innerWidth <= 1024) return;
 
     let isScrolling = false;
     let wheelTimer: NodeJS.Timeout;
