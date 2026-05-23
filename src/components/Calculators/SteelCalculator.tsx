@@ -190,7 +190,7 @@ export default function SteelCalculator() {
       </div>
 
       {/* CONTENT */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-20 md:py-40 flex justify-center md:justify-end items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-12 sm:py-20 lg:py-40 flex justify-center lg:justify-end items-center">
         
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -201,25 +201,25 @@ export default function SteelCalculator() {
             
             {/* HEADER */}
             <div className="bg-red-800 p-6 text-white text-center">
-              <h2 className="text-xl font-bold">Steel Calculator</h2>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold">Steel Calculator</h2>
               <p className="text-[10px] uppercase tracking-widest">Fast & Accurate Estimation</p>
             </div>
 
             {/* BODY */}
-            <div className="p-6 md:p-8 space-y-4">
+            <div className="p-5 sm:p-6 lg:p-8 space-y-4">
               
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input
                   placeholder="Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="p-3 rounded-xl border border-gray-200 focus:border-red-800 outline-none"
+                  className="p-3 rounded-xl border border-gray-200 focus:border-red-800 outline-none text-sm sm:text-base"
                 />
                 <input
                   placeholder="Phone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="p-3 rounded-xl border border-gray-200 focus:border-red-800 outline-none"
+                  className="p-3 rounded-xl border border-gray-200 focus:border-red-800 outline-none text-sm sm:text-base"
                 />
               </div>
 
@@ -227,7 +227,7 @@ export default function SteelCalculator() {
               <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1">
                 <button
                   onClick={() => setActiveTab("construction")}
-                  className={`py-2 rounded-lg ${
+                  className={`py-2 rounded-lg text-sm sm:text-base ${
                     activeTab === "construction" ? "bg-white text-red-800" : "text-gray-500"
                   }`}
                 >
@@ -235,7 +235,7 @@ export default function SteelCalculator() {
                 </button>
                 <button
                   onClick={() => setActiveTab("weight")}
-                  className={`py-2 rounded-lg ${
+                  className={`py-2 rounded-lg text-sm sm:text-base ${
                     activeTab === "weight" ? "bg-white text-red-800" : "text-gray-500"
                   }`}
                 >
@@ -250,7 +250,7 @@ export default function SteelCalculator() {
                     <select
                       value={structureType}
                       onChange={(e) => setStructureType(e.target.value)}
-                      className="p-3 border rounded-xl w-full"
+                      className="p-3 border rounded-xl w-full text-sm sm:text-base"
                     >
                       <option value="" disabled>Select Structure Type</option>
                       <option value="residential">Residential</option>
@@ -262,19 +262,19 @@ export default function SteelCalculator() {
                       placeholder="Area"
                       value={area}
                       onChange={(e) => setArea(e.target.value)}
-                      className="p-3 border rounded-xl w-full focus:border-red-800"
+                      className="p-3 border rounded-xl w-full focus:border-red-800 text-sm sm:text-base"
                     />
 
                     <input
                       placeholder="Floors"
                       value={floors}
                       onChange={(e) => setFloors(e.target.value)}
-                      className="p-3 border rounded-xl w-full focus:border-red-800"
+                      className="p-3 border rounded-xl w-full focus:border-red-800 text-sm sm:text-base"
                     />
 
                     <button
                       onClick={calculateConstruction}
-                      className="w-full bg-red-800 hover:bg-red-900 text-white py-3 rounded-xl"
+                      className="w-full bg-red-800 hover:bg-red-900 text-white py-3 rounded-xl text-sm sm:text-base font-semibold"
                     >
                       Calculate Steel
                     </button>
@@ -295,26 +295,26 @@ export default function SteelCalculator() {
                       placeholder="Diameter"
                       value={diameter}
                       onChange={(e) => setDiameter(e.target.value)}
-                      className="p-3 border rounded-xl w-full focus:border-red-800"
+                      className="p-3 border rounded-xl w-full focus:border-red-800 text-sm sm:text-base"
                     />
 
                     <input
                       placeholder="Length"
                       value={length}
                       onChange={(e) => setLength(e.target.value)}
-                      className="p-3 border rounded-xl w-full focus:border-red-800"
+                      className="p-3 border rounded-xl w-full focus:border-red-800 text-sm sm:text-base"
                     />
 
                     <input
                       placeholder="Quantity"
                       value={quantity}
                       onChange={(e) => setQuantity(e.target.value)}
-                      className="p-3 border rounded-xl w-full focus:border-red-800"
+                      className="p-3 border rounded-xl w-full focus:border-red-800 text-sm sm:text-base"
                     />
 
                     <button
                       onClick={calculateWeight}
-                      className="w-full bg-red-800 hover:bg-red-900 text-white py-3 rounded-xl"
+                      className="w-full bg-red-800 hover:bg-red-900 text-white py-3 rounded-xl text-sm sm:text-base font-semibold"
                     >
                       Calculate Weight
                     </button>
