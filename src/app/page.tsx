@@ -10,7 +10,7 @@ import TrustOnsite from "@/components/trustonsite";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center w-full relative pt-20 md:pt-24 gap-12 md:gap-16">
+    <div className="flex flex-col items-center w-full relative gap-12 md:gap-16">
       
       <section className="scroll-section scroll-mt-20 md:scroll-mt-24 w-full flex flex-col py-8 md:py-12">
         {/* Scrollytelling Hero Area */}
