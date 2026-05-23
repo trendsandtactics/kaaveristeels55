@@ -6,7 +6,7 @@ export default function SteelScroll() {
   return (
     <section
       id="steel-scroll-section"
-      className="relative w-full h-[100dvh] overflow-hidden -mt-20 md:-mt-24"
+      className="relative w-full h-[100dvh] overflow-hidden -mt-20 lg:-mt-24"
     >
       {/* Background Video */}
       <video
@@ -21,7 +21,7 @@ export default function SteelScroll() {
 
       {/* Content */}
       <div className="absolute inset-0 z-10 flex items-end justify-center px-4 sm:px-8 lg:px-12 pb-8 sm:pb-12 lg:pb-16">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-4 md:gap-6 text-center">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4 lg:gap-6 text-center">
 
           {/* Heading */}
           <h2 className="font-sans text-2xl sm:text-4xl lg:text-5xl text-white font-bold leading-tight drop-shadow-[0_6px_40px_rgba(0,0,0,1)]">

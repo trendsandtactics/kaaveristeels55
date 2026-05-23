@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 export default function GreenSteel() {
   return (
     <section className="relative w-full bg-[#f8f9fa] py-10 sm:py-16 lg:py-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center gap-8 sm:gap-12 lg:gap-16">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-8 lg:px-12 flex flex-col lg:flex-row items-center gap-8 sm:gap-12 lg:gap-16">
 
         {/* LEFT CONTENT */}
         <motion.div
@@ -15,7 +15,7 @@ export default function GreenSteel() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="w-full md:w-[55%]"
+          className="w-full lg:w-[55%]"
         >
 
           <div className="flex items-center gap-6 mb-8">
@@ -78,7 +78,7 @@ export default function GreenSteel() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="w-full md:w-[45%] flex justify-center"
+          className="w-full lg:w-[45%] flex justify-center mt-8 lg:mt-0"
         >
 
           {/* LIMIT CERTIFICATE SIZE */}

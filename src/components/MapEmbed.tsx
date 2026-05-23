@@ -100,7 +100,7 @@ export default function MapEmbed() {
             >
               
               {/* Left Content */}
-              <div className="flex flex-col justify-center p-6 md:p-10 lg:p-12">
+              <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-12">
                 
                 <div className="inline-flex items-center gap-3 mb-4">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-700">
