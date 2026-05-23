@@ -37,7 +37,7 @@ export default function MapEmbed() {
   const Icon = activeLocation.icon;
 
   return (
-    <section className="relative w-full py-10 sm:py-12 lg:py-16 px-4 sm:px-8 lg:px-12">
+     <section className="relative w-full py-10 sm:py-12 lg:py-16 px-4 sm:px-8 lg:px-12">
 
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
