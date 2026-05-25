@@ -12,7 +12,6 @@ export default function TrustOnSitePage() {
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   // Automatically fetch the latest "Pages Content" from the Admin Panel to populate the CTA
   useEffect(() => {
@@ -33,7 +32,6 @@ export default function TrustOnSitePage() {
     if (!name || !phone) return;
     setLoading(true);
     setSuccess("");
-    setErrorMessage("");
 
     const formData = {
       name,
@@ -41,11 +39,10 @@ export default function TrustOnSitePage() {
       location,
       enquiry_type: "site_visit",
       _subject: "New Trust On Site Visit Request",
-      _template: "table"
     };
 
     try {
-      // Send Email via formsubmit.co
+      // 1. Send Email via formsubmit.co
       const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
         method: "POST",
         headers: {
@@ -55,9 +52,20 @@ export default function TrustOnSitePage() {
         body: JSON.stringify(formData),
       });
       const emailData = await emailResponse.json();
-      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
-      if (isEmailSuccess) {
+      // 2. Store in SQL
+      const sqlResponse = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          enquiry_type: formData.enquiry_type,
+          message: `Site Location: ${formData.location}`,
+        }),
+      });
+
+      if (sqlResponse.ok && emailData.success) {
         setSuccess("Request submitted! Our team will contact you shortly.");
         setName("");
         setPhone("");
@@ -67,12 +75,7 @@ export default function TrustOnSitePage() {
       }
     } catch (err) {
       console.error("Failed to submit site visit", err);
-      const errMsg = err instanceof Error ? err.message : "An error occurred. Please try again.";
-      if (errMsg.includes("Failed to fetch")) {
-        setErrorMessage("Network error: A browser extension or ad-blocker is blocking the request. Please disable it and try again.");
-      } else {
-        setErrorMessage(errMsg);
-      }
+      setSuccess(err instanceof Error ? err.message : "An error occurred. Please try again.");
     }
     setLoading(false);
   };
@@ -290,8 +293,7 @@ export default function TrustOnSitePage() {
           {loading ? "SUBMITTING..." : "BOOK FREE ON-SITE TEST"}
         </button>
 
-        {success && <p className="text-green-300 text-sm text-center font-bold mt-2">{success}</p>}
-        {errorMessage && <p className="text-red-300 text-sm text-center font-bold mt-2">{errorMessage}</p>}
+        {success && <p className="text-green-300 text-sm text-center font-medium mt-2">{success}</p>}
 
       </form>
 
