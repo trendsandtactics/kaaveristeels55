@@ -51,7 +51,6 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
       submitData.append("q_why_us", form.q_why_us);
       submitData.append("cover_letter", form.cover_letter);
       submitData.append("_subject", `New Job Application: ${jobTitle || "General Application"}`);
-      submitData.append("_captcha", "false");
       submitData.append("_template", "table");
       
       if (file) {

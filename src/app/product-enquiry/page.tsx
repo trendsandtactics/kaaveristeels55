@@ -27,7 +27,7 @@ export default function ProductEnquiryPage() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ ...form, _subject: "New Product/Dealer Enquiry", _captcha: "false", _template: "table" }),
+        body: JSON.stringify({ ...form, _subject: "New Product/Dealer Enquiry", _template: "table" }),
       });
       const emailData = await emailResponse.json();
       const isEmailSuccess = emailData.success === "true" || emailData.success === true;

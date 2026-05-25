@@ -30,7 +30,7 @@ export default function EnquiryForm() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ ...form, _subject: "New Enquiry Request", _captcha: "false", _template: "table" }),
+        body: JSON.stringify({ ...form, _subject: "New Enquiry Request", _template: "table" }),
       });
       const emailData = await emailResponse.json();
       const isEmailSuccess = emailData.success === "true" || emailData.success === true;

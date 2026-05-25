@@ -41,7 +41,6 @@ export default function TrustOnSitePage() {
       location,
       enquiry_type: "site_visit",
       _subject: "New Trust On Site Visit Request",
-      _captcha: "false",
       _template: "table"
     };
 

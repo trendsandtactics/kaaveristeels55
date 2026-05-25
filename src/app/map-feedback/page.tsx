@@ -17,7 +17,7 @@ export default function MapFeedbackPage() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ ...form, _subject: "New Map Feedback/Contact Request", _captcha: "false", _template: "table" }),
+        body: JSON.stringify({ ...form, _subject: "New Map Feedback/Contact Request", _template: "table" }),
       });
       const emailData = await emailResponse.json();
       const isEmailSuccess = emailData.success === "true" || emailData.success === true;
