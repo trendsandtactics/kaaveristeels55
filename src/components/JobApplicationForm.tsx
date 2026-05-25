@@ -44,6 +44,9 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
       submitData.append("email", form.email);
       submitData.append("phone", form.phone);
       submitData.append("job_title", jobTitle || "General Application");
+      if (careerId) {
+        submitData.append("career_id", String(careerId));
+      }
       submitData.append("q_experience", form.q_experience);
       submitData.append("q_why_us", form.q_why_us);
       submitData.append("cover_letter", form.cover_letter);
