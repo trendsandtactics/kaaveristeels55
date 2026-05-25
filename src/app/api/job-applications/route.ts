@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ensureDynamicCmsTables } from "@/lib/dynamic-cms";
 import { sendNotificationEmail } from "@/lib/mailer";
-import type nodemailer from "nodemailer";
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +16,7 @@ export async function POST(request: NextRequest) {
     const coverLetter = formData.get("cover_letter") as string;
     
     const resumeFile = formData.get("resume") as File | null;
-    const attachments: nodemailer.Attachment[] = [];
+    const attachments: { filename: string; content: Buffer; contentType: string }[] = [];
 
     if (resumeFile && resumeFile.size > 0) {
       const arrayBuffer = await resumeFile.arrayBuffer();

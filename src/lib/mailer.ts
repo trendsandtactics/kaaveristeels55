@@ -8,7 +8,7 @@ export const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendNotificationEmail = async (subject: string, htmlContent: string, attachments?: nodemailer.Attachment[]) => {
+export const sendNotificationEmail = async (subject: string, htmlContent: string, attachments?: { filename: string; content: Buffer; contentType: string }[]) => {
   try {
     const info = await transporter.sendMail({
       from: '"Kaaveri Steels" <karthikjungleemara@gmail.com>',
