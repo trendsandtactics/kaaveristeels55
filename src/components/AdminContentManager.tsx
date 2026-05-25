@@ -227,11 +227,7 @@ export default function AdminContentManager() {
     
     let url = `/api/admin/content/${activeModule}/${id}`;
     if (activeDef.kind === "support") {
-      if (activeModule === "enquiries") {
-        url = `/api/enquiries?id=${id}`;
-      } else {
-        url = `${endpointForSupportModule(activeModule as SupportModuleName)}/${id}`;
-      }
+      url = `${endpointForSupportModule(activeModule as SupportModuleName)}?id=${id}`;
     }
 
     const response = await fetch(url, { method: "DELETE" });
@@ -269,11 +265,7 @@ export default function AdminContentManager() {
           try {
             let url = `/api/admin/content/${activeModule}/${id}`;
             if (activeDef.kind === "support") {
-              if (activeModule === "enquiries") {
-                url = `/api/enquiries?id=${id}`;
-              } else {
-                url = `${endpointForSupportModule(activeModule as SupportModuleName)}/${id}`;
-              }
+              url = `${endpointForSupportModule(activeModule as SupportModuleName)}?id=${id}`;
             }
             const response = await fetch(url, { method: "DELETE" });
             if (response.ok) success++; else fail++;

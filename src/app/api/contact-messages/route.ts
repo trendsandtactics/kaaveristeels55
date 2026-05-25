@@ -9,6 +9,18 @@ export async function GET() {
   return NextResponse.json({ data: rows });
 }
 
+export async function DELETE(request: NextRequest) {
+  try {
+    const url = new URL(request.url);
+    const id = url.searchParams.get("id");
+    if (!id) return NextResponse.json({ error: "ID is required." }, { status: 400 });
+    await getPool().query("DELETE FROM contact_messages WHERE id = ?", [id]);
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ error: "Unable to delete message." }, { status: 500 });
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     await ensureDynamicCmsTables();

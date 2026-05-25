@@ -3,6 +3,28 @@ import { ensureDynamicCmsTables } from "@/lib/dynamic-cms";
 import { getPool } from "@/lib/mysql";
 import { sendNotificationEmail } from "@/lib/mailer";
 
+export async function GET() {
+  try {
+    await ensureDynamicCmsTables();
+    const [rows] = await getPool().query("SELECT * FROM enquiries ORDER BY created_at DESC LIMIT 500");
+    return NextResponse.json({ data: rows });
+  } catch (error) {
+    return NextResponse.json({ error: "Unable to fetch enquiries." }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const url = new URL(request.url);
+    const id = url.searchParams.get("id");
+    if (!id) return NextResponse.json({ error: "ID is required." }, { status: 400 });
+    await getPool().query("DELETE FROM enquiries WHERE id = ?", [id]);
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ error: "Unable to delete enquiry." }, { status: 500 });
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     await ensureDynamicCmsTables();
