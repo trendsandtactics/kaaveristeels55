@@ -23,19 +23,30 @@ export default function EnquiryForm() {
     setStatusMessage("Submitting...");
 
     try {
-      // Send Email via formsubmit.co
+      // 1. Send Email via formsubmit.co
       const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ ...form, _subject: "New Enquiry Request", _template: "table" }),
+        body: JSON.stringify({ ...form, _subject: "New Enquiry Request" }),
       });
       const emailData = await emailResponse.json();
-      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
-      if (isEmailSuccess) {
+      // 2. Store in SQL
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && emailData.success) {
         setStatusMessage("Enquiry submitted successfully. We will be in touch!");
         setForm({
           name: "",
@@ -46,15 +57,10 @@ export default function EnquiryForm() {
           message: "",
         });
       } else {
-        throw new Error(emailData.message || "Something went wrong. Please try again.");
+        throw new Error(data.error || data.message || emailData.message || "Something went wrong. Please try again.");
       }
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Something went wrong. Please try again.";
-      if (errorMessage === "Failed to fetch" || errorMessage.includes("Failed to fetch")) {
-        setStatusMessage("Network error. Please check your connection or disable ad-blockers and try again.");
-      } else {
-        setStatusMessage(errorMessage);
-      }
+      setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
