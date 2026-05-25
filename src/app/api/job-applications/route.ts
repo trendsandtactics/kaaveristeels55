@@ -9,6 +9,7 @@ export async function GET() {
     const [rows] = await getPool().query("SELECT * FROM job_applications ORDER BY created_at DESC LIMIT 500");
     return NextResponse.json({ data: rows });
   } catch (error) {
+    console.error("Fetch job applications error:", error);
     return NextResponse.json({ error: "Unable to fetch job applications." }, { status: 500 });
   }
 }
@@ -21,6 +22,7 @@ export async function DELETE(request: NextRequest) {
     await getPool().query("DELETE FROM job_applications WHERE id = ?", [id]);
     return NextResponse.json({ ok: true });
   } catch (error) {
+    console.error("Delete job application error:", error);
     return NextResponse.json({ error: "Unable to delete job application." }, { status: 500 });
   }
 }

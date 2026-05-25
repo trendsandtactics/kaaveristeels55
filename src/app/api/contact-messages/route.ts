@@ -17,6 +17,7 @@ export async function DELETE(request: NextRequest) {
     await getPool().query("DELETE FROM contact_messages WHERE id = ?", [id]);
     return NextResponse.json({ ok: true });
   } catch (error) {
+    console.error("Delete contact message error:", error);
     return NextResponse.json({ error: "Unable to delete message." }, { status: 500 });
   }
 }

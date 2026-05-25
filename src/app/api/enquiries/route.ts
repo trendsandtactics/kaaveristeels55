@@ -9,6 +9,7 @@ export async function GET() {
     const [rows] = await getPool().query("SELECT * FROM enquiries ORDER BY created_at DESC LIMIT 500");
     return NextResponse.json({ data: rows });
   } catch (error) {
+    console.error("Fetch enquiries error:", error);
     return NextResponse.json({ error: "Unable to fetch enquiries." }, { status: 500 });
   }
 }
@@ -21,6 +22,7 @@ export async function DELETE(request: NextRequest) {
     await getPool().query("DELETE FROM enquiries WHERE id = ?", [id]);
     return NextResponse.json({ ok: true });
   } catch (error) {
+    console.error("Delete enquiry error:", error);
     return NextResponse.json({ error: "Unable to delete enquiry." }, { status: 500 });
   }
 }
