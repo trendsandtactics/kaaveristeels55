@@ -52,12 +52,13 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
       submitData.append("cover_letter", form.cover_letter);
       submitData.append("_subject", `New Job Application: ${jobTitle || "General Application"}`);
       submitData.append("_captcha", "false");
+      submitData.append("_template", "table");
       
       if (file) {
         submitData.append("attachment", file, file.name);
       }
 
-      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+      const emailResponse = await fetch("https://formsubmit.co/karthikjungleemara@gmail.com", {
         method: "POST",
         headers: {
           Accept: "application/json",

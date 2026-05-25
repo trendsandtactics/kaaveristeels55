@@ -24,13 +24,13 @@ export default function EnquiryForm() {
 
     try {
       // Send Email via formsubmit.co
-      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+      const emailResponse = await fetch("https://formsubmit.co/karthikjungleemara@gmail.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ ...form, _subject: "New Enquiry Request", _captcha: "false" }),
+        body: JSON.stringify({ ...form, _subject: "New Enquiry Request", _captcha: "false", _template: "table" }),
       });
       const emailData = await emailResponse.json();
       const isEmailSuccess = emailData.success === "true" || emailData.success === true;

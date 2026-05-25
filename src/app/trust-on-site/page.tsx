@@ -39,12 +39,13 @@ export default function TrustOnSitePage() {
       location,
       enquiry_type: "site_visit",
       _subject: "New Trust On Site Visit Request",
-      _captcha: "false"
+      _captcha: "false",
+      _template: "table"
     };
 
     try {
       // Send Email via formsubmit.co
-      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+      const emailResponse = await fetch("https://formsubmit.co/karthikjungleemara@gmail.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
