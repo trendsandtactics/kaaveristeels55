@@ -24,7 +24,7 @@ export default function EnquiryForm() {
 
     try {
       // Send Email via formsubmit.co
-      const emailResponse = await fetch("https://formsubmit.co/karthikjungleemara@gmail.com", {
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

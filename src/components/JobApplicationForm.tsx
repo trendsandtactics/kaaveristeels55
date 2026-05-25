@@ -58,7 +58,7 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
         submitData.append("attachment", file, file.name);
       }
 
-      const emailResponse = await fetch("https://formsubmit.co/karthikjungleemara@gmail.com", {
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
         method: "POST",
         headers: {
           Accept: "application/json",
