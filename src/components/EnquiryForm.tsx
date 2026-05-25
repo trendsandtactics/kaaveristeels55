@@ -36,7 +36,7 @@ export default function EnquiryForm() {
       const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
       // 2. Store in SQL
-      let data: any = {};
+      let data: { error?: string; message?: string } = {};
       let sqlSuccess = false;
       try {
         const response = await fetch("/api/enquiries", {
