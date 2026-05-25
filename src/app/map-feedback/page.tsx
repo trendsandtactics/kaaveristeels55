@@ -46,7 +46,7 @@ export default function MapFeedbackPage() {
           <h1 className="font-heading text-4xl">Visit Us</h1>
           <p className="text-sm text-black/60 mt-2">Our location and quick feedback form.</p>
           <div className="mt-5 overflow-hidden rounded-xl border border-black/10">
-            <iframe title="Kaaveri Location" src="https://www.google.com/maps?q=Chennai&output=embed" className="w-full h-[420px]" loading="lazy" />
+            <iframe title="Kaaveri Location" src="https://maps.google.com/maps?q=Komal%20Road%20Maruthur%20Village%20Therizhandur%20Mayiladuthurai%20609808&t=&z=14&ie=UTF8&iwloc=&output=embed" className="w-full h-[420px]" loading="lazy" />
           </div>
         </section>
 

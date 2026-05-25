@@ -27,7 +27,7 @@ export default function ProductEnquiryPage() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ ...form, _subject: "New Product/Dealer Enquiry", _captcha: "false" }),
+        body: JSON.stringify({ ...form, _subject: "New Product/Dealer Enquiry", _captcha: "false", _template: "table" }),
       });
       const emailData = await emailResponse.json();
       const isEmailSuccess = emailData.success === "true" || emailData.success === true;
@@ -47,8 +47,13 @@ export default function ProductEnquiryPage() {
         product_name: "",
         message: "",
       });
-    } catch {
-      setMessage("Network error. Please try again.");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      if (errorMessage.includes("Failed to fetch")) {
+        setMessage("Error: A browser extension or ad-blocker is blocking the request. Please disable it and try again.");
+      } else {
+        setMessage("Network error. Please try again.");
+      }
     }
     setLoading(false);
   };
