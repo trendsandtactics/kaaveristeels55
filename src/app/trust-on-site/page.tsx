@@ -12,6 +12,7 @@ export default function TrustOnSitePage() {
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Automatically fetch the latest "Pages Content" from the Admin Panel to populate the CTA
   useEffect(() => {
@@ -32,6 +33,7 @@ export default function TrustOnSitePage() {
     if (!name || !phone) return;
     setLoading(true);
     setSuccess("");
+    setErrorMessage("");
 
     const formData = {
       name,
@@ -66,7 +68,12 @@ export default function TrustOnSitePage() {
       }
     } catch (err) {
       console.error("Failed to submit site visit", err);
-      setSuccess(err instanceof Error ? err.message : "An error occurred. Please try again.");
+      const errMsg = err instanceof Error ? err.message : "An error occurred. Please try again.";
+      if (errMsg.includes("Failed to fetch")) {
+        setErrorMessage("Network error: A browser extension or ad-blocker is blocking the request. Please disable it and try again.");
+      } else {
+        setErrorMessage(errMsg);
+      }
     }
     setLoading(false);
   };
@@ -284,7 +291,8 @@ export default function TrustOnSitePage() {
           {loading ? "SUBMITTING..." : "BOOK FREE ON-SITE TEST"}
         </button>
 
-        {success && <p className="text-green-300 text-sm text-center font-medium mt-2">{success}</p>}
+        {success && <p className="text-green-300 text-sm text-center font-bold mt-2">{success}</p>}
+        {errorMessage && <p className="text-red-300 text-sm text-center font-bold mt-2">{errorMessage}</p>}
 
       </form>
 

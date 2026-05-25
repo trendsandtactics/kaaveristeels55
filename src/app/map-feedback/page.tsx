@@ -29,8 +29,13 @@ export default function MapFeedbackPage() {
       
       setFeedback("Message sent successfully.");
       setForm({ name: "", email: "", phone: "", subject: "", message: "" });
-    } catch {
-      setFeedback("Network error. Please try again.");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      if (errorMessage.includes("Failed to fetch")) {
+        setFeedback("Error: A browser extension or ad-blocker is blocking the request. Please disable it and try again.");
+      } else {
+        setFeedback("Error: Network issue. Please try again.");
+      }
     }
   };
 
@@ -55,7 +60,11 @@ export default function MapFeedbackPage() {
             <textarea required placeholder="Message" className="w-full border rounded-lg px-3 py-2 text-sm min-h-28" value={form.message} onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))} />
             <button className="rounded-lg bg-black text-white px-5 py-2 text-sm font-semibold">Send</button>
           </form>
-          {feedback ? <p className="text-sm mt-3 text-black/70">{feedback}</p> : null}
+          {feedback ? (
+            <p className={`text-sm mt-3 font-semibold ${feedback.includes("successfully") ? "text-green-600" : "text-red-600"}`}>
+              {feedback}
+            </p>
+          ) : null}
         </section>
       </div>
     </main>
