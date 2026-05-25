@@ -59,6 +59,9 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
 
       const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
         method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
         body: submitData,
       });
       const emailData = await emailResponse.json();
@@ -73,7 +76,12 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
         throw new Error(emailData.message || "Something went wrong. Please try again.");
       }
     } catch (error: unknown) {
-      setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      const errorMessage = error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      if (errorMessage === "Failed to fetch" || errorMessage.includes("Failed to fetch")) {
+        setStatusMessage("Network error. Please check your connection or disable ad-blockers and try again.");
+      } else {
+        setStatusMessage(errorMessage);
+      }
     } finally {
       setLoading(false);
     }

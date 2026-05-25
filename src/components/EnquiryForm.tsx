@@ -49,7 +49,12 @@ export default function EnquiryForm() {
         throw new Error(emailData.message || "Something went wrong. Please try again.");
       }
     } catch (error: unknown) {
-      setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      const errorMessage = error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      if (errorMessage === "Failed to fetch" || errorMessage.includes("Failed to fetch")) {
+        setStatusMessage("Network error. Please check your connection or disable ad-blockers and try again.");
+      } else {
+        setStatusMessage(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
