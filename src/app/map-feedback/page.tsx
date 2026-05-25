@@ -17,15 +17,23 @@ export default function MapFeedbackPage() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ ...form, _subject: "New Map Feedback/Contact Request" }),
+        body: JSON.stringify({ ...form, _subject: "New Map Feedback/Contact Request", _captcha: "false" }),
       });
       const emailData = await emailResponse.json();
+      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
       // 2. Store in SQL
-      const response = await fetch("/api/contact-messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
-      const data = await response.json();
+      let data: any = {};
+      let sqlSuccess = false;
+      try {
+        const response = await fetch("/api/contact-messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+        data = await response.json();
+        sqlSuccess = response.ok;
+      } catch (err) {
+        console.error("DB Save Error:", err);
+      }
       
-      if (!response.ok || !emailData.success) {
+      if (!isEmailSuccess && !sqlSuccess) {
         setFeedback(data.error ?? emailData.message ?? "Failed to send message.");
         return;
       }

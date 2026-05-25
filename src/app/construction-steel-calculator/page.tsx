@@ -79,20 +79,27 @@ export default function SteelCalculator() {
         }),
       });
       const emailData = await emailResponse.json();
+      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
       // 2. Store in SQL
-      const response = await fetch("/api/enquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          phone,
-          enquiry_type: "calculator",
-          message,
-        }),
-      });
+      let sqlSuccess = false;
+      try {
+        const response = await fetch("/api/enquiries", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            phone,
+            enquiry_type: "calculator",
+            message,
+          }),
+        });
+        sqlSuccess = response.ok;
+      } catch (err) {
+        console.error("DB Save Error:", err);
+      }
 
-      if (!response.ok || (emailData.success !== "true" && emailData.success !== true)) {
+      if (!isEmailSuccess && !sqlSuccess) {
         throw new Error(emailData.message || "Something went wrong.");
       }
     } catch (err) {

@@ -39,6 +39,7 @@ export default function TrustOnSitePage() {
       location,
       enquiry_type: "site_visit",
       _subject: "New Trust On Site Visit Request",
+      _captcha: "false"
     };
 
     try {
@@ -52,20 +53,27 @@ export default function TrustOnSitePage() {
         body: JSON.stringify(formData),
       });
       const emailData = await emailResponse.json();
+      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
       // 2. Store in SQL
-      const sqlResponse = await fetch("/api/enquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          phone: formData.phone,
-          enquiry_type: formData.enquiry_type,
-          message: `Site Location: ${formData.location}`,
-        }),
-      });
+      let sqlSuccess = false;
+      try {
+        const sqlResponse = await fetch("/api/enquiries", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            phone: formData.phone,
+            enquiry_type: formData.enquiry_type,
+            message: `Site Location: ${formData.location}`,
+          }),
+        });
+        sqlSuccess = sqlResponse.ok;
+      } catch (err) {
+        console.error("DB Save Error:", err);
+      }
 
-      if (sqlResponse.ok && emailData.success) {
+      if (isEmailSuccess || sqlSuccess) {
         setSuccess("Request submitted! Our team will contact you shortly.");
         setName("");
         setPhone("");

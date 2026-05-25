@@ -68,19 +68,27 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
           q_why_us: form.q_why_us,
           cover_letter: form.cover_letter,
           _subject: `New Job Application: ${jobTitle || "General Application"}`,
+          _captcha: "false"
         }),
       });
       const emailData = await emailResponse.json();
+      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
       // 2. Store in SQL
-      const response = await fetch("/api/job-applications", {
-        method: "POST",
-        body: formData,
-      });
+      let data: any = {};
+      let sqlSuccess = false;
+      try {
+        const response = await fetch("/api/job-applications", {
+          method: "POST",
+          body: formData,
+        });
+        data = await response.json();
+        sqlSuccess = response.ok;
+      } catch (err) {
+        console.error("DB Save Error:", err);
+      }
 
-      const data = await response.json();
-
-      if (response.ok && emailData.success) {
+      if (isEmailSuccess || sqlSuccess) {
         setStatusMessage("Application submitted successfully. We will be in touch!");
         setForm({ name: "", email: "", phone: "", q_experience: "", q_why_us: "", cover_letter: "" });
         setFile(null);

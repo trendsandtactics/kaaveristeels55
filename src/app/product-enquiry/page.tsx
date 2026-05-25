@@ -27,20 +27,27 @@ export default function ProductEnquiryPage() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ ...form, _subject: "New Product/Dealer Enquiry" }),
+        body: JSON.stringify({ ...form, _subject: "New Product/Dealer Enquiry", _captcha: "false" }),
       });
       const emailData = await emailResponse.json();
+      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
       // 2. Store in SQL
-      const response = await fetch("/api/enquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      let data: any = {};
+      let sqlSuccess = false;
+      try {
+        const response = await fetch("/api/enquiries", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        data = await response.json();
+        sqlSuccess = response.ok;
+      } catch (err) {
+        console.error("DB Save Error:", err);
+      }
 
-      const data = await response.json();
-
-      if (!response.ok || !emailData.success) {
+      if (!isEmailSuccess && !sqlSuccess) {
         setMessage(data.error ?? emailData.message ?? "Submission failed.");
         setLoading(false);
         return;
