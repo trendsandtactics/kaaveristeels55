@@ -44,16 +44,22 @@ export default function TrustOnSitePage() {
 
     try {
       // 1. Send Email via formsubmit.co
-      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const emailData = await emailResponse.json();
-      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
+      let isEmailSuccess = false;
+      let emailData: { success?: string | boolean; message?: string } = {};
+      try {
+        const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+        emailData = await emailResponse.json();
+        isEmailSuccess = emailData.success === "true" || emailData.success === true;
+      } catch (emailErr) {
+        console.warn("Email dispatch failed (possibly blocked):", emailErr);
+      }
 
       // 2. Store in SQL
       let sqlSuccess = false;
