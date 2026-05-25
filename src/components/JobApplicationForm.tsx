@@ -38,7 +38,6 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
     setStatusMessage("Submitting application...");
 
     try {
-      // Send Email via formsubmit.co
       const submitData = new FormData();
       submitData.append("name", form.name);
       submitData.append("email", form.email);
@@ -50,30 +49,28 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
       submitData.append("q_experience", form.q_experience);
       submitData.append("q_why_us", form.q_why_us);
       submitData.append("cover_letter", form.cover_letter);
-      submitData.append("_subject", `New Job Application: ${jobTitle || "General Application"}`);
-      submitData.append("_template", "table");
       
       if (file) {
+        submitData.append("resume", file, file.name);
         submitData.append("attachment", file, file.name);
       }
 
-      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+      const response = await fetch("/api/job-applications", {
         method: "POST",
         headers: {
           Accept: "application/json",
         },
         body: submitData,
       });
-      const emailData = await emailResponse.json();
-      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
-      if (isEmailSuccess) {
+      if (response.ok) {
         setStatusMessage("Application submitted successfully. We will be in touch!");
         setForm({ name: "", email: "", phone: "", q_experience: "", q_why_us: "", cover_letter: "" });
         setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
       } else {
-        throw new Error(emailData.message || "Something went wrong. Please try again.");
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || data.message || "Something went wrong. Please try again.");
       }
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : "Something went wrong. Please try again.";

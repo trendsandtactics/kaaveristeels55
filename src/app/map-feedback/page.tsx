@@ -10,20 +10,18 @@ export default function MapFeedbackPage() {
     event.preventDefault();
     
     try {
-      // Send Email via formsubmit.co
-      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+      const response = await fetch("/api/contact-messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ ...form, _subject: "New Map Feedback/Contact Request", _template: "table" }),
+        body: JSON.stringify(form),
       });
-      const emailData = await emailResponse.json();
-      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
       
-      if (!isEmailSuccess) {
-        setFeedback(emailData.message ?? "Failed to send message.");
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        setFeedback(data.error || data.message || "Failed to send message.");
         return;
       }
       
