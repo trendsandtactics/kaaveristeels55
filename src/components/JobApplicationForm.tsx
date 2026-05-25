@@ -37,70 +37,37 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
     setLoading(true);
     setStatusMessage("Submitting application...");
 
-    const formData = new FormData();
-    formData.append("name", form.name);
-    formData.append("email", form.email);
-    formData.append("phone", form.phone);
-    formData.append("job_title", jobTitle || "General Application");
-    if (careerId) {
-      formData.append("career_id", String(careerId));
-    }
-    const coverLetterContent = `Relevant Experience:\n${form.q_experience}\n\nWhy this role?:\n${form.q_why_us}\n\nAdditional Cover Letter:\n${form.cover_letter}`;
-    formData.append("cover_letter", coverLetterContent);
-    if (file) {
-      formData.append("resume", file);
-    }
-
     try {
-      // 1. Send Email via formsubmit.co
-      let isEmailSuccess = false;
-      let emailData: { success?: string | boolean; message?: string } = {};
-      try {
-        const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: form.name,
-            email: form.email,
-            phone: form.phone,
-            job_title: jobTitle || "General Application",
-            q_experience: form.q_experience,
-            q_why_us: form.q_why_us,
-            cover_letter: form.cover_letter,
-            _subject: `New Job Application: ${jobTitle || "General Application"}`,
-            _captcha: "false"
-          }),
-        });
-        emailData = await emailResponse.json();
-        isEmailSuccess = emailData.success === "true" || emailData.success === true;
-      } catch (emailErr) {
-        console.warn("Email dispatch failed (possibly blocked):", emailErr);
+      // Send Email via formsubmit.co
+      const submitData = new FormData();
+      submitData.append("name", form.name);
+      submitData.append("email", form.email);
+      submitData.append("phone", form.phone);
+      submitData.append("job_title", jobTitle || "General Application");
+      submitData.append("q_experience", form.q_experience);
+      submitData.append("q_why_us", form.q_why_us);
+      submitData.append("cover_letter", form.cover_letter);
+      submitData.append("_subject", `New Job Application: ${jobTitle || "General Application"}`);
+      submitData.append("_captcha", "false");
+      
+      if (file) {
+        submitData.append("attachment", file, file.name);
       }
 
-      // 2. Store in SQL
-      let data: { error?: string; message?: string } = {};
-      let sqlSuccess = false;
-      try {
-        const response = await fetch("/api/job-applications", {
-          method: "POST",
-          body: formData,
-        });
-        data = await response.json();
-        sqlSuccess = response.ok;
-      } catch (err) {
-        console.error("DB Save Error:", err);
-      }
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        body: submitData,
+      });
+      const emailData = await emailResponse.json();
+      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
-      if (isEmailSuccess || sqlSuccess) {
+      if (isEmailSuccess) {
         setStatusMessage("Application submitted successfully. We will be in touch!");
         setForm({ name: "", email: "", phone: "", q_experience: "", q_why_us: "", cover_letter: "" });
         setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
       } else {
-        throw new Error(data.error || data.message || emailData.message || "Something went wrong. Please try again.");
+        throw new Error(emailData.message || "Something went wrong. Please try again.");
       }
     } catch (error: unknown) {
       setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");

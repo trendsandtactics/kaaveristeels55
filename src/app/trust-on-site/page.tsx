@@ -43,43 +43,19 @@ export default function TrustOnSitePage() {
     };
 
     try {
-      // 1. Send Email via formsubmit.co
-      let isEmailSuccess = false;
-      let emailData: { success?: string | boolean; message?: string } = {};
-      try {
-        const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-        emailData = await emailResponse.json();
-        isEmailSuccess = emailData.success === "true" || emailData.success === true;
-      } catch (emailErr) {
-        console.warn("Email dispatch failed (possibly blocked):", emailErr);
-      }
+      // Send Email via formsubmit.co
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const emailData = await emailResponse.json();
+      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
-      // 2. Store in SQL
-      let sqlSuccess = false;
-      try {
-        const sqlResponse = await fetch("/api/enquiries", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: formData.name,
-            phone: formData.phone,
-            enquiry_type: formData.enquiry_type,
-            message: `Site Location: ${formData.location}`,
-          }),
-        });
-        sqlSuccess = sqlResponse.ok;
-      } catch (err) {
-        console.error("DB Save Error:", err);
-      }
-
-      if (isEmailSuccess || sqlSuccess) {
+      if (isEmailSuccess) {
         setSuccess("Request submitted! Our team will contact you shortly.");
         setName("");
         setPhone("");

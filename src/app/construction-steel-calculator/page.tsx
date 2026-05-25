@@ -60,52 +60,28 @@ export default function SteelCalculator() {
 
   const saveEnquiry = async (message: string) => {
     try {
-      // 1. Send Email via formsubmit.co
-      let isEmailSuccess = false;
-      let emailData: { success?: string | boolean; message?: string } = {};
-      try {
-        const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            Name: name,
-            Phone: phone,
-            Email: "no-email@provided.com",
-            Type: "Steel Calculator",
-            Details: message,
-            _subject: "New Steel Calculator Enquiry",
-            _captcha: "false",
-            _template: "table"
-          }),
-        });
-        emailData = await emailResponse.json();
-        isEmailSuccess = emailData.success === "true" || emailData.success === true;
-      } catch (emailErr) {
-        console.warn("Email dispatch failed (possibly blocked):", emailErr);
-      }
+      // Send Email via formsubmit.co
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          Name: name,
+          Phone: phone,
+          Email: "no-email@provided.com",
+          Type: "Steel Calculator",
+          Details: message,
+          _subject: "New Steel Calculator Enquiry",
+          _captcha: "false",
+          _template: "table"
+        }),
+      });
+      const emailData = await emailResponse.json();
+      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
-      // 2. Store in SQL
-      let sqlSuccess = false;
-      try {
-        const response = await fetch("/api/enquiries", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name,
-            phone,
-            enquiry_type: "calculator",
-            message,
-          }),
-        });
-        sqlSuccess = response.ok;
-      } catch (err) {
-        console.error("DB Save Error:", err);
-      }
-
-      if (!isEmailSuccess && !sqlSuccess) {
+      if (!isEmailSuccess) {
         throw new Error(emailData.message || "Something went wrong.");
       }
     } catch (err) {

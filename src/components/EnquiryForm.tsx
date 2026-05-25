@@ -23,43 +23,19 @@ export default function EnquiryForm() {
     setStatusMessage("Submitting...");
 
     try {
-      // 1. Send Email via formsubmit.co
-      let isEmailSuccess = false;
-      let emailData: { success?: string | boolean; message?: string } = {};
-      try {
-        const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({ ...form, _subject: "New Enquiry Request", _captcha: "false" }),
-        });
-        emailData = await emailResponse.json();
-        isEmailSuccess = emailData.success === "true" || emailData.success === true;
-      } catch (emailErr) {
-        console.warn("Email dispatch failed (possibly blocked):", emailErr);
-      }
+      // Send Email via formsubmit.co
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ ...form, _subject: "New Enquiry Request", _captcha: "false" }),
+      });
+      const emailData = await emailResponse.json();
+      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
-      // 2. Store in SQL
-      let data: { error?: string; message?: string } = {};
-      let sqlSuccess = false;
-      try {
-        const response = await fetch("/api/enquiries", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(form),
-        });
-        data = await response.json();
-        sqlSuccess = response.ok;
-      } catch (err) {
-        console.error("DB Save Error:", err);
-      }
-
-      if (isEmailSuccess || sqlSuccess) {
+      if (isEmailSuccess) {
         setStatusMessage("Enquiry submitted successfully. We will be in touch!");
         setForm({
           name: "",
@@ -70,7 +46,7 @@ export default function EnquiryForm() {
           message: "",
         });
       } else {
-        throw new Error(data.error || data.message || emailData.message || "Something went wrong. Please try again.");
+        throw new Error(emailData.message || "Something went wrong. Please try again.");
       }
     } catch (error: unknown) {
       setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");

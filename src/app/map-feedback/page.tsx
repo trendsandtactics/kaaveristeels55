@@ -10,37 +10,20 @@ export default function MapFeedbackPage() {
     event.preventDefault();
     
     try {
-      // 1. Send Email via formsubmit.co
-      let isEmailSuccess = false;
-      let emailData: { success?: string | boolean; message?: string } = {};
-      try {
-        const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({ ...form, _subject: "New Map Feedback/Contact Request", _captcha: "false" }),
-        });
-        emailData = await emailResponse.json();
-        isEmailSuccess = emailData.success === "true" || emailData.success === true;
-      } catch (emailErr) {
-        console.warn("Email dispatch failed (possibly blocked):", emailErr);
-      }
-
-      // 2. Store in SQL
-      let data: { error?: string; message?: string } = {};
-      let sqlSuccess = false;
-      try {
-        const response = await fetch("/api/contact-messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
-        data = await response.json();
-        sqlSuccess = response.ok;
-      } catch (err) {
-        console.error("DB Save Error:", err);
-      }
+      // Send Email via formsubmit.co
+      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ ...form, _subject: "New Map Feedback/Contact Request", _captcha: "false" }),
+      });
+      const emailData = await emailResponse.json();
+      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
       
-      if (!isEmailSuccess && !sqlSuccess) {
-        setFeedback(data.error ?? emailData.message ?? "Failed to send message.");
+      if (!isEmailSuccess) {
+        setFeedback(emailData.message ?? "Failed to send message.");
         return;
       }
       
