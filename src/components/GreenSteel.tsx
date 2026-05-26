@@ -40,15 +40,15 @@ export default function GreenSteel() {
             </div>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black uppercase text-gray-800">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-6xl font-black uppercase text-gray-800">
             Officially
           </h2>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black uppercase text-[#3b8226] mb-6">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-6xl font-black uppercase text-[#3b8226] mb-6">
             Certified
           </h2>
 
-          <h3 className="text-lg sm:text-xl lg:text-2xl font-medium text-gray-800 mb-4">
+          <h3 className="font-serif text-lg sm:text-xl lg:text-2xl font-medium text-gray-800 mb-4">
             Kaaveri TMT Bars Officially Certified As Green Steel
           </h3>
 

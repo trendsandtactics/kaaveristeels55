@@ -24,7 +24,7 @@ export default function SteelScroll() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4 lg:gap-6 text-center">
 
           {/* Heading */}
-          <h2 className="font-sans text-2xl sm:text-4xl lg:text-5xl text-white font-bold leading-tight drop-shadow-[0_6px_40px_rgba(0,0,0,1)]">
+          <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl text-white font-bold leading-tight drop-shadow-[0_6px_40px_rgba(0,0,0,1)]">
             Building India&apos;s Future
           </h2>
 

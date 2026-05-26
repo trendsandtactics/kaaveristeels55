@@ -24,10 +24,10 @@ export default function AboutHero() {
                             About Us
                         </h2>
 
-                        <h1 className="font-sans text-5xl md:text-7xl text-white mb-8 leading-tight drop-shadow-lg font-bold">
+                        <h1 className="font-serif text-5xl md:text-7xl text-white mb-8 leading-tight drop-shadow-lg font-bold">
                             Welcome to KAAVERI<br />
 <span className="text-white font-extrabold text-4xl md:text-5xl block mt-2 tracking-wide">
-    TMT <span className="mx-2 font-sans text-3xl md:text-4xl opacity-80">&</span> STRUCTURAL
+                                TMT <span className="mx-2 font-serif text-3xl md:text-4xl opacity-80">&</span> STRUCTURAL
 </span>
                         </h1>
 
@@ -60,7 +60,7 @@ export default function AboutHero() {
                             Our Mission
                         </h2>
 
-                        <h3 className="font-heading text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
                             Building a Stronger, Sustainable Future
                         </h3>
 
@@ -89,7 +89,7 @@ export default function AboutHero() {
                             Vision
                         </h2>
 
-                        <h3 className="font-heading text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
                             Leading the Steel Industry with Quality, Innovation, and Trust
                         </h3>
 

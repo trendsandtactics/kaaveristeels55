@@ -46,7 +46,7 @@ export default function HomeProducts() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.1 }}
-                        className="font-sans text-3xl sm:text-4xl lg:text-5xl text-foreground mb-6"
+                        className="font-serif text-3xl sm:text-4xl lg:text-5xl text-foreground mb-6"
                     >
                         Masterpieces of <span className="text-accent-red">Steel</span>
                     </motion.h3>

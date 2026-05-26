@@ -112,7 +112,7 @@ export default function HomeAbout() {
             </h2>
           </div>
 
-          <h3 className="font-heading text-3xl sm:text-4xl lg:text-6xl text-foreground mb-6 sm:mb-8 leading-tight">
+          <h3 className="font-serif text-3xl sm:text-4xl lg:text-6xl text-foreground mb-6 sm:mb-8 leading-tight">
             Strength That
             <br />
             <span className="text-accent-red">Supports The Future</span>

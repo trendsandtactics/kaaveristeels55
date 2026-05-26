@@ -62,7 +62,7 @@ export default function MapEmbed() {
           transition={{ duration: 0.6 }}
           className="max-w-3xl mx-auto text-center mb-8 md:mb-10"
         >
-          <h2 className="text-2xl sm:text-3xl lg:text-5xl font-sans font-bold text-black">
+          <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-black">
             Our Locations
           </h2>
           <p className="mt-3 text-sm sm:text-base lg:text-lg font-sans text-black/70">
@@ -112,7 +112,7 @@ export default function MapEmbed() {
                   </span>
                 </div>
 
-                <h3 className="text-xl sm:text-2xl lg:text-3xl font-sans font-bold text-black mb-4">
+                <h3 className="font-serif text-xl sm:text-2xl lg:text-3xl font-bold text-black mb-4">
                   {activeLocation.title}
                 </h3>
 
