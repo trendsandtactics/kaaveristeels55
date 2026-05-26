@@ -74,8 +74,8 @@ export default function SteelCalculator() {
         }),
       });
 
-      // Send Email via formsubmit.co
-      const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+      // Send Email via our own custom Nodemailer API
+      const emailResponse = await fetch("/api/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,16 +88,13 @@ export default function SteelCalculator() {
           Type: "Steel Calculator",
           Details: message,
           _subject: "New Steel Calculator Enquiry",
-          _captcha: "false",
-          _template: "table",
           ...extraData,
         }),
       });
       const emailData = await emailResponse.json();
-      const isEmailSuccess = emailData.success === "true" || emailData.success === true;
 
-      if (!isEmailSuccess) {
-        throw new Error(emailData.message || "Something went wrong.");
+      if (!emailResponse.ok || !emailData.success) {
+        throw new Error(emailData.error || "Something went wrong sending the email.");
       }
     } catch (err) {
       console.error("Failed to save enquiry", err);
