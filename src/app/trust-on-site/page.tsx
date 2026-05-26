@@ -94,7 +94,7 @@ export default function TrustOnSitePage() {
       KAAVERI STEELS
     </p>
 
-    <h1 className="font-sans text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
+    <h1 className="font-serif text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
       Trust On Site
     </h1>
 
@@ -136,11 +136,11 @@ export default function TrustOnSitePage() {
     {/* HEADER CARDS */}
     <div className="grid md:grid-cols-2 gap-6 mb-12">
 
-      <div className="bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
+      <div className="font-serif bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
         “We Don’t Just Promise Quality – We Prove It.”
       </div>
 
-      <div className="bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
+      <div className="font-serif bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
         Why This Changes Everything
       </div>
 
@@ -223,7 +223,7 @@ export default function TrustOnSitePage() {
     {/* Left Content */}
     <div className="text-white max-w-lg">
 
-      <h2 className="text-3xl md:text-5xl font-extrabold leading-tight mb-4 whitespace-pre-wrap">
+      <h2 className="font-serif text-3xl md:text-5xl font-extrabold leading-tight mb-4 whitespace-pre-wrap">
         {ctaTitle}
       </h2>
 
