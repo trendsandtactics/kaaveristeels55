@@ -18,7 +18,7 @@ export default function ContactUsPage() {
                         <h2 className="font-sans text-black uppercase tracking-[0.2em] font-bold text-sm">Get In Touch</h2>
                         <div className="w-12 h-[2px] bg-black" />
                     </div>
-                    <h1 className="font-sans text-4xl md:text-5xl mb-4 text-black drop-shadow-md font-bold">
+                    <h1 className="font-sans text-5xl md:text-6xl mb-4 text-black drop-shadow-md font-bold">
                         Reach Out to Kaaveri
                     </h1>
                     <p className="font-sans text-black max-w-2xl mx-auto text-lg leading-relaxed font-medium">
