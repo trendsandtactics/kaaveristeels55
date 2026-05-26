@@ -80,7 +80,7 @@ export default function SteelCalculator() {
   };
 
   // SAVE ENQUIRY + SEND EMAIL
-  const saveEnquiry = async (message: string) => {
+  const saveEnquiry = async (message: string, extraData: Record<string, any> = {}) => {
     try {
       // EXISTING BACKEND API
       await fetch("/api/enquiries", {
@@ -107,12 +107,15 @@ export default function SteelCalculator() {
           },
           body: JSON.stringify({
             _subject: "New Steel Calculator Enquiry",
-            _captcha: false,
+            _captcha: "false",
+            _template: "table",
 
-            name: name,
-            phone: phone,
-            enquiry_type: "calculator",
-            message: message,
+            Name: name,
+            Phone: phone,
+            Email: "no-email@provided.com",
+            Type: "Steel Calculator",
+            Details: message,
+            ...extraData,
           }),
         }
       );
@@ -175,8 +178,13 @@ Structure Type: ${structureType}
 Area: ${area} sqft
 Floors: ${floors}
 Total Area: ${totalArea} sqft
-Estimated Steel: ${steel} kg
-`);
+Estimated Steel: ${steel} kg`, {
+        "Structure Type": structureType,
+        "Area (sqft)": area,
+        "Floors": floors,
+        "Total Area (sqft)": totalArea,
+        "Estimated Steel (kg)": steel,
+      });
     }
   };
 
@@ -294,8 +302,14 @@ Length: ${l} m
 Quantity: ${q}
 Weight: ${totalWeight} kg
 Bundles: ${bundles}
-${cost > 0 ? `Estimated Cost: ₹${cost.toFixed(2)}` : ""}
-`);
+${cost > 0 ? `Estimated Cost: ₹${cost.toFixed(2)}` : ""}`, {
+        "Diameter (mm)": d,
+        "Length (m)": l,
+        "Quantity": q,
+        "Weight (kg)": totalWeight,
+        "Bundles": bundles,
+        ...(cost > 0 ? { "Estimated Cost": `₹${cost.toFixed(2)}` } : {})
+      });
     }
   };
 

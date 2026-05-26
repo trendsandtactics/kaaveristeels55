@@ -58,8 +58,22 @@ export default function SteelCalculator() {
     return true;
   };
 
-  const saveEnquiry = async (message: string) => {
+  const saveEnquiry = async (message: string, extraData: Record<string, any> = {}) => {
     try {
+      // Save to existing Backend API
+      await fetch("/api/enquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          phone,
+          enquiry_type: "calculator",
+          message,
+        }),
+      });
+
       // Send Email via formsubmit.co
       const emailResponse = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
         method: "POST",
@@ -75,7 +89,8 @@ export default function SteelCalculator() {
           Details: message,
           _subject: "New Steel Calculator Enquiry",
           _captcha: "false",
-          _template: "table"
+          _template: "table",
+          ...extraData,
         }),
       });
       const emailData = await emailResponse.json();
@@ -124,7 +139,13 @@ export default function SteelCalculator() {
 - Area: ${area} sqft
 - Floors: ${floors}
 - Total Area: ${totalArea} sqft
-- Estimated Steel: ${steel} kg`);
+- Estimated Steel: ${steel} kg`, {
+        "Structure Type": structureType,
+        "Area (sqft)": area,
+        "Floors": floors,
+        "Total Area (sqft)": totalArea,
+        "Estimated Steel (kg)": steel,
+      });
     }
   };
 
@@ -185,7 +206,14 @@ export default function SteelCalculator() {
 - Length: ${l} m
 - Quantity: ${q}
 - Weight: ${totalWeight} kg
-- Bundles: ${bundles}${cost > 0 ? `\n- Estimated Cost: ₹${cost.toFixed(2)}` : ''}`);
+- Bundles: ${bundles}${cost > 0 ? `\n- Estimated Cost: ₹${cost.toFixed(2)}` : ''}`, {
+        "Diameter (mm)": d,
+        "Length (m)": l,
+        "Quantity": q,
+        "Weight (kg)": totalWeight,
+        "Bundles": bundles,
+        ...(cost > 0 ? { "Estimated Cost": `₹${cost.toFixed(2)}` } : {})
+      });
     }
   };
 
