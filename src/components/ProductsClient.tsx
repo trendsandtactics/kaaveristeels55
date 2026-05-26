@@ -171,7 +171,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                                             <span className="text-accent-red text-xs font-bold uppercase tracking-widest mb-2 block">
                                                 {product.expand?.category?.name || "Product"}
                                             </span>
-                                            <h4 className="font-serif text-2xl text-black font-bold mb-3">
+                                        <h4 className="font-sans text-2xl text-black font-bold mb-3">
                                                 {product.title}
                                             </h4>
                                             <p className="font-body text-black/70 mb-6 flex-grow font-medium text-sm leading-relaxed">
