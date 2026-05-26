@@ -58,7 +58,7 @@ export default function SteelCalculator() {
     return true;
   };
 
-  const saveEnquiry = async (message: string, extraData: Record<string, any> = {}) => {
+  const saveEnquiry = async (message: string, extraData: Record<string, string | number> = {}) => {
     try {
       // Save to existing Backend API
       await fetch("/api/enquiries", {

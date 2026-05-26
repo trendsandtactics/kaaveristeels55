@@ -80,7 +80,7 @@ export default function SteelCalculator() {
   };
 
   // SAVE ENQUIRY + SEND EMAIL
-  const saveEnquiry = async (message: string, extraData: Record<string, any> = {}) => {
+  const saveEnquiry = async (message: string, extraData: Record<string, string | number> = {}) => {
     try {
       // EXISTING BACKEND API
       await fetch("/api/enquiries", {
