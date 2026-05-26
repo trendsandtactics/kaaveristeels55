@@ -25,9 +25,9 @@ export default function AboutHero() {
                         </h2>
 
                         <h1 className="font-serif text-5xl md:text-7xl text-white mb-8 leading-tight drop-shadow-lg font-bold">
-                            Welcome to KAAVERI<br />
+                            Welcome to Kaaveri<br />
 <span className="text-white font-extrabold text-4xl md:text-5xl block mt-2 tracking-wide">
-                                TMT <span className="mx-2 font-serif text-3xl md:text-4xl opacity-80">&</span> STRUCTURAL
+                                TMT & STRUCTURAL
 </span>
                         </h1>
 
