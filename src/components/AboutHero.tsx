@@ -28,10 +28,6 @@ export default function AboutHero() {
                             Welcome to Kaaveri<br />
                                 TMT & STRUCTURAL
                         </h1>
-
-                        <p className="font-sans text-white/90 text-lg md:text-xl leading-relaxed font-medium">
-                            At KAAVERI, we are passionate about steel and dedicated to excellence. Our company is a leading manufacturer of TMT bars and structural steel products, committed to providing the construction industry with the highest quality materials that ensure strength, safety, and sustainability.
-                        </p>
                     </div>
                 </div>
             </div>
