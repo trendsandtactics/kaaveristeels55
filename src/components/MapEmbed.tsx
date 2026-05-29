@@ -96,7 +96,7 @@ export default function MapEmbed() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.35 }}
-              className="grid grid-cols-1 lg:grid-cols-2"
+              className="grid grid-cols-1 md:grid-cols-2"
             >
               
               {/* Left Content */}

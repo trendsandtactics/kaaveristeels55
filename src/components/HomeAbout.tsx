@@ -44,14 +44,14 @@ export default function HomeAbout() {
         <div className="absolute inset-0 bg-white/75 backdrop-blur-[2px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-8 sm:gap-12 lg:gap-16 relative z-10">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 sm:gap-12 lg:gap-16 relative z-10">
         {/* Video Section */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full lg:w-1/2 relative"
+          className="w-full md:w-1/2 relative"
         >
           <div className="relative w-full aspect-video bg-black rounded-sm overflow-hidden shadow-2xl">
             {playVideo ? (
@@ -90,11 +90,11 @@ export default function HomeAbout() {
             )}
 
             {/* Border */}
-            <div className="absolute inset-0 border-[6px] lg:border-8 border-white/20 pointer-events-none z-20" />
+            <div className="absolute inset-0 border-[6px] md:border-8 border-white/20 pointer-events-none z-20" />
           </div>
 
           {/* Clean Border Effect Only */}
-          <div className="hidden lg:block absolute -right-6 -bottom-6 w-full h-full border-2 border-accent-red/20 -z-10 rounded-sm" />
+          <div className="hidden md:block absolute -right-6 -bottom-6 w-full h-full border-2 border-accent-red/20 -z-10 rounded-sm" />
         </motion.div>
 
         {/* Content Section */}
@@ -103,7 +103,7 @@ export default function HomeAbout() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="w-full lg:w-1/2 flex flex-col items-start"
+          className="w-full md:w-1/2 flex flex-col items-start"
         >
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-[2px] bg-accent-red" />
@@ -112,7 +112,7 @@ export default function HomeAbout() {
             </h2>
           </div>
 
-          <h3 className="font-serif text-3xl sm:text-4xl lg:text-6xl text-foreground mb-6 sm:mb-8 leading-tight">
+          <h3 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 sm:mb-8 leading-tight">
             Strength That
             <br />
             <span className="text-accent-red">Supports The Future</span>

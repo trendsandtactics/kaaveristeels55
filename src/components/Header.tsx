@@ -99,7 +99,7 @@ export default function Header() {
                 : "bg-white/95 backdrop-blur-xl border border-black/5 shadow-[0_10px_40px_rgba(0,0,0,0.08)]"
             }`}
           >
-        <div className="h-[82px] px-4 lg:px-6 xl:px-8 flex items-center gap-4 lg:gap-6 xl:gap-8">
+        <div className="h-[82px] px-3 md:px-4 lg:px-6 xl:px-8 flex items-center gap-3 md:gap-4 lg:gap-6 xl:gap-8">
 
               {/* Logo */}
               <Link
@@ -112,18 +112,18 @@ export default function Header() {
                   width={190}
                   height={70}
                   priority
-              className="h-10 xl:h-12 w-auto object-contain"
+              className="h-8 md:h-10 xl:h-12 w-auto object-contain"
                 />
               </Link>
 
               {/* Desktop Menu */}
-          <nav className="hidden lg:flex items-center gap-3 lg:gap-5 xl:gap-8">
+          <nav className="hidden md:flex items-center gap-2 md:gap-3 lg:gap-5 xl:gap-8">
 
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold transition-colors duration-300 hover:text-red-600 ${
+                    className={`relative whitespace-nowrap text-[9px] md:text-[10px] xl:text-[11px] uppercase tracking-[0.14em] font-bold transition-colors duration-300 hover:text-red-600 ${
                       pathname === link.href
                         ? "text-black"
                         : "text-black/80"
@@ -147,7 +147,7 @@ export default function Header() {
                       setMediaDropdownOpen((prev) => !prev);
                       setSupportDropdownOpen(false);
                     }}
-                    className="flex items-center gap-1 whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
+                    className="flex items-center gap-1 whitespace-nowrap text-[9px] md:text-[10px] xl:text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
                   >
                     Media
                     <span className="text-[9px]">▾</span>
@@ -188,7 +188,7 @@ export default function Header() {
                       setSupportDropdownOpen((prev) => !prev);
                       setMediaDropdownOpen(false);
                     }}
-                    className="flex items-center gap-1 whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
+                    className="flex items-center gap-1 whitespace-nowrap text-[9px] md:text-[10px] xl:text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
                   >
                     Support
                     <span className="text-[9px]">▾</span>
@@ -222,7 +222,7 @@ export default function Header() {
                 {/* Careers */}
                 <Link
                   href="/careers"
-                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
+                  className="whitespace-nowrap text-[9px] md:text-[10px] xl:text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
                 >
                   Careers
                 </Link>
@@ -230,7 +230,7 @@ export default function Header() {
                 {/* Contact */}
                 <Link
                   href="/contact-us"
-                  className="whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
+                  className="whitespace-nowrap text-[9px] md:text-[10px] xl:text-[11px] uppercase tracking-[0.14em] font-bold text-black/80 hover:text-red-600"
                 >
                   Contact Us
                 </Link>
@@ -238,7 +238,7 @@ export default function Header() {
                 {/* CTA */}
                 <Link
                   href="/product-enquiry"
-                  className="inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-full bg-red-600 px-6 h-11 text-[11px] font-bold uppercase tracking-[0.14em] text-white hover:bg-red-700 transition-colors duration-300"
+                  className="inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-full bg-red-600 px-4 md:px-5 lg:px-6 h-9 md:h-10 lg:h-11 text-[9px] md:text-[10px] xl:text-[11px] font-bold uppercase tracking-[0.14em] text-white hover:bg-red-700 transition-colors duration-300"
                 >
                   Request Quote
                 </Link>
@@ -246,7 +246,7 @@ export default function Header() {
 
               {/* Mobile Menu Button */}
               <button
-            className="lg:hidden ml-auto flex items-center justify-center w-11 h-11 rounded-full bg-white text-black shadow-md"
+            className="md:hidden ml-auto flex items-center justify-center w-11 h-11 rounded-full bg-white text-black shadow-md"
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -268,7 +268,7 @@ export default function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-          className="lg:hidden fixed inset-0 bg-black/20 z-30"
+          className="md:hidden fixed inset-0 bg-black/20 z-30"
               onClick={() => setMobileMenuOpen(false)}
             />
 
@@ -278,7 +278,7 @@ export default function Header() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="lg:hidden fixed inset-y-0 right-0 w-full max-w-xs z-40 bg-white shadow-2xl"
+          className="md:hidden fixed inset-y-0 right-0 w-full max-w-xs z-40 bg-white shadow-2xl"
             >
               {/* Close Button */}
               <div className="absolute top-6 right-6 z-50">
