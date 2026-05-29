@@ -22,7 +22,7 @@ const products = [
 
 export default function HomeProducts() {
     return (
-        <section className="relative w-full py-12 sm:py-16 lg:py-24 px-4 sm:px-8 lg:px-12 bg-white overflow-x-hidden">
+        <section className="relative w-full py-10 sm:py-12 md:py-16 px-4 sm:px-8 lg:px-12 bg-white overflow-x-hidden">
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent-red/5 rounded-full blur-[100px] pointer-events-none -z-10" />
             <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-yellow/5 rounded-full blur-[120px] pointer-events-none -z-10" />
@@ -72,7 +72,7 @@ export default function HomeProducts() {
                             className="group relative bg-white border border-gray-100 shadow-xl overflow-hidden rounded-sm"
                         >
                             <Link href={product.href} className="absolute inset-0 z-30 cursor-pointer" aria-label={`View ${product.name}`} />
-                            <div className="relative w-full h-[260px] sm:h-[320px] lg:h-[400px] overflow-hidden">
+                            <div className="relative w-full h-[260px] sm:h-[300px] md:h-[320px] lg:h-[360px] xl:h-[400px] overflow-hidden">
                                 <Image
                                     src={product.image}
                                     alt={product.name}

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function TrustOnSite() {
   return (
-    <section className="relative w-full pt-20 pb-6 sm:pt-28 sm:pb-8 lg:pt-32 lg:pb-10 flex items-center">
+    <section className="relative w-full pt-16 pb-6 sm:pt-20 sm:pb-8 md:pt-24 lg:pt-28 flex items-center">
 
       {/* 🌆 Background */}
       <div className="absolute inset-0">
@@ -42,7 +42,7 @@ export default function TrustOnSite() {
         {/* 🚚 VEHICLE (FULL WIDTH CONTROLLED) */}
         <div className="relative w-full flex justify-center mb-6">
 
-          <div className="relative w-full max-w-[1400px] h-[200px] sm:h-[260px] md:h-[340px] lg:h-[520px]">
+          <div className="relative w-full max-w-[1400px] h-[200px] sm:h-[260px] md:h-[300px] lg:h-[380px] xl:h-[520px]">
 
             <Image
               src="/vehicle.png"

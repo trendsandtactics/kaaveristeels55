@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function GreenSteel() {
   return (
-    <section className="relative w-full bg-[#f8f9fa] py-10 sm:py-16 lg:py-20 overflow-hidden">
+    <section className="relative w-full bg-[#f8f9fa] py-10 sm:py-12 md:py-16 overflow-hidden">
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center gap-8 sm:gap-12 lg:gap-16">
 
         {/* LEFT CONTENT */}
