@@ -99,7 +99,7 @@ export default function Header() {
                 : "bg-white/95 backdrop-blur-xl border border-black/5 shadow-[0_10px_40px_rgba(0,0,0,0.08)]"
             }`}
           >
-            <div className="h-[82px] px-8 flex items-center gap-8">
+        <div className="h-[82px] px-4 lg:px-6 xl:px-8 flex items-center gap-4 lg:gap-6 xl:gap-8">
 
               {/* Logo */}
               <Link
@@ -112,12 +112,12 @@ export default function Header() {
                   width={190}
                   height={70}
                   priority
-                  className="h-12 w-auto object-contain"
+              className="h-10 xl:h-12 w-auto object-contain"
                 />
               </Link>
 
               {/* Desktop Menu */}
-              <nav className="hidden xl:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-3 lg:gap-5 xl:gap-8">
 
                 {navLinks.map((link) => (
                   <Link
@@ -246,7 +246,7 @@ export default function Header() {
 
               {/* Mobile Menu Button */}
               <button
-                className="xl:hidden ml-auto flex items-center justify-center w-11 h-11 rounded-full bg-white text-black shadow-md"
+            className="lg:hidden ml-auto flex items-center justify-center w-11 h-11 rounded-full bg-white text-black shadow-md"
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -268,7 +268,7 @@ export default function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="xl:hidden fixed inset-0 bg-black/20 z-30"
+          className="lg:hidden fixed inset-0 bg-black/20 z-30"
               onClick={() => setMobileMenuOpen(false)}
             />
 
@@ -278,7 +278,7 @@ export default function Header() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="xl:hidden fixed inset-y-0 right-0 w-full max-w-xs z-40 bg-white shadow-2xl"
+          className="lg:hidden fixed inset-y-0 right-0 w-full max-w-xs z-40 bg-white shadow-2xl"
             >
               {/* Close Button */}
               <div className="absolute top-6 right-6 z-50">
