@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -35,6 +36,8 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mediaDropdownOpen, setMediaDropdownOpen] = useState(false);
   const [supportDropdownOpen, setSupportDropdownOpen] = useState(false);
+  const [mobileMediaOpen, setMobileMediaOpen] = useState(false);
+  const [mobileSupportOpen, setMobileSupportOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   const mediaDropdownRef = useRef<HTMLDivElement | null>(null);
@@ -246,10 +249,10 @@ export default function Header() {
 
               {/* Mobile Menu Button */}
               <button
-            className="md:hidden ml-auto flex items-center justify-center w-11 h-11 rounded-full bg-white text-black shadow-md"
+            className="md:hidden ml-auto flex items-center justify-center w-10 h-10 rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
                 onClick={() => setMobileMenuOpen(true)}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
@@ -278,13 +281,20 @@ export default function Header() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="md:hidden fixed inset-y-0 right-0 w-full max-w-xs z-40 bg-white shadow-2xl"
+          className="md:hidden fixed inset-y-0 right-0 w-[85vw] max-w-sm z-40 bg-white shadow-2xl flex flex-col"
             >
-              {/* Close Button */}
-              <div className="absolute top-6 right-6 z-50">
+              {/* Header inside menu */}
+              <div className="flex items-center justify-between p-5 border-b border-gray-100">
+                <Image
+                  src="/logo4.png"
+                  alt="Kaaveri TMT"
+                  width={140}
+                  height={50}
+                  className="h-8 w-auto object-contain"
+                />
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors"
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-50 text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -292,39 +302,139 @@ export default function Header() {
                 </button>
               </div>
 
-              <div className="h-full overflow-y-auto p-6 pt-24">
-                <h2 className="px-4 text-sm font-semibold uppercase tracking-wider text-gray-500 mb-4">
-                  Menu
-                </h2>
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto p-5">
                 <nav className="flex flex-col gap-1">
-                  {[
-                    ...navLinks,
-                    ...mediaLinks,
-                    ...supportLinks,
-                    { name: "Careers", href: "/careers" },
-                    { name: "Contact Us", href: "/contact-us" },
-                  ].map((link) => (
+                  {/* Primary Links */}
+                  {navLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
-                      className={`block rounded-md px-4 py-3 text-base font-semibold transition-colors duration-200 ${
+                      className={`block rounded-xl px-4 py-3.5 text-sm font-bold uppercase tracking-wider transition-colors duration-200 ${
                         pathname === link.href
                           ? "text-red-600 bg-red-50"
-                          : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
+                          : "text-gray-800 hover:text-red-600 hover:bg-gray-50"
                       }`}
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {link.name}
                     </Link>
                   ))}
+
+                  {/* Media Dropdown */}
+                  <div className="rounded-xl bg-gray-50 overflow-hidden mt-1">
+                    <button
+                      onClick={() => setMobileMediaOpen(!mobileMediaOpen)}
+                      className="w-full flex items-center justify-between px-4 py-3.5 text-sm font-bold uppercase tracking-wider text-gray-800 hover:text-red-600 transition-colors"
+                    >
+                      Media
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-300 ${
+                          mobileMediaOpen ? "rotate-180 text-red-600" : "text-gray-500"
+                        }`}
+                      />
+                    </button>
+                    <AnimatePresence>
+                      {mobileMediaOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="flex flex-col px-4 pb-3 space-y-1">
+                            {mediaLinks.map((item) => (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                className="block rounded-lg px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50/50 transition-colors"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Support Dropdown */}
+                  <div className="rounded-xl bg-gray-50 overflow-hidden mt-1">
+                    <button
+                      onClick={() => setMobileSupportOpen(!mobileSupportOpen)}
+                      className="w-full flex items-center justify-between px-4 py-3.5 text-sm font-bold uppercase tracking-wider text-gray-800 hover:text-red-600 transition-colors"
+                    >
+                      Support
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-300 ${
+                          mobileSupportOpen ? "rotate-180 text-red-600" : "text-gray-500"
+                        }`}
+                      />
+                    </button>
+                    <AnimatePresence>
+                      {mobileSupportOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="flex flex-col px-4 pb-3 space-y-1">
+                            {supportLinks.map((item) => (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                className="block rounded-lg px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50/50 transition-colors"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Careers & Contact */}
                   <Link
-                    href="/product-enquiry"
-                    className="mt-6 mx-4 inline-flex items-center justify-center rounded-full bg-red-600 px-8 py-3 text-sm font-bold uppercase tracking-widest text-white shadow-lg hover:bg-red-700 transition-colors duration-300"
+                    href="/careers"
+                    className={`block mt-1 rounded-xl px-4 py-3.5 text-sm font-bold uppercase tracking-wider transition-colors duration-200 ${
+                      pathname === "/careers"
+                        ? "text-red-600 bg-red-50"
+                        : "text-gray-800 hover:text-red-600 hover:bg-gray-50"
+                    }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Request Quote
+                    Careers
+                  </Link>
+
+                  <Link
+                    href="/contact-us"
+                    className={`block mt-1 rounded-xl px-4 py-3.5 text-sm font-bold uppercase tracking-wider transition-colors duration-200 ${
+                      pathname === "/contact-us"
+                        ? "text-red-600 bg-red-50"
+                        : "text-gray-800 hover:text-red-600 hover:bg-gray-50"
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Contact Us
                   </Link>
                 </nav>
+              </div>
+
+              {/* Footer CTA inside menu */}
+              <div className="p-5 border-t border-gray-100 bg-gray-50/50">
+                <Link
+                  href="/product-enquiry"
+                  className="flex items-center justify-center w-full rounded-xl bg-red-600 px-4 py-4 text-sm font-bold uppercase tracking-widest text-white shadow-lg hover:bg-red-700 active:scale-[0.98] transition-all duration-200"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Request Quote
+                </Link>
               </div>
             </motion.div>
           </>
