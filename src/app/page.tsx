@@ -16,6 +16,11 @@ export default function Home() {
     // Tablets and laptops will retain the presentation-like snap scrolling.
     if (window.innerWidth <= 1024) return;
 
+    // Remove CSS smooth scrolling temporarily to prevent it from fighting
+    // with Framer Motion, which causes severe jittering/stuttering.
+    const html = document.documentElement;
+    html.classList.remove("scroll-smooth");
+
     let isScrolling = false;
     let wheelTimer: NodeJS.Timeout;
 
@@ -54,21 +59,22 @@ export default function Home() {
         const targetTop = sections[nextIndex].getBoundingClientRect().top + window.scrollY;
         
         animate(window.scrollY, targetTop - headerOffset, {
-          duration: 0.4,
-          ease: [0.22, 1, 0.36, 1], // Fast, snappy, and attractive easing curve
+          duration: 0.8,
+          ease: [0.25, 1, 0.5, 1], // Softer and smoother easing curve
           onUpdate: (latest) => window.scrollTo(0, latest)
         });
         
-        // Debounce scrolling so the user can scroll again right after the transition
+        // Increase debounce to absorb laptop trackpad inertia and prevent multi-jumping
         wheelTimer = setTimeout(() => {
           isScrolling = false;
-        }, 500);
+        }, 1200);
       }
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
     return () => {
       window.removeEventListener("wheel", handleWheel);
+      html.classList.add("scroll-smooth");
       clearTimeout(wheelTimer);
     };
   }, []);
