@@ -103,8 +103,8 @@ export default function Home() {
       const timeSinceLastWheel = now - lastWheelTime;
       lastWheelTime = now;
 
-      // Wait for both the animation to finish (1200ms) AND trackpad inertia to stop (60ms)
-      if (timeSinceLastAnimation < 1200 || timeSinceLastWheel < 60) return;
+      // Wait for both the animation to finish (1200ms) AND trackpad inertia to stop (150ms)
+      if (timeSinceLastAnimation < 1200 || timeSinceLastWheel < 150) return;
 
       const nextIndex = Math.max(0, Math.min(currentIndex + direction, sections.length - 1));
 
