@@ -42,23 +42,6 @@ export default function Home() {
         }
       });
 
-      // Graceful fallback: If the current section is taller than the viewport,
-      // allow native scrolling so the user can read the overflowing content.
-      const activeSection = sections[currentIndex];
-      if (activeSection) {
-        const rect = activeSection.getBoundingClientRect();
-        // Added a 300px tolerance for laptops (smaller screens) so minor overflows 
-        // don't break the "one scroll per component" presentation effect.
-        if (rect.height > window.innerHeight + 300) {
-          const isAtTop = rect.top >= headerOffset - 10;
-          const isAtBottom = rect.bottom <= window.innerHeight + 10;
-
-          // If scrolling up while not at the top, or down while not at the bottom, let native scroll happen
-          if (direction === -1 && !isAtTop) return;
-          if (direction === 1 && !isAtBottom) return;
-        }
-      }
-
       // Disable default scroll to prevent jumpiness and inertia problems
       e.preventDefault();
       
