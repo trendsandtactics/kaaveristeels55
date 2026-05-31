@@ -21,6 +21,29 @@ export default function Home() {
     const html = document.documentElement;
     html.classList.remove("scroll-smooth");
 
+    // Dynamically scale down contents of sections if they are taller than the screen.
+    // This guarantees you see the *whole* component in one scroll on smaller laptop screens.
+    const scaleSectionsToFit = () => {
+      const sections = Array.from(document.querySelectorAll(".scroll-section")) as HTMLElement[];
+      const headerOffset = window.innerWidth < 768 ? 80 : 96;
+      const availableHeight = window.innerHeight - headerOffset;
+
+      sections.forEach((sec) => {
+        const child = sec.firstElementChild as HTMLElement;
+        if (!child) return;
+
+        // Reset zoom to calculate natural height correctly
+        (child.style as any).zoom = "1";
+        const childHeight = child.scrollHeight;
+        
+        if (childHeight > availableHeight) {
+          const scale = availableHeight / childHeight;
+          // Scale down to 98% of available height to give a slight visual padding
+          (child.style as any).zoom = (scale * 0.98).toString();
+        }
+      });
+    };
+
     let lastAnimationTime = 0;
     let lastWheelTime = 0;
 
@@ -72,9 +95,13 @@ export default function Home() {
       }
     };
 
+    scaleSectionsToFit(); // Run once on mount
+    window.addEventListener("resize", scaleSectionsToFit);
     window.addEventListener("wheel", handleWheel, { passive: false });
+    
     return () => {
       window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("resize", scaleSectionsToFit);
       html.classList.add("scroll-smooth");
     };
   }, []);
