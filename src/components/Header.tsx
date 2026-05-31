@@ -92,22 +92,22 @@ export default function Header() {
         }`}
       >
         {/* Center Wrapper */}
-        <div className="max-w-[1400px] mx-auto px-3 flex justify-center">
+        <div className="max-w-[1400px] w-full mx-auto px-4 md:px-3 flex justify-center">
           
           {/* Navbar Container */}
           <div
-            className={`w-fit rounded-full overflow-visible transition-all duration-500 ${
+            className={`w-full md:w-fit rounded-2xl md:rounded-full overflow-visible transition-all duration-500 ${
               transparent
-                ? "bg-transparent"
+                ? "bg-white/80 backdrop-blur-md md:backdrop-blur-none md:bg-transparent shadow-sm md:shadow-none border border-black/5 md:border-none"
                 : "bg-white/95 backdrop-blur-xl border border-black/5 shadow-[0_10px_40px_rgba(0,0,0,0.08)]"
             }`}
           >
-        <div className="h-[82px] px-3 md:px-4 lg:px-6 xl:px-8 flex items-center gap-3 md:gap-4 lg:gap-6 xl:gap-8">
+        <div className="h-[72px] md:h-[82px] px-2 md:px-4 lg:px-6 xl:px-8 flex items-center justify-between md:justify-start w-full gap-3 md:gap-4 lg:gap-6 xl:gap-8">
 
               {/* Logo */}
               <Link
                 href="/"
-                className="flex items-center shrink-0"
+                className="flex items-center shrink-0 pl-2 md:pl-0"
               >
                 <Image
                   src="/logo4.png"
@@ -115,7 +115,7 @@ export default function Header() {
                   width={190}
                   height={70}
                   priority
-              className="h-8 md:h-10 xl:h-12 w-auto object-contain"
+              className="h-9 sm:h-10 xl:h-12 w-auto object-contain"
                 />
               </Link>
 
@@ -249,7 +249,7 @@ export default function Header() {
 
               {/* Mobile Menu Button */}
               <button
-            className="md:hidden ml-auto flex items-center justify-center w-10 h-10 rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-colors shadow-sm mr-1 md:mr-0"
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
