@@ -21,8 +21,8 @@ export default function Home() {
     const html = document.documentElement;
     html.classList.remove("scroll-smooth");
 
-    let isScrolling = false;
-    let wheelTimer: NodeJS.Timeout;
+    let lastAnimationTime = 0;
+    let lastWheelTime = 0;
 
     const handleWheel = (e: WheelEvent) => {
       // Prevent interfering if a modal is open
@@ -50,12 +50,18 @@ export default function Home() {
       // Disable default scroll to prevent jumpiness and inertia problems
       e.preventDefault();
       
-      if (isScrolling) return;
+      const now = Date.now();
+      const timeSinceLastAnimation = now - lastAnimationTime;
+      const timeSinceLastWheel = now - lastWheelTime;
+      lastWheelTime = now;
+
+      // Wait for both the animation to finish (1200ms) AND trackpad inertia to stop (60ms)
+      if (timeSinceLastAnimation < 1200 || timeSinceLastWheel < 60) return;
 
       const nextIndex = Math.max(0, Math.min(currentIndex + direction, sections.length - 1));
 
       if (currentIndex !== nextIndex) {
-        isScrolling = true;
+        lastAnimationTime = now;
         const targetTop = sections[nextIndex].getBoundingClientRect().top + window.scrollY;
         
         animate(window.scrollY, targetTop - headerOffset, {
@@ -63,11 +69,6 @@ export default function Home() {
           ease: [0.25, 1, 0.5, 1], // Softer and smoother easing curve
           onUpdate: (latest) => window.scrollTo(0, latest)
         });
-        
-        // Increase debounce to absorb laptop trackpad inertia and prevent multi-jumping
-        wheelTimer = setTimeout(() => {
-          isScrolling = false;
-        }, 1200);
       }
     };
 
@@ -75,7 +76,6 @@ export default function Home() {
     return () => {
       window.removeEventListener("wheel", handleWheel);
       html.classList.add("scroll-smooth");
-      clearTimeout(wheelTimer);
     };
   }, []);
 
