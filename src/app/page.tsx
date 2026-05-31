@@ -47,7 +47,9 @@ export default function Home() {
       const activeSection = sections[currentIndex];
       if (activeSection) {
         const rect = activeSection.getBoundingClientRect();
-        if (rect.height > window.innerHeight) {
+        // Added a 300px tolerance for laptops (smaller screens) so minor overflows 
+        // don't break the "one scroll per component" presentation effect.
+        if (rect.height > window.innerHeight + 300) {
           const isAtTop = rect.top >= headerOffset - 10;
           const isAtBottom = rect.bottom <= window.innerHeight + 10;
 
