@@ -33,13 +33,13 @@ export default function Home() {
         if (!child) return;
 
         // Reset zoom to calculate natural height correctly
-        (child.style as any).zoom = "1";
+        (child.style as CSSStyleDeclaration & { zoom: string }).zoom = "1";
         const childHeight = child.scrollHeight;
         
         if (childHeight > availableHeight) {
           const scale = availableHeight / childHeight;
           // Scale down to 98% of available height to give a slight visual padding
-          (child.style as any).zoom = (scale * 0.98).toString();
+          (child.style as CSSStyleDeclaration & { zoom: string }).zoom = (scale * 0.98).toString();
         }
       });
     };
