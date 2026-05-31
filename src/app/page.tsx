@@ -55,11 +55,31 @@ export default function Home() {
       const sections = Array.from(document.querySelectorAll(".scroll-section")) as HTMLElement[];
       if (sections.length === 0) return;
 
+      const currentScroll = window.scrollY;
+      const headerOffset = window.innerWidth < 768 ? 80 : 96;
+      const firstSectionTop = sections[0].getBoundingClientRect().top + window.scrollY;
+
+      // If we are currently above the first snap section (in the Hero area)
+      if (currentScroll < firstSectionTop - headerOffset - 10) {
+        // If scrolling up, let native scroll happen
+        if (direction === -1) return;
+        
+        // If scrolling down, check how close we are to the first snap section
+        const distanceToFirst = firstSectionTop - headerOffset - currentScroll;
+        if (distanceToFirst > window.innerHeight * 0.4) {
+          return; // Still far away, let native scroll happen
+        }
+      } else if (currentScroll >= firstSectionTop - headerOffset - 10 && currentScroll <= firstSectionTop - headerOffset + 10) {
+        // We are exactly AT the first snap section
+        if (direction === -1) {
+          // Scrolling up from the first section -> native scroll into Hero area
+          return;
+        }
+      }
+
       // Calculate which section is currently active
       let currentIndex = 0;
       let minDiff = Infinity;
-      const currentScroll = window.scrollY;
-      const headerOffset = window.innerWidth < 768 ? 80 : 96;
 
       sections.forEach((sec, idx) => {
         const top = sec.getBoundingClientRect().top + window.scrollY;
@@ -69,6 +89,11 @@ export default function Home() {
           currentIndex = idx;
         }
       });
+
+      // If we are pulling down from the hero section, force index to -1 so nextIndex is 0
+      if (currentScroll < firstSectionTop - headerOffset - 10 && direction === 1) {
+        currentIndex = -1;
+      }
 
       // Disable default scroll to prevent jumpiness and inertia problems
       e.preventDefault();
@@ -109,7 +134,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center w-full relative pt-20 lg:pt-24 overflow-x-hidden">
       
-      <section className="scroll-section w-full flex flex-col">
+      <section className="w-full flex flex-col">
         {/* Scrollytelling Hero Area */}
         <SteelScroll />
       </section>
