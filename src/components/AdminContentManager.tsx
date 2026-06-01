@@ -39,6 +39,7 @@ const MODULES: ModuleDef[] = [
   { key: "csr", label: "CSR", kind: "content", description: "Manage Corporate Social Responsibility events and initiatives" },
   { key: "pages", label: "Pages Content", kind: "content", description: "Manage page-specific dynamic sections like CTAs" },
   { key: "aboutUs", label: "About Us", kind: "content", description: "Manage About Us section content and YouTube URL" },
+  { key: "trustOnSite", label: "Trust On Site", kind: "content", description: "Manage content for the Trust On Site page" },
   { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries" },
   { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue" },
   { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes" },
@@ -687,6 +688,17 @@ export default function AdminContentManager() {
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Start DateTime" value={form.extra_data.starts_at ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, starts_at: e.target.value } }))} />
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="End DateTime" value={form.extra_data.ends_at ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, ends_at: e.target.value } }))} />
           </>
+        );
+      case "trustOnSite":
+        return (
+          <select
+            className="md:col-span-2 border rounded-lg px-3 py-2 text-sm"
+            value={form.extra_data.card ?? "left"}
+            onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, card: e.target.value } }))}
+          >
+            <option value="left">Left Card (Features)</option>
+            <option value="right">Right Card (Benefits)</option>
+          </select>
         );
       case "calculators": {
         let paramsObj: Record<string, unknown> = {

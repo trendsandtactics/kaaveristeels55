@@ -1,74 +1,17 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { listModuleItems } from "@/lib/dynamic-cms";
+import TrustOnSiteForm from "@/components/TrustOnSiteForm";
 
-export default function TrustOnSitePage() {
-  const [ctaTitle, setCtaTitle] = useState("Don’t Take Chances \nWith Your Foundation.");
-  const [ctaDesc, setCtaDesc] = useState("Book a Free Test of your current steel supply. Our Mobile Testing Vehicle will arrive within 48 hours.");
-  
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
-
-  // Automatically fetch the latest "Pages Content" from the Admin Panel to populate the CTA
-  useEffect(() => {
-    fetch("/api/public/content/pages?limit=1")
-      .then((res) => res.json())
-      .then((data) => {
-        const ctaData = data.data?.[0];
-        if (ctaData) {
-          if (ctaData.title) setCtaTitle(ctaData.title);
-          if (ctaData.short_description) setCtaDesc(ctaData.short_description);
-        }
-      })
-      .catch(console.error);
-  }, []);
-
-  const submitSiteVisit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !phone) return;
-    setLoading(true);
-    setSuccess("");
-
-    const formData = {
-      name,
-      phone,
-      location,
-      enquiry_type: "site_visit",
-      _subject: "New Trust On Site Visit Request",
-    };
-
-    try {
-      // Store in SQL and trigger backend email
-      const sqlResponse = await fetch("/api/enquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          phone: formData.phone,
-          enquiry_type: formData.enquiry_type,
-          message: `Site Location: ${formData.location}`,
-        }),
-      });
-
-      if (sqlResponse.ok) {
-        setSuccess("Request submitted! Our team will contact you shortly.");
-        setName("");
-        setPhone("");
-        setLocation("");
-      } else {
-        const errData = await sqlResponse.json().catch(() => ({}));
-        throw new Error(errData.error || errData.message || "Something went wrong. Please try again.");
-      }
-    } catch (err) {
-      console.error("Failed to submit site visit", err);
-      setSuccess(err instanceof Error ? err.message : "An error occurred. Please try again.");
-    }
-    setLoading(false);
-  };
+export default async function TrustOnSitePage() {
+  const allItems = await listModuleItems("trustOnSite", { status: "published" });
+  const leftItems = allItems.filter(item => {
+    const extra = item.extra_data && typeof item.extra_data === 'string' ? JSON.parse(item.extra_data) : item.extra_data;
+    return extra?.card === 'left';
+  });
+  const rightItems = allItems.filter(item => {
+    const extra = item.extra_data && typeof item.extra_data === 'string' ? JSON.parse(item.extra_data) : item.extra_data;
+    return extra?.card === 'right';
+  });
 
   return (
     <main className="w-full bg-[#f3f4f6]">
@@ -153,19 +96,15 @@ export default function TrustOnSitePage() {
       <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
         <ul className="space-y-5">
 
-          {[
-            "Fully Equipped Mobile Testing Vehicle",
-            "Instant Test Result",
-            "Live Testing in Front of Engineers & Builders"
-          ].map((item, index) => (
-            <li key={index} className="flex items-start gap-3 group">
+          {leftItems.map((item) => (
+            <li key={item.id} className="flex items-start gap-3 group">
               
               <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
                 ✓
               </span>
 
               <p className="text-gray-700 group-hover:text-black transition">
-                {item}
+                {item.title}
               </p>
 
             </li>
@@ -178,20 +117,15 @@ export default function TrustOnSitePage() {
       <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
         <ul className="space-y-5">
 
-          {[
-            "No Blind Trust",
-            "Complete Transparency",
-            "No Compromise On Strength",
-            "Confidence For 100+ Years of Structure Life"
-          ].map((item, index) => (
-            <li key={index} className="flex items-start gap-3 group">
+          {rightItems.map((item) => (
+            <li key={item.id} className="flex items-start gap-3 group">
               
               <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
                 ✓
               </span>
 
               <p className="text-gray-700 group-hover:text-black transition">
-                {item}
+                {item.title}
               </p>
 
             </li>
@@ -207,92 +141,7 @@ export default function TrustOnSitePage() {
 </section>
 
 
-      {/* 📞 CTA */}
- <section id="book-test" className="relative py-16 px-4 md:px-10">
-
-  {/* Full Section Gradient (no inner red box) */}
-  <div className="absolute inset-0 bg-gradient-to-br from-red-800 via-red-700 to-red-600"></div>
-
-  {/* Decorative Glow */}
-  <div className="absolute -top-20 -left-20 w-72 h-72 bg-red-500 opacity-30 blur-3xl rounded-full"></div>
-  <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-yellow-400 opacity-20 blur-3xl rounded-full"></div>
-
-  {/* Content Wrapper (transparent, no background) */}
-  <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
-
-    {/* Left Content */}
-    <div className="text-white max-w-lg">
-
-      <h2 className="font-serif text-3xl md:text-5xl font-extrabold leading-tight mb-4 whitespace-pre-wrap">
-        {ctaTitle}
-      </h2>
-
-      <p className="text-white/80 text-sm md:text-base mb-6 whitespace-pre-wrap">
-        {ctaDesc}
-      </p>
-
-      {/* Phone CTA */}
-      <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10 w-fit backdrop-blur-md">
-        <div className="w-12 h-12 flex items-center justify-center bg-yellow-400 text-red-800 rounded-lg text-xl font-bold">
-          ☎
-        </div>
-        <div>
-          <p className="text-xs text-white/70 tracking-wide">
-            CALL NOW FOR FREE TEST
-          </p>
-          <p className="text-xl md:text-2xl font-bold tracking-wide">
-            +91 88558 24555
-          </p>
-        </div>
-      </div>
-
-    </div>
-
-    {/* Right Form */}
-    <div className="w-full max-w-md bg-white/10 backdrop-blur-lg p-6 rounded-xl border border-white/20 shadow-xl">
-
-      <form onSubmit={submitSiteVisit} className="flex flex-col gap-4">
-
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
-        />
-
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          required
-          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
-        />
-
-        <input
-          type="text"
-          placeholder="Site Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
-        />
-
-        <button type="submit" disabled={loading} className="w-full bg-yellow-400 hover:bg-yellow-300 text-red-900 font-semibold py-3 rounded-md tracking-wide transition duration-300 shadow-md hover:shadow-lg disabled:opacity-70">
-          {loading ? "SUBMITTING..." : "BOOK FREE ON-SITE TEST"}
-        </button>
-
-        {success && <p className="text-green-300 text-sm text-center font-medium mt-2">{success}</p>}
-
-      </form>
-
-    </div>
-
-  </div>
-
-</section>
-
+      <TrustOnSiteForm />
 
     </main>
   );

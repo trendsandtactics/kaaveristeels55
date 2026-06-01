@@ -16,6 +16,7 @@ export const MODULE_TABLES = {
   csr: "csr",
   aboutUs: "about_us",
   pages: "pages",
+  trustOnSite: "trust_on_site",
   calculators: "calculators",
 } as const;
 
@@ -123,6 +124,7 @@ export async function ensureDynamicCmsTables(): Promise<void> {
   await pool.query(baseContentTable("csr"));
   await pool.query(baseContentTable("about_us"));
   await pool.query(baseContentTable("pages"));
+  await pool.query(baseContentTable("trust_on_site"));
   await pool.query(baseContentTable("calculators"));
 
   await pool.query(`
