@@ -3,8 +3,16 @@ import Image from "next/image";
 import { listModuleItems } from "@/lib/dynamic-cms";
 import { resolveMediaUrl } from "@/lib/media";
 
+interface AboutHeroItem {
+    title?: string | null;
+    short_description?: string | null;
+    content?: string | null;
+    cover_image?: string | null;
+    sort_order?: number | null;
+}
+
 export default async function AboutHero() {
-    let items: any[] = [];
+    let items: AboutHeroItem[] = [];
     try {
         items = await listModuleItems("aboutHero", { status: "published" });
         items = items.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
