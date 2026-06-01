@@ -39,7 +39,6 @@ const MODULES: ModuleDef[] = [
   { key: "csr", label: "CSR", kind: "content", description: "Manage Corporate Social Responsibility events and initiatives" },
   { key: "pages", label: "Pages Content", kind: "content", description: "Manage page-specific dynamic sections like CTAs" },
   { key: "aboutUs", label: "About Us", kind: "content", description: "Manage About Us section content and YouTube URL" },
-  { key: "trustOnSite", label: "Trust On Site", kind: "content", description: "Manage content for the Trust On Site page" },
   { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries" },
   { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue" },
   { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes" },
@@ -87,7 +86,7 @@ function parseCSV(text: string): string[][] {
 }
 
 function endpointForSupportModule(module: SupportModuleName): string {
-  if (module === "enquiries") return "/api/enquiries";
+  if (module === "enquiries") return "/api/quote-requests";
   if (module === "contact_messages") return "/api/contact-messages";
   return "/api/job-applications";
 }
@@ -228,17 +227,11 @@ export default function AdminContentManager() {
     
     let url = `/api/admin/content/${activeModule}/${id}`;
     if (activeDef.kind === "support") {
-      url = `${endpointForSupportModule(activeModule as SupportModuleName)}?id=${id}`;
+      url = `${endpointForSupportModule(activeModule as SupportModuleName)}/${id}`;
     }
 
     const response = await fetch(url, { method: "DELETE" });
-    let data;
-    try {
-      data = await response.json();
-    } catch {
-      setMessage("Server returned an invalid response. Check terminal logs.");
-      return;
-    }
+    const data = await response.json();
     if (!response.ok) {
       setMessage(data.error ?? "Delete failed.");
       return;
@@ -266,7 +259,7 @@ export default function AdminContentManager() {
           try {
             let url = `/api/admin/content/${activeModule}/${id}`;
             if (activeDef.kind === "support") {
-              url = `${endpointForSupportModule(activeModule as SupportModuleName)}?id=${id}`;
+              url = `${endpointForSupportModule(activeModule as SupportModuleName)}/${id}`;
             }
             const response = await fetch(url, { method: "DELETE" });
             if (response.ok) success++; else fail++;
@@ -689,17 +682,6 @@ export default function AdminContentManager() {
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="End DateTime" value={form.extra_data.ends_at ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, ends_at: e.target.value } }))} />
           </>
         );
-      case "trustOnSite":
-        return (
-          <select
-            className="md:col-span-2 border rounded-lg px-3 py-2 text-sm"
-            value={form.extra_data.card ?? "left"}
-            onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, card: e.target.value } }))}
-          >
-            <option value="left">Left Card (Features)</option>
-            <option value="right">Right Card (Benefits)</option>
-          </select>
-        );
       case "calculators": {
         let paramsObj: Record<string, unknown> = {
           weightDivisor: 162,
@@ -816,7 +798,7 @@ export default function AdminContentManager() {
         <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
           <div className="mb-4 flex items-start justify-between">
             <div>
-              <h3 className="font-serif text-2xl text-slate-900">{isJobApp ? "Job Application Details" : "Enquiry Details"}</h3>
+              <h3 className="font-heading text-2xl text-slate-900">{isJobApp ? "Job Application Details" : "Enquiry Details"}</h3>
               <p className="text-sm text-slate-500">
                 Received on {viewingItem.created_at ? new Date(String(viewingItem.created_at)).toLocaleString() : "N/A"}
               </p>
@@ -857,7 +839,7 @@ export default function AdminContentManager() {
     <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-lg shadow-slate-200/60">
       <div className="mb-4 flex flex-col gap-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h3 className="font-serif text-2xl text-slate-900">{activeDef.label}</h3>
+          <h3 className="font-heading text-2xl text-slate-900">{activeDef.label}</h3>
           {activeDef.kind !== "certifications" ? (
             <div className="flex flex-wrap items-center gap-2">
               {activeModule === "products" && (
@@ -1022,7 +1004,7 @@ export default function AdminContentManager() {
       {message ? <p className="mt-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">{message}</p> : null}
       {uploadErrors.length > 0 && (
         <div className="mt-3 rounded-lg border border-red-200 bg-red-50 p-4">
-          <h4 className="font-serif text-sm font-semibold text-red-800">CSV Rows with Errors:</h4>
+          <h4 className="text-sm font-semibold text-red-800">CSV Rows with Errors:</h4>
           <div className="mt-2 flex flex-wrap gap-2">
             {uploadErrors.map(rowIdx => (
               <span key={rowIdx} className="rounded-md bg-white px-2 py-1 text-xs text-red-700 font-mono shadow-sm border border-red-200">Row {rowIdx}</span>
@@ -1036,7 +1018,7 @@ export default function AdminContentManager() {
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       <aside className="h-fit max-h-[calc(100vh-8rem)] overflow-y-auto rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-lg shadow-slate-200/60 backdrop-blur lg:sticky lg:top-28 lg:col-span-3">
-        <h2 className="mb-3 font-serif text-xl text-slate-900">Modules</h2>
+        <h2 className="mb-3 font-sans text-xl text-slate-900">Modules</h2>
         <div className="space-y-2">
           {MODULES.map((module) => (
             <button
@@ -1065,7 +1047,7 @@ export default function AdminContentManager() {
         {activeDef.kind === "content" ? (
           <div className="grid gap-6 xl:grid-cols-2">
             <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-lg shadow-slate-200/60 xl:sticky xl:top-28 xl:max-h-[calc(100vh-8rem)] xl:overflow-y-auto">
-              <h3 className="mb-1 font-serif text-2xl text-slate-900">{editingId ? "Edit" : "Create"} {activeDef.label}</h3>
+              <h3 className="mb-1 font-heading text-2xl text-slate-900">{editingId ? "Edit" : "Create"} {activeDef.label}</h3>
               <p className="mb-2 text-sm text-slate-600">{activeDef.description}</p>
               <p className="mb-4 text-xs text-slate-500">Tip: Use the table on the right to quickly edit or delete records without leaving this form.</p>
 

@@ -31,7 +31,7 @@ export default function HomeAbout() {
   }, []);
 
   return (
-    <section className="relative w-full py-10 sm:py-16 px-4 sm:px-8 lg:px-12 overflow-x-hidden">
+    <section className="relative w-full py-16 px-6 md:px-12 overflow-x-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -44,7 +44,7 @@ export default function HomeAbout() {
         <div className="absolute inset-0 bg-white/75 backdrop-blur-[2px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 sm:gap-12 lg:gap-16 relative z-10">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-16 relative z-10">
         {/* Video Section */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -82,8 +82,8 @@ export default function HomeAbout() {
 
                 {/* Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-transparent border-2 border-white rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 transition duration-300">
-                    <span className="text-white text-xl lg:text-2xl ml-1">▶</span>
+                  <div className="w-16 h-16 md:w-20 md:h-20 bg-transparent border-2 border-white rounded-full flex items-center justify-center shadow-xl group-hover:scale-110 transition duration-300">
+                    <span className="text-white text-xl md:text-2xl ml-1">▶</span>
                   </div>
                 </div>
               </div>
@@ -112,13 +112,13 @@ export default function HomeAbout() {
             </h2>
           </div>
 
-          <h3 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 sm:mb-8 leading-tight">
+          <h3 className="font-heading text-4xl md:text-5xl lg:text-6xl text-foreground mb-8 leading-tight">
             Strength That
             <br />
             <span className="text-accent-red">Supports The Future</span>
           </h3>
 
-          <p className="font-body text-foreground/80 text-base sm:text-lg leading-relaxed mb-6 font-medium">
+          <p className="font-body text-foreground/80 text-lg leading-relaxed mb-6 font-medium">
             At KAAVERI, we are passionate about steel and dedicated to
             excellence. As a leading manufacturer of TMT bars and structural
             steel products, we are committed to providing the construction
@@ -126,7 +126,7 @@ export default function HomeAbout() {
             safety, and sustainability.
           </p>
 
-          <p className="font-body text-foreground/80 text-base sm:text-lg leading-relaxed mb-8 sm:mb-10 font-medium">
+          <p className="font-body text-foreground/80 text-lg leading-relaxed mb-10 font-medium">
             Our state-of-the-art manufacturing processes and rigorous quality
             control ensure that every product leaving our facility meets the
             highest global standards, empowering builders to create structures
@@ -134,7 +134,7 @@ export default function HomeAbout() {
           </p>
 
           <Link href="/about-us">
-            <button className="relative px-6 py-3 sm:px-8 sm:py-4 bg-accent-red text-white font-body text-[10px] sm:text-xs lg:text-sm uppercase tracking-[0.2em] font-bold overflow-hidden group border-2 border-accent-red shadow-lg">
+            <button className="relative px-8 py-4 bg-accent-red text-white font-body text-xs md:text-sm uppercase tracking-[0.2em] font-bold overflow-hidden group border-2 border-accent-red shadow-lg">
               <span className="relative z-10 transition-colors duration-300 group-hover:text-accent-red">
                 Discover Our Story
               </span>

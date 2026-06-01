@@ -8,33 +8,14 @@ export default function MapFeedbackPage() {
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
-    
-    try {
-      const response = await fetch("/api/contact-messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-      
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        setFeedback(data.error || data.message || "Failed to send message.");
-        return;
-      }
-      
-      setFeedback("Message sent successfully.");
-      setForm({ name: "", email: "", phone: "", subject: "", message: "" });
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      if (errorMessage.includes("Failed to fetch")) {
-        setFeedback("Error: A browser extension or ad-blocker is blocking the request. Please disable it and try again.");
-      } else {
-        setFeedback("Error: Network issue. Please try again.");
-      }
+    const response = await fetch("/api/contact-messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+    const data = await response.json();
+    if (!response.ok) {
+      setFeedback(data.error ?? "Failed to send message.");
+      return;
     }
+    setFeedback("Message sent successfully.");
+    setForm({ name: "", email: "", phone: "", subject: "", message: "" });
   };
 
   return (
@@ -44,7 +25,7 @@ export default function MapFeedbackPage() {
           <h1 className="font-heading text-4xl">Visit Us</h1>
           <p className="text-sm text-black/60 mt-2">Our location and quick feedback form.</p>
           <div className="mt-5 overflow-hidden rounded-xl border border-black/10">
-            <iframe title="Kaaveri Location" src="https://maps.google.com/maps?q=Komal%20Road%20Maruthur%20Village%20Therizhandur%20Mayiladuthurai%20609808&t=&z=14&ie=UTF8&iwloc=&output=embed" className="w-full h-[420px]" loading="lazy" />
+            <iframe title="Kaaveri Location" src="https://www.google.com/maps?q=Chennai&output=embed" className="w-full h-[420px]" loading="lazy" />
           </div>
         </section>
 
@@ -58,11 +39,7 @@ export default function MapFeedbackPage() {
             <textarea required placeholder="Message" className="w-full border rounded-lg px-3 py-2 text-sm min-h-28" value={form.message} onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))} />
             <button className="rounded-lg bg-black text-white px-5 py-2 text-sm font-semibold">Send</button>
           </form>
-          {feedback ? (
-            <p className={`text-sm mt-3 font-semibold ${feedback.includes("successfully") ? "text-green-600" : "text-red-600"}`}>
-              {feedback}
-            </p>
-          ) : null}
+          {feedback ? <p className="text-sm mt-3 text-black/70">{feedback}</p> : null}
         </section>
       </div>
     </main>

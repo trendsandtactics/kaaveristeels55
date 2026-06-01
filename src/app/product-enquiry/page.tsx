@@ -19,40 +19,29 @@ export default function ProductEnquiryPage() {
     setLoading(true);
     setMessage("");
 
-    try {
-      const response = await fetch("/api/enquiries", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+    const response = await fetch("/api/enquiries", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
 
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        setMessage(data.error || data.message || "Submission failed.");
-        setLoading(false);
-        return;
-      }
+    const data = await response.json();
 
-      setMessage("Enquiry submitted successfully.");
-      setForm({
-        name: "",
-        email: "",
-        phone: "",
-        enquiry_type: "product",
-        product_name: "",
-        message: "",
-      });
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      if (errorMessage.includes("Failed to fetch")) {
-        setMessage("Error: A browser extension or ad-blocker is blocking the request. Please disable it and try again.");
-      } else {
-        setMessage("Network error. Please try again.");
-      }
+    if (!response.ok) {
+      setMessage(data.error ?? "Submission failed.");
+      setLoading(false);
+      return;
     }
+
+    setMessage("Enquiry submitted successfully.");
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      enquiry_type: "product",
+      product_name: "",
+      message: "",
+    });
     setLoading(false);
   };
 

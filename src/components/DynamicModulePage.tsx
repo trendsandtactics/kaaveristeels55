@@ -188,7 +188,7 @@ export default function DynamicModulePage({
           <p className="font-sans text-xs uppercase tracking-[0.2em] font-semibold text-black/70">
             {moduleLabel} Portfolio
           </p>
-          <h1 className="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-black mt-3 drop-shadow-md">
+          <h1 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-black mt-3 drop-shadow-md">
             {heading}
           </h1>
           <p className="font-sans text-black/80 mt-3 max-w-3xl font-medium">
@@ -270,7 +270,7 @@ export default function DynamicModulePage({
 
         {featured.length > 0 ? (
           <div className="mb-10">
-            <h2 className="font-serif text-2xl text-black mb-4">Featured</h2>
+            <h2 className="font-heading text-2xl text-black mb-4">Featured</h2>
 
             <div className="grid md:grid-cols-3 gap-5">
               {featured.map((item) => {

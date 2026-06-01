@@ -30,7 +30,7 @@ export default function SustainabilityPage() {
                         </h1>
                         <div className="w-12 h-[2px] bg-black" />
                     </div>
-                    <h2 className="font-serif text-5xl md:text-7xl mb-0 text-black font-extrabold drop-shadow-md">
+                    <h2 className="font-sans text-5xl md:text-7xl mb-0 text-black font-extrabold drop-shadow-md">
                         Building a Greener Future with <span className="text-black/70">Responsible Steel</span>
                     </h2>
                 </div>
@@ -41,7 +41,7 @@ export default function SustainabilityPage() {
                 <div className="w-20 h-20 mx-auto bg-green-50 rounded-full flex items-center justify-center mb-8">
                     <Leaf className="w-10 h-10 text-green-600" />
                 </div>
-                <h3 className="font-serif text-4xl md:text-5xl text-black font-extrabold mb-8">
+                <h3 className="font-heading text-4xl md:text-5xl text-black font-extrabold mb-8">
                     Our Green Steel Initiative
                 </h3>
                 <p className="font-body text-black/70 text-xl leading-relaxed font-medium">
@@ -60,7 +60,7 @@ export default function SustainabilityPage() {
                                     <div className="mx-auto w-16 h-16 flex items-center justify-center mb-6">
                                         <Icon className="w-12 h-12 text-green-600 group-hover:scale-110 transition-transform duration-300" />
                                     </div>
-                                    <h4 className="font-serif text-xl text-black font-bold mb-3">{point.title}</h4>
+                                    <h4 className="font-heading text-xl text-black font-bold mb-3">{point.title}</h4>
                                     <p className="font-body text-black/70 text-sm leading-relaxed">{point.desc}</p>
                                 </div>
                             )
@@ -74,7 +74,7 @@ export default function SustainabilityPage() {
                 <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-green-600/20 rounded-full blur-[100px] pointer-events-none" />
                 
                 <div className="max-w-3xl mx-auto text-center relative z-10">
-                    <h3 className="font-serif text-4xl md:text-5xl font-extrabold mb-6">
+                    <h3 className="font-heading text-4xl md:text-5xl font-extrabold mb-6">
                         Join Us in Building Sustainably
                     </h3>
                     <p className="font-body text-white/70 text-lg mb-10">

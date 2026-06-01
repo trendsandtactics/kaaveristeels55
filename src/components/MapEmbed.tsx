@@ -37,7 +37,7 @@ export default function MapEmbed() {
   const Icon = activeLocation.icon;
 
   return (
-     <section className="relative w-full py-10 sm:py-12 lg:py-16 px-4 sm:px-8 lg:px-12">
+    <section className="relative w-full py-12 md:py-16 px-6 md:px-12">
 
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
@@ -62,21 +62,21 @@ export default function MapEmbed() {
           transition={{ duration: 0.6 }}
           className="max-w-3xl mx-auto text-center mb-8 md:mb-10"
         >
-          <h2 className="font-serif text-2xl sm:text-3xl lg:text-5xl font-bold text-black">
+          <h2 className="text-3xl md:text-5xl font-sans font-bold text-black">
             Our Locations
           </h2>
-          <p className="mt-3 text-sm sm:text-base lg:text-lg font-sans text-black/70">
+          <p className="mt-3 text-base md:text-lg font-sans text-black/70">
             Explore our corporate office and production facilities across Tamil Nadu.
           </p>
         </motion.div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 md:mb-8">
+        <div className="flex flex-wrap justify-center gap-3 mb-6 md:mb-8">
           {locations.map((loc, index) => (
             <button
               key={index}
               onClick={() => setActiveTab(index)}
-            className={`px-4 py-2 sm:px-5 sm:py-2.5 lg:px-6 rounded-full text-xs sm:text-sm lg:text-base font-sans font-semibold transition-all duration-300 border ${
+            className={`px-5 md:px-6 py-2.5 rounded-full text-sm md:text-base font-sans font-semibold transition-all duration-300 border ${
                 activeTab === index
                   ? "bg-red-700 text-white border-red-700 shadow-md"
                   : "bg-white text-black/70 border-black/10 hover:border-red-500 hover:text-red-600"
@@ -96,11 +96,11 @@ export default function MapEmbed() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.35 }}
-              className="grid grid-cols-1 md:grid-cols-2"
+              className="grid grid-cols-1 lg:grid-cols-2"
             >
               
               {/* Left Content */}
-              <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-12">
+              <div className="flex flex-col justify-center p-6 md:p-10 lg:p-12">
                 
                 <div className="inline-flex items-center gap-3 mb-4">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-700">
@@ -112,11 +112,11 @@ export default function MapEmbed() {
                   </span>
                 </div>
 
-                <h3 className="font-serif text-xl sm:text-2xl lg:text-3xl font-bold text-black mb-4">
+                <h3 className="text-2xl md:text-3xl font-sans font-bold text-black mb-4">
                   {activeLocation.title}
                 </h3>
 
-                <div className="space-y-2 font-sans text-black/70 text-sm sm:text-base lg:text-lg">
+                <div className="space-y-2 font-sans text-black/70 text-base md:text-lg">
                   {activeLocation.address.map((line, i) => (
                     <p key={i}>{line}</p>
                   ))}
@@ -136,7 +136,7 @@ export default function MapEmbed() {
               </div>
 
               {/* Map */}
-              <div className="relative min-h-[240px] sm:min-h-[280px] lg:min-h-[360px]">
+              <div className="relative min-h-[280px] md:min-h-[360px]">
                 <iframe
                   src={activeLocation.map}
                   className="absolute inset-0 w-full h-full border-0 pointer-events-none"
