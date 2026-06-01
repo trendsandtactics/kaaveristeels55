@@ -37,26 +37,28 @@ export default async function AboutHero() {
 
     return (
         <div className="w-full bg-white">
-            {/* Hero Background Section - Maroon Gradient */}
-            <div className="w-full bg-gradient-to-r from-[#800000] via-[#a52a2a] to-[#800000] pt-28 pb-8 md:pt-32 md:pb-10 relative overflow-hidden shadow-sm">
-                
-                {/* Depth Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10 pointer-events-none" />
+            {/* Hero Background Section - Yellow Gradient */}
+            <div className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-28 pb-8 md:pt-32 md:pb-10 relative overflow-hidden shadow-sm border-b border-black/10">
 
                 {/* Glow effect */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.15)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
 
                 {/* Subtle grid pattern */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-20" />
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
 
                 <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
                     
                     {/* Welcome Section */}
                     <div className="text-center max-w-4xl mx-auto">
-                        <h2 className="font-sans text-white/90 uppercase tracking-[0.2em] font-bold text-sm mb-4">
-                            About Us
-                        </h2>
+                        <div className="flex items-center justify-center gap-4 mb-4">
+                            <div className="w-12 h-[2px] bg-black" />
+                            <h2 className="font-sans text-black uppercase tracking-[0.2em] font-bold text-sm">
+                                About Us
+                            </h2>
+                            <div className="w-12 h-[2px] bg-black" />
+                        </div>
 
+<<<<<<< HEAD
                         <h1 className="font-sans text-5xl md:text-7xl text-white mb-8 leading-tight drop-shadow-lg font-bold">
                             {welcome.title || "Welcome to KAAVERI"}<br />
                             <span className="text-white font-extrabold text-4xl md:text-5xl block mt-2 tracking-wide">
@@ -70,6 +72,15 @@ export default async function AboutHero() {
                                 dangerouslySetInnerHTML={{ __html: welcome.content }}
                             />
                         ) : null}
+=======
+                        <h1 className="font-serif text-5xl md:text-7xl text-black mb-8 leading-tight drop-shadow-md font-bold">
+                            Welcome to Kaaveri
+                        </h1>
+
+                        <p className="font-sans text-black/80 text-lg md:text-xl leading-relaxed font-medium">
+                            At KAAVERI, we are passionate about steel and dedicated to excellence. Our company is a leading manufacturer of TMT bars and structural steel products, committed to providing the construction industry with the highest quality materials that ensure strength, safety, and sustainability.
+                        </p>
+>>>>>>> 146689f00aafaf1d4d374f76f827a0ebc5be2b9e
                     </div>
                 </div>
             </div>
@@ -96,8 +107,13 @@ export default async function AboutHero() {
                             {mission.title || "Our Mission"}
                         </h2>
 
+<<<<<<< HEAD
                         <h3 className="font-heading text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
                             {mission.short_description || "Building a Stronger, Sustainable Future"}
+=======
+                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                            Building a Stronger, Sustainable Future
+>>>>>>> 146689f00aafaf1d4d374f76f827a0ebc5be2b9e
                         </h3>
 
                         {mission.content ? (
@@ -128,8 +144,13 @@ export default async function AboutHero() {
                             {vision.title || "Vision"}
                         </h2>
 
+<<<<<<< HEAD
                         <h3 className="font-heading text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
                             {vision.short_description || "Leading the Steel Industry with Quality, Innovation, and Trust"}
+=======
+                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                            Leading the Steel Industry with Quality, Innovation, and Trust
+>>>>>>> 146689f00aafaf1d4d374f76f827a0ebc5be2b9e
                         </h3>
 
                         {vision.content ? (

@@ -42,22 +42,26 @@ export default function TrustOnSitePage() {
     };
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/karthikjungleemara@gmail.com", {
+      // Store in SQL and trigger backend email
+      const sqlResponse = await fetch("/api/enquiries", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          enquiry_type: formData.enquiry_type,
+          message: `Site Location: ${formData.location}`,
+        }),
       });
-      const data = await response.json();
-      if (data.success) {
+
+      if (sqlResponse.ok) {
         setSuccess("Request submitted! Our team will contact you shortly.");
         setName("");
         setPhone("");
         setLocation("");
       } else {
-        throw new Error(data.message || "Something went wrong. Please try again.");
+        const errData = await sqlResponse.json().catch(() => ({}));
+        throw new Error(errData.error || errData.message || "Something went wrong. Please try again.");
       }
     } catch (err) {
       console.error("Failed to submit site visit", err);
@@ -90,7 +94,7 @@ export default function TrustOnSitePage() {
       KAAVERI STEELS
     </p>
 
-    <h1 className="font-sans text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
+    <h1 className="font-serif text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
       Trust On Site
     </h1>
 
@@ -132,11 +136,11 @@ export default function TrustOnSitePage() {
     {/* HEADER CARDS */}
     <div className="grid md:grid-cols-2 gap-6 mb-12">
 
-      <div className="bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
+      <div className="font-serif bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
         “We Don’t Just Promise Quality – We Prove It.”
       </div>
 
-      <div className="bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
+      <div className="font-serif bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
         Why This Changes Everything
       </div>
 
@@ -219,7 +223,7 @@ export default function TrustOnSitePage() {
     {/* Left Content */}
     <div className="text-white max-w-lg">
 
-      <h2 className="text-3xl md:text-5xl font-extrabold leading-tight mb-4 whitespace-pre-wrap">
+      <h2 className="font-serif text-3xl md:text-5xl font-extrabold leading-tight mb-4 whitespace-pre-wrap">
         {ctaTitle}
       </h2>
 

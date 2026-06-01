@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 
 export default function GreenSteel() {
   return (
-    <section className="relative w-full bg-[#f8f9fa] py-16 md:py-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto w-full px-6 md:px-12 flex flex-col md:flex-row items-center gap-12">
+    <section className="relative w-full bg-[#f8f9fa] py-10 sm:py-12 md:py-16 overflow-hidden">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center gap-8 sm:gap-12 lg:gap-16">
 
         {/* LEFT CONTENT */}
         <motion.div
@@ -19,7 +19,7 @@ export default function GreenSteel() {
         >
 
           <div className="flex items-center gap-6 mb-8">
-            <div className="relative w-24 h-16 md:w-32 md:h-20">
+            <div className="relative w-20 h-12 sm:w-24 sm:h-16 lg:w-32 lg:h-20">
               <Image
                 src="/image/Ministry_of_Steel_India.svg"
                 alt="Ministry of Steel"
@@ -30,7 +30,7 @@ export default function GreenSteel() {
 
             <div className="h-10 w-[2px] bg-gray-300" />
 
-            <div className="relative w-40 h-12 md:w-56 md:h-16">
+            <div className="relative w-32 h-10 sm:w-40 sm:h-12 lg:w-56 lg:h-16">
               <Image
                 src="/image/kaaveriwbg.png"
                 alt="KAAVERI"
@@ -40,15 +40,15 @@ export default function GreenSteel() {
             </div>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase text-gray-800">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase text-gray-800">
             Officially
           </h2>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase text-[#3b8226] mb-6">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase text-[#3b8226] mb-6">
             Certified
           </h2>
 
-          <h3 className="text-xl md:text-2xl font-medium text-gray-800 mb-4">
+          <h3 className="font-serif text-lg sm:text-xl lg:text-2xl font-medium text-gray-800 mb-4">
             Kaaveri TMT Bars Officially Certified As Green Steel
           </h3>
 
@@ -60,12 +60,12 @@ export default function GreenSteel() {
             ))}
           </div>
 
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 mb-4 text-sm sm:text-base">
             5-Star Rated Green TMT Bars with verified low carbon emissions.
             Committed to building eco-friendly structures and a sustainable future for India.
           </p>
 
-          <p className="text-gray-800">
+          <p className="text-gray-800 text-sm sm:text-base">
             Thank you for trusting Kaaveri. Together we build responsibly.
           </p>
 
@@ -78,7 +78,7 @@ export default function GreenSteel() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="w-full md:w-[45%] flex justify-center"
+          className="w-full md:w-[45%] flex justify-center mt-8 md:mt-0"
         >
 
           {/* LIMIT CERTIFICATE SIZE */}

@@ -23,6 +23,7 @@ export default function EnquiryForm() {
     setStatusMessage("Submitting...");
 
     try {
+      // Store in SQL and trigger backend email
       const response = await fetch("/api/enquiries", {
         method: "POST",
         headers: {
@@ -69,7 +70,7 @@ export default function EnquiryForm() {
         
         {/* Heading */}
         <div className="mb-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-black">
+          <h2 className="font-serif text-3xl md:text-4xl font-bold text-black">
             Get in Touch
           </h2>
           <p className="text-black/60 mt-2">
