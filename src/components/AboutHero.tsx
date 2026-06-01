@@ -14,10 +14,10 @@ interface AboutHeroItem {
 export default async function AboutHero() {
     let items: AboutHeroItem[] = [];
     try {
-        items = await listModuleItems("aboutHero", { status: "published" });
+        items = await listModuleItems("aboutPage", { status: "published" });
         items = items.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
     } catch (e) {
-        console.error("Failed to fetch aboutHero content", e);
+        console.error("Failed to fetch aboutPage content", e);
     }
 
     const welcome = items[0] || {
