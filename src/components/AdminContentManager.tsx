@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { revalidateModuleCache } from "@/app/actions";
 
-type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators" | "aboutUs" | "aboutPage";
+type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators" | "aboutUs" | "aboutPage" | "aboutHero";
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
 type ModuleName = ContentModuleName | SupportModuleName | "certifications";
 
@@ -40,6 +40,7 @@ const MODULES: ModuleDef[] = [
   { key: "pages", label: "Pages Content", kind: "content", description: "Manage page-specific dynamic sections like CTAs" },
   { key: "aboutUs", label: "About Us", kind: "content", description: "Manage About Us section content and YouTube URL" },
   { key: "aboutPage", label: "About Page", kind: "content", description: "Manage About Page heading, description, and images" },
+  { key: "aboutHero", label: "About Hero", kind: "content", description: "Manage About Hero content and images" },
   { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries" },
   { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue" },
   { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes" },
@@ -156,7 +157,7 @@ export default function AdminContentManager() {
   }, [activeModule]);
 
   useEffect(() => {
-    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "pages" || activeModule === "products" || activeModule === "aboutPage") && richEditorRef.current) {
+    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "pages" || activeModule === "products" || activeModule === "aboutPage" || activeModule === "aboutHero") && richEditorRef.current) {
       if (richEditorRef.current.innerHTML !== (form.content || "")) {
         richEditorRef.current.innerHTML = form.content || "";
       }
@@ -584,6 +585,7 @@ export default function AdminContentManager() {
       case "csr":
   case "pages":
       case "aboutPage":
+      case "aboutHero":
         return (
           <>
             {activeModule === "products" ? (
@@ -1074,7 +1076,7 @@ export default function AdminContentManager() {
                   <textarea className="min-h-20 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Short description" value={form.short_description} onChange={(e) => setForm((s) => ({ ...s, short_description: e.target.value }))} />
                 ) : null}
 
-                {activeModule !== "blogs" && activeModule !== "csr" && activeModule !== "pages" && activeModule !== "products" && activeModule !== "calculators" && activeModule !== "aboutUs" && activeModule !== "aboutPage" ? (
+                {activeModule !== "blogs" && activeModule !== "csr" && activeModule !== "pages" && activeModule !== "products" && activeModule !== "calculators" && activeModule !== "aboutUs" && activeModule !== "aboutPage" && activeModule !== "aboutHero" ? (
                   <textarea className="min-h-32 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Content" value={form.content} onChange={(e) => setForm((s) => ({ ...s, content: e.target.value }))} />
                 ) : null}
 
