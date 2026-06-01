@@ -37,27 +37,31 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
     setLoading(true);
     setStatusMessage("Submitting application...");
 
-    const formData = new FormData();
-    formData.append("name", form.name);
-    formData.append("email", form.email);
-    formData.append("phone", form.phone);
-    formData.append("job_title", jobTitle || "General Application");
-    if (careerId) {
-      formData.append("career_id", String(careerId));
-    }
-    const coverLetterContent = `Relevant Experience:\n${form.q_experience}\n\nWhy this role?:\n${form.q_why_us}\n\nAdditional Cover Letter:\n${form.cover_letter}`;
-    formData.append("cover_letter", coverLetterContent);
-    if (file) {
-      formData.append("resume", file);
-    }
-
     try {
+      const submitData = new FormData();
+      submitData.append("name", form.name);
+      submitData.append("email", form.email);
+      submitData.append("phone", form.phone);
+      submitData.append("job_title", jobTitle || "General Application");
+      if (careerId) {
+        submitData.append("career_id", String(careerId));
+      }
+      submitData.append("q_experience", form.q_experience);
+      submitData.append("q_why_us", form.q_why_us);
+      submitData.append("cover_letter", form.cover_letter);
+      
+      if (file) {
+        submitData.append("resume", file, file.name);
+        submitData.append("attachment", file, file.name);
+      }
+
       const response = await fetch("/api/job-applications", {
         method: "POST",
-        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+        body: submitData,
       });
-
-      const data = await response.json();
 
       if (response.ok) {
         setStatusMessage("Application submitted successfully. We will be in touch!");
@@ -65,10 +69,16 @@ export default function JobApplicationForm({ careerId, jobTitle }: JobApplicatio
         setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
       } else {
+        const data = await response.json().catch(() => ({}));
         throw new Error(data.error || data.message || "Something went wrong. Please try again.");
       }
     } catch (error: unknown) {
-      setStatusMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      const errorMessage = error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      if (errorMessage === "Failed to fetch" || errorMessage.includes("Failed to fetch")) {
+        setStatusMessage("Network error. Please check your connection or disable ad-blockers and try again.");
+      } else {
+        setStatusMessage(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
