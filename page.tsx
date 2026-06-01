@@ -13,8 +13,19 @@ export default function AdminAboutPage() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    // TODO: Fetch existing data from your API route here
-    // fetch('/api/about').then(res => res.json()).then(data => setFormData(data));
+    fetch('/api/about')
+      .then(res => res.json())
+      .then(data => {
+        if (data && !data.error) {
+          setFormData({
+            heading: data.heading || "",
+            subheading: data.subheading || "",
+            content: data.content || "",
+            imageUrl: data.image_url || data.imageUrl || ""
+          });
+        }
+      })
+      .catch(err => console.error("Failed to fetch about data", err));
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -28,8 +39,13 @@ export default function AdminAboutPage() {
     setMessage("");
 
     try {
-      // TODO: Perform your API update here mapping to your SQL database
-      // await fetch('/api/about', { method: 'PUT', body: JSON.stringify(formData) });
+      const res = await fetch('/api/about', { 
+        method: 'PUT', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData) 
+      });
+      
+      if (!res.ok) throw new Error("Update failed");
       setMessage("About page content updated successfully!");
     } catch (error) {
       setMessage("Failed to update content.");
