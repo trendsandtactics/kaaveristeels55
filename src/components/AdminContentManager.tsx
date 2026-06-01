@@ -156,7 +156,7 @@ export default function AdminContentManager() {
   }, [activeModule]);
 
   useEffect(() => {
-    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "pages" || activeModule === "products") && richEditorRef.current) {
+    if ((activeModule === "blogs" || activeModule === "csr" || activeModule === "pages" || activeModule === "products" || activeModule === "aboutHero") && richEditorRef.current) {
       if (richEditorRef.current.innerHTML !== (form.content || "")) {
         richEditorRef.current.innerHTML = form.content || "";
       }
@@ -583,6 +583,7 @@ export default function AdminContentManager() {
       case "blogs":
       case "csr":
   case "pages":
+      case "aboutHero":
         return (
           <>
             {activeModule === "products" ? (
@@ -1073,7 +1074,7 @@ export default function AdminContentManager() {
                   <textarea className="min-h-20 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Short description" value={form.short_description} onChange={(e) => setForm((s) => ({ ...s, short_description: e.target.value }))} />
                 ) : null}
 
-                {activeModule !== "blogs" && activeModule !== "csr" && activeModule !== "pages" && activeModule !== "products" && activeModule !== "calculators" && activeModule !== "aboutUs" ? (
+                {activeModule !== "blogs" && activeModule !== "csr" && activeModule !== "pages" && activeModule !== "products" && activeModule !== "calculators" && activeModule !== "aboutUs" && activeModule !== "aboutHero" ? (
                   <textarea className="min-h-32 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2 md:col-span-2" placeholder="Content" value={form.content} onChange={(e) => setForm((s) => ({ ...s, content: e.target.value }))} />
                 ) : null}
 
