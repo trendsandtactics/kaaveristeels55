@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { revalidateModuleCache } from "@/app/actions";
 
-type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators" | "aboutUs";
+type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators" | "aboutUs" | "aboutHero";
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
 type ModuleName = ContentModuleName | SupportModuleName | "certifications";
 
@@ -39,6 +39,7 @@ const MODULES: ModuleDef[] = [
   { key: "csr", label: "CSR", kind: "content", description: "Manage Corporate Social Responsibility events and initiatives" },
   { key: "pages", label: "Pages Content", kind: "content", description: "Manage page-specific dynamic sections like CTAs" },
   { key: "aboutUs", label: "About Us", kind: "content", description: "Manage About Us section content and YouTube URL" },
+  { key: "aboutHero", label: "About Hero", kind: "content", description: "Manage About Hero heading, description, and images" },
   { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries" },
   { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue" },
   { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes" },
