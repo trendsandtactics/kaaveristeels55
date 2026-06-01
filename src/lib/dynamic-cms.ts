@@ -191,6 +191,19 @@ export async function ensureDynamicCmsTables(): Promise<void> {
   try { await pool.query("ALTER TABLE dealers ADD COLUMN latitude VARCHAR(60) NULL"); } catch {}
   try { await pool.query("ALTER TABLE dealers ADD COLUMN longitude VARCHAR(60) NULL"); } catch {}
 
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN slug VARCHAR(240) NULL"); } catch {}
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN short_description TEXT NULL"); } catch {}
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN content LONGTEXT NULL"); } catch {}
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN cover_image VARCHAR(500) NULL"); } catch {}
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN file_url VARCHAR(500) NULL"); } catch {}
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN video_url VARCHAR(500) NULL"); } catch {}
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN status ENUM('draft', 'published') NOT NULL DEFAULT 'published'"); } catch {}
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN featured TINYINT(1) NOT NULL DEFAULT 0"); } catch {}
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN sort_order INT NOT NULL DEFAULT 0"); } catch {}
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN meta_title VARCHAR(255) NULL"); } catch {}
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN meta_description TEXT NULL"); } catch {}
+  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN extra_data JSON NULL"); } catch {}
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS job_applications (
       id INT AUTO_INCREMENT PRIMARY KEY,
