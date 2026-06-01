@@ -1,0 +1,78 @@
+[33mcommit c9b34f63449eefd7a84880845308608167464775[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: trendsandtactics <trendsntactics@gmail.com>
+Date:   Tue May 19 14:11:29 2026 +0000
+
+    footer
+
+[1mdiff --git a/src/components/Footer.tsx b/src/components/Footer.tsx[m
+[1mindex 845b2c1..c4f3d2d 100644[m
+[1m--- a/src/components/Footer.tsx[m
+[1m+++ b/src/components/Footer.tsx[m
+[36m@@ -81,11 +81,11 @@[m [mexport default function Footer() {[m
+     return ([m
+         <footer id="footer" className="scroll-section relative overflow-hidden bg-black border-t border-red-500/10">[m
+             {/* RED GLOW */}[m
+[31m-            <div className="absolute left-[-160px] bottom-[-160px] w-[450px] h-[450px] bg-red-600/10 blur-[130px] rounded-full" />[m
+[32m+[m[32m            <div className="absolute left-[-100px] bottom-[-100px] md:left-[-160px] md:bottom-[-160px] w-[300px] h-[300px] md:w-[450px] md:h-[450px] bg-red-600/10 blur-[130px] rounded-full pointer-events-none" />[m
+ [m
+             <div className="max-w-7xl mx-auto px-6 md:px-10 pt-16 pb-8 relative z-10">[m
+                 {/* TOP SECTION */}[m
+[31m-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">[m
+[32m+[m[32m                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-10 lg:gap-14">[m
+                     {/* LOGO */}[m
+                     <div>[m
+                         <Link href="/#top">[m
+[36m@@ -98,7 +98,7 @@[m [mexport default function Footer() {[m
+                             />[m
+                         </Link>[m
+ [m
+[31m-                        <p className="text-white/70 text-[15px] leading-[2.3] max-w-[290px]">[m
+[32m+[m[32m                        <p className="text-white/70 text-[15px] leading-[2.3] sm:max-w-[290px]">[m
+                             Premium TMT bars and structural steel products[m
+                             engineered for durability, strength, and[m
+                             sustainability.[m
+[36m@@ -156,7 +156,7 @@[m [mexport default function Footer() {[m
+                             </div>[m
+ [m
+                             {/* ADDRESS SCROLL BUTTONS */}[m
+[31m-                            <div className="hidden md:flex items-center gap-2">[m
+[32m+[m[32m                        <div className="hidden sm:flex items-center gap-2">[m
+                                 <button[m
+                                     onClick={prevAddress}[m
+                                     className="w-11 h-11 rounded-full border border-white/10 bg-white/5 text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 flex items-center justify-center"[m
+[36m@@ -218,7 +218,7 @@[m [mexport default function Footer() {[m
+                             <div className="flex items-center gap-4 text-white/70 text-[15px]">[m
+                                 <Phone[m
+                                     size={17}[m
+[31m-                                    className="text-red-500"[m
+[32m+[m[32m                                    className="text-red-500 shrink-0"[m
+                                 />[m
+ [m
+                                 <span>+91 88558 24555</span>[m
+[36m@@ -227,7 +227,7 @@[m [mexport default function Footer() {[m
+                             <div className="flex items-center gap-4 text-white/70 text-[15px] break-all">[m
+                                 <Mail[m
+                                     size={17}[m
+[31m-                                    className="text-red-500"[m
+[32m+[m[32m                                    className="text-red-500 shrink-0"[m
+                                 />[m
+ [m
+                                 <span>info@kaaveristeel.co.in</span>[m
+[36m@@ -246,7 +246,7 @@[m [mexport default function Footer() {[m
+                             <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />[m
+ [m
+                             {/* CERTIFICATE LOGOS */}[m
+[31m-                            <div className="flex items-center gap-4">[m
+[32m+[m[32m                            <div className="flex flex-wrap items-center gap-4">[m
+                                 <Image[m
+                                     src="/iso.png"[m
+                                     alt="ISO"[m
+[36m@@ -285,7 +285,7 @@[m [mexport default function Footer() {[m
+                             <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />[m
+ [m
+                             {/* SOCIAL ICONS */}[m
+[31m-                            <div className="flex items-center gap-3">[m
+[32m+[m[32m                            <div className="flex flex-wrap items-center gap-3">[m
+                                 {[[m
+                                     {[m
+                                         icon: <Instagram size={18} />,[m
