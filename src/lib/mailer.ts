@@ -3,16 +3,16 @@ import nodemailer from "nodemailer";
 export const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "karthikjungleemara@gmail.com",
-    pass: "kfjk gdje mphh bint",
+    user: "kaaverienquiry@gmail.com",
+    pass: "ajbe pywr qzow lxwi",
   },
 });
 
 export const sendNotificationEmail = async (subject: string, htmlContent: string, attachments?: { filename: string; content: Buffer; contentType: string }[]) => {
   try {
     const info = await transporter.sendMail({
-      from: '"Kaaveri Steels" <karthikjungleemara@gmail.com>',
-      to: "karthikjungleemara@gmail.com",
+      from: '"Kaaveri Steels" <kaaverienquiry@gmail.com>',
+      to: "kaaverienquiry@gmail.com",
       subject,
       html: htmlContent,
       attachments,
