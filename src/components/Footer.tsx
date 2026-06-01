@@ -85,7 +85,7 @@ export default function Footer() {
 
             <div className="max-w-7xl mx-auto px-6 md:px-10 pt-16 pb-8 relative z-10">
                 {/* TOP SECTION */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-10 lg:gap-14">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-8 lg:gap-14">
                     {/* LOGO */}
                     <div>
                         <Link href="/#top">
