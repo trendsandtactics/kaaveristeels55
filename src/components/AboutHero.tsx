@@ -58,7 +58,6 @@ export default async function AboutHero() {
                             <div className="w-12 h-[2px] bg-black" />
                         </div>
 
-<<<<<<< HEAD
                         <h1 className="font-sans text-5xl md:text-7xl text-white mb-8 leading-tight drop-shadow-lg font-bold">
                             {welcome.title || "Welcome to KAAVERI"}<br />
                             <span className="text-white font-extrabold text-4xl md:text-5xl block mt-2 tracking-wide">
@@ -72,15 +71,6 @@ export default async function AboutHero() {
                                 dangerouslySetInnerHTML={{ __html: welcome.content }}
                             />
                         ) : null}
-=======
-                        <h1 className="font-serif text-5xl md:text-7xl text-black mb-8 leading-tight drop-shadow-md font-bold">
-                            Welcome to Kaaveri
-                        </h1>
-
-                        <p className="font-sans text-black/80 text-lg md:text-xl leading-relaxed font-medium">
-                            At KAAVERI, we are passionate about steel and dedicated to excellence. Our company is a leading manufacturer of TMT bars and structural steel products, committed to providing the construction industry with the highest quality materials that ensure strength, safety, and sustainability.
-                        </p>
->>>>>>> 146689f00aafaf1d4d374f76f827a0ebc5be2b9e
                     </div>
                 </div>
             </div>
@@ -107,13 +97,8 @@ export default async function AboutHero() {
                             {mission.title || "Our Mission"}
                         </h2>
 
-<<<<<<< HEAD
                         <h3 className="font-heading text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
                             {mission.short_description || "Building a Stronger, Sustainable Future"}
-=======
-                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
-                            Building a Stronger, Sustainable Future
->>>>>>> 146689f00aafaf1d4d374f76f827a0ebc5be2b9e
                         </h3>
 
                         {mission.content ? (
@@ -144,13 +129,8 @@ export default async function AboutHero() {
                             {vision.title || "Vision"}
                         </h2>
 
-<<<<<<< HEAD
                         <h3 className="font-heading text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
                             {vision.short_description || "Leading the Steel Industry with Quality, Innovation, and Trust"}
-=======
-                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
-                            Leading the Steel Industry with Quality, Innovation, and Trust
->>>>>>> 146689f00aafaf1d4d374f76f827a0ebc5be2b9e
                         </h3>
 
                         {vision.content ? (
