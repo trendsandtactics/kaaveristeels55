@@ -171,7 +171,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                                             <span className="text-accent-red text-xs font-bold uppercase tracking-widest mb-2 block">
                                                 {product.expand?.category?.name || "Product"}
                                             </span>
-                                        <h4 className="font-heading tabular-nums text-2xl text-black font-bold mb-3">
+                                        <h4 className="font-serif lining-nums tabular-nums text-2xl text-black font-bold mb-3">
                                                 {product.title}
                                             </h4>
                                             <p className="font-body text-black/70 mb-6 flex-grow font-medium text-sm leading-relaxed">
@@ -214,7 +214,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                             <h4 className="font-serif text-xl text-black font-bold mb-4">Available Sizes</h4>
                             <div className="flex flex-wrap gap-2">
                                 {tmtSizes.map(size => (
-                                    <span key={size} className="font-heading tabular-nums bg-white border border-black/10 text-black px-4 py-2 text-[15px] font-semibold shadow-sm rounded-sm">{size}</span>
+                                    <span key={size} className="font-sans lining-nums tabular-nums bg-white border border-black/10 text-black px-4 py-2 text-[15px] font-bold shadow-sm rounded-sm tracking-wide">{size}</span>
                                 ))}
                             </div>
                         </div>
@@ -223,7 +223,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                             <h4 className="font-serif text-xl text-black font-bold mb-4">Available Grades</h4>
                             <div className="flex flex-wrap gap-2">
                                 {tmtGrades.map(grade => (
-                                    <span key={grade} className="font-heading tabular-nums bg-black text-white px-4 py-2 text-[15px] font-semibold shadow-sm rounded-sm">{grade}</span>
+                                    <span key={grade} className="font-sans lining-nums tabular-nums bg-black text-white px-4 py-2 text-[15px] font-bold shadow-sm rounded-sm tracking-wide">{grade}</span>
                                 ))}
                             </div>
                         </div>
