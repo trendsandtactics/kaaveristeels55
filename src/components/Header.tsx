@@ -171,6 +171,7 @@ export default function Header() {
                               key={item.href}
                               href={item.href}
                               className="rounded-xl px-3 py-2 text-sm hover:bg-yellow-50"
+                              onClick={() => setMediaDropdownOpen(false)}
                             >
                               {item.name}
                             </Link>
@@ -212,6 +213,7 @@ export default function Header() {
                               key={item.href}
                               href={item.href}
                               className="rounded-xl px-3 py-2 text-sm hover:bg-yellow-50"
+                              onClick={() => setSupportDropdownOpen(false)}
                             >
                               {item.name}
                             </Link>
@@ -349,7 +351,10 @@ export default function Header() {
                                 key={item.href}
                                 href={item.href}
                                 className="block rounded-lg px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50/50 transition-colors"
-                                onClick={() => setMobileMenuOpen(false)}
+                                onClick={() => {
+                                  setMobileMenuOpen(false);
+                                  setMobileMediaOpen(false);
+                                }}
                               >
                                 {item.name}
                               </Link>
@@ -388,7 +393,10 @@ export default function Header() {
                                 key={item.href}
                                 href={item.href}
                                 className="block rounded-lg px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50/50 transition-colors"
-                                onClick={() => setMobileMenuOpen(false)}
+                                onClick={() => {
+                                  setMobileMenuOpen(false);
+                                  setMobileSupportOpen(false);
+                                }}
                               >
                                 {item.name}
                               </Link>
