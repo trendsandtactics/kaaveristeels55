@@ -301,7 +301,7 @@ export default function DynamicModulePage({
                           <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-black/50">
                             Featured
                           </p>
-                          <h3 className="font-serif lining-nums tabular-nums text-xl md:text-2xl font-bold text-black mb-4 line-clamp-2">
+                          <h3 className="font-sans lining-nums tabular-nums text-xl md:text-2xl font-bold text-black mb-4 line-clamp-2">
                             {item.title}
                           </h3>
                         </div>
@@ -376,7 +376,7 @@ export default function DynamicModulePage({
                       <p className="text-[10px] uppercase tracking-[0.18em] text-black/50 font-semibold">
                         Featured
                       </p>
-                      <h3 className="font-serif lining-nums tabular-nums text-xl md:text-2xl font-bold mt-2 text-black line-clamp-2">
+                      <h3 className="font-sans lining-nums tabular-nums text-xl md:text-2xl font-bold mt-2 text-black line-clamp-2">
                         {item.title}
                       </h3>
                       <p className="text-sm text-black/65 mt-2 line-clamp-3">
@@ -422,7 +422,7 @@ export default function DynamicModulePage({
                     </div>
                   )}
                   <div className="p-6 flex flex-col flex-1">
-                    <h3 className="font-serif lining-nums tabular-nums text-lg md:text-xl font-bold text-black mb-4 transition-colors group-hover:text-accent-red line-clamp-2">
+                    <h3 className="font-sans lining-nums tabular-nums text-lg md:text-xl font-bold text-black mb-4 transition-colors group-hover:text-accent-red line-clamp-2">
                       {item.title}
                     </h3>
                     <div className="mt-auto flex items-center gap-3">
@@ -496,7 +496,7 @@ export default function DynamicModulePage({
                 </div>
 
                 <div className="p-5">
-                  <h3 className="font-serif lining-nums tabular-nums text-lg md:text-xl font-bold text-black group-hover:text-accent-red transition-colors line-clamp-2">
+                  <h3 className="font-sans lining-nums tabular-nums text-lg md:text-xl font-bold text-black group-hover:text-accent-red transition-colors line-clamp-2">
                     {item.title}
                   </h3>
                   <p className="text-sm text-black/65 mt-2 line-clamp-3">

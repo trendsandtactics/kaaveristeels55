@@ -87,7 +87,7 @@ export default function HomeProducts() {
 
                             <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8 z-20 flex flex-col justify-end translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
                                 <div className="w-10 h-1 bg-accent-red mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 transform -translate-x-4 group-hover:translate-x-0" />
-                                <h4 className="font-serif lining-nums tabular-nums text-2xl sm:text-3xl text-white font-bold mb-2 drop-shadow-md">
+                                <h4 className="font-sans lining-nums tabular-nums text-2xl sm:text-3xl text-white font-bold mb-2 drop-shadow-md">
                                     {product.name}
                                 </h4>
                                 <p className="font-sans text-white/90 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
