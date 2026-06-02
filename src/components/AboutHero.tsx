@@ -8,6 +8,7 @@ interface AboutHeroItem {
     short_description?: string | null;
     content?: string | null;
     cover_image?: string | null;
+    file_url?: string | null;
     sort_order?: number | null;
 }
 
@@ -21,7 +22,7 @@ export default async function AboutHero() {
     }
 
     const welcome = items[0] || {
-        title: "Welcome to Kaaveri",
+        title: "Welcome to KAAVERI",
         short_description: "TMT & STRUCTURAL",
         content: "At KAAVERI, we are passionate about steel and dedicated to excellence. Our company is a leading manufacturer of TMT bars and structural steel products, committed to providing the construction industry with the highest quality materials that ensure strength, safety, and sustainability.",
     };
@@ -40,8 +41,8 @@ export default async function AboutHero() {
         cover_image: "/image/about2.png",
     };
 
-    const missionImage = mission.cover_image ? resolveMediaUrl(mission.cover_image, "/image/about1.png") : "/image/about1.png";
-    const visionImage = vision.cover_image ? resolveMediaUrl(vision.cover_image, "/image/about2.png") : "/image/about2.png";
+    const missionImage = (mission.cover_image || mission.file_url) ? resolveMediaUrl((mission.cover_image || mission.file_url) as string, "/image/about1.png") : "/image/about1.png";
+    const visionImage = (vision.cover_image || vision.file_url) ? resolveMediaUrl((vision.cover_image || vision.file_url) as string, "/image/about2.png") : "/image/about2.png";
 
     return (
         <div className="w-full bg-white">
