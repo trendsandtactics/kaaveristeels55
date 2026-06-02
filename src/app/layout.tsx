@@ -20,8 +20,8 @@ function resolveMetadataBase(): URL {
 
 export const metadata: Metadata = {
   metadataBase: resolveMetadataBase(),
-  title: "Premium Steel & TMT Bar Manufacturing",
-  description: "High-performance steel manufacturing company showcasing advanced dynamic modules and raw power.",
+  title: "KAAVERI TMT BARS & STRUCTURAL",
+  description: "KAAVERI TMT Bars & Structural - Strong, Durable, and Trusted for all your construction needs.",
 };
 
 export default function RootLayout({
