@@ -214,7 +214,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                             <h4 className="font-serif text-xl text-black font-bold mb-4">Available Sizes</h4>
                             <div className="flex flex-wrap gap-2">
                                 {tmtSizes.map(size => (
-                                    <span key={size} className="bg-white border border-black/10 text-black px-4 py-2 text-sm font-bold shadow-sm rounded-sm">{size}</span>
+                                    <span key={size} className="font-sans bg-white border border-black/10 text-black px-4 py-2 text-sm font-bold shadow-sm rounded-sm">{size}</span>
                                 ))}
                             </div>
                         </div>
@@ -223,7 +223,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                             <h4 className="font-serif text-xl text-black font-bold mb-4">Available Grades</h4>
                             <div className="flex flex-wrap gap-2">
                                 {tmtGrades.map(grade => (
-                                    <span key={grade} className="bg-black text-white px-4 py-2 text-sm font-bold shadow-sm rounded-sm">{grade}</span>
+                                    <span key={grade} className="font-sans bg-black text-white px-4 py-2 text-sm font-bold shadow-sm rounded-sm">{grade}</span>
                                 ))}
                             </div>
                         </div>
