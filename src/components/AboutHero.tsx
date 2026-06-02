@@ -21,7 +21,7 @@ export default async function AboutHero() {
     }
 
     const welcome = items[0] || {
-        title: "Welcome to KAAVERI",
+        title: "Welcome to Kaaveri",
         short_description: "TMT & STRUCTURAL",
         content: "At KAAVERI, we are passionate about steel and dedicated to excellence. Our company is a leading manufacturer of TMT bars and structural steel products, committed to providing the construction industry with the highest quality materials that ensure strength, safety, and sustainability.",
     };
