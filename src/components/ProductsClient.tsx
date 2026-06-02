@@ -215,6 +215,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                             <div className="flex flex-wrap gap-2">
                                 {tmtSizes.map(size => (
                                     <span key={size} className="font-body tracking-wide bg-white border border-black/10 text-black px-4 py-2 text-sm font-bold shadow-sm rounded-sm">{size}</span>
+                                    <span key={size} className="font-sans bg-white border border-black/10 text-black px-4 py-2 text-[15px] font-semibold shadow-sm rounded-sm">{size}</span>
                                 ))}
                             </div>
                         </div>
@@ -224,6 +225,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                             <div className="flex flex-wrap gap-2">
                                 {tmtGrades.map(grade => (
                                     <span key={grade} className="font-body tracking-wide bg-black text-white px-4 py-2 text-sm font-bold shadow-sm rounded-sm">{grade}</span>
+                                    <span key={grade} className="font-sans bg-black text-white px-4 py-2 text-[15px] font-semibold shadow-sm rounded-sm">{grade}</span>
                                 ))}
                             </div>
                         </div>
