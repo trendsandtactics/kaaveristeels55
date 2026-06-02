@@ -94,7 +94,7 @@ export default function TrustOnSitePage() {
       KAAVERI STEELS
     </p>
 
-    <h1 className="font-serif text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
+    <h1 className="font-sans text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
       Trust On Site
     </h1>
 
@@ -223,7 +223,7 @@ export default function TrustOnSitePage() {
     {/* Left Content */}
     <div className="text-white max-w-lg">
 
-      <h2 className="font-serif text-3xl md:text-5xl font-extrabold leading-tight mb-4 whitespace-pre-wrap">
+      <h2 className="font-sans text-3xl md:text-5xl font-extrabold leading-tight mb-4 whitespace-pre-wrap">
         {ctaTitle}
       </h2>
 

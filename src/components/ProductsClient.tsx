@@ -81,7 +81,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                     <h2 className="font-body text-accent-red uppercase tracking-[0.2em] font-bold text-sm mb-4">
                         Our Portfolio
                     </h2>
-                    <h3 className="font-serif text-4xl md:text-5xl text-black font-extrabold mb-8">
+                    <h3 className="font-sans text-4xl md:text-5xl text-black font-extrabold mb-8">
                         Explore Our Categories
                     </h3>
                     
@@ -203,7 +203,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                         <h2 className="font-body text-accent-red uppercase tracking-[0.2em] font-bold text-sm mb-4">
                             Flagship Product
                         </h2>
-                        <h3 className="font-serif text-4xl md:text-5xl text-black font-extrabold mb-6">
+                        <h3 className="font-sans text-4xl md:text-5xl text-black font-extrabold mb-6">
                             KAAVERI TMT Bars
                         </h3>
                         <p className="font-body text-black/70 text-lg leading-relaxed mb-8 font-medium">
@@ -211,7 +211,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                         </p>
                         
                         <div className="mb-8">
-                            <h4 className="font-serif text-xl text-black font-bold mb-4">Available Sizes</h4>
+                            <h4 className="font-sans text-xl text-black font-bold mb-4">Available Sizes</h4>
                             <div className="flex flex-wrap gap-2">
                                 {tmtSizes.map(size => (
                                     <span key={size} className="font-sans lining-nums tabular-nums bg-white border border-black/10 text-black px-4 py-2 text-[15px] font-bold shadow-sm rounded-sm tracking-wide">{size}</span>
@@ -220,7 +220,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                         </div>
 
                         <div>
-                            <h4 className="font-serif text-xl text-black font-bold mb-4">Available Grades</h4>
+                            <h4 className="font-sans text-xl text-black font-bold mb-4">Available Grades</h4>
                             <div className="flex flex-wrap gap-2">
                                 {tmtGrades.map(grade => (
                                     <span key={grade} className="font-sans lining-nums tabular-nums bg-black text-white px-4 py-2 text-[15px] font-bold shadow-sm rounded-sm tracking-wide">{grade}</span>
@@ -244,7 +244,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                     <h2 className="font-body text-accent-red uppercase tracking-[0.2em] font-bold text-sm mb-4">
                         Versatile Solutions
                     </h2>
-                    <h3 className="font-serif text-4xl md:text-5xl text-black font-extrabold mb-12">
+                    <h3 className="font-sans text-4xl md:text-5xl text-black font-extrabold mb-12">
                         Structural Steel Range
                     </h3>
                     
@@ -267,7 +267,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                 
                 <div className="max-w-7xl mx-auto relative z-10">
                     <div className="text-center mb-16">
-                        <h3 className="font-serif text-4xl md:text-5xl font-extrabold mb-4">Why Choose KAAVERI?</h3>
+                        <h3 className="font-sans text-4xl md:text-5xl font-extrabold mb-4">Why Choose KAAVERI?</h3>
                         <p className="font-body text-white/70 max-w-2xl mx-auto text-lg">Uncompromising standards at every step of the manufacturing process.</p>
                     </div>
 
@@ -282,7 +282,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                             return (
                                 <div key={i} className="bg-white/5 border border-white/10 p-8 rounded-sm hover:bg-white/10 transition-colors">
                                     <Icon className="w-10 h-10 text-accent-red mb-6" />
-                                    <h4 className="font-serif text-xl font-bold mb-3">{feature.title}</h4>
+                                    <h4 className="font-sans text-xl font-bold mb-3">{feature.title}</h4>
                                     <p className="font-body text-white/60 text-sm leading-relaxed">{feature.desc}</p>
                                 </div>
                             )
@@ -294,7 +294,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
             {/* 6. Enquiry CTA */}
             <section className="w-full bg-accent-yellow py-16 px-6 md:px-12">
                 <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
-                    <h3 className="font-serif text-3xl md:text-5xl text-black font-extrabold mb-6">
+                    <h3 className="font-sans text-3xl md:text-5xl text-black font-extrabold mb-6">
                         Ready to Build the Future?
                     </h3>
                     <p className="font-body text-black/80 font-medium text-lg mb-8 max-w-2xl">
