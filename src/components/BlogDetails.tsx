@@ -6,10 +6,10 @@ import { resolveMediaUrl } from "@/lib/media";
 
 type BlogDetailProps = {
   blog: {
-    title?: string;
-    cover_image?: string;
-    content?: string;
-    created_at?: string;
+    title?: string | null;
+    cover_image?: string | null;
+    content?: string | null;
+    created_at?: string | null;
   };
 };
 
