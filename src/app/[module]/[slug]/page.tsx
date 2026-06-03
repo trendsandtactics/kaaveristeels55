@@ -5,6 +5,7 @@ import { getPublicModuleItemBySlug } from "@/lib/dynamic-cms";
 import { resolveMediaUrl } from "@/lib/media";
 import ClientFadeUp from "@/components/ClientFadeUp";
 import ApplyNowModal from "@/components/ApplyNowModal";
+import BlogDetails from "@/components/BlogDetails";
 
 const ALLOWED_MODULES = new Set(["products", "mediaEvents", "blogs", "projects", "careers", "dealers", "galleries", "brochures", "popups", "csr"]);
 const MODULE_TITLES: Record<string, string> = {
@@ -36,6 +37,15 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
   const description = String(item.short_description ?? item.content ?? "");
   const image = resolveMediaUrl(item.cover_image ?? item.file_url, "/image/kaaveriabout.png");
   const moduleTitle = MODULE_TITLES[module] ?? module;
+
+  if (module === "blogs") {
+    return <BlogDetails blog={{
+      title: item.title as string | null | undefined,
+      cover_image: item.cover_image as string | null | undefined,
+      content: item.content as string | null | undefined,
+      created_at: item.created_at as string | null | undefined
+    }} />;
+  }
 
   return (
     <main className="w-screen relative left-1/2 -translate-x-1/2 bg-white flex flex-col">
