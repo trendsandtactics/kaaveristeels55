@@ -29,7 +29,7 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
   const coverImage = blog?.cover_image ? resolveMediaUrl(blog.cover_image, "") : "/placeholder-blog-image.jpg";
 
   return (
-    <main className="min-h-screen bg-gray-50 pb-24 font-sans block">
+    <main className="min-h-screen bg-gray-50 pb-24 font-sans flex flex-col w-full overflow-x-hidden">
       
       {/* FLOATING STICKY NAVIGATION BAR */}
       <div className="fixed top-4 left-0 right-0 z-[100] flex justify-center px-4 pointer-events-none">
@@ -64,7 +64,7 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
       </div>
 
       {/* 1. HERO SECTION */}
-      <section className="w-full bg-[#FFD500] pt-40 md:pt-48 pb-32 px-6 relative block">
+      <section className="w-full bg-[#FFD500] pt-40 md:pt-48 pb-32 px-6 relative flex flex-col w-full">
         <div className="max-w-[1200px] mx-auto relative z-10 flex flex-col items-start">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <Link
@@ -95,12 +95,12 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
       </section>
 
       {/* 2. MAIN CONTENT SECTION (Vertical Flow) */}
-      <section className="max-w-[1200px] mx-auto px-4 sm:px-6 -mt-20 md:-mt-24 relative z-20 block w-full">
+      <section className="max-w-[1200px] mx-auto px-4 sm:px-6 -mt-20 md:-mt-24 relative z-20 flex flex-col w-full">
         
         {/* Large Featured Image */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
-          className="w-full h-[450px] md:h-[600px] rounded-[12px] overflow-hidden shadow-xl bg-white border border-black/5 relative block"
+          className="w-full h-[450px] md:h-[600px] rounded-[12px] overflow-hidden shadow-xl bg-white border border-black/5 relative shrink-0"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
@@ -113,7 +113,7 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
         {/* Content Container */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
-          className="w-full mt-12 md:mt-16 bg-white p-8 md:p-12 rounded-[12px] shadow-sm border border-black/5 relative block"
+          className="w-full mt-12 md:mt-16 bg-white p-8 md:p-12 rounded-[12px] shadow-sm border border-black/5 relative flex flex-col"
         >
           {/* Centered Overview Heading */}
           <div className="text-center mb-12">
@@ -126,7 +126,7 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
 
           {/* Readable Single-Column Typography Area */}
           <div 
-            className="prose prose-lg md:prose-xl max-w-4xl mx-auto text-black/80 font-serif leading-relaxed block
+            className="prose prose-lg md:prose-xl max-w-4xl mx-auto text-black/80 font-serif leading-relaxed flex flex-col w-full
                        prose-headings:font-sans prose-headings:font-bold prose-headings:text-black 
                        prose-a:text-red-600 prose-a:no-underline hover:prose-a:underline 
                        prose-img:rounded-xl prose-img:shadow-md prose-strong:text-black"
