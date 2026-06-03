@@ -61,6 +61,7 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
           className="w-full aspect-[16/9] md:aspect-[21/9] rounded-[16px] overflow-hidden shadow-2xl bg-white border-4 border-white relative group"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
             src={coverImage} 
             alt={blog?.title || "Blog Cover"} 
