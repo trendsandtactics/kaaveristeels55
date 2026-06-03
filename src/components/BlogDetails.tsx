@@ -29,7 +29,7 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
   const coverImage = blog?.cover_image ? resolveMediaUrl(blog.cover_image, "") : "/placeholder-blog-image.jpg";
 
   return (
-    <main className="min-h-screen bg-gray-50 pb-24 font-sans block w-full overflow-x-hidden">
+    <main className="min-h-screen bg-gray-50 pb-24 font-sans flex flex-col w-full overflow-x-hidden">
       
       {/* FLOATING STICKY NAVIGATION BAR */}
       <div className="fixed top-4 left-0 right-0 z-[100] flex justify-center px-4 pointer-events-none">
@@ -64,8 +64,8 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
       </div>
 
       {/* 1. HERO SECTION */}
-      <section className="w-full bg-[#FFD500] pt-40 md:pt-48 pb-32 px-6 relative block w-full">
-        <div className="max-w-[1200px] mx-auto relative z-10 block w-full text-left">
+      <section className="w-full bg-[#FFD500] pt-40 md:pt-48 pb-32 px-6 relative flex flex-col items-center w-full">
+        <div className="max-w-[1200px] w-full mx-auto relative z-10 flex flex-col items-start text-left">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <Link
               href="/blogs"
@@ -78,7 +78,7 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
 
           <motion.h1 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black leading-tight max-w-5xl text-left block"
+            className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-black leading-tight max-w-5xl text-left"
           >
             {blog?.title || "The Future of TMT Manufacturing and Construction"}
           </motion.h1>
@@ -86,7 +86,7 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
           {blog?.created_at && (
             <motion.p 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} 
-              className="mt-6 font-sans text-black/60 font-semibold tracking-wider uppercase text-sm block"
+              className="mt-6 font-sans text-black/60 font-semibold tracking-wider uppercase text-sm"
             >
               {new Date(blog.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
             </motion.p>
@@ -95,12 +95,12 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
       </section>
 
       {/* 2. MAIN CONTENT SECTION (Vertical Flow) */}
-      <section className="max-w-[1200px] mx-auto px-4 sm:px-6 -mt-20 md:-mt-24 relative z-20 block w-full clear-both">
+      <section className="max-w-[1200px] w-full mx-auto px-4 sm:px-6 -mt-20 md:-mt-24 relative z-20 flex flex-col items-center justify-start clear-both">
         
         {/* Large Featured Image */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
-          className="w-full h-[450px] md:h-[600px] rounded-[12px] overflow-hidden shadow-xl bg-white border border-black/5 relative block mb-12 md:mb-16"
+          className="w-full h-[450px] md:h-[600px] rounded-[12px] overflow-hidden shadow-xl bg-white border border-black/5 relative flex-shrink-0 mb-12 md:mb-16"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
@@ -113,7 +113,7 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
         {/* Content Container */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
-          className="w-full bg-white p-8 md:p-12 rounded-[12px] shadow-sm border border-black/5 relative block"
+          className="w-full bg-white p-8 md:p-12 rounded-[12px] shadow-sm border border-black/5 relative flex flex-col items-center"
         >
           {/* Centered Overview Heading */}
           <div className="text-center mb-12">
@@ -126,7 +126,7 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
 
           {/* Readable Single-Column Typography Area */}
           <div 
-            className="prose prose-lg md:prose-xl max-w-4xl mx-auto text-black/80 font-serif leading-relaxed block w-full
+            className="prose prose-lg md:prose-xl max-w-4xl w-full mx-auto text-black/80 font-serif leading-relaxed flex flex-col
                        prose-headings:font-sans prose-headings:font-bold prose-headings:text-black prose-headings:text-left
                        prose-a:text-red-600 prose-a:no-underline hover:prose-a:underline 
                        prose-img:rounded-xl prose-img:shadow-md prose-img:w-full prose-strong:text-black"

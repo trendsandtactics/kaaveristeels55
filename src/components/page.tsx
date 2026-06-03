@@ -7,14 +7,14 @@ export const revalidate = 60;
 
 export async function generateStaticParams() {
   const blogs = await listModuleItems("blogs", { status: "published" });
-  return blogs.map((blog) => ({
+  return blogs.map((blog: { slug: string }) => ({
     slug: blog.slug,
   }));
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const blogs = await listModuleItems("blogs", { status: "published" });
-  const blog = blogs.find((b) => b.slug === params.slug);
+  const blog = blogs.find((b: any) => b.slug === params.slug);
 
   if (!blog) return { title: "Not Found | Blogs | KAAVERI Steels" };
 
@@ -26,13 +26,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 export default async function BlogDetailedPage({ params }: { params: { slug: string } }) {
   const blogs = await listModuleItems("blogs", { status: "published" });
-  const blog = blogs.find((b) => b.slug === params.slug);
+  const blog = blogs.find((b: any) => b.slug === params.slug);
 
   // Show 404 if the blog doesn't exist
   if (!blog) {
     notFound();
   }
 
-  // Render our beautiful client component
+  // Render our beautiful vertical client component
   return <BlogDetails blog={blog} />;
 }
