@@ -38,38 +38,37 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
   const moduleTitle = MODULE_TITLES[module] ?? module;
 
   return (
-    <main className="w-screen relative left-1/2 -translate-x-1/2 bg-white flex flex-col">
+    <main className="w-screen relative left-1/2 -translate-x-1/2 min-h-screen bg-white flex flex-col pt-24 md:pt-32 pb-16">
       
-      <ClientFadeUp className="flex flex-col lg:flex-row w-full min-h-[85vh] pt-24 md:pt-32 pb-16">
-          
-          {/* Left 55%: Image Area - Transparent Background */}
-          <div className="relative w-full lg:w-[55%] min-h-[50vh] flex items-center justify-center py-16 lg:py-0">
-            <Image 
-              src={image} 
-              alt={title} 
-              fill 
-              className="object-contain mix-blend-multiply hover:scale-[1.02] transition-transform duration-1000 ease-out lg:p-16"
-              sizes="(max-width: 1024px) 100vw, 55vw"
-              priority
-            />
-          </div>
+      <ClientFadeUp className="w-full max-w-4xl mx-auto px-6 lg:px-8">
 
-          {/* Right 45%: Content Area */}
-          <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 py-12 lg:px-20 xl:px-28 lg:py-24">
-            <Link href={`/${module}`} className="text-xs font-bold text-black/60 hover:text-black uppercase tracking-widest mb-6 inline-flex items-center gap-2 transition-colors">
-              <span>&larr;</span> Back to {moduleTitle}
-            </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight uppercase">
-              {title}
-            </h1>
-            {item.short_description && (
-              <p className="text-lg text-gray-600 mb-8 font-medium leading-relaxed">
-                {item.short_description}
-              </p>
-            )}
+        <Link href={`/${module}`} className="text-xs font-bold text-black/60 hover:text-black uppercase tracking-widest mb-8 inline-flex items-center gap-2 transition-colors">
+          <span>&larr;</span> Back to {moduleTitle}
+        </Link>
+
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight uppercase">
+          {title}
+        </h1>
+
+        {item.short_description && (
+          <p className="text-lg text-gray-600 mb-8 font-medium leading-relaxed">
+            {item.short_description}
+          </p>
+        )}
+
+        <div className="relative w-full aspect-video mb-12 rounded-xl overflow-hidden bg-gray-50">
+          <Image 
+            src={image} 
+            alt={title} 
+            fill 
+            className="object-contain mix-blend-multiply hover:scale-[1.02] transition-transform duration-1000 ease-out"
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            priority
+          />
+        </div>
             
-            <div className="prose prose-lg max-w-none prose-p:font-light prose-p:text-gray-600 prose-p:leading-relaxed prose-headings:font-light prose-headings:text-gray-900 prose-a:text-black hover:prose-a:text-gray-600 prose-li:text-gray-600 font-body space-y-8">
-              <div dangerouslySetInnerHTML={{ __html: String(item.content ?? description) }} />
+        <div className="prose prose-lg max-w-none prose-p:font-light prose-p:text-gray-600 prose-p:leading-relaxed prose-headings:font-light prose-headings:text-gray-900 prose-a:text-black hover:prose-a:text-gray-600 prose-li:text-gray-600 font-body space-y-8">
+          <div dangerouslySetInnerHTML={{ __html: String(item.content ?? description) }} />
               
               {module === "products" && (
                 <div className="pt-10">
@@ -88,9 +87,6 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
                   <ApplyNowModal careerId={Number(item.id) || undefined} jobTitle={title} />
                 </div>
               )}
-            </div>
-          </div>
-
       </ClientFadeUp>
     </main>
   );
