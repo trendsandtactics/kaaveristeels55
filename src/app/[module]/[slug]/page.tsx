@@ -87,6 +87,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
                   <ApplyNowModal careerId={Number(item.id) || undefined} jobTitle={title} />
                 </div>
               )}
+        </div>
       </ClientFadeUp>
     </main>
   );
