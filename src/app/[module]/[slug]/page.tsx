@@ -37,38 +37,90 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
   const image = resolveMediaUrl(item.cover_image ?? item.file_url, "/image/kaaveriabout.png");
   const moduleTitle = MODULE_TITLES[module] ?? module;
 
+  if (module === "blogs") {
+    return (
+      <main className="w-screen relative left-1/2 -translate-x-1/2 min-h-screen bg-white flex flex-col pt-24 md:pt-32 pb-16">
+        
+        <ClientFadeUp className="w-full max-w-4xl mx-auto px-6 lg:px-8">
+
+          <Link href={`/${module}`} className="text-xs font-bold text-black/60 hover:text-black uppercase tracking-widest mb-8 inline-flex items-center gap-2 transition-colors">
+            <span>&larr;</span> Back to {moduleTitle}
+          </Link>
+
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight uppercase">
+            {title}
+          </h1>
+
+          {item.short_description && (
+            <p className="text-lg text-gray-600 mb-8 font-medium leading-relaxed">
+              {item.short_description}
+            </p>
+          )}
+
+          <div className="relative w-full aspect-video mb-12 rounded-xl overflow-hidden bg-gray-50">
+            <Image 
+              src={image} 
+              alt={title} 
+              fill 
+              className="object-contain mix-blend-multiply hover:scale-[1.02] transition-transform duration-1000 ease-out"
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              priority
+            />
+          </div>
+              
+          <div className="prose prose-lg max-w-none prose-p:font-light prose-p:text-gray-600 prose-p:leading-relaxed prose-headings:font-light prose-headings:text-gray-900 prose-a:text-black hover:prose-a:text-gray-600 prose-li:text-gray-600 font-body space-y-8">
+            <div dangerouslySetInnerHTML={{ __html: String(item.content ?? description) }} />
+          </div>
+        </ClientFadeUp>
+      </main>
+    );
+  }
+
   return (
-    <main className="w-screen relative left-1/2 -translate-x-1/2 min-h-screen bg-white flex flex-col pt-24 md:pt-32 pb-16">
+    <main className="w-screen relative left-1/2 -translate-x-1/2 bg-white flex flex-col">
       
-      <ClientFadeUp className="w-full max-w-4xl mx-auto px-6 lg:px-8">
-
-        <Link href={`/${module}`} className="text-xs font-bold text-black/60 hover:text-black uppercase tracking-widest mb-8 inline-flex items-center gap-2 transition-colors">
-          <span>&larr;</span> Back to {moduleTitle}
-        </Link>
-
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight uppercase">
-          {title}
-        </h1>
-
-        {item.short_description && (
-          <p className="text-lg text-gray-600 mb-8 font-medium leading-relaxed">
-            {item.short_description}
-          </p>
-        )}
-
-        <div className="relative w-full aspect-video mb-12 rounded-xl overflow-hidden bg-gray-50">
-          <Image 
-            src={image} 
-            alt={title} 
-            fill 
-            className="object-contain mix-blend-multiply hover:scale-[1.02] transition-transform duration-1000 ease-out"
-            sizes="(max-width: 1024px) 100vw, 1024px"
-            priority
-          />
+      {/* Hero Section */}
+      <section className="w-full bg-gradient-to-r from-[#FFD700] via-[#FFDF33] to-[#FFD700] pt-28 pb-10 md:pt-36 md:pb-16 px-6 relative overflow-hidden shadow-sm border-b border-black/10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <Link href={`/${module}`} className="text-xs font-bold text-black/60 hover:text-black uppercase tracking-widest mb-6 inline-flex items-center gap-2 transition-colors">
+            <span>&larr;</span> Back to {moduleTitle}
+          </Link>
+          <h1 className="font-sans text-3xl md:text-4xl lg:text-5xl text-black mt-2 drop-shadow-md font-extrabold max-w-4xl uppercase tracking-tight">
+            {title}
+          </h1>
+          {item.short_description && (
+            <p className="font-sans text-black/80 mt-5 max-w-3xl text-lg md:text-xl font-medium leading-relaxed">
+              {item.short_description}
+            </p>
+          )}
         </div>
+      </section>
+
+      <ClientFadeUp className="flex flex-col lg:flex-row w-full min-h-[85vh]">
+          
+          {/* Left 55%: Image Area - Transparent Background */}
+          <div className="relative w-full lg:w-[55%] min-h-[50vh] flex items-center justify-center py-16 lg:py-0">
+            <Image 
+              src={image} 
+              alt={title} 
+              fill 
+              className="object-contain mix-blend-multiply hover:scale-[1.02] transition-transform duration-1000 ease-out lg:p-16"
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              priority
+            />
+          </div>
+
+          {/* Right 45%: Content Area */}
+          <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 py-12 lg:px-20 xl:px-28 lg:py-24">
+            <h2 className="text-xl lg:text-2xl font-light text-gray-900 mb-8 tracking-widest uppercase border-b border-gray-200 pb-6">
+              Overview
+            </h2>
             
-        <div className="prose prose-lg max-w-none prose-p:font-light prose-p:text-gray-600 prose-p:leading-relaxed prose-headings:font-light prose-headings:text-gray-900 prose-a:text-black hover:prose-a:text-gray-600 prose-li:text-gray-600 font-body space-y-8">
-          <div dangerouslySetInnerHTML={{ __html: String(item.content ?? description) }} />
+            <div className="prose prose-lg max-w-none prose-p:font-light prose-p:text-gray-600 prose-p:leading-relaxed prose-headings:font-light prose-headings:text-gray-900 prose-a:text-black hover:prose-a:text-gray-600 prose-li:text-gray-600 font-body space-y-8">
+              <div dangerouslySetInnerHTML={{ __html: String(item.content ?? description) }} />
               
               {module === "products" && (
                 <div className="pt-10">
@@ -87,7 +139,8 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
                   <ApplyNowModal careerId={Number(item.id) || undefined} jobTitle={title} />
                 </div>
               )}
-        </div>
+            </div>
+          </div>
       </ClientFadeUp>
     </main>
   );
