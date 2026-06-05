@@ -19,6 +19,7 @@ type DynamicItem = {
 };
 
 const ITEMS_PER_PAGE = 9;
+
 const swrCache = new Map<string, DynamicItem[]>();
 
 function formatModuleLabel(module: string): string {
@@ -47,9 +48,7 @@ export default function DynamicModulePage({
   const [items, setItems] = useState<DynamicItem[]>([]);
   const [q, setQ] = useState("");
   const [debouncedQ, setDebouncedQ] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string>(
-    module === "products" ? "TMT" : module === "mediaEvents" ? "Images" : "All"
-  );
+  const [activeCategory, setActiveCategory] = useState<string>(module === "products" ? "TMT" : module === "mediaEvents" ? "Images" : "All");
   const [activeSubCategory, setActiveSubCategory] = useState<string>("Bars");
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
@@ -81,14 +80,23 @@ export default function DynamicModulePage({
       setLoading(true);
     }
 
-    fetch(fetchUrl, { cache: "no-store", signal: controller.signal })
+    const requestInit: RequestInit = {
+      cache: "no-store",
+      signal: controller.signal,
+    };
+
+    fetch(fetchUrl, requestInit)
       .then((res) => res.json())
       .then((data) => {
-        const fetched = data.data ?? [];
-        swrCache.set(cacheKey, fetched);
-        setItems(fetched);
+        const fetchedItems = data.data ?? [];
+        swrCache.set(cacheKey, fetchedItems);
+        setItems(fetchedItems);
       })
-      .catch((err) => { if (err.name !== "AbortError") setItems([]); })
+      .catch((error) => {
+        if (error.name !== "AbortError") {
+          setItems([]);
+        }
+      })
       .finally(() => setLoading(false));
 
     return () => controller.abort();
@@ -101,17 +109,24 @@ export default function DynamicModulePage({
   const displayedItems = useMemo(() => {
     if (module === "products") {
       return items.filter((item) => {
-        let category = "", subcategory = "";
+        let category = "";
+        let subcategory = "";
         try {
           const extra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
           category = extra?.category || "";
           subcategory = extra?.subcategory || "";
         } catch {}
+        
         if (activeCategory !== "All" && category !== activeCategory) return false;
-        if (activeCategory === "TMT") return subcategory === activeSubCategory;
+
+        if (activeCategory === "TMT") {
+          return subcategory === activeSubCategory;
+        }
+
         return true;
       });
     }
+    
     if (module === "mediaEvents") {
       return items.filter((item) => {
         let mediaType = "image";
@@ -119,430 +134,405 @@ export default function DynamicModulePage({
           const extra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
           mediaType = extra?.media_type || "image";
         } catch {}
+        
         if (activeCategory === "Images" && mediaType !== "image") return false;
         if (activeCategory === "Videos" && mediaType !== "video") return false;
+        
         return true;
       });
     }
+    
     return items;
   }, [items, module, activeCategory, activeSubCategory]);
 
   const featured = useMemo(() => displayedItems.filter((item) => item.featured).slice(0, 3), [displayedItems]);
-  const paginatedItems = useMemo(() => displayedItems.slice(0, visibleCount), [displayedItems, visibleCount]);
+
+  const paginatedItems = useMemo(() => {
+    return displayedItems.slice(0, visibleCount);
+  }, [displayedItems, visibleCount]);
 
   const brochurePdfUrlForItem = (item: DynamicItem): string => {
-    const candidates: unknown[] = [item.file_url, item.cover_image];
+    const directCandidates: unknown[] = [item.file_url, item.cover_image];
+
     if (item.extra_data) {
       try {
-        const parsed = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
-        if (parsed && typeof parsed === "object") {
-          const e = parsed as Record<string, unknown>;
-          candidates.push(e.pdf_url, e.file, e.file_url, e.document_url, e.brochure_url, e.url);
+        const parsedExtra = typeof item.extra_data === "string" ? JSON.parse(item.extra_data) : item.extra_data;
+        if (parsedExtra && typeof parsedExtra === "object") {
+          const extra = parsedExtra as Record<string, unknown>;
+          directCandidates.push(extra.pdf_url, extra.file, extra.file_url, extra.document_url, extra.brochure_url, extra.url);
         }
-      } catch {}
+      } catch {
+        // ignore invalid extra_data payloads
+      }
     }
-    for (const c of candidates) {
-      if (typeof c === "string" && c.trim()) {
-        const resolved = resolveMediaUrl(c, "");
+
+    for (const candidate of directCandidates) {
+      if (typeof candidate === "string" && candidate.trim() !== "") {
+        const resolved = resolveMediaUrl(candidate, "");
         if (resolved) return resolved;
       }
     }
-    const pdfMatch = (item.content || "").match(/https?:\/\/[^\s"']+\.pdf|\/api\/uploads\/\d+|\/[^\s"']+\.pdf/i);
+
+    const contentSource = typeof item.content === "string" ? item.content : "";
+    const pdfMatch = contentSource.match(/https?:\/\/[^\s"']+\.pdf|\/api\/uploads\/\d+|\/[^\s"']+\.pdf/i);
     return pdfMatch ? resolveMediaUrl(pdfMatch[0], "") : "";
   };
 
-  /* ─── TAB CONFIG ─── */
-  const productTabs = ["TMT", "Structural"];
-  const tmtSubTabs = ["Bars", "Rings"];
-  const mediaTabs = ["Images", "Videos"];
-
   return (
-    <main className="min-h-screen bg-white font-sans flex flex-col w-full overflow-x-hidden">
+    <main className="min-h-screen bg-gray-50">
+      <section className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-28 pb-6 md:pt-32 md:pb-8 px-6 relative overflow-hidden shadow-sm border-b border-black/10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
 
-      {/* ══════════════════════════════
-          HERO — Yellow band, flat & flush
-      ══════════════════════════════ */}
-      <section className="w-full bg-[#FFD500] pt-[96px] pb-12 px-6">
-        <div className="max-w-[1200px] mx-auto">
-          {/* Breadcrumb */}
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-black/50 mb-4">
-            {moduleLabel}
+        <div className="max-w-7xl mx-auto relative z-10">
+          <p className="font-sans text-xs uppercase tracking-[0.2em] font-semibold text-black/70">
+            {moduleLabel} Portfolio
           </p>
-
-          {/* Page title */}
-          <h1 className="font-black text-5xl md:text-6xl lg:text-[68px] text-black leading-[1.05] max-w-4xl">
+          <h1 className="font-sans font-bold text-4xl sm:text-5xl md:text-6xl text-black mt-3 drop-shadow-md">
             {heading}
           </h1>
-
-          {/* Subtitle */}
-          <p className="mt-4 text-black/60 text-[15px] font-medium max-w-2xl leading-relaxed">
+          <p className="font-sans text-black/80 mt-3 max-w-3xl font-medium">
             {subtitle}
           </p>
 
-          {/* Search */}
-          <div className="mt-8">
-            <div className="relative w-full max-w-md">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30 text-sm">🔍</span>
-              <input
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder={`Search ${moduleLabel}…`}
-                className="w-full rounded-full border border-black/10 bg-white pl-10 pr-5 py-3 text-sm text-black placeholder-black/40 outline-none focus:border-black/20 focus:ring-2 focus:ring-black/10 shadow-sm"
-              />
-            </div>
+          <div className="mt-6">
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder={`Search ${moduleLabel} by title or keyword`}
+              className="w-full max-w-md rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-black/20 focus:ring-2 focus:ring-black/5"
+            />
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════
-          FILTER TABS
-      ══════════════════════════════ */}
-      {(module === "products" || module === "mediaEvents") && (
-        <div className="w-full border-b border-black/8 bg-white sticky top-[72px] z-40 px-6">
-          <div className="max-w-[1200px] mx-auto py-4 flex flex-wrap items-center gap-3">
-            {module === "products" && (
-              <>
-                {/* Main tabs */}
-                <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
-                  {productTabs.map((tab) => (
-                    <button
-                      key={tab}
-                      onClick={() => { setActiveCategory(tab); if (tab === "TMT") setActiveSubCategory("Bars"); }}
-                      className={`px-5 py-1.5 rounded-md text-[13px] font-bold uppercase tracking-wider transition-all ${
-                        activeCategory === tab
-                          ? "bg-white text-red-600 shadow-sm"
-                          : "text-black/50 hover:text-black"
-                      }`}
-                    >
-                      {tab}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Sub tabs */}
-                {activeCategory === "TMT" && (
-                  <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
-                    {tmtSubTabs.map((sub) => (
-                      <button
-                        key={sub}
-                        onClick={() => setActiveSubCategory(sub)}
-                        className={`px-4 py-1.5 rounded-md text-[12px] font-bold uppercase tracking-wider transition-all ${
-                          activeSubCategory === sub
-                            ? "bg-black text-white shadow-sm"
-                            : "text-black/50 hover:text-black"
-                        }`}
-                      >
-                        {sub}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-
-            {module === "mediaEvents" && (
-              <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
-                {mediaTabs.map((tab) => (
+      <section className="max-w-7xl mx-auto px-6 py-12">
+        {module === "products" && (
+          <div className="flex flex-col items-center justify-center mb-10 gap-4">
+            <div className="inline-flex flex-wrap justify-center gap-2 bg-gray-200/60 p-1.5 rounded-xl border border-black/5">
+              {["TMT", "Structural"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => {
+                    setActiveCategory(tab);
+                    if (tab === "TMT") setActiveSubCategory("Bars");
+                  }}
+                  className={`px-6 py-2 rounded-lg text-sm font-bold tracking-wider uppercase transition-all duration-300 ${
+                    activeCategory === tab
+                      ? "bg-white text-accent-red shadow-md"
+                      : "text-black/60 hover:text-black hover:bg-gray-300/50"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+            
+            {activeCategory === "TMT" && (
+              <div className="inline-flex flex-wrap justify-center gap-2 bg-gray-100 p-1 rounded-xl border border-black/5">
+                {["Bars", "Rings"].map((subtab) => (
                   <button
-                    key={tab}
-                    onClick={() => setActiveCategory(tab)}
-                    className={`px-5 py-1.5 rounded-md text-[13px] font-bold uppercase tracking-wider transition-all ${
-                      activeCategory === tab
-                        ? "bg-white text-red-600 shadow-sm"
-                        : "text-black/50 hover:text-black"
+                    key={subtab}
+                    onClick={() => setActiveSubCategory(subtab)}
+                    className={`px-4 py-1.5 rounded-lg text-xs font-bold tracking-wider uppercase transition-all duration-300 ${
+                      activeSubCategory === subtab
+                        ? "bg-black text-white shadow-sm"
+                        : "text-black/60 hover:text-black hover:bg-gray-200"
                     }`}
                   >
-                    {tab}
+                    {subtab}
                   </button>
                 ))}
               </div>
             )}
-
-            <span className="ml-auto text-[13px] text-black/40 font-medium">
-              {displayedItems.length} {displayedItems.length === 1 ? "result" : "results"}
-            </span>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* ══════════════════════════════
-          CONTENT GRID
-      ══════════════════════════════ */}
-      <section className="max-w-[1200px] mx-auto px-6 py-14 w-full">
+        {module === "mediaEvents" && (
+          <div className="flex flex-col items-center justify-center mb-10 gap-4">
+            <div className="inline-flex flex-wrap justify-center gap-2 bg-gray-200/60 p-1.5 rounded-xl border border-black/5">
+              {["Images", "Videos"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveCategory(tab)}
+                  className={`px-6 py-2 rounded-lg text-sm font-bold tracking-wider uppercase transition-all duration-300 ${
+                    activeCategory === tab
+                      ? "bg-white text-accent-red shadow-md"
+                      : "text-black/60 hover:text-black hover:bg-gray-300/50"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
-        {/* Loading state */}
-        {loading && (
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="rounded-2xl bg-gray-100 animate-pulse">
-                <div className="aspect-[16/9] bg-gray-200 rounded-t-2xl" />
-                <div className="p-5 space-y-3">
-                  <div className="h-4 bg-gray-200 rounded w-3/4" />
-                  <div className="h-3 bg-gray-200 rounded w-full" />
-                  <div className="h-3 bg-gray-200 rounded w-5/6" />
+        {featured.length > 0 ? (
+          <div className="mb-10">
+            <h2 className="font-serif text-2xl text-black mb-4">Featured</h2>
+
+            <div className="grid md:grid-cols-3 gap-5">
+              {featured.map((item) => {
+                const imageSrc = resolveMediaUrl(item.cover_image || item.file_url || "", "");
+
+                if (module === "brochures") {
+                  return (
+                    <article
+                      key={item.id}
+                      className="group flex flex-col justify-between rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+                    >
+                      {imageSrc && !imageSrc.toLowerCase().includes(".pdf") && (
+                        <div className="relative w-full aspect-square overflow-hidden bg-gray-100 border-b border-black/5">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={imageSrc}
+                            alt={item.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
+                        </div>
+                      )}
+                      <div className="p-6 flex flex-col flex-1">
+                        <div>
+                          <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-black/50">
+                            Featured
+                          </p>
+                          <h3 className="font-sans lining-nums tabular-nums text-xl md:text-2xl font-bold text-black mb-4 line-clamp-2">
+                            {item.title}
+                          </h3>
+                        </div>
+                        <div className="mt-auto pt-4 flex items-center gap-3">
+                        {brochurePdfUrlForItem(item) ? (
+                          <>
+                            <a
+                              href={brochurePdfUrlForItem(item)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 rounded-lg bg-black px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80"
+                            >
+                              View
+                            </a>
+                            <a
+                              href={`${brochurePdfUrlForItem(item)}${brochurePdfUrlForItem(item).includes('?') ? '&' : '?'}download=1`}
+                              download
+                              className="flex-1 rounded-lg border border-black/20 bg-gray-50 px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-black transition hover:bg-gray-200"
+                            >
+                              Download
+                            </a>
+                          </>
+                        ) : (
+                          <span className="text-xs italic text-black/50">PDF Unavailable</span>
+                        )}
+                      </div>
+                      </div>
+                    </article>
+                  );
+                }
+
+                const isVideoEvent = module === "mediaEvents" && activeCategory === "Videos";
+                let videoId = "";
+                if (isVideoEvent && item.video_url) {
+                  const match = item.video_url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
+                  if (match && match[2].length === 11) videoId = match[2];
+                }
+
+                return (
+                  <article
+                    key={item.id}
+                    className="group rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+                  >
+                    <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100">
+                      {isVideoEvent ? (
+                        videoId ? (
+                          <iframe src={`https://www.youtube.com/embed/${videoId}`} className="w-full h-full absolute inset-0 z-20" allowFullScreen />
+                        ) : item.file_url ? (
+                          <video src={resolveMediaUrl(item.file_url, "")} controls className="w-full h-full object-cover absolute inset-0 z-20 bg-black" />
+                        ) : item.video_url ? (
+                          <iframe src={item.video_url} className="w-full h-full absolute inset-0 z-20" allowFullScreen />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-gray-200">No Video Available</div>
+                        )
+                      ) : (
+                        <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="block w-full h-full">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={imageSrc}
+                            alt={item.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
+                        </Link>
+                      )}
+                    </div>
+
+                    <div className="p-5">
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-black/50 font-semibold">
+                        Featured
+                      </p>
+                      <h3 className="font-sans lining-nums tabular-nums text-xl md:text-2xl font-bold mt-2 text-black line-clamp-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm text-black/65 mt-2 line-clamp-3">
+                        {item.short_description}
+                      </p>
+                      {module !== "mediaEvents" && (
+                        <div className="mt-4">
+                          <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="inline-flex rounded-lg bg-black px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80">
+                            View Details
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
+
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {paginatedItems.map((item) => {
+            const imageSrc = resolveMediaUrl(item.cover_image || item.file_url || "", "");
+
+            if (module === "brochures") {
+              return (
+                <article
+                  key={item.id}
+                  className="group flex flex-col justify-between rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+                >
+                  {imageSrc && !imageSrc.toLowerCase().includes(".pdf") && (
+                    <div className="relative w-full aspect-square overflow-hidden bg-gray-100 border-b border-black/5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imageSrc}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+                    </div>
+                  )}
+                  <div className="p-6 flex flex-col flex-1">
+                    <h3 className="font-sans lining-nums tabular-nums text-lg md:text-xl font-bold text-black mb-4 transition-colors group-hover:text-accent-red line-clamp-2">
+                      {item.title}
+                    </h3>
+                    <div className="mt-auto flex items-center gap-3">
+                    {brochurePdfUrlForItem(item) ? (
+                      <>
+                        <a
+                          href={brochurePdfUrlForItem(item)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 rounded-lg bg-black px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-black/80"
+                        >
+                          View
+                        </a>
+                        <a
+                          href={`${brochurePdfUrlForItem(item)}${brochurePdfUrlForItem(item).includes('?') ? '&' : '?'}download=1`}
+                          download
+                          className="flex-1 rounded-lg border border-black/20 bg-gray-50 px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-black transition hover:bg-gray-200"
+                        >
+                          Download
+                        </a>
+                      </>
+                    ) : (
+                      <span className="text-xs italic text-black/50">PDF Unavailable</span>
+                    )}
+                  </div>
+                  </div>
+                </article>
+              );
+            }
+
+            const isVideoEvent = module === "mediaEvents" && activeCategory === "Videos";
+            let videoId = "";
+            if (isVideoEvent && item.video_url) {
+              const match = item.video_url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
+              if (match && match[2].length === 11) videoId = match[2];
+            }
+
+            return (
+              <article
+                key={item.id}
+                className="group rounded-2xl border border-black/10 bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+              >
+                <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100">
+                  {isVideoEvent ? (
+                    videoId ? (
+                      <iframe src={`https://www.youtube.com/embed/${videoId}`} className="w-full h-full absolute inset-0 z-20" allowFullScreen />
+                    ) : item.file_url ? (
+                      <video src={resolveMediaUrl(item.file_url, "")} controls className="w-full h-full object-cover absolute inset-0 z-20 bg-black" />
+                    ) : item.video_url ? (
+                      <iframe src={item.video_url} className="w-full h-full absolute inset-0 z-20" allowFullScreen />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-200">No Video Available</div>
+                    )
+                  ) : (
+                    <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="block w-full h-full">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imageSrc}
+                        alt={item.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+                      <p className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.18em] text-white font-semibold z-10">
+                        {module}
+                      </p>
+                    </Link>
+                  )}
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
 
-        {/* Empty state */}
-        {!loading && !displayedItems.length && (
-          <div className="text-center py-24">
-            <p className="text-black/30 text-lg font-semibold">No records found.</p>
-            <p className="text-black/20 text-sm mt-1">Try a different search or filter.</p>
-          </div>
-        )}
+                <div className="p-5">
+                  <h3 className="font-sans lining-nums tabular-nums text-lg md:text-xl font-bold text-black group-hover:text-accent-red transition-colors line-clamp-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-black/65 mt-2 line-clamp-3">
+                    {item.short_description}
+                  </p>
 
-        {/* ── FEATURED STRIP ── */}
-        {!loading && featured.length > 0 && (
-          <div className="mb-12">
-            <div className="flex items-center gap-4 mb-6">
-              <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-black/50">Featured</h2>
-              <div className="flex-1 h-px bg-black/8" />
-            </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {featured.map((item) => (
-                <FeaturedCard
-                  key={item.id}
-                  item={item}
-                  module={module}
-                  activeCategory={activeCategory}
-                  brochurePdfUrl={brochurePdfUrlForItem(item)}
-                  formatModuleRoute={formatModuleRoute}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+                  {module !== "mediaEvents" && (
+                    <div className="mt-4 flex items-center justify-between gap-2">
+                      <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="text-sm font-semibold text-accent-red hover:text-accent-red/80">
+                        View Details
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+        </div>
 
-        {/* ── MAIN GRID ── */}
-        {!loading && paginatedItems.length > 0 && (
-          <>
-            {featured.length > 0 && (
-              <div className="flex items-center gap-4 mb-6">
-                <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-black/50">All {moduleLabel}</h2>
-                <div className="flex-1 h-px bg-black/8" />
-              </div>
-            )}
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {paginatedItems.map((item) => (
-                <ItemCard
-                  key={item.id}
-                  item={item}
-                  module={module}
-                  activeCategory={activeCategory}
-                  brochurePdfUrl={brochurePdfUrlForItem(item)}
-                  formatModuleRoute={formatModuleRoute}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* Load More */}
         {visibleCount < displayedItems.length && (
-          <div className="mt-14 flex justify-center">
+          <div className="mt-12 flex items-center justify-center">
             <button
               onClick={() => setVisibleCount((c) => c + ITEMS_PER_PAGE)}
-              className="px-10 py-3 rounded-full border-2 border-black text-sm font-bold uppercase tracking-widest text-black hover:bg-black hover:text-white transition-all duration-300"
+              className="px-8 py-3 rounded-lg border border-black/10 bg-black text-sm font-bold uppercase tracking-widest text-white hover:bg-accent-red transition-all duration-300 shadow-md"
             >
               Load More
             </button>
           </div>
         )}
+
+        {!loading && !displayedItems.length ? (
+          <p className="text-black/50 text-sm">No published records yet.</p>
+        ) : null}
+
+        {loading ? <p className="text-black/50 text-sm">Loading...</p> : null}
       </section>
     </main>
   );
-}
-
-/* ─────────────────────────────────────
-   FEATURED CARD
-───────────────────────────────────── */
-function FeaturedCard({
-  item, module, activeCategory, brochurePdfUrl, formatModuleRoute,
-}: {
-  item: DynamicItem;
-  module: string;
-  activeCategory: string;
-  brochurePdfUrl: string;
-  formatModuleRoute: (m: string) => string;
-}) {
-  const imageSrc = resolveMediaUrl(item.cover_image || item.file_url || "", "");
-  const isVideo = module === "mediaEvents" && activeCategory === "Videos";
-  const videoId = getYouTubeId(item.video_url);
-
-  if (module === "brochures") {
-    return (
-      <article className="group rounded-2xl border border-black/8 bg-white overflow-hidden hover:shadow-xl transition-all duration-300">
-        {imageSrc && !imageSrc.toLowerCase().includes(".pdf") && (
-          <div className="relative w-full aspect-square overflow-hidden bg-gray-100">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imageSrc} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onError={(e) => { e.currentTarget.style.display = "none"; }} />
-          </div>
-        )}
-        <div className="p-6">
-          <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-red-600 mb-2">Featured</span>
-          <h3 className="font-bold text-xl text-black mb-5 line-clamp-2">{item.title}</h3>
-          <BrochureActions url={brochurePdfUrl} />
-        </div>
-      </article>
-    );
-  }
-
-  return (
-    <article className="group rounded-2xl border border-black/8 bg-white overflow-hidden hover:shadow-xl transition-all duration-300">
-      <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100">
-        {isVideo ? (
-          <VideoEmbed videoId={videoId} fileUrl={item.file_url} videoUrl={item.video_url} />
-        ) : (
-          <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch className="block w-full h-full">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imageSrc} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onError={(e) => { e.currentTarget.style.display = "none"; }} />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-          </Link>
-        )}
-        {/* Featured badge */}
-        <span className="absolute top-3 left-3 z-10 bg-red-600 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-          Featured
-        </span>
-      </div>
-      <div className="p-5">
-        <h3 className="font-bold text-xl text-black line-clamp-2 mb-2">{item.title}</h3>
-        {item.short_description && (
-          <p className="text-[13px] text-black/55 line-clamp-3 leading-relaxed">{item.short_description}</p>
-        )}
-        {module !== "mediaEvents" && (
-          <div className="mt-4">
-            <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch className="inline-flex items-center gap-1.5 text-[13px] font-bold text-red-600 hover:text-red-700 transition-colors uppercase tracking-wide">
-              View Details <span>&rarr;</span>
-            </Link>
-          </div>
-        )}
-      </div>
-    </article>
-  );
-}
-
-/* ─────────────────────────────────────
-   ITEM CARD
-───────────────────────────────────── */
-function ItemCard({
-  item, module, activeCategory, brochurePdfUrl, formatModuleRoute,
-}: {
-  item: DynamicItem;
-  module: string;
-  activeCategory: string;
-  brochurePdfUrl: string;
-  formatModuleRoute: (m: string) => string;
-}) {
-  const imageSrc = resolveMediaUrl(item.cover_image || item.file_url || "", "");
-  const isVideo = module === "mediaEvents" && activeCategory === "Videos";
-  const videoId = getYouTubeId(item.video_url);
-
-  if (module === "brochures") {
-    return (
-      <article className="group rounded-2xl border border-black/8 bg-white overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-        {imageSrc && !imageSrc.toLowerCase().includes(".pdf") && (
-          <div className="relative w-full aspect-square overflow-hidden bg-gray-100">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imageSrc} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onError={(e) => { e.currentTarget.style.display = "none"; }} />
-            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/50 to-transparent" />
-          </div>
-        )}
-        <div className="p-5">
-          <h3 className="font-bold text-lg text-black mb-4 line-clamp-2">{item.title}</h3>
-          <BrochureActions url={brochurePdfUrl} />
-        </div>
-      </article>
-    );
-  }
-
-  return (
-    <article className="group rounded-2xl border border-black/8 bg-white overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-      {/* Image / Video */}
-      <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-100">
-        {isVideo ? (
-          <VideoEmbed videoId={videoId} fileUrl={item.file_url} videoUrl={item.video_url} />
-        ) : (
-          <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch className="block w-full h-full">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imageSrc}
-              alt={item.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              onError={(e) => { e.currentTarget.style.display = "none"; }}
-            />
-            {/* Bottom gradient overlay */}
-            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
-          </Link>
-        )}
-      </div>
-
-      {/* Card body */}
-      <div className="p-5">
-        {/* Date if blog */}
-        {item.created_at && module === "blogs" && (
-          <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-black/40 mb-2">
-            {new Date(item.created_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
-          </p>
-        )}
-
-        <h3 className="font-bold text-lg text-black line-clamp-2 leading-snug">
-          {item.title}
-        </h3>
-
-        {item.short_description && (
-          <p className="mt-2 text-[13px] text-black/55 line-clamp-3 leading-relaxed">
-            {item.short_description}
-          </p>
-        )}
-
-        {module !== "mediaEvents" && (
-          <div className="mt-4 pt-4 border-t border-black/6 flex items-center justify-between">
-            <Link
-              href={`/${formatModuleRoute(module)}/${item.slug}`}
-              prefetch
-              className="inline-flex items-center gap-1.5 text-[13px] font-bold text-red-600 hover:text-red-700 transition-colors uppercase tracking-wide"
-            >
-              View Details <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
-            </Link>
-          </div>
-        )}
-      </div>
-    </article>
-  );
-}
-
-/* ─────────────────────────────────────
-   SHARED SUB-COMPONENTS
-───────────────────────────────────── */
-function BrochureActions({ url }: { url: string }) {
-  if (!url) return <span className="text-xs italic text-black/40">PDF Unavailable</span>;
-  const downloadUrl = `${url}${url.includes("?") ? "&" : "?"}download=1`;
-  return (
-    <div className="flex gap-2">
-      <a href={url} target="_blank" rel="noopener noreferrer"
-        className="flex-1 rounded-lg bg-black px-4 py-2.5 text-center text-xs font-bold uppercase tracking-wide text-white hover:bg-red-600 transition-colors">
-        View
-      </a>
-      <a href={downloadUrl} download
-        className="flex-1 rounded-lg border border-black/15 bg-gray-50 px-4 py-2.5 text-center text-xs font-bold uppercase tracking-wide text-black hover:bg-gray-100 transition-colors">
-        Download
-      </a>
-    </div>
-  );
-}
-
-function VideoEmbed({ videoId, fileUrl, videoUrl }: { videoId: string; fileUrl?: string | null; videoUrl?: string | null }) {
-  if (videoId) return <iframe src={`https://www.youtube.com/embed/${videoId}`} className="w-full h-full absolute inset-0 z-20" allowFullScreen />;
-  if (fileUrl) return <video src={resolveMediaUrl(fileUrl, "")} controls className="w-full h-full object-cover absolute inset-0 z-20 bg-black" />;
-  if (videoUrl) return <iframe src={videoUrl} className="w-full h-full absolute inset-0 z-20" allowFullScreen />;
-  return <div className="w-full h-full flex items-center justify-center bg-gray-200 text-sm text-black/40">No video available</div>;
-}
-
-function getYouTubeId(url?: string | null): string {
-  if (!url) return "";
-  const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
-  return match && match[2].length === 11 ? match[2] : "";
 }
