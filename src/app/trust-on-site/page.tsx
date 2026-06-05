@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function BlogDetailPage({ params }: { params: { slug: string } }) {
+export default function BlogDetailPage() {
   // Mock Data: In a real application, fetch this data using the params.slug from your CMS/Database
   const article = {
     title: "The Future of Construction: High-Grade TMT Bars Explained",
@@ -76,7 +76,7 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
 
             {/* Premium Blockquote */}
             <blockquote className="my-10 pl-6 border-l-4 border-red-600 italic text-xl md:text-2xl text-gray-800 font-serif bg-gray-50 py-8 pr-6 rounded-r-xl shadow-sm">
-              "The true measure of a building's lifespan isn't seen in its facade, but hidden within its concrete veins."
+              &quot;The true measure of a building&apos;s lifespan isn&apos;t seen in its facade, but hidden within its concrete veins.&quot;
             </blockquote>
 
             <p>
@@ -102,7 +102,7 @@ export default function BlogDetailPage({ params }: { params: { slug: string } })
             </ul>
 
             <p>
-              Choosing the right steel isn't just a procurement decision; it's a commitment to safety and excellence. Always ensure your TMT bars are tested and certified.
+              Choosing the right steel isn&apos;t just a procurement decision; it&apos;s a commitment to safety and excellence. Always ensure your TMT bars are tested and certified.
             </p>
           </div>
 
