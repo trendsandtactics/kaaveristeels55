@@ -47,7 +47,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
             >
               ← Back to {moduleTitle}
             </Link>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-black uppercase tracking-tight leading-none">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black uppercase tracking-tight leading-none">
               {title}
             </h1>
             {item.short_description && (
@@ -60,7 +60,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
 
         {/* Full-width image */}
         <div className="w-full max-w-4xl mx-auto px-6 lg:px-8">
-          <div className="relative w-full aspect-[16/7] mb-20 md:mb-24 mt-8 rounded-xl bg-gray-900 overflow-hidden">
+          <div className="relative w-full aspect-[16/7] mt-8 rounded-xl bg-gray-900 overflow-hidden shadow-sm">
             <Image
               src={image}
               alt={title}
@@ -110,7 +110,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
           >
             ← Back to {moduleTitle}
           </Link>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-black uppercase tracking-tight leading-none max-w-4xl">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black uppercase tracking-tight leading-none max-w-4xl">
             {title}
           </h1>
           {item.short_description && (
