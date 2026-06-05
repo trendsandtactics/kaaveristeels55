@@ -2,10 +2,21 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
+interface PostData {
+  title: string;
+  author: string;
+  authorImage: string;
+  date: string;
+  readingTime: string;
+  category: string;
+  featureImage: string;
+  content: string;
+}
+
 // In a real application, this data would come from a CMS or database.
 const getPostData = async (slug: string) => {
   // This is mock data for demonstration purposes.
-  const posts: { [key: string]: any } = {
+  const posts: Record<string, PostData> = {
     "the-ultimate-guide-to-tmt-steel-bars": {
       title: "The Ultimate Guide to TMT Steel Bars in Modern Construction",
       author: "Dr. Anirban Chatterjee",
@@ -62,7 +73,14 @@ const getPostData = async (slug: string) => {
   return posts[slug] || null;
 };
 
-const RelatedArticleCard = ({ post }: { post: any }) => (
+interface RelatedPost {
+  href: string;
+  image: string;
+  category: string;
+  title: string;
+}
+
+const RelatedArticleCard = ({ post }: { post: RelatedPost }) => (
   <Link href={post.href}>
     <div className="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
       <div className="relative w-full h-48">
