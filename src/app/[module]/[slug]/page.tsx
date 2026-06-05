@@ -91,27 +91,40 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
 
   /* ── DEFAULT (products, careers, etc.) layout ───────────────── */
   return (
-    <main className="w-screen relative left-1/2 -translate-x-1/2 min-h-screen bg-gray-50 flex flex-col pt-28 md:pt-36 pb-16 md:pb-24">
-      <ClientFadeUp className="max-w-7xl w-full mx-auto px-6 lg:px-12">
-        <Link
-          href={`/${module}`}
-          className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500 hover:text-black transition-colors mb-8 md:mb-12"
-        >
-          ← Back to {moduleTitle}
-        </Link>
+    <main className="w-screen relative left-1/2 -translate-x-1/2 min-h-screen bg-white flex flex-col">
+      {/* Yellow hero banner */}
+      <section className="w-full bg-[#FFD700] pt-24 pb-10 md:pt-32 md:pb-14 px-6 relative overflow-hidden">
+        {/* Subtle grid overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-20"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0,0,0,0.08) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.08) 1px,transparent 1px)",
+            backgroundSize: "36px 36px",
+          }}
+        />
+        <div className="max-w-7xl mx-auto relative z-10">
+          <Link
+            href={`/${module}`}
+            className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-black/60 hover:text-black transition-colors mb-6"
+          >
+            ← Back to {moduleTitle}
+          </Link>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-black uppercase tracking-tight leading-none max-w-4xl">
+            {title}
+          </h1>
+          {item.short_description && (
+            <p className="mt-5 text-black/75 text-base md:text-xl font-medium max-w-3xl leading-relaxed">
+              {item.short_description}
+            </p>
+          )}
+        </div>
+      </section>
 
+      <ClientFadeUp className="max-w-7xl w-full mx-auto px-6 lg:px-12 py-16 md:py-24">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
           {/* Left: Content (50%) */}
           <div className="w-full lg:w-1/2">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight uppercase">
-              {title}
-            </h1>
-
-            {item.short_description && (
-              <p className="text-lg text-gray-600 mb-8 font-medium leading-relaxed">
-                {item.short_description}
-              </p>
-            )}
 
             <div className="prose prose-lg max-w-none
               prose-headings:font-bold prose-headings:text-gray-900 prose-headings:uppercase prose-headings:tracking-tight
@@ -138,7 +151,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
 
             {/* Careers CTA */}
             {module === "careers" && (
-              <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+              <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm">
                 <div>
                   <h3 className="text-base font-bold text-gray-900 uppercase tracking-tight mb-1">
                     Interested in this role?
