@@ -59,16 +59,18 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
         </section>
 
         {/* Full-width image */}
-        <div className="relative w-full aspect-[16/7] bg-gray-900">
-          <Image
-            src={image}
-            alt={title}
-            fill
-            className="object-cover"
-            sizes="100vw"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        <div className="w-full max-w-4xl mx-auto px-6 lg:px-8">
+          <div className="relative w-full aspect-[16/7] bg-gray-900 overflow-hidden">
+            <Image
+              src={image}
+              alt={title}
+              fill
+              className="object-cover"
+              sizes="(min-width: 1024px) 896px, 100vw"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+          </div>
         </div>
 
         {/* Content */}
