@@ -123,9 +123,22 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
 
       <ClientFadeUp className="max-w-7xl w-full mx-auto px-6 lg:px-12 py-16 md:py-24">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
-          {/* Left: Content (50%) */}
+          {/* Left: Image (50%) */}
           <div className="w-full lg:w-1/2">
+            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl bg-white border border-black/5">
+              <Image 
+                src={image} 
+                alt={title} 
+                fill 
+                className="object-cover hover:scale-[1.02] transition-transform duration-1000 ease-out"
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                priority
+              />
+            </div>
+          </div>
 
+          {/* Right: Content (50%) */}
+          <div className="w-full lg:w-1/2">
             <div className="prose prose-lg max-w-none
               prose-headings:font-bold prose-headings:text-gray-900 prose-headings:uppercase prose-headings:tracking-tight
               prose-p:text-gray-600 prose-p:leading-relaxed prose-p:font-light
@@ -163,20 +176,6 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
                 <ApplyNowModal careerId={Number(item.id) || undefined} jobTitle={title} />
               </div>
             )}
-          </div>
-
-          {/* Right: Image (50%) */}
-          <div className="w-full lg:w-1/2 sticky top-32">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl bg-white border border-black/5">
-              <Image 
-                src={image} 
-                alt={title} 
-                fill 
-                className="object-cover hover:scale-[1.02] transition-transform duration-1000 ease-out"
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                priority
-              />
-            </div>
           </div>
         </div>
       </ClientFadeUp>
