@@ -58,35 +58,15 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
           </div>
         </section>
 
-<<<<<<< HEAD
         {/* Full-width image */}
         <div className="w-full max-w-4xl mx-auto px-6 lg:px-8">
-          <div className="relative w-full aspect-[16/7] bg-gray-900 overflow-hidden">
+          <div className="relative w-full aspect-[16/7] mb-20 md:mb-24 mt-8 rounded-xl bg-gray-900 overflow-hidden">
             <Image
               src={image}
               alt={title}
               fill
-              className="object-cover"
+              className="object-cover hover:scale-[1.02] transition-transform duration-1000 ease-out"
               sizes="(min-width: 1024px) 896px, 100vw"
-=======
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight uppercase">
-            {title}
-          </h1>
-
-          {item.short_description && (
-            <p className="text-lg text-gray-600 mb-8 font-medium leading-relaxed">
-              {item.short_description}
-            </p>
-          )}
-
-          <div className="relative w-full aspect-video mb-20 md:mb-24 rounded-xl overflow-hidden bg-gray-50 mt-8">
-            <Image 
-              src={image} 
-              alt={title} 
-              fill 
-              className="object-contain mix-blend-multiply hover:scale-[1.02] transition-transform duration-1000 ease-out"
-              sizes="(max-width: 1024px) 100vw, 1024px"
->>>>>>> e60aaea (jil)
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
