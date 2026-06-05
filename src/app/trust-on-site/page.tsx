@@ -1,299 +1,164 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function TrustOnSitePage() {
-  const [ctaTitle, setCtaTitle] = useState("Don’t Take Chances \nWith Your Foundation.");
-  const [ctaDesc, setCtaDesc] = useState("Book a Free Test of your current steel supply. Our Mobile Testing Vehicle will arrive within 48 hours.");
-  
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
-
-  // Automatically fetch the latest "Pages Content" from the Admin Panel to populate the CTA
-  useEffect(() => {
-    fetch("/api/public/content/pages?limit=1")
-      .then((res) => res.json())
-      .then((data) => {
-        const ctaData = data.data?.[0];
-        if (ctaData) {
-          if (ctaData.title) setCtaTitle(ctaData.title);
-          if (ctaData.short_description) setCtaDesc(ctaData.short_description);
-        }
-      })
-      .catch(console.error);
-  }, []);
-
-  const submitSiteVisit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !phone) return;
-    setLoading(true);
-    setSuccess("");
-
-    const formData = {
-      name,
-      phone,
-      location,
-      enquiry_type: "site_visit",
-      _subject: "New Trust On Site Visit Request",
-    };
-
-    try {
-      // Store in SQL and trigger backend email
-      const sqlResponse = await fetch("/api/enquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          phone: formData.phone,
-          enquiry_type: formData.enquiry_type,
-          message: `Site Location: ${formData.location}`,
-        }),
-      });
-
-      if (sqlResponse.ok) {
-        setSuccess("Request submitted! Our team will contact you shortly.");
-        setName("");
-        setPhone("");
-        setLocation("");
-      } else {
-        const errData = await sqlResponse.json().catch(() => ({}));
-        throw new Error(errData.error || errData.message || "Something went wrong. Please try again.");
-      }
-    } catch (err) {
-      console.error("Failed to submit site visit", err);
-      setSuccess(err instanceof Error ? err.message : "An error occurred. Please try again.");
-    }
-    setLoading(false);
+export default function BlogDetailPage({ params }: { params: { slug: string } }) {
+  // Mock Data: In a real application, fetch this data using the params.slug from your CMS/Database
+  const article = {
+    title: "The Future of Construction: High-Grade TMT Bars Explained",
+    category: "Industry Insights",
+    date: "October 12, 2023",
+    author: "Engineering Team",
+    readTime: "5 Min Read",
+    coverImage: "/bg1.png", // Replace with actual dynamic article cover image
   };
 
   return (
-    <main className="w-full bg-[#f3f4f6]">
-
+    <main className="w-full bg-[#f8f9fa] min-h-screen font-sans selection:bg-red-600 selection:text-white">
+      
       {/* 🌟 HERO SECTION */}
-    <section className="relative pt-28 pb-6 md:pt-32 md:pb-8">
+      <section className="relative w-full h-[60vh] min-h-[500px] flex items-end pb-16 md:pb-24">
+        {/* Background Image */}
+        <Image
+          src={article.coverImage}
+          alt={article.title}
+          fill
+          priority
+          className="object-cover"
+        />
+        {/* Dark Industrial Overlays for Readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-[#111827]/80 to-transparent"></div>
+        <div className="absolute inset-0 bg-black/20 mix-blend-multiply"></div>
 
-  {/* 🌆 Background Image */}
-  <div className="absolute inset-0">
-    <Image
-      src="/bg1.png"   // your background image
-      alt="background"
-      fill
-      priority
-      className="object-cover"
-    />
-  </div>
-
-  <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-
-    {/* TITLE */}
-    <p className="font-sans uppercase tracking-widest text-sm text-gray-500 mb-3 font-bold">
-      KAAVERI STEELS
-    </p>
-
-    <h1 className="font-sans text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
-      Trust On Site
-    </h1>
-
-    <p className="font-sans text-gray-600 max-w-2xl mx-auto mb-10 font-medium">
-      We don’t just promise quality — we prove it with live testing,
-      transparency, and engineering excellence.
-    </p>
-
-    {/* 🚚 VEHICLE HERO */}
-    <div className="relative flex justify-center mb-12">
-      <Image
-        src="/vehicle.png"
-        alt="vehicle"
-        width={1024}
-        height={500}
-        priority
-        className="w-full max-w-5xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
-      />
-    </div>
-
-    <div className="flex justify-center mt-10">
-      <button
-        onClick={() => document.getElementById("book-test")?.scrollIntoView({ behavior: "smooth" })}
-        className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 md:py-4 text-sm md:text-base font-semibold tracking-wide rounded-lg shadow-md hover:shadow-lg transition duration-300"
-      >
-        Book an Appointment
-      </button>
-    </div>
-
-  </div>
-</section>
-
-
-      {/* 🔴 CONTENT SECTION */}
-     <section className="px-6 md:px-20 py-16 bg-gray-50">
-  
-  <div className="max-w-7xl mx-auto">
-
-    {/* HEADER CARDS */}
-    <div className="grid md:grid-cols-2 gap-6 mb-12">
-
-      <div className="font-serif bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
-        “We Don’t Just Promise Quality – We Prove It.”
-      </div>
-
-      <div className="font-serif bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
-        Why This Changes Everything
-      </div>
-
-    </div>
-
-    {/* CONTENT */}
-    <div className="grid md:grid-cols-2 gap-8">
-
-      {/* LEFT CARD */}
-      <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
-        <ul className="space-y-5">
-
-          {[
-            "Fully Equipped Mobile Testing Vehicle",
-            "Instant Test Result",
-            "Live Testing in Front of Engineers & Builders"
-          ].map((item, index) => (
-            <li key={index} className="flex items-start gap-3 group">
-              
-              <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
-                ✓
-              </span>
-
-              <p className="text-gray-700 group-hover:text-black transition">
-                {item}
-              </p>
-
-            </li>
-          ))}
-
-        </ul>
-      </div>
-
-      {/* RIGHT CARD */}
-      <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
-        <ul className="space-y-5">
-
-          {[
-            "No Blind Trust",
-            "Complete Transparency",
-            "No Compromise On Strength",
-            "Confidence For 100+ Years of Structure Life"
-          ].map((item, index) => (
-            <li key={index} className="flex items-start gap-3 group">
-              
-              <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
-                ✓
-              </span>
-
-              <p className="text-gray-700 group-hover:text-black transition">
-                {item}
-              </p>
-
-            </li>
-          ))}
-
-        </ul>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-      {/* 📞 CTA */}
- <section id="book-test" className="relative py-16 px-4 md:px-10">
-
-  {/* Full Section Gradient (no inner red box) */}
-  <div className="absolute inset-0 bg-gradient-to-br from-red-800 via-red-700 to-red-600"></div>
-
-  {/* Decorative Glow */}
-  <div className="absolute -top-20 -left-20 w-72 h-72 bg-red-500 opacity-30 blur-3xl rounded-full"></div>
-  <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-yellow-400 opacity-20 blur-3xl rounded-full"></div>
-
-  {/* Content Wrapper (transparent, no background) */}
-  <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
-
-    {/* Left Content */}
-    <div className="text-white max-w-lg">
-
-      <h2 className="font-sans text-3xl md:text-5xl font-extrabold leading-tight mb-4 whitespace-pre-wrap">
-        {ctaTitle}
-      </h2>
-
-      <p className="text-white/80 text-sm md:text-base mb-6 whitespace-pre-wrap">
-        {ctaDesc}
-      </p>
-
-      {/* Phone CTA */}
-      <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10 w-fit backdrop-blur-md">
-        <div className="w-12 h-12 flex items-center justify-center bg-yellow-400 text-red-800 rounded-lg text-xl font-bold">
-          ☎
+        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+          {/* Category & Read Time */}
+          <div className="flex items-center gap-4 mb-5">
+            <span className="bg-red-600 text-white text-xs font-bold uppercase tracking-widest py-1.5 px-3 rounded-sm shadow-sm">
+              {article.category}
+            </span>
+            <span className="text-gray-300 text-sm font-medium tracking-wide">
+              {article.readTime}
+            </span>
+          </div>
+          
+          {/* Title */}
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] max-w-4xl mb-6 drop-shadow-lg">
+            {article.title}
+          </h1>
+          
+          {/* Meta Info */}
+          <div className="flex items-center gap-4 text-gray-300 text-sm md:text-base font-medium">
+            <span>By <span className="text-white font-semibold">{article.author}</span></span>
+            <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
+            <span>{article.date}</span>
+          </div>
         </div>
-        <div>
-          <p className="text-xs text-white/70 tracking-wide">
-            CALL NOW FOR FREE TEST
-          </p>
-          <p className="text-xl md:text-2xl font-bold tracking-wide">
-            +91 88558 24555
-          </p>
-        </div>
-      </div>
+      </section>
 
-    </div>
+      {/* 📖 MAIN CONTENT & SIDEBAR */}
+      <section className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
 
-    {/* Right Form */}
-    <div className="w-full max-w-md bg-white/10 backdrop-blur-lg p-6 rounded-xl border border-white/20 shadow-xl">
+        {/* LEFT: ARTICLE CONTENT (Rich Text Display) */}
+        <article className="lg:col-span-8 bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-gray-200">
+          
+          <div className="text-gray-700 leading-relaxed space-y-7 text-lg md:text-[19px]">
+            
+            {/* Intro Paragraph */}
+            <p className="text-xl md:text-2xl font-medium text-gray-900 leading-snug mb-10">
+              When it comes to building structures that last for generations, the foundation and skeletal strength are non-negotiable. Thermomechanically Treated (TMT) steel bars have revolutionized the construction industry, bringing unprecedented earthquake resistance and longevity to modern infrastructure.
+            </p>
 
-      <form onSubmit={submitSiteVisit} className="flex flex-col gap-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mt-12 mb-6 font-sans">Why TMT Exceeds Expectations</h2>
+            
+            <p>
+              Unlike traditional steel, TMT bars go through a specialized cooling process that hardens the outer layer while keeping the inner core flexible. This dual-structure is the secret behind its immense tensile strength.
+            </p>
 
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
-        />
+            {/* Premium Blockquote */}
+            <blockquote className="my-10 pl-6 border-l-4 border-red-600 italic text-xl md:text-2xl text-gray-800 font-serif bg-gray-50 py-8 pr-6 rounded-r-xl shadow-sm">
+              "The true measure of a building's lifespan isn't seen in its facade, but hidden within its concrete veins."
+            </blockquote>
 
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          required
-          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
-        />
+            <p>
+              For builders and engineers, this means fewer compromises. The higher weldability and superior elongation values make TMT the ultimate choice for seismic zones.
+            </p>
 
-        <input
-          type="text"
-          placeholder="Site Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
-        />
+            <h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-10 mb-6 font-sans">Key Advantages:</h3>
+            
+            {/* Styled List */}
+            <ul className="space-y-4 mb-8">
+              {[
+                { title: "Superior Ductility", desc: "Absorbs high stress without breaking." },
+                { title: "Corrosion Resistance", desc: "Perfect for coastal and humid environments." },
+                { title: "Cost Efficiency", desc: "Less steel is required compared to older grades." }
+              ].map((item, idx) => (
+                <li key={idx} className="flex gap-4 items-start bg-gray-50 p-4 rounded-lg border border-gray-100">
+                  <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 font-bold shrink-0 mt-0.5">
+                    ✓
+                  </span>
+                  <span><strong className="text-gray-900">{item.title}:</strong> {item.desc}</span>
+                </li>
+              ))}
+            </ul>
 
-        <button type="submit" disabled={loading} className="w-full bg-yellow-400 hover:bg-yellow-300 text-red-900 font-semibold py-3 rounded-md tracking-wide transition duration-300 shadow-md hover:shadow-lg disabled:opacity-70">
-          {loading ? "SUBMITTING..." : "BOOK FREE ON-SITE TEST"}
-        </button>
+            <p>
+              Choosing the right steel isn't just a procurement decision; it's a commitment to safety and excellence. Always ensure your TMT bars are tested and certified.
+            </p>
+          </div>
 
-        {success && <p className="text-green-300 text-sm text-center font-medium mt-2">{success}</p>}
+          {/* Tags & Share */}
+          <div className="mt-16 pt-8 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex flex-wrap gap-3">
+              <span className="bg-gray-100 hover:bg-gray-200 cursor-pointer text-gray-700 text-sm font-semibold py-2 px-5 rounded-full transition">Construction</span>
+              <span className="bg-gray-100 hover:bg-gray-200 cursor-pointer text-gray-700 text-sm font-semibold py-2 px-5 rounded-full transition">TMT Steel</span>
+              <span className="bg-gray-100 hover:bg-gray-200 cursor-pointer text-gray-700 text-sm font-semibold py-2 px-5 rounded-full transition">Engineering</span>
+            </div>
+            <div className="flex items-center gap-4 font-bold text-gray-900">
+              Share:
+              <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-red-600 hover:text-white transition shadow-sm">In</button>
+              <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-red-600 hover:text-white transition shadow-sm">Tw</button>
+              <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-red-600 hover:text-white transition shadow-sm">Fb</button>
+            </div>
+          </div>
+        </article>
 
-      </form>
+        {/* RIGHT: SIDEBAR */}
+        <aside className="lg:col-span-4 space-y-8">
 
-    </div>
+          {/* 🎯 CALL TO ACTION WIDGET */}
+          <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-8 text-center shadow-[0_10px_30px_rgba(0,0,0,0.15)] relative overflow-hidden border border-gray-800">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-red-600 opacity-20 blur-3xl rounded-full"></div>
+            <div className="absolute bottom-0 left-0 w-40 h-40 bg-yellow-500 opacity-10 blur-3xl rounded-full"></div>
+            
+            <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-4 relative z-10 font-sans tracking-tight">Don’t Compromise <br /> on Strength.</h3>
+            <p className="text-gray-400 mb-8 relative z-10 text-sm md:text-base">
+              Get certified, high-quality TMT steel for your next big project. Let our experts guide you.
+            </p>
+            <button className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-xl transition duration-300 shadow-[0_4px_14px_0_rgb(220,38,38,0.39)] relative z-10 tracking-wide">
+              Request a Free Quote
+            </button>
+          </div>
 
-  </div>
-
-</section>
-
-
+          {/* 📰 RECENT POSTS WIDGET */}
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
+            <h3 className="text-xl font-extrabold text-gray-900 mb-6 border-b border-gray-200 pb-4 uppercase tracking-wider text-sm">Recent Articles</h3>
+            <div className="space-y-6">
+              {[
+                "5 Signs Your Construction Needs Better Steel",
+                "Understanding Yield Strength in TMT Bars",
+                "How We Test Kaaveri Steels On-Site"
+              ].map((post, idx) => (
+                <Link href="#" key={idx} className="block group">
+                  <h4 className="text-gray-800 font-bold group-hover:text-red-600 transition leading-snug mb-2 text-md">
+                    {post}
+                  </h4>
+                  <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold">Oct 10, 2023</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </aside>
+      </section>
     </main>
   );
 }
