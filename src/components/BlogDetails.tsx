@@ -138,6 +138,7 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
             className="w-full h-full object-cover block" 
           />
         </motion.div>
+      </section>
 
       {/* ── OVERVIEW CONTENT SECTION ── */}
       <section className="w-full bg-white py-16 px-6">
