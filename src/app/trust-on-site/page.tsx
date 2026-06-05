@@ -1,222 +1,299 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { notFound } from "next/navigation";
-import Link from "next/link";
 
-interface PostData {
-  title: string;
-  author: string;
-  authorImage: string;
-  date: string;
-  readingTime: string;
-  category: string;
-  featureImage: string;
-  content: string;
-}
+export default function TrustOnSitePage() {
+  const [ctaTitle, setCtaTitle] = useState("Don’t Take Chances \nWith Your Foundation.");
+  const [ctaDesc, setCtaDesc] = useState("Book a Free Test of your current steel supply. Our Mobile Testing Vehicle will arrive within 48 hours.");
+  
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [location, setLocation] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
 
-// In a real application, this data would come from a CMS or database.
-const getPostData = async (slug: string) => {
-  // This is mock data for demonstration purposes.
-  const posts: Record<string, PostData> = {
-    "the-ultimate-guide-to-tmt-steel-bars": {
-      title: "The Ultimate Guide to TMT Steel Bars in Modern Construction",
-      author: "Dr. Anirban Chatterjee",
-      authorImage: "/author-placeholder.png", // Placeholder image
-      date: "2026-05-28",
-      readingTime: "8 min read",
-      category: "Construction Insights",
-      featureImage: "/vehicle.png", // Using an existing image as placeholder
-      content: `
-        <p class="text-xl text-gray-600">When building the future, the strength of your foundation is paramount. In the world of modern construction, Thermo-Mechanically Treated (TMT) steel bars have become the gold standard for reinforcing concrete structures. But what makes them so essential?</p>
-        <p>This guide will delve into the science, benefits, and applications of TMT steel bars, providing engineers, architects, and builders with the knowledge to make informed decisions for projects that are built to last for generations.</p>
-        
-        <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-4">What is TMT Steel?</h2>
-        <p>TMT steel bars are high-strength reinforcement bars featuring a tough outer core and a soft inner core. This unique structure is achieved through a specialized manufacturing process involving controlled heating and cooling.</p>
-        
-        <ul class="list-disc list-inside space-y-2 my-6 pl-4">
-            <li><strong>Quenching:</strong> Hot rolled steel bars are rapidly cooled by water jets. This hardens the surface to form a layer of martensite.</li>
-            <li><strong>Self-Tempering:</strong> The core remains hot and austenitic. It cools down slowly, tempering the outer martensitic layer.</li>
-            <li><strong>Atmospheric Cooling:</strong> The final cooling on a cooling bed turns the soft inner core into a ductile ferrite-pearlite structure.</li>
-        </ul>
+  // Automatically fetch the latest "Pages Content" from the Admin Panel to populate the CTA
+  useEffect(() => {
+    fetch("/api/public/content/pages?limit=1")
+      .then((res) => res.json())
+      .then((data) => {
+        const ctaData = data.data?.[0];
+        if (ctaData) {
+          if (ctaData.title) setCtaTitle(ctaData.title);
+          if (ctaData.short_description) setCtaDesc(ctaData.short_description);
+        }
+      })
+      .catch(console.error);
+  }, []);
 
-        <figure class="my-12">
-            <img src="/bg1.png" alt="TMT Manufacturing Process" class="rounded-lg shadow-lg w-full" />
-            <figcaption class="text-center text-sm text-gray-500 mt-3">The three stages of the TMT manufacturing process.</figcaption>
-        </figure>
+  const submitSiteVisit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !phone) return;
+    setLoading(true);
+    setSuccess("");
 
-        <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-4">The Unmatched Advantages</h2>
-        <p>The unique properties of TMT bars offer significant advantages over conventional steel bars.</p>
-        
-        <blockquote class="border-l-4 border-red-600 pl-6 py-4 my-8 bg-red-50 text-gray-700 italic">
-            <p>"The superior ductility of TMT bars is a critical safety feature, allowing structures to better withstand seismic forces without catastrophic failure."</p>
-        </blockquote>
+    const formData = {
+      name,
+      phone,
+      location,
+      enquiry_type: "site_visit",
+      _subject: "New Trust On Site Visit Request",
+    };
 
-        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-3">1. Superior Strength & Ductility</h3>
-        <p>The hard outer layer provides high strength, while the ductile core allows the bar to bend without breaking. This combination is crucial for earthquake-resistant structures.</p>
+    try {
+      // Store in SQL and trigger backend email
+      const sqlResponse = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          enquiry_type: formData.enquiry_type,
+          message: `Site Location: ${formData.location}`,
+        }),
+      });
 
-        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-3">2. Enhanced Corrosion Resistance</h3>
-        <p>The absence of torsional stress in the manufacturing process gives TMT bars a higher resistance to corrosion, extending the lifespan of the concrete structure.</p>
-
-        <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-3">3. Excellent Weldability</h3>
-        <p>TMT bars have a low carbon content, which makes them easy to weld without compromising strength at the weld joints. This allows for greater design flexibility and faster construction.</p>
-
-        <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-4">Choosing the Right Grade</h2>
-        <p>TMT bars come in various grades (e.g., Fe-415, Fe-500, Fe-550, Fe-600), with higher grades indicating higher strength. The choice of grade depends on the specific structural requirements of the project.</p>
-
-        <hr class="my-12 border-gray-200" />
-
-        <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-4">Conclusion: Building with Confidence</h2>
-        <p>TMT steel bars are not just a component; they are an investment in the safety, longevity, and resilience of a structure. By understanding their properties and choosing the right quality and grade, you ensure that your project stands strong against the tests of time and nature.</p>
-      `,
-    },
+      if (sqlResponse.ok) {
+        setSuccess("Request submitted! Our team will contact you shortly.");
+        setName("");
+        setPhone("");
+        setLocation("");
+      } else {
+        const errData = await sqlResponse.json().catch(() => ({}));
+        throw new Error(errData.error || errData.message || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      console.error("Failed to submit site visit", err);
+      setSuccess(err instanceof Error ? err.message : "An error occurred. Please try again.");
+    }
+    setLoading(false);
   };
 
-  return posts[slug] || null;
-};
-
-interface RelatedPost {
-  href: string;
-  image: string;
-  category: string;
-  title: string;
-}
-
-const RelatedArticleCard = ({ post }: { post: RelatedPost }) => (
-  <Link href={post.href}>
-    <div className="bg-white rounded-lg shadow-md overflow-hidden group hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
-      <div className="relative w-full h-48">
-        <Image
-          src={post.image}
-          alt={post.title}
-          fill
-          style={{objectFit: 'cover'}}
-          className="group-hover:scale-105 transition-transform duration-300"
-        />
-      </div>
-      <div className="p-6 flex flex-col flex-grow">
-        <p className="text-sm text-red-600 font-semibold uppercase tracking-wide">
-          {post.category}
-        </p>
-        <h3 className="text-xl font-bold text-gray-900 mt-2 mb-4 flex-grow">
-          {post.title}
-        </h3>
-        <p className="font-semibold text-gray-800 group-hover:text-red-600 transition-colors">
-          Read More &rarr;
-        </p>
-      </div>
-    </div>
-  </Link>
-);
-
-export default async function BlogPostPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const post = await getPostData(params.slug);
-
-  if (!post) {
-    notFound();
-  }
-
-  const relatedPosts = [
-    {
-      href: "#",
-      image: "/bg1.png",
-      category: "Safety",
-      title: "Why Fe-550D is the New Standard for Seismic Zones",
-    },
-    {
-      href: "#",
-      image: "/bg1.png",
-      category: "Innovation",
-      title: "The Economics of Using High-Grade TMT Bars",
-    },
-    {
-      href: "#",
-      image: "/bg1.png",
-      category: "Quality",
-      title: "A Builder’s Checklist for On-Site Steel Testing",
-    },
-  ];
-
   return (
-    <main className="bg-gray-50">
-      <article>
-        {/* ====== HEADER ====== */}
-        <header className="bg-gray-900 text-white py-20 px-6 relative overflow-hidden">
-          <div className="absolute inset-0 bg-black opacity-50"></div>
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${post.featureImage})`, filter: 'blur(8px)' }}
-          ></div>
-          <div className="max-w-4xl mx-auto text-center relative z-10">
-            <p className="text-red-500 font-semibold tracking-wider uppercase">
-              {post.category}
-            </p>
-            <h1 className="text-4xl md:text-6xl font-extrabold mt-4 mb-6 text-white drop-shadow-lg">
-              {post.title}
-            </h1>
-            <div className="flex items-center justify-center space-x-4 text-gray-200">
-              <div className="flex items-center space-x-3">
-                <Image
-                  src={post.authorImage}
-                  alt={post.author}
-                  width={40}
-                  height={40}
-                  className="rounded-full bg-gray-700 border-2 border-white"
-                />
-                <span className="font-medium">{post.author}</span>
-              </div>
-              <span className="opacity-50">•</span>
-              <time dateTime={post.date}>{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-              <span className="opacity-50">•</span>
-              <span>{post.readingTime}</span>
-            </div>
-          </div>
-        </header>
+    <main className="w-full bg-[#f3f4f6]">
 
-        {/* ====== ARTICLE CONTENT ====== */}
-        <div className="bg-white">
-          <div
-            className="max-w-3xl mx-auto px-6 py-16 lg:py-24 prose lg:prose-xl"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+      {/* 🌟 HERO SECTION */}
+    <section className="relative pt-28 pb-6 md:pt-32 md:pb-8">
+
+  {/* 🌆 Background Image */}
+  <div className="absolute inset-0">
+    <Image
+      src="/bg1.png"   // your background image
+      alt="background"
+      fill
+      priority
+      className="object-cover"
+    />
+  </div>
+
+  <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+
+    {/* TITLE */}
+    <p className="font-sans uppercase tracking-widest text-sm text-gray-500 mb-3 font-bold">
+      KAAVERI STEELS
+    </p>
+
+    <h1 className="font-sans text-4xl md:text-6xl font-extrabold text-gray-900 mb-4">
+      Trust On Site
+    </h1>
+
+    <p className="font-sans text-gray-600 max-w-2xl mx-auto mb-10 font-medium">
+      We don’t just promise quality — we prove it with live testing,
+      transparency, and engineering excellence.
+    </p>
+
+    {/* 🚚 VEHICLE HERO */}
+    <div className="relative flex justify-center mb-12">
+      <Image
+        src="/vehicle.png"
+        alt="vehicle"
+        width={1024}
+        height={500}
+        priority
+        className="w-full max-w-5xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
+      />
+    </div>
+
+    <div className="flex justify-center mt-10">
+      <button
+        onClick={() => document.getElementById("book-test")?.scrollIntoView({ behavior: "smooth" })}
+        className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 md:py-4 text-sm md:text-base font-semibold tracking-wide rounded-lg shadow-md hover:shadow-lg transition duration-300"
+      >
+        Book an Appointment
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+      {/* 🔴 CONTENT SECTION */}
+     <section className="px-6 md:px-20 py-16 bg-gray-50">
+  
+  <div className="max-w-7xl mx-auto">
+
+    {/* HEADER CARDS */}
+    <div className="grid md:grid-cols-2 gap-6 mb-12">
+
+      <div className="font-serif bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
+        “We Don’t Just Promise Quality – We Prove It.”
+      </div>
+
+      <div className="font-serif bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
+        Why This Changes Everything
+      </div>
+
+    </div>
+
+    {/* CONTENT */}
+    <div className="grid md:grid-cols-2 gap-8">
+
+      {/* LEFT CARD */}
+      <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+        <ul className="space-y-5">
+
+          {[
+            "Fully Equipped Mobile Testing Vehicle",
+            "Instant Test Result",
+            "Live Testing in Front of Engineers & Builders"
+          ].map((item, index) => (
+            <li key={index} className="flex items-start gap-3 group">
+              
+              <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
+                ✓
+              </span>
+
+              <p className="text-gray-700 group-hover:text-black transition">
+                {item}
+              </p>
+
+            </li>
+          ))}
+
+        </ul>
+      </div>
+
+      {/* RIGHT CARD */}
+      <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
+        <ul className="space-y-5">
+
+          {[
+            "No Blind Trust",
+            "Complete Transparency",
+            "No Compromise On Strength",
+            "Confidence For 100+ Years of Structure Life"
+          ].map((item, index) => (
+            <li key={index} className="flex items-start gap-3 group">
+              
+              <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
+                ✓
+              </span>
+
+              <p className="text-gray-700 group-hover:text-black transition">
+                {item}
+              </p>
+
+            </li>
+          ))}
+
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+      {/* 📞 CTA */}
+ <section id="book-test" className="relative py-16 px-4 md:px-10">
+
+  {/* Full Section Gradient (no inner red box) */}
+  <div className="absolute inset-0 bg-gradient-to-br from-red-800 via-red-700 to-red-600"></div>
+
+  {/* Decorative Glow */}
+  <div className="absolute -top-20 -left-20 w-72 h-72 bg-red-500 opacity-30 blur-3xl rounded-full"></div>
+  <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-yellow-400 opacity-20 blur-3xl rounded-full"></div>
+
+  {/* Content Wrapper (transparent, no background) */}
+  <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
+
+    {/* Left Content */}
+    <div className="text-white max-w-lg">
+
+      <h2 className="font-sans text-3xl md:text-5xl font-extrabold leading-tight mb-4 whitespace-pre-wrap">
+        {ctaTitle}
+      </h2>
+
+      <p className="text-white/80 text-sm md:text-base mb-6 whitespace-pre-wrap">
+        {ctaDesc}
+      </p>
+
+      {/* Phone CTA */}
+      <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl border border-white/10 w-fit backdrop-blur-md">
+        <div className="w-12 h-12 flex items-center justify-center bg-yellow-400 text-red-800 rounded-lg text-xl font-bold">
+          ☎
         </div>
+        <div>
+          <p className="text-xs text-white/70 tracking-wide">
+            CALL NOW FOR FREE TEST
+          </p>
+          <p className="text-xl md:text-2xl font-bold tracking-wide">
+            +91 88558 24555
+          </p>
+        </div>
+      </div>
 
-        {/* ====== CTA SECTION ====== */}
-        <section className="bg-gray-800 text-white py-20 px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to Build with Uncompromising Quality?
-            </h2>
-            <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-              Ensure the integrity of your project from the ground up. Contact
-              Kaaveri Steels today for a consultation or to book a free on-site
-              test of your steel supply.
-            </p>
-            <Link
-              href="/contact"
-              className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-4 font-semibold tracking-wide rounded-lg shadow-lg transition duration-300 transform hover:scale-105"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </section>
+    </div>
 
-        {/* ====== RELATED ARTICLES ====== */}
-        <section className="py-20 px-6 bg-gray-100">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-              Related Articles
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {relatedPosts.map((relatedPost, index) => (
-                <RelatedArticleCard key={index} post={relatedPost} />
-              ))}
-            </div>
-          </div>
-        </section>
-      </article>
+    {/* Right Form */}
+    <div className="w-full max-w-md bg-white/10 backdrop-blur-lg p-6 rounded-xl border border-white/20 shadow-xl">
+
+      <form onSubmit={submitSiteVisit} className="flex flex-col gap-4">
+
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
+        />
+
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          required
+          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
+        />
+
+        <input
+          type="text"
+          placeholder="Site Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="w-full px-4 py-3 rounded-md bg-white/90 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-yellow-400"
+        />
+
+        <button type="submit" disabled={loading} className="w-full bg-yellow-400 hover:bg-yellow-300 text-red-900 font-semibold py-3 rounded-md tracking-wide transition duration-300 shadow-md hover:shadow-lg disabled:opacity-70">
+          {loading ? "SUBMITTING..." : "BOOK FREE ON-SITE TEST"}
+        </button>
+
+        {success && <p className="text-green-300 text-sm text-center font-medium mt-2">{success}</p>}
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>
+
+
     </main>
   );
 }
