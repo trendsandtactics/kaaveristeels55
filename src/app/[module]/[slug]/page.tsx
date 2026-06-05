@@ -47,7 +47,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
             >
               ← Back to {moduleTitle}
             </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black uppercase tracking-tight leading-none">
+            <h1 className="font-sans lining-nums tabular-nums text-3xl md:text-4xl lg:text-5xl font-extrabold text-black uppercase tracking-tight leading-none">
               {title}
             </h1>
             {item.short_description && (
@@ -110,7 +110,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
           >
             ← Back to {moduleTitle}
           </Link>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black uppercase tracking-tight leading-none max-w-4xl">
+          <h1 className="font-sans lining-nums tabular-nums text-3xl md:text-4xl lg:text-5xl font-extrabold text-black uppercase tracking-tight leading-none max-w-4xl">
             {title}
           </h1>
           {item.short_description && (
