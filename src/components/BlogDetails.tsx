@@ -123,20 +123,21 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
         </div>
       </section>
 
-      {/* ── FULL-WIDTH COVER IMAGE ── */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.7, delay: 0.15 }}
-        className="w-full h-[420px] md:h-[560px] overflow-hidden"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={coverImage}
-          alt={blog?.title || "Blog Cover"}
-          className="w-full h-full object-cover block"
-        />
-      </motion.div>
+      {/* 2. MAIN CONTENT SECTION (Vertical Flow) */}
+      <section className="max-w-[1200px] w-full mx-auto px-4 sm:px-6 -mt-20 md:-mt-24 relative z-20 flex flex-col items-center justify-start clear-both">
+        
+        {/* Large Featured Image */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
+          className="w-full h-[450px] md:h-[600px] rounded-[12px] overflow-hidden shadow-xl bg-white border border-black/5 relative flex-shrink-0 mb-12 md:mb-16"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img 
+            src={coverImage} 
+            alt={blog?.title || "Blog Cover"} 
+            className="w-full h-full object-cover block" 
+          />
+        </motion.div>
 
       {/* ── OVERVIEW CONTENT SECTION ── */}
       <section className="w-full bg-white py-16 px-6">
