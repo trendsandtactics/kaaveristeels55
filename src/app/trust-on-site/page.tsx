@@ -1,11 +1,4 @@
-<<<<<<< HEAD
 "use client";
-=======
-import Image from "next/image";
-import { listModuleItems } from "@/lib/dynamic-cms";
-import TrustOnSiteForm from "@/components/TrustOnSiteForm";
-import TrustOnSiteForm from "../../components/TrustOnSiteForm";
->>>>>>> a1d3b64 (kit)
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
