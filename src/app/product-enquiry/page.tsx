@@ -58,14 +58,14 @@ export default function ProductEnquiryPage() {
 
   return (
     <main
-      className="min-h-screen flex items-center justify-center px-6 py-12 bg-cover bg-center"
+      className="min-h-[100svh] flex flex-col items-center justify-center px-4 sm:px-6 pt-28 pb-12 lg:pt-32 bg-cover bg-center"
       style={{
         backgroundImage: "url('/bg.jpg')",
       }}
     >
       {/* Form Container */}
-      <div className="w-full max-w-3xl bg-white/90 rounded-2xl p-8 shadow-xl">
-        <h1 className="text-4xl font-bold text-gray-900">
+      <div className="w-full max-w-3xl bg-white/90 rounded-2xl p-6 sm:p-8 shadow-xl">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
           Sales / Dealer Enquiry
         </h1>
         <p className="text-gray-600 mt-2 text-sm">
