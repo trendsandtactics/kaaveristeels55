@@ -134,7 +134,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center w-full relative pt-20 lg:pt-24 overflow-x-hidden">
       
-      <section className="w-full flex flex-col">
+      <section className="scroll-section scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)]">
         {/* Scrollytelling Hero Area */}
         <SteelScroll />
       </section>
