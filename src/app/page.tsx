@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     // Disable scroll-jacking strictly on mobile phones only.
     // Tablets and laptops will retain the presentation-like snap scrolling.
-    if (window.innerWidth <= 1024) return;
+    if (window.innerWidth < 768) return;
 
     // Remove CSS smooth scrolling temporarily to prevent it from fighting
     // with Framer Motion, which causes severe jittering/stuttering.
