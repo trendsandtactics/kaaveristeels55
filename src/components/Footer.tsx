@@ -79,7 +79,7 @@ export default function Footer() {
     };
 
     return (
-        <footer id="footer" className="scroll-section relative overflow-hidden bg-black border-t border-red-500/10">
+        <footer id="footer" className="scroll-section snap-start relative overflow-hidden bg-black border-t border-red-500/10">
             {/* RED GLOW */}
             <div className="absolute left-[-100px] bottom-[-100px] md:left-[-160px] md:bottom-[-160px] w-[300px] h-[300px] md:w-[450px] md:h-[450px] bg-red-600/10 blur-[130px] rounded-full pointer-events-none" />
 
