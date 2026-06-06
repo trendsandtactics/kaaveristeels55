@@ -16,8 +16,36 @@ export default function Home() {
     // Tablets and laptops will retain the presentation-like snap scrolling.
     if (window.innerWidth <= 1024) return;
 
-    let isScrolling = false;
-    let wheelTimer: NodeJS.Timeout;
+    // Remove CSS smooth scrolling temporarily to prevent it from fighting
+    // with Framer Motion, which causes severe jittering/stuttering.
+    const html = document.documentElement;
+    html.classList.remove("scroll-smooth");
+
+    // Dynamically scale down contents of sections if they are taller than the screen.
+    // This guarantees you see the *whole* component in one scroll on smaller laptop screens.
+    const scaleSectionsToFit = () => {
+      const sections = Array.from(document.querySelectorAll(".scroll-section")) as HTMLElement[];
+      const headerOffset = window.innerWidth < 768 ? 80 : 96;
+      const availableHeight = window.innerHeight - headerOffset;
+
+      sections.forEach((sec) => {
+        const child = sec.firstElementChild as HTMLElement;
+        if (!child) return;
+
+        // Reset zoom to calculate natural height correctly
+        (child.style as CSSStyleDeclaration & { zoom: string }).zoom = "1";
+        const childHeight = child.scrollHeight;
+        
+        if (childHeight > availableHeight) {
+          const scale = availableHeight / childHeight;
+          // Scale down to 98% of available height to give a slight visual padding
+          (child.style as CSSStyleDeclaration & { zoom: string }).zoom = (scale * 0.98).toString();
+        }
+      });
+    };
+
+    let lastAnimationTime = 0;
+    let lastWheelTime = 0;
 
     const handleWheel = (e: WheelEvent) => {
       // Prevent interfering if a modal is open
@@ -27,11 +55,31 @@ export default function Home() {
       const sections = Array.from(document.querySelectorAll(".scroll-section")) as HTMLElement[];
       if (sections.length === 0) return;
 
+      const currentScroll = window.scrollY;
+      const headerOffset = window.innerWidth < 768 ? 80 : 96;
+      const firstSectionTop = sections[0].getBoundingClientRect().top + window.scrollY;
+
+      // If we are currently above the first snap section (in the Hero area)
+      if (currentScroll < firstSectionTop - headerOffset - 10) {
+        // If scrolling up, let native scroll happen
+        if (direction === -1) return;
+        
+        // If scrolling down, check how close we are to the first snap section
+        const distanceToFirst = firstSectionTop - headerOffset - currentScroll;
+        if (distanceToFirst > window.innerHeight * 0.4) {
+          return; // Still far away, let native scroll happen
+        }
+      } else if (currentScroll >= firstSectionTop - headerOffset - 10 && currentScroll <= firstSectionTop - headerOffset + 10) {
+        // We are exactly AT the first snap section
+        if (direction === -1) {
+          // Scrolling up from the first section -> native scroll into Hero area
+          return;
+        }
+      }
+
       // Calculate which section is currently active
       let currentIndex = 0;
       let minDiff = Infinity;
-      const currentScroll = window.scrollY;
-      const headerOffset = window.innerWidth < 768 ? 80 : 96;
 
       sections.forEach((sec, idx) => {
         const top = sec.getBoundingClientRect().top + window.scrollY;
@@ -42,56 +90,51 @@ export default function Home() {
         }
       });
 
-      // Graceful fallback: If the current section is taller than the viewport,
-      // allow native scrolling so the user can read the overflowing content.
-      const activeSection = sections[currentIndex];
-      if (activeSection) {
-        const rect = activeSection.getBoundingClientRect();
-        if (rect.height > window.innerHeight) {
-          const isAtTop = rect.top >= headerOffset - 10;
-          const isAtBottom = rect.bottom <= window.innerHeight + 10;
-
-          // If scrolling up while not at the top, or down while not at the bottom, let native scroll happen
-          if (direction === -1 && !isAtTop) return;
-          if (direction === 1 && !isAtBottom) return;
-        }
+      // If we are pulling down from the hero section, force index to -1 so nextIndex is 0
+      if (currentScroll < firstSectionTop - headerOffset - 10 && direction === 1) {
+        currentIndex = -1;
       }
 
       // Disable default scroll to prevent jumpiness and inertia problems
       e.preventDefault();
       
-      if (isScrolling) return;
+      const now = Date.now();
+      const timeSinceLastAnimation = now - lastAnimationTime;
+      const timeSinceLastWheel = now - lastWheelTime;
+      lastWheelTime = now;
+
+      // Wait for both the animation to finish (1200ms) AND trackpad inertia to stop (150ms)
+      if (timeSinceLastAnimation < 1200 || timeSinceLastWheel < 150) return;
 
       const nextIndex = Math.max(0, Math.min(currentIndex + direction, sections.length - 1));
 
       if (currentIndex !== nextIndex) {
-        isScrolling = true;
+        lastAnimationTime = now;
         const targetTop = sections[nextIndex].getBoundingClientRect().top + window.scrollY;
         
         animate(window.scrollY, targetTop - headerOffset, {
-          duration: 0.4,
-          ease: [0.22, 1, 0.36, 1], // Fast, snappy, and attractive easing curve
+          duration: 0.8,
+          ease: [0.25, 1, 0.5, 1], // Softer and smoother easing curve
           onUpdate: (latest) => window.scrollTo(0, latest)
         });
-        
-        // Debounce scrolling so the user can scroll again right after the transition
-        wheelTimer = setTimeout(() => {
-          isScrolling = false;
-        }, 500);
       }
     };
 
+    scaleSectionsToFit(); // Run once on mount
+    window.addEventListener("resize", scaleSectionsToFit);
     window.addEventListener("wheel", handleWheel, { passive: false });
+    
     return () => {
       window.removeEventListener("wheel", handleWheel);
-      clearTimeout(wheelTimer);
+      window.removeEventListener("resize", scaleSectionsToFit);
+      html.classList.add("scroll-smooth");
     };
   }, []);
 
   return (
     <div className="flex flex-col items-center w-full relative pt-20 lg:pt-24 overflow-x-hidden">
       
-      <section className="scroll-section w-full flex flex-col">
+      <section className="w-full flex flex-col">
         {/* Scrollytelling Hero Area */}
         <SteelScroll />
       </section>
