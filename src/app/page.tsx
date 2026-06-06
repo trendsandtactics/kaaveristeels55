@@ -11,41 +11,52 @@ import TrustOnsite from "@/components/trustonsite";
 
 export default function Home() {
   useEffect(() => {
-    // Disable scroll-jacking strictly on mobile phones only.
-    // Tablets and laptops will retain the presentation-like snap scrolling.
-    if (window.innerWidth <= 1024) return;
+    const handleResize = () => {
+      if (window.innerWidth > 1024) {
+        document.documentElement.style.scrollSnapType = "y mandatory";
+      } else {
+        document.documentElement.style.scrollSnapType = "";
+      }
 
-    // Use native CSS scroll snapping for desktop
-    document.documentElement.style.scrollSnapType = "y mandatory";
-
-    // Dynamically scale down contents of sections if they are taller than the screen.
-    // This guarantees you see the *whole* component in one scroll on smaller laptop screens.
-    const scaleSectionsToFit = () => {
       const sections = Array.from(document.querySelectorAll(".scroll-section")) as HTMLElement[];
       const headerOffset = window.innerWidth < 768 ? 80 : 96;
       const availableHeight = window.innerHeight - headerOffset;
 
       sections.forEach((sec) => {
+        if (sec.tagName.toLowerCase() === "footer") return;
+
         const child = sec.firstElementChild as HTMLElement;
         if (!child) return;
 
         // Reset zoom to calculate natural height correctly
         (child.style as CSSStyleDeclaration & { zoom: string }).zoom = "1";
-        const childHeight = child.scrollHeight;
         
-        if (childHeight > availableHeight) {
-          const scale = availableHeight / childHeight;
-          // Scale down to 98% of available height to give a slight visual padding
-          (child.style as CSSStyleDeclaration & { zoom: string }).zoom = (scale * 0.98).toString();
+        if (window.innerWidth > 1024) {
+          // Force height to exactly fit viewport to guarantee a single snap scroll
+          sec.style.height = `${availableHeight}px`;
+          sec.style.overflow = "hidden";
+          
+          void child.offsetHeight; // Force layout reflow
+          const childHeight = child.scrollHeight;
+          
+          if (childHeight > availableHeight) {
+            const scale = availableHeight / childHeight;
+            // Scale down to 98% of available height to give a slight visual padding
+            (child.style as CSSStyleDeclaration & { zoom: string }).zoom = (scale * 0.98).toString();
+          }
+        } else {
+          // Reset constraints strictly on smaller layouts like tablets and mobile
+          sec.style.height = "";
+          sec.style.overflow = "";
         }
       });
     };
 
-    scaleSectionsToFit(); // Run once on mount
-    window.addEventListener("resize", scaleSectionsToFit);
+    handleResize(); // Run once on mount
+    window.addEventListener("resize", handleResize);
     
     return () => {
-      window.removeEventListener("resize", scaleSectionsToFit);
+      window.removeEventListener("resize", handleResize);
       document.documentElement.style.scrollSnapType = "";
     };
   }, []);
