@@ -14,9 +14,7 @@ export default function Home() {
     const handleResize = () => {
       // Enable native CSS scroll snapping for desktop and tablet landscape (>= 1024px)
       if (window.innerWidth >= 1024) {
-        document.documentElement.style.scrollSnapType = "y mandatory";
-        // Fix known browser bug where scroll-smooth + scroll-snap skips to bottom
-        document.documentElement.style.scrollBehavior = "auto";
+        // We delay applying scrollSnapType to avoid the skip-to-bottom bug on initial load.
       } else {
         document.documentElement.style.scrollSnapType = "";
         document.documentElement.style.scrollBehavior = "";
@@ -56,10 +54,24 @@ export default function Home() {
       });
     };
 
-    handleResize(); // Run once on mount
+    // Disable snapping temporarily during hydration to prevent Chrome scroll jump bug
+    document.documentElement.style.scrollSnapType = "";
+    document.documentElement.style.scrollBehavior = "auto";
+    
+    handleResize(); // Calculate and enforce heights immediately
+
+    // Force scroll to top on initial load, then apply snap behavior safely
+    window.scrollTo(0, 0);
+    const snapTimeout = setTimeout(() => {
+      if (window.innerWidth >= 1024) {
+        document.documentElement.style.scrollSnapType = "y mandatory";
+      }
+    }, 100);
+
     window.addEventListener("resize", handleResize);
     
     return () => {
+      clearTimeout(snapTimeout);
       window.removeEventListener("resize", handleResize);
       document.documentElement.style.scrollSnapType = "";
       document.documentElement.style.scrollBehavior = "";
@@ -69,7 +81,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center w-full relative pt-20 lg:pt-24 overflow-x-hidden">
       
-      <section className="w-full flex flex-col snap-start snap-always">
+      <section className="scroll-section w-full flex flex-col snap-start snap-always min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)]">
         {/* Scrollytelling Hero Area */}
         <SteelScroll />
       </section>
