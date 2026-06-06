@@ -8,93 +8,120 @@ import HomeProducts from "@/components/HomeProducts";
 import SteelCalculator from "@/components/Calculators/SteelCalculator";
 import MapEmbed from "@/components/MapEmbed";
 import TrustOnsite from "@/components/trustonsite";
+import { animate } from "framer-motion";
 
 export default function Home() {
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 1024) {
-        document.documentElement.style.scrollSnapType = "y mandatory";
-      } else {
-        document.documentElement.style.scrollSnapType = "";
-      }
+    // Disable scroll-jacking strictly on mobile phones only.
+    // Tablets and laptops will retain the presentation-like snap scrolling.
+    if (window.innerWidth <= 1024) return;
 
+    let isScrolling = false;
+    let wheelTimer: NodeJS.Timeout;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Prevent interfering if a modal is open
+      if (document.body.style.overflow === "hidden") return;
+      
+      const direction = e.deltaY > 0 ? 1 : -1;
       const sections = Array.from(document.querySelectorAll(".scroll-section")) as HTMLElement[];
+      if (sections.length === 0) return;
+
+      // Calculate which section is currently active
+      let currentIndex = 0;
+      let minDiff = Infinity;
+      const currentScroll = window.scrollY;
       const headerOffset = window.innerWidth < 768 ? 80 : 96;
-      const availableHeight = window.innerHeight - headerOffset;
 
-      sections.forEach((sec) => {
-        if (sec.tagName.toLowerCase() === "footer") return;
-
-        const child = sec.firstElementChild as HTMLElement;
-        if (!child) return;
-
-        // Reset zoom to calculate natural height correctly
-        (child.style as CSSStyleDeclaration & { zoom: string }).zoom = "1";
-        
-        if (window.innerWidth > 1024) {
-          // Force height to exactly fit viewport to guarantee a single snap scroll
-          sec.style.height = `${availableHeight}px`;
-          sec.style.overflow = "hidden";
-          
-          void child.offsetHeight; // Force layout reflow
-          const childHeight = child.scrollHeight;
-          
-          if (childHeight > availableHeight) {
-            const scale = availableHeight / childHeight;
-            // Scale down to 98% of available height to give a slight visual padding
-            (child.style as CSSStyleDeclaration & { zoom: string }).zoom = (scale * 0.98).toString();
-          }
-        } else {
-          // Reset constraints strictly on smaller layouts like tablets and mobile
-          sec.style.height = "";
-          sec.style.overflow = "";
+      sections.forEach((sec, idx) => {
+        const top = sec.getBoundingClientRect().top + window.scrollY;
+        const diff = Math.abs(top - headerOffset - currentScroll);
+        if (diff < minDiff) {
+          minDiff = diff;
+          currentIndex = idx;
         }
       });
+
+      // Graceful fallback: If the current section is taller than the viewport,
+      // allow native scrolling so the user can read the overflowing content.
+      const activeSection = sections[currentIndex];
+      if (activeSection) {
+        const rect = activeSection.getBoundingClientRect();
+        if (rect.height > window.innerHeight) {
+          const isAtTop = rect.top >= headerOffset - 10;
+          const isAtBottom = rect.bottom <= window.innerHeight + 10;
+
+          // If scrolling up while not at the top, or down while not at the bottom, let native scroll happen
+          if (direction === -1 && !isAtTop) return;
+          if (direction === 1 && !isAtBottom) return;
+        }
+      }
+
+      // Disable default scroll to prevent jumpiness and inertia problems
+      e.preventDefault();
+      
+      if (isScrolling) return;
+
+      const nextIndex = Math.max(0, Math.min(currentIndex + direction, sections.length - 1));
+
+      if (currentIndex !== nextIndex) {
+        isScrolling = true;
+        const targetTop = sections[nextIndex].getBoundingClientRect().top + window.scrollY;
+        
+        animate(window.scrollY, targetTop - headerOffset, {
+          duration: 0.4,
+          ease: [0.22, 1, 0.36, 1], // Fast, snappy, and attractive easing curve
+          onUpdate: (latest) => window.scrollTo(0, latest)
+        });
+        
+        // Debounce scrolling so the user can scroll again right after the transition
+        wheelTimer = setTimeout(() => {
+          isScrolling = false;
+        }, 500);
+      }
     };
 
-    handleResize(); // Run once on mount
-    window.addEventListener("resize", handleResize);
-    
+    window.addEventListener("wheel", handleWheel, { passive: false });
     return () => {
-      window.removeEventListener("resize", handleResize);
-      document.documentElement.style.scrollSnapType = "";
+      window.removeEventListener("wheel", handleWheel);
+      clearTimeout(wheelTimer);
     };
   }, []);
 
   return (
     <div className="flex flex-col items-center w-full relative pt-20 lg:pt-24 overflow-x-hidden">
       
-      <section className="w-full flex flex-col snap-start">
+      <section className="scroll-section w-full flex flex-col">
         {/* Scrollytelling Hero Area */}
         <SteelScroll />
       </section>
 
-      <section className="scroll-section snap-start scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
+      <section className="scroll-section scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
         {/* About Section */}
         <HomeAbout />
       </section>
 
-      <section className="scroll-section snap-start scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
+      <section className="scroll-section scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
         {/* Products Section */}
         <HomeProducts />
       </section>
 
-      <section className="scroll-section snap-start scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
+      <section className="scroll-section scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
         {/* Green Steel Certification Section */}
         <GreenSteel />
       </section>
 
-      <section className="scroll-section snap-start scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
+      <section className="scroll-section scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
         {/* Calculator Section */}
         <SteelCalculator />
       </section>
 
-      <section className="scroll-section snap-start scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
+      <section className="scroll-section scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
         {/* Trust Section */}
         <TrustOnsite />
       </section>
 
-      <section className="scroll-section snap-start scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
+      <section className="scroll-section scroll-mt-20 lg:scroll-mt-24 w-full flex flex-col lg:justify-center min-h-[calc(100svh-5rem)] lg:min-h-[calc(100svh-6rem)] py-12 lg:py-0">
         {/* Map Section */}
         <MapEmbed />
       </section>
