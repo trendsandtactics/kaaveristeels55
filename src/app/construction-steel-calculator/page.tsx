@@ -230,12 +230,12 @@ export default function SteelCalculator() {
       </div>
 
       {/* CONTENT */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex justify-center lg:justify-end items-center lg:min-h-screen">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex justify-center lg:justify-start lg:pl-[10%] xl:pl-[15%] items-center lg:min-h-screen">
         
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="w-full max-w-[95%] sm:max-w-md lg:max-w-md xl:max-w-lg shrink-0 mt-4 mb-8 lg:my-0 mx-auto"
+          className="w-full max-w-[95%] sm:max-w-md lg:max-w-md xl:max-w-lg shrink-0 mt-4 mb-8 lg:my-0 mx-auto lg:mx-0"
         >
           <div className="rounded-3xl bg-white/95 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20">
             
