@@ -20,6 +20,11 @@ const MODULE_TITLES: Record<string, string> = {
   csr: "Corporate Social Responsibility",
 };
 
+const MODULE_PATHS: Record<string, string> = {
+  galleries: "/photo-gallery",
+  mediaEvents: "/media-events",
+};
+
 export default async function ModuleDetailPage({ params }: { params: Promise<{ module: string; slug: string }> }) {
   const { module, slug } = await params;
 
@@ -32,6 +37,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
   const description = String(item.short_description ?? item.content ?? "");
   const image = resolveMediaUrl(item.cover_image ?? item.file_url, "/image/kaaveriabout.png");
   const moduleTitle = MODULE_TITLES[module] ?? module;
+  const backPath = MODULE_PATHS[module] ?? `/${module}`;
 
   /* ── BLOG layout ────────────────────────────────────────────── */
   if (module === "blogs") {
@@ -42,7 +48,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
         <section className="w-full bg-[#FFD700] pt-24 pb-10 md:pt-32 md:pb-14 px-6">
           <div className="max-w-4xl mx-auto">
             <Link
-              href={`/${module}`}
+              href={backPath}
               className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-black/60 hover:text-black transition-colors mb-6"
             >
               ← Back to {moduleTitle}
@@ -105,7 +111,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
         />
         <div className="max-w-7xl mx-auto relative z-10">
           <Link
-            href={`/${module}`}
+            href={backPath}
             className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-black/60 hover:text-black transition-colors mb-6"
           >
             ← Back to {moduleTitle}
