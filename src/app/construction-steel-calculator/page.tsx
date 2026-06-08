@@ -215,7 +215,7 @@ export default function SteelCalculator() {
   };
 
   return (
-    <section className="relative w-full min-h-screen overflow-x-hidden bg-gray-900 flex items-center pt-24 pb-12 lg:py-0">
+    <section className="relative w-full min-h-[100svh] overflow-x-hidden bg-gray-900 flex items-center pt-28 pb-12 lg:pt-32">
       
       {/* BACKGROUND */}
       <div className="absolute inset-0 z-0">
@@ -230,7 +230,7 @@ export default function SteelCalculator() {
       </div>
 
       {/* CONTENT */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex justify-center lg:justify-start lg:pl-[10%] xl:pl-[15%] items-center lg:min-h-screen">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex justify-center lg:justify-start lg:pl-[10%] xl:pl-[15%] items-center">
         
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
