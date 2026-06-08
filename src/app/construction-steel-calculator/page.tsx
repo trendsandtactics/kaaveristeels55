@@ -229,60 +229,77 @@ export default function SteelCalculator() {
         <div className="absolute inset-0 bg-black/60 lg:bg-black/20" />
       </div>
 
-      {/* CONTENT */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex justify-center lg:justify-start lg:pl-[10%] xl:pl-[15%] items-center">
-        
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="w-full max-w-[95%] sm:max-w-md lg:max-w-md xl:max-w-lg shrink-0 mt-4 mb-8 lg:my-0 mx-auto lg:mx-0"
-        >
-          <div className="rounded-3xl bg-white/95 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20">
-            
-            {/* HEADER */}
-            <div className="bg-red-800 p-4 sm:p-5 text-white text-center">
-              <h2 className="text-lg sm:text-xl font-bold">Steel Calculator</h2>
-              <p className="text-[10px] sm:text-xs uppercase tracking-widest mt-1">Fast & Accurate Estimation</p>
+     {/* CONTENT */}
+<div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+  <div className="grid lg:grid-cols-2 items-center min-h-[80vh]">
+
+    {/* LEFT SIDE EMPTY FOR IMAGE */}
+    <div className="hidden lg:block" />
+
+    {/* RIGHT SIDE FORM */}
+    <div className="flex justify-center lg:justify-center">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-[95%] sm:max-w-md lg:max-w-md xl:max-w-lg"
+      >
+        <div className="rounded-3xl bg-white/95 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20">
+
+          {/* HEADER */}
+          <div className="bg-red-800 p-4 sm:p-5 text-white text-center">
+            <h2 className="text-lg sm:text-xl font-bold">
+              Steel Calculator
+            </h2>
+            <p className="text-[10px] sm:text-xs uppercase tracking-widest mt-1">
+              Fast & Accurate Estimation
+            </p>
+          </div>
+
+          {/* BODY */}
+          <div className="p-4 sm:p-6 space-y-4">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="p-3 rounded-xl border border-gray-200 focus:border-red-800 outline-none text-sm w-full"
+              />
+
+              <input
+                type="tel"
+                placeholder="Phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="p-3 rounded-xl border border-gray-200 focus:border-red-800 outline-none text-sm w-full"
+              />
             </div>
 
-            {/* BODY */}
-            <div className="p-4 sm:p-6 space-y-4">
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <input
-                  placeholder="Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="p-3 rounded-xl border border-gray-200 focus:border-red-800 outline-none text-sm w-full"
-                />
-                <input
-                  type="tel"
-                  placeholder="Phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="p-3 rounded-xl border border-gray-200 focus:border-red-800 outline-none text-sm w-full"
-                />
-              </div>
+            {/* TABS */}
+            <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1">
+              <button
+                onClick={() => setActiveTab("construction")}
+                className={`py-2 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === "construction"
+                    ? "bg-white text-red-800 shadow-sm"
+                    : "text-gray-500"
+                }`}
+              >
+                Construction
+              </button>
 
-              {/* TABS */}
-              <div className="grid grid-cols-2 bg-gray-100 rounded-xl p-1">
-                <button
-                  onClick={() => setActiveTab("construction")}
-                  className={`py-2 rounded-lg text-sm font-medium transition-colors ${
-                    activeTab === "construction" ? "bg-white text-red-800 shadow-sm" : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  Construction
-                </button>
-                <button
-                  onClick={() => setActiveTab("weight")}
-                  className={`py-2 rounded-lg text-sm font-medium transition-colors ${
-                    activeTab === "weight" ? "bg-white text-red-800 shadow-sm" : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  Weight
-                </button>
-              </div>
+              <button
+                onClick={() => setActiveTab("weight")}
+                className={`py-2 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === "weight"
+                    ? "bg-white text-red-800 shadow-sm"
+                    : "text-gray-500"
+                }`}
+              >
+                Weight
+              </button>
+            </div>
 
               <AnimatePresence mode="wait">
                 {activeTab === "construction" ? (
