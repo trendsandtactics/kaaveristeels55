@@ -414,6 +414,8 @@ export default function SteelCalculator() {
           </div>
         </motion.div>
       </div>
+    </div>
+  </div>
     </section>
   );
 }
