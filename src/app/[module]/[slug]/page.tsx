@@ -125,13 +125,14 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
           {/* Left: Image (50%) */}
           <div className="w-full lg:w-1/2">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl bg-white border border-black/5">
+            <div className="relative w-full rounded-2xl overflow-hidden shadow-xl bg-white border border-black/5">
               <Image 
                 src={image} 
                 alt={title} 
-                fill 
-                className="object-cover hover:scale-[1.02] transition-transform duration-1000 ease-out"
+                width={0}
+                height={0}
                 sizes="(min-width: 1024px) 50vw, 100vw"
+                className="w-full h-auto hover:scale-[1.02] transition-transform duration-1000 ease-out"
                 priority
               />
             </div>
