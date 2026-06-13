@@ -2,156 +2,273 @@ import React from "react";
 import Image from "next/image";
 import { listModuleItems } from "@/lib/dynamic-cms";
 import { resolveMediaUrl } from "@/lib/media";
+import {
+  ShieldCheck,
+  Award,
+  Factory,
+  ArrowRight,
+  Download,
+  Building2,
+  Users,
+  Leaf,
+} from "lucide-react";
 
 interface AboutHeroItem {
-    title?: string | null;
-    short_description?: string | null;
-    content?: string | null;
-    cover_image?: string | null;
-    file_url?: string | null;
-    sort_order?: number | null;
+  title?: string | null;
+  short_description?: string | null;
+  content?: string | null;
+  cover_image?: string | null;
+  file_url?: string | null;
+  sort_order?: number | null;
 }
 
 export default async function AboutHero() {
-    let items: AboutHeroItem[] = [];
-    try {
-        items = await listModuleItems("aboutHero", { status: "published" });
-        items = items.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
-    } catch (e) {
-        console.error("Failed to fetch aboutHero content", e);
-    }
+  let items: AboutHeroItem[] = [];
 
-    const welcome = items[0] || {
-        title: "Welcome to KAAVERI",
-        short_description: "TMT & STRUCTURAL",
-        content: "At KAAVERI, we are passionate about steel and dedicated to excellence. Our company is a leading manufacturer of TMT bars and structural steel products, committed to providing the construction industry with the highest quality materials that ensure strength, safety, and sustainability.",
-    };
+  try {
+    items = await listModuleItems("aboutHero", {
+      status: "published",
+    });
 
-    const mission = items[1] || {
-        title: "Our Mission",
-        short_description: "Building a Stronger, Sustainable Future",
-        content: "At KAAVERI, our mission is to manufacture and supply superior TMT bars and structural steel products that contribute to the safety, durability, and sustainability of construction projects worldwide. We are dedicated to maintaining the highest standards of quality in all our products.",
-        cover_image: "/image/about1.png",
-    };
-
-    const vision = items[2] || {
-        title: "Vision",
-        short_description: "Leading the Steel Industry with Quality, Innovation, and Trust",
-        content: "Our vision is to be the most trusted and respected manufacturer in the steel industry, renowned for our unwavering commitment to quality, innovation, and customer satisfaction. We aim to set new standards in steel manufacturing by embracing cutting-edge technology.",
-        cover_image: "/image/about2.png",
-    };
-
-    const missionImage = (mission.cover_image || mission.file_url) ? resolveMediaUrl((mission.cover_image || mission.file_url) as string, "/image/about1.png") : "/image/about1.png";
-    const visionImage = (vision.cover_image || vision.file_url) ? resolveMediaUrl((vision.cover_image || vision.file_url) as string, "/image/about2.png") : "/image/about2.png";
-
-    return (
-        <div className="w-full bg-white">
-            {/* Hero Background Section - Yellow Gradient */}
-            <div className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-28 pb-8 md:pt-32 md:pb-10 relative overflow-hidden shadow-sm border-b border-black/10">
-
-                {/* Glow effect */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
-
-                {/* Subtle grid pattern */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
-
-                <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-                    
-                    {/* Welcome Section */}
-                    <div className="text-center max-w-4xl mx-auto">
-                        <div className="flex items-center justify-center gap-4 mb-4">
-                            <div className="w-12 h-[2px] bg-black" />
-                            <h2 className="font-sans text-black uppercase tracking-[0.2em] font-bold text-sm">
-                                {welcome.short_description || "About Us"}
-                            </h2>
-                            <div className="w-12 h-[2px] bg-black" />
-                        </div>
-
-                        <h1 className="font-serif text-5xl md:text-7xl text-black mb-8 leading-tight drop-shadow-md font-bold">
-                            {welcome.title}
-                        </h1>
-
-                        <div className="font-sans text-black/80 text-lg md:text-xl leading-relaxed font-medium whitespace-pre-wrap">
-                            {welcome.content && welcome.content.includes('<p>') ? (
-                                <div dangerouslySetInnerHTML={{ __html: welcome.content || "" }} />
-                            ) : (
-                                <p>{welcome.content}</p>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Content Section */}
-            <div className="max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10 bg-white">
-                
-                {/* Mission Section */}
-                <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20 mb-24">
-                    <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group">
-                        
-                        <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500"></div>
-
-                        <Image
-                            src={missionImage}
-                            alt={mission.title || "Industrial Teamwork"}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                    </div>
-
-                    <div className="w-full md:w-1/2">
-                        <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
-                            {mission.title}
-                        </h2>
-
-                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
-                            {mission.short_description}
-                        </h3>
-
-                        <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
-                            {mission.content && mission.content.includes('<p>') ? (
-                                <div dangerouslySetInnerHTML={{ __html: mission.content || "" }} />
-                            ) : (
-                                <p>{mission.content}</p>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Vision Section */}
-                <div className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-20">
-                    <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group">
-                        
-                        <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500"></div>
-
-                        <Image
-                            src={visionImage}
-                            alt={vision.title || "Industrial Factory"}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                    </div>
-
-                    <div className="w-full md:w-1/2">
-                        <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
-                            {vision.title}
-                        </h2>
-
-                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
-                            {vision.short_description}
-                        </h3>
-
-                        <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
-                            {vision.content && vision.content.includes('<p>') ? (
-                                <div dangerouslySetInnerHTML={{ __html: vision.content || "" }} />
-                            ) : (
-                                <p>{vision.content}</p>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+    items = items.sort(
+      (a, b) => (a.sort_order || 0) - (b.sort_order || 0)
     );
+  } catch (e) {
+    console.error("Failed to fetch aboutHero content", e);
+  }
+
+  const about = items[0] || {
+    title: "Strength That Supports The Future",
+    short_description: "ABOUT KAAVERI",
+    content:
+      "At KAAVERI Steel, we are passionate about steel and dedicated to excellence. As a leading manufacturer of TMT bars and structural steel products, we provide high-quality materials that ensure strength, safety, and sustainability for every project.",
+    cover_image: "/image/about1.png",
+  };
+
+  const image =
+    about.cover_image || about.file_url
+      ? resolveMediaUrl(
+          (about.cover_image || about.file_url) as string,
+          "/image/about1.png"
+        )
+      : "/image/about1.png";
+
+  return (
+    <section className="relative bg-[#f7f7f7] py-20 lg:py-28 overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#800000_1px,transparent_1px)] [background-size:24px_24px]" />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* LEFT SIDE */}
+          <div className="relative">
+            {/* Main Image */}
+            <div className="relative h-[500px] md:h-[650px] rounded-[40px] overflow-hidden shadow-2xl">
+              <Image
+                src={image}
+                alt="Kaaveri Steel"
+                fill
+                priority
+                className="object-cover"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+            </div>
+
+            {/* Experience Card */}
+            <div className="absolute top-8 left-8 bg-[#A32020] text-white rounded-3xl p-8 shadow-2xl backdrop-blur-md">
+              <ShieldCheck size={36} className="mb-4" />
+
+              <h3 className="text-5xl font-bold">25+</h3>
+
+              <p className="mt-2 uppercase text-sm tracking-wider">
+                Years Of Excellence
+              </p>
+
+              <p className="text-sm text-white/80 mt-4 leading-relaxed">
+                Building Strength.
+                <br />
+                Building Trust.
+              </p>
+            </div>
+
+            {/* Bottom Floating Card */}
+            <div className="absolute left-6 right-6 -bottom-10">
+              <div className="bg-[#0d1320] text-white rounded-3xl shadow-2xl p-6 lg:p-8">
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div>
+                    <Factory
+                      size={34}
+                      className="text-red-500 mb-4"
+                    />
+
+                    <h4 className="font-semibold text-lg mb-2">
+                      Advanced Manufacturing
+                    </h4>
+
+                    <p className="text-sm text-gray-400">
+                      State-of-the-art facilities for superior quality.
+                    </p>
+                  </div>
+
+                  <div>
+                    <Award
+                      size={34}
+                      className="text-red-500 mb-4"
+                    />
+
+                    <h4 className="font-semibold text-lg mb-2">
+                      Premium Quality
+                    </h4>
+
+                    <p className="text-sm text-gray-400">
+                      Tested, certified and trusted worldwide.
+                    </p>
+                  </div>
+
+                  <div>
+                    <ShieldCheck
+                      size={34}
+                      className="text-red-500 mb-4"
+                    />
+
+                    <h4 className="font-semibold text-lg mb-2">
+                      Stronger Tomorrow
+                    </h4>
+
+                    <p className="text-sm text-gray-400">
+                      Sustainable processes for a better future.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT SIDE */}
+          <div className="lg:pl-6">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-[2px] bg-[#A32020]" />
+
+              <span className="uppercase tracking-[4px] text-[#A32020] font-semibold text-sm">
+                {about.short_description || "ABOUT KAAVERI"}
+              </span>
+            </div>
+
+            <h2 className="font-serif text-5xl md:text-6xl xl:text-7xl leading-tight font-bold text-slate-900">
+              Strength That
+              <span className="block text-[#A32020]">
+                Supports The Future
+              </span>
+            </h2>
+
+            <div className="w-24 h-1 bg-[#A32020] rounded-full mt-8 mb-8" />
+
+            <p className="text-gray-600 text-lg leading-relaxed">
+              {about.content}
+            </p>
+
+            <p className="text-gray-600 text-lg leading-relaxed mt-6">
+              Our state-of-the-art manufacturing facilities and rigorous
+              quality control ensure every product meets global standards,
+              empowering builders to create structures that stand the test
+              of time.
+            </p>
+
+            {/* Stats */}
+            <div className="mt-12">
+              <div className="bg-white rounded-[30px] shadow-xl p-8">
+                <div className="grid grid-cols-3 gap-6">
+                  <div className="text-center">
+                    <Award
+                      size={32}
+                      className="mx-auto mb-3 text-[#A32020]"
+                    />
+
+                    <h3 className="text-4xl font-bold text-[#A32020]">
+                      25+
+                    </h3>
+
+                    <p className="text-sm text-gray-600 mt-2">
+                      YEARS OF EXPERIENCE
+                    </p>
+                  </div>
+
+                  <div className="text-center">
+                    <Building2
+                      size={32}
+                      className="mx-auto mb-3 text-[#A32020]"
+                    />
+
+                    <h3 className="text-4xl font-bold text-[#A32020]">
+                      500+
+                    </h3>
+
+                    <p className="text-sm text-gray-600 mt-2">
+                      PROJECTS SUPPLIED
+                    </p>
+                  </div>
+
+                  <div className="text-center">
+                    <Factory
+                      size={32}
+                      className="mx-auto mb-3 text-[#A32020]"
+                    />
+
+                    <h3 className="text-4xl font-bold text-[#A32020]">
+                      1M+
+                    </h3>
+
+                    <p className="text-sm text-gray-600 mt-2">
+                      TONS PRODUCED
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap gap-4 mt-10">
+              <button className="bg-[#A32020] hover:bg-[#861818] transition-all duration-300 text-white px-8 py-4 rounded-xl font-semibold flex items-center gap-3 shadow-lg">
+                OUR JOURNEY
+                <ArrowRight size={18} />
+              </button>
+
+              <button className="border-2 border-[#A32020] text-[#A32020] hover:bg-[#A32020] hover:text-white transition-all duration-300 px-8 py-4 rounded-xl font-semibold flex items-center gap-3">
+                DOWNLOAD BROCHURE
+                <Download size={18} />
+              </button>
+            </div>
+
+            {/* Bottom Features */}
+            <div className="flex flex-wrap gap-8 mt-14 text-gray-700">
+              <div className="flex items-center gap-3">
+                <ShieldCheck size={22} />
+                <span className="font-medium">
+                  Built On Trust
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Users size={22} />
+                <span className="font-medium">
+                  Driven By People
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Leaf size={22} />
+                <span className="font-medium">
+                  Sustainable Future
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Space for Floating Card */}
+        <div className="h-20" />
+      </div>
+    </section>
+  );
 }
