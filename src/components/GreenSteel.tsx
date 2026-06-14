@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   Factory,
   Building2,
+  CheckCircle2,
 } from "lucide-react";
 
 export default function GreenSteel() {
@@ -35,24 +36,33 @@ export default function GreenSteel() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-white">
-      {/* Background Glow */}
-      <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-green-100 rounded-full blur-[180px] opacity-40" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-green-200 rounded-full blur-[160px] opacity-30" />
+    <section
+      className="relative overflow-hidden py-16 lg:py-24"
+      style={{
+        backgroundImage: "url('/green.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-white/92" />
 
-      <div className="relative grid lg:grid-cols-2 min-h-screen">
-        {/* LEFT CONTENT */}
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative z-20 flex items-center"
-        >
-          <div className="w-full px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
+      {/* Glow */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-green-100 rounded-full blur-[140px] opacity-60" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-green-200 rounded-full blur-[140px] opacity-40" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+        <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
+          {/* LEFT CONTENT */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
             {/* Logos */}
-            <div className="flex flex-wrap items-center gap-5 mb-10">
-              <div className="relative w-24 h-14 md:w-32 md:h-20">
+            <div className="flex items-center gap-5 mb-10">
+              <div className="relative w-24 h-14 md:w-28 md:h-16">
                 <Image
                   src="/image/Ministry_of_Steel_India.svg"
                   alt="Ministry of Steel"
@@ -61,9 +71,9 @@ export default function GreenSteel() {
                 />
               </div>
 
-              <div className="hidden sm:block w-px h-12 bg-gray-300" />
+              <div className="w-px h-10 bg-gray-300" />
 
-              <div className="relative w-40 h-12 md:w-56 md:h-16">
+              <div className="relative w-40 h-12 md:w-52 md:h-14">
                 <Image
                   src="/image/kaaveriwbg.png"
                   alt="Kaaveri"
@@ -74,34 +84,33 @@ export default function GreenSteel() {
             </div>
 
             {/* Heading */}
-            <div className="mb-8">
-              <h2 className="leading-[0.85]">
-                <span className="block text-5xl sm:text-6xl xl:text-[95px] font-black tracking-tight text-slate-900">
-                  OFFICIALLY
-                </span>
+            <h2 className="leading-[0.9] mb-4">
+              <span className="block text-[52px] md:text-[64px] xl:text-[72px] font-black text-slate-900">
+                OFFICIALLY
+              </span>
 
-                <span className="block text-5xl sm:text-6xl xl:text-[95px] font-black tracking-tight text-green-600">
-                  CERTIFIED
-                </span>
-              </h2>
+              <span className="block text-[52px] md:text-[64px] xl:text-[72px] font-black text-green-600">
+                CERTIFIED
+              </span>
+            </h2>
 
-              <div className="flex items-center gap-3 mt-6">
-                <div className="w-20 h-1 bg-green-600 rounded-full" />
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-16 h-[3px] bg-green-600 rounded-full" />
 
-                <span className="text-green-700 font-semibold uppercase tracking-[0.35em] text-xs sm:text-sm">
-                  GREEN STEEL
-                </span>
-              </div>
+              <span className="uppercase tracking-[0.35em] text-xs font-semibold text-green-700">
+                GREEN STEEL
+              </span>
             </div>
 
-            {/* Subtitle */}
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-800 leading-snug mb-6">
+            <h3 className="text-2xl lg:text-3xl font-bold text-slate-800 leading-snug mb-5">
               Kaaveri TMT Bars Officially Certified as{" "}
-              <span className="text-green-600">Green Steel</span>
+              <span className="text-green-600">
+                Green Steel
+              </span>
             </h3>
 
-            {/* Stars */}
-            <div className="flex gap-2 mb-8">
+            {/* Rating */}
+            <div className="flex gap-1 mb-8">
               {[1, 2, 3, 4, 5].map((star) => (
                 <svg
                   key={star}
@@ -115,24 +124,22 @@ export default function GreenSteel() {
             </div>
 
             {/* Features */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               {features.map((item, index) => (
                 <div
                   key={index}
                   className="
-                    bg-white/95
-                    backdrop-blur-xl
-                    border border-green-100
-                    rounded-3xl
-                    p-5
-                    shadow-xl
-                    hover:-translate-y-2
-                    hover:shadow-2xl
+                    bg-white
+                    rounded-2xl
+                    border
+                    border-green-100
+                    p-4
+                    shadow-lg
+                    hover:shadow-xl
                     transition-all
-                    duration-300
                   "
                 >
-                  <div className="w-12 h-12 rounded-full bg-green-100 text-green-700 flex items-center justify-center mb-4">
+                  <div className="w-10 h-10 rounded-full bg-green-100 text-green-700 flex items-center justify-center mb-3">
                     {item.icon}
                   </div>
 
@@ -147,90 +154,67 @@ export default function GreenSteel() {
               ))}
             </div>
 
-            {/* Description */}
             <p className="text-lg text-slate-600 leading-relaxed mb-6 max-w-xl">
-              5-Star Rated Green TMT Bars with verified low carbon
-              emissions. Committed to building eco-friendly structures
-              and a sustainable future for India.
+              5-Star Rated Green TMT Bars with verified low carbon emissions.
+              Committed to building eco-friendly structures and a sustainable
+              future for India.
             </p>
 
-            <div className="flex items-center gap-3">
-              <div className="w-3 h-3 rounded-full bg-green-600" />
-              <p className="font-semibold text-green-700 text-lg">
-                Together We Build Responsibly
-              </p>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* RIGHT SIDE IMAGE */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative min-h-[500px] lg:min-h-screen"
-        >
-          {/* Full Background Image */}
-          <Image
-            src="/green.png"
-            alt="Green Steel"
-            fill
-            priority
-            className="object-cover"
-          />
-
-          {/* Premium Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/90 lg:to-white" />
-
-          {/* Floating Certificate */}
-          <motion.div
-            animate={{
-              y: [0, -12, 0],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="
-              absolute
-              right-4
-              sm:right-8
-              lg:right-12
-              top-1/2
-              -translate-y-1/2
-              z-20
-            "
-          >
-            <div className="bg-white p-3 rounded-3xl shadow-[0_30px_80px_rgba(0,0,0,0.25)]">
-              <Image
-                src="/Green.jpg"
-                alt="Certificate"
-                width={420}
-                height={560}
-                className="
-                  rounded-2xl
-                  w-[220px]
-                  sm:w-[280px]
-                  lg:w-[360px]
-                  xl:w-[420px]
-                  h-auto
-                "
-              />
+            <div className="flex items-center gap-3 text-green-700 font-semibold">
+              <CheckCircle2 className="w-5 h-5" />
+              Together We Build Responsibly
             </div>
           </motion.div>
 
-          {/* Floating Badge */}
-          <div className="absolute bottom-8 left-8 z-20 hidden md:block">
-            <div className="bg-green-600 text-white px-6 py-4 rounded-2xl shadow-2xl">
-              <p className="text-3xl font-black">5★</p>
-              <p className="text-sm uppercase tracking-wider">
-                Certified Green Steel
-              </p>
+          {/* RIGHT CERTIFICATE */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="flex justify-center"
+          >
+            <div className="relative">
+              {/* Glow */}
+              <div className="absolute inset-0 bg-green-300/20 blur-3xl scale-110 rounded-full" />
+
+              {/* Certificate Card */}
+              <div
+                className="
+                  relative
+                  bg-white
+                  p-4
+                  rounded-[32px]
+                  border
+                  border-green-100
+                  shadow-[0_30px_80px_rgba(0,0,0,0.15)]
+                "
+              >
+                <Image
+                  src="/Green.jpg"
+                  alt="Green Steel Certificate"
+                  width={650}
+                  height={900}
+                  priority
+                  className="
+                    w-full
+                    max-w-[580px]
+                    rounded-2xl
+                    h-auto
+                  "
+                />
+              </div>
+
+              {/* Badge */}
+              <div className="absolute -bottom-6 -left-6 bg-green-600 text-white px-6 py-4 rounded-2xl shadow-xl">
+                <div className="text-3xl font-black">5★</div>
+                <div className="text-xs uppercase tracking-widest">
+                  Certified Green Steel
+                </div>
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
