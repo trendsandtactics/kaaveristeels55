@@ -1,3 +1,26 @@
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { 
+  Play, 
+  Factory, 
+  ShieldCheck, 
+  HardHat, 
+  ArrowRight, 
+  Download, 
+  Award, 
+  Building2, 
+  BadgeCheck 
+} from "lucide-react";
+
+export default function HomeAbout() {
+  const [playVideo, setPlayVideo] = useState(false);
+  const thumbnailUrl = "/image/aboutbackground.png"; // Replace with actual thumbnail path
+  const youtubeVideoId = "dQw4w9WgXcQ"; // Replace with actual YouTube video ID
+
+  return (
 <section className="relative overflow-hidden bg-[#f7f7f7]">
   {/* Background Texture */}
   <div className="absolute inset-0">
@@ -236,3 +259,5 @@
     </div>
   </div>
 </section>
+  );
+}
