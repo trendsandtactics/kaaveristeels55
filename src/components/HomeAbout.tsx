@@ -92,7 +92,7 @@ export default function HomeAbout() {
       <div className="relative flex items-center mt-8 lg:mt-0">
         <div className="absolute inset-0 opacity-[0.03]">
           <Image
-            src="/image/aboutbackground.png"
+            src="/Background.png"
             alt=""
             fill
             className="object-cover"
