@@ -4,100 +4,361 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  ShieldCheck,
+  Layers3,
+  Handshake,
+  Leaf,
+} from "lucide-react";
 
 const products = [
-    {
-        name: "TMT Bars",
-        image: "/tmt1.png",
-        description: "High-strength ribbed TMT bars built for maximum durability, flexibility, and earthquake resistance. The foundation of modern construction.",
-        href: "/products?category=TMT",
-    },
-    {
-        name: "Structural Steels",
-        image: "/structural.png",
-        description: "Premium structural steel beams crafted for heavy-duty load bearing. Ensuring structural integrity and flawless execution for mega-projects.",
-        href: "/products?category=Structural",
-    }
+  {
+    name: "TMT Bars",
+    image: "/tmt1.png",
+    category: "TMT PRODUCTS",
+    description:
+      "High-strength ribbed TMT bars built for maximum durability, flexibility, and earthquake resistance.",
+    href: "/products?category=TMT",
+  },
+  {
+    name: "Structural Steels",
+    image: "/structural.png",
+    category: "STRUCTURAL PRODUCTS",
+    description:
+      "Premium quality structural steels designed for robust frameworks and enduring performance.",
+    href: "/products?category=Structural",
+  },
+];
+
+const features = [
+  {
+    icon: ShieldCheck,
+    title: "High Strength",
+    subtitle: "Built to Last",
+  },
+  {
+    icon: Layers3,
+    title: "Superior Quality",
+    subtitle: "Tested & Assured",
+  },
+  {
+    icon: Handshake,
+    title: "Trusted Across India",
+    subtitle: "Building The Nation",
+  },
+  {
+    icon: Leaf,
+    title: "Sustainable Steel",
+    subtitle: "For A Better Tomorrow",
+  },
 ];
 
 export default function HomeProducts() {
-    return (
-        <section className="relative w-full py-10 sm:py-12 md:py-16 px-4 sm:px-8 lg:px-12 bg-white overflow-x-hidden">
-            {/* Background elements */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent-red/5 rounded-full blur-[100px] pointer-events-none -z-10" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-yellow/5 rounded-full blur-[120px] pointer-events-none -z-10" />
+  return (
+    <section
+      className="
+        relative
+        overflow-hidden
+        py-20
+        lg:py-28
+        bg-gradient-to-b
+        from-white
+        via-[#fafafa]
+        to-[#f5f6f3]
+      "
+    >
+      {/* Background Effects */}
+      <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-green-100/30 rounded-full blur-[140px]" />
 
-            <div className="max-w-7xl mx-auto z-10">
-                <div className="flex flex-col items-center mb-12 sm:mb-16 text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="flex items-center gap-4 mb-4"
-                    >
-                        <div className="w-8 sm:w-12 h-[2px] bg-accent-red" />
-                        <h2 className="font-sans text-accent-red uppercase tracking-[0.2em] font-bold text-sm">Our Products</h2>
-                        <div className="w-8 sm:w-12 h-[2px] bg-accent-red" />
-                    </motion.div>
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-yellow-100/30 rounded-full blur-[140px]" />
 
-                    <motion.h3
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        className="font-serif text-3xl sm:text-4xl lg:text-5xl text-foreground mb-6"
-                    >
-                        Masterpieces of <span className="text-accent-red">Steel</span>
-                    </motion.h3>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="font-sans text-foreground/70 max-w-2xl text-base sm:text-lg"
-                    >
-                        Engineered to perfection, our diverse range of steel products forms the resilient core of iconic structures worldwide.
-                    </motion.p>
-                </div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
+        <div className="text-center mb-16 lg:mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-4 mb-5"
+          >
+            <div className="w-12 h-[2px] bg-red-600" />
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
-                    {products.map((product, index) => (
-                        <motion.div
-                            key={product.name}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.7, delay: index * 0.2 }}
-                            className="group relative bg-white border border-gray-100 shadow-xl overflow-hidden rounded-sm"
+            <span className="uppercase tracking-[0.35em] text-red-600 text-sm font-bold">
+              Our Products
+            </span>
+
+            <div className="w-12 h-[2px] bg-red-600" />
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="
+              font-serif
+              text-4xl
+              md:text-6xl
+              lg:text-7xl
+              text-slate-900
+              mb-6
+            "
+          >
+            Masterpieces of{" "}
+            <span className="text-red-600">
+              Steel
+            </span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="
+              max-w-3xl
+              mx-auto
+              text-lg
+              text-slate-600
+              leading-relaxed
+            "
+          >
+            Engineered to perfection, our diverse range of steel products
+            forms the resilient core of iconic structures worldwide.
+          </motion.p>
+        </div>
+
+        {/* Product Cards */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {products.map((product, index) => (
+            <motion.div
+              key={product.name}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.7,
+                delay: index * 0.15,
+              }}
+            >
+              <Link href={product.href}>
+                <div
+                  className="
+                    group
+                    relative
+                    overflow-hidden
+                    rounded-[32px]
+                    shadow-[0_20px_60px_rgba(0,0,0,0.15)]
+                    h-[520px]
+                    cursor-pointer
+                  "
+                >
+                  {/* Image */}
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="
+                      object-cover
+                      transition-transform
+                      duration-700
+                      group-hover:scale-110
+                    "
+                  />
+
+                  {/* Overlay */}
+                  <div
+                    className="
+                      absolute inset-0
+                      bg-gradient-to-t
+                      from-black
+                      via-black/60
+                      to-black/10
+                    "
+                  />
+
+                  {/* Gold Glow */}
+                  <div
+                    className="
+                      absolute inset-0
+                      bg-gradient-to-br
+                      from-yellow-500/20
+                      via-transparent
+                      to-transparent
+                    "
+                  />
+
+                  {/* Shine Effect */}
+                  <div
+                    className="
+                      absolute
+                      -left-full
+                      top-0
+                      h-full
+                      w-1/2
+                      bg-gradient-to-r
+                      from-transparent
+                      via-white/20
+                      to-transparent
+                      skew-x-12
+                      transition-all
+                      duration-1000
+                      group-hover:left-[140%]
+                    "
+                  />
+
+                  {/* Content */}
+                  <div className="absolute inset-0 z-20 p-8 lg:p-10 flex flex-col justify-between">
+                    <div>
+                      <div
+                        className="
+                          inline-flex
+                          items-center
+                          px-5
+                          py-2
+                          rounded-full
+                          bg-white/10
+                          backdrop-blur-xl
+                          border
+                          border-white/20
+                          text-white
+                          text-xs
+                          font-semibold
+                          tracking-wider
+                        "
+                      >
+                        {product.category}
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="w-12 h-1 bg-yellow-400 mb-5 rounded-full" />
+
+                      <h3
+                        className="
+                          text-white
+                          text-4xl
+                          lg:text-5xl
+                          font-bold
+                          mb-5
+                          leading-none
+                        "
+                      >
+                        {product.name}
+                      </h3>
+
+                      <p
+                        className="
+                          text-white/85
+                          max-w-sm
+                          leading-relaxed
+                          text-base
+                          mb-8
+                        "
+                      >
+                        {product.description}
+                      </p>
+
+                      <div className="flex items-center justify-between">
+                        <div
+                          className="
+                            px-6
+                            py-3
+                            rounded-full
+                            border
+                            border-white/30
+                            backdrop-blur-md
+                            text-white
+                            font-semibold
+                            text-sm
+                          "
                         >
-                            <Link href={product.href} className="absolute inset-0 z-30 cursor-pointer" aria-label={`View ${product.name}`} />
-                            <div className="relative w-full h-[260px] sm:h-[300px] md:h-[320px] lg:h-[360px] xl:h-[400px] overflow-hidden">
-                                <Image
-                                    src={product.image}
-                                    alt={product.name}
-                                    fill
-                                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+                          EXPLORE PRODUCT
+                        </div>
 
-                                {/* Hover overlay effects */}
-                                <div className="absolute inset-0 border-4 border-transparent group-hover:border-accent-red/20 transition-colors duration-500 z-20 pointer-events-none" />
-                            </div>
-
-                            <div className="absolute bottom-0 left-0 w-full p-6 sm:p-8 z-20 flex flex-col justify-end translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                                <div className="w-10 h-1 bg-accent-red mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 transform -translate-x-4 group-hover:translate-x-0" />
-                                <h4 className="font-sans lining-nums tabular-nums text-2xl sm:text-3xl text-white font-bold mb-2 drop-shadow-md">
-                                    {product.name}
-                                </h4>
-                                <p className="font-sans text-white/90 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                                    {product.description}
-                                </p>
-                            </div>
-                        </motion.div>
-                    ))}
+                        <div
+                          className="
+                            w-14
+                            h-14
+                            rounded-full
+                            bg-white
+                            flex
+                            items-center
+                            justify-center
+                            transition-transform
+                            duration-300
+                            group-hover:translate-x-2
+                          "
+                        >
+                          <ArrowRight className="w-5 h-5 text-black" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </section>
-    );
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Features Strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="
+            mt-12
+            bg-white
+            rounded-[32px]
+            shadow-xl
+            border
+            border-gray-100
+            p-6
+            lg:p-8
+          "
+        >
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={item.title}
+                  className="flex items-center gap-4"
+                >
+                  <div
+                    className="
+                      w-14
+                      h-14
+                      rounded-full
+                      bg-green-50
+                      flex
+                      items-center
+                      justify-center
+                      shrink-0
+                    "
+                  >
+                    <Icon className="w-6 h-6 text-green-700" />
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-slate-900">
+                      {item.title}
+                    </h4>
+
+                    <p className="text-slate-500 text-sm">
+                      {item.subtitle}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 }
