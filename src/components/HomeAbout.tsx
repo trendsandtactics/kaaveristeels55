@@ -205,56 +205,7 @@ export default function HomeAbout() {
         </div>
 
         {/* FLOATING STATS CARD */}
-        <div className="hidden xl:block absolute left-[-340px] bottom-12 z-30">
-          <div className="bg-white rounded-[32px] shadow-[0_20px_60px_rgba(0,0,0,0.08)] p-10 w-[700px] border border-gray-100">
-            <div className="grid grid-cols-3">
-              <div className="text-center">
-                <Award
-                  size={34}
-                  className="mx-auto text-red-600 mb-4"
-                />
-
-                <h3 className="text-5xl font-black text-red-600">
-                  25+
-                </h3>
-
-                <p className="font-semibold mt-3">
-                  Years Experience
-                </p>
-              </div>
-
-              <div className="text-center border-x">
-                <Building2
-                  size={34}
-                  className="mx-auto text-red-600 mb-4"
-                />
-
-                <h3 className="text-5xl font-black text-red-600">
-                  5000+
-                </h3>
-
-                <p className="font-semibold mt-3">
-                  Projects Served
-                </p>
-              </div>
-
-              <div className="text-center">
-                <BadgeCheck
-                  size={34}
-                  className="mx-auto text-red-600 mb-4"
-                />
-
-                <h3 className="text-5xl font-black text-red-600">
-                  100%
-                </h3>
-
-                <p className="font-semibold mt-3">
-                  Quality Tested
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        
 
       </div>
     </div>
