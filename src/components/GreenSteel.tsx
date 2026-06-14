@@ -53,50 +53,34 @@ export default function GreenSteel() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-white via-[#f7faf7] to-[#edf7ee] py-20 lg:py-28">
+    <section
+      className="relative overflow-hidden py-20 lg:py-28"
+      style={{
+        backgroundImage: "url('/green.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/90 to-white/75" />
 
-      {/* Background Effects */}
-      <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-green-100/50 rounded-full blur-[150px]" />
-
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-green-200/40 rounded-full blur-[140px]" />
-
-      {/* Decorative Leaves */}
-      <div className="absolute top-10 right-10 opacity-70 hidden lg:block">
-        <Image
-          src="/image/leaf.png"
-          alt=""
-          width={180}
-          height={180}
-          className="object-contain"
-        />
-      </div>
-
-      {/* Skyline Background */}
-      <div className="absolute bottom-0 left-0 w-full opacity-10">
-        <Image
-          src="/image/city-skyline.png"
-          alt=""
-          width={2000}
-          height={300}
-          className="w-full object-cover"
-        />
-      </div>
+      {/* Extra Soft Glow */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-green-100/40 rounded-full blur-[140px]" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-green-200/30 rounded-full blur-[140px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
-
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
-
-          {/* LEFT SIDE */}
+          
+          {/* LEFT CONTENT */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-
             {/* Logos */}
             <div className="flex items-center gap-6 mb-10">
-
               <div className="relative w-36 h-20">
                 <Image
                   src="/image/Ministry_of_Steel_India.svg"
@@ -120,7 +104,6 @@ export default function GreenSteel() {
 
             {/* Heading */}
             <div className="mb-6">
-
               <h2 className="leading-[0.9]">
                 <span className="block text-5xl md:text-6xl xl:text-8xl font-black text-slate-900 tracking-tight">
                   OFFICIALLY
@@ -133,13 +116,14 @@ export default function GreenSteel() {
 
               <div className="flex items-center gap-3 mt-5">
                 <div className="w-16 h-1 bg-green-600 rounded-full" />
+
                 <span className="uppercase tracking-[0.3em] text-green-700 font-semibold text-sm">
-                  Green Steel
+                  GREEN STEEL
                 </span>
               </div>
             </div>
 
-            {/* Title */}
+            {/* Subheading */}
             <h3 className="text-2xl lg:text-3xl font-bold text-slate-800 mb-6 leading-snug">
               Kaaveri TMT Bars Officially Certified As{" "}
               <span className="text-green-600">
@@ -147,7 +131,7 @@ export default function GreenSteel() {
               </span>
             </h3>
 
-            {/* Stars */}
+            {/* Rating */}
             <div className="flex gap-2 mb-8">
               {[1, 2, 3, 4, 5].map((star) => (
                 <svg
@@ -163,11 +147,10 @@ export default function GreenSteel() {
 
             {/* Feature Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-
               {features.map((item, i) => (
                 <div
                   key={i}
-                  className="bg-white border border-green-100 rounded-2xl p-4 shadow-lg shadow-green-50"
+                  className="bg-white/90 backdrop-blur-md border border-green-100 rounded-2xl p-4 shadow-lg hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="w-10 h-10 rounded-full bg-green-100 text-green-700 flex items-center justify-center mb-3">
                     {item.icon}
@@ -198,7 +181,6 @@ export default function GreenSteel() {
             <p className="text-lg font-medium text-slate-700">
               Together we build responsibly.
             </p>
-
           </motion.div>
 
           {/* RIGHT SIDE */}
@@ -209,10 +191,8 @@ export default function GreenSteel() {
             transition={{ duration: 0.8 }}
             className="relative flex justify-center"
           >
-
-            {/* Benefit Cards */}
+            {/* Benefits */}
             <div className="hidden xl:flex absolute right-[-130px] top-1/2 -translate-y-1/2 flex-col gap-5 z-20">
-
               {benefits.map((item, i) => (
                 <div
                   key={i}
@@ -239,47 +219,21 @@ export default function GreenSteel() {
             {/* Pedestal */}
             <div className="absolute bottom-[-30px] w-[80%] h-10 bg-white rounded-full blur-md shadow-2xl" />
 
-            {/* Certificate Frame */}
-            <div className="relative bg-[#222] p-4 rounded-xl shadow-[0_30px_80px_rgba(0,0,0,0.25)]">
-
+            {/* Certificate */}
+            <div className="relative bg-[#1e1e1e] p-4 rounded-2xl shadow-[0_30px_80px_rgba(0,0,0,0.25)]">
               <Image
                 src="/Green.jpg"
                 alt="Green Steel Certificate"
                 width={900}
                 height={1200}
                 priority
-                className="rounded-md bg-white max-w-[500px] w-full h-auto"
+                className="rounded-lg bg-white max-w-[500px] w-full h-auto"
               />
-
             </div>
-
           </motion.div>
 
         </div>
-
       </div>
-
-      {/* Bottom Steel Bars */}
-      <div className="absolute bottom-0 left-0 hidden xl:block opacity-90">
-        <Image
-          src="/image/steel-bars.png"
-          alt="Steel Bars"
-          width={550}
-          height={160}
-          className="object-contain"
-        />
-      </div>
-
-      {/* Bottom Leaves */}
-      <div className="absolute bottom-0 left-1/3 hidden lg:block">
-        <Image
-          src="/image/leaf-bottom.png"
-          alt=""
-          width={200}
-          height={200}
-        />
-      </div>
-
     </section>
   );
 }
