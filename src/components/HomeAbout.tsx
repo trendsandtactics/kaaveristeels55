@@ -12,68 +12,65 @@ import {
 
 export default function HomeAbout() {
   return (
-    <section className="relative overflow-hidden bg-[#f8f8f8] py-20 lg:py-28">
+    <section className="relative overflow-hidden bg-[#f7f7f7] py-20 lg:py-28">
 
-      {/* Background */}
-      <div className="absolute inset-0 overflow-hidden">
-
-        <div className="absolute -top-40 left-1/3 w-[900px] h-[900px] bg-white rounded-full blur-3xl opacity-70" />
-
-        {/* Curved Lines */}
-        <div className="absolute right-0 top-0 w-[900px] h-[900px]">
+      {/* Background decorations */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Concentric arcs top-right */}
+        <div className="absolute -right-64 -top-64 w-[900px] h-[900px]">
           {[...Array(8)].map((_, i) => (
             <div
               key={i}
               className="absolute rounded-full border border-red-100"
               style={{
-                width: `${700 + i * 40}px`,
-                height: `${700 + i * 40}px`,
-                top: `${i * 12}px`,
-                right: `${-250 + i * 10}px`,
+                width: `${600 + i * 50}px`,
+                height: `${600 + i * 50}px`,
+                top: `${i * 5}px`,
+                left: `${i * 5}px`,
               }}
             />
           ))}
         </div>
 
-        {/* Dots */}
-        <div className="absolute top-20 right-24 grid grid-cols-6 gap-4">
+        {/* Dots grid */}
+        <div className="absolute top-16 right-16 grid grid-cols-6 gap-4">
           {[...Array(36)].map((_, i) => (
-            <span
-              key={i}
-              className="w-1.5 h-1.5 rounded-full bg-gray-300"
-            />
+            <span key={i} className="w-1.5 h-1.5 rounded-full bg-gray-300" />
           ))}
         </div>
+
+        {/* Bottom-right red blob */}
+        <div className="absolute -bottom-40 -right-20 w-[700px] h-[700px] bg-red-600 rounded-[40%] rotate-12" />
       </div>
 
       <div className="relative z-10 max-w-[1700px] mx-auto px-6 lg:px-12">
 
         {/* Main Section */}
-        <div className="grid lg:grid-cols-[48%_52%] gap-10 items-center">
+        <div className="grid lg:grid-cols-[46%_54%] gap-10 items-center">
 
           {/* Left */}
           <div>
 
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-[2px] bg-red-600" />
-              <span className="uppercase tracking-[4px] text-red-600 text-sm font-semibold">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-10 h-[2px] bg-red-600" />
+              <span className="uppercase tracking-[4px] text-red-600 text-sm font-bold">
                 ABOUT KAAVERI
               </span>
             </div>
 
-            <h2 className="font-serif text-[52px] md:text-[70px] xl:text-[82px] leading-[0.95] font-bold text-slate-900">
+            <h2 className="font-serif text-[44px] md:text-[56px] xl:text-[64px] leading-[1.15] font-bold text-slate-900">
               Strength That
               <span className="block text-red-600">
                 Shapes The Future
               </span>
             </h2>
 
-            <div className="mt-8 flex items-center gap-3">
+            <div className="mt-6 flex items-center gap-3">
               <div className="w-10 h-[3px] bg-red-600" />
               <div className="w-10 h-[3px] bg-gray-200" />
             </div>
 
-            <div className="mt-10 max-w-2xl space-y-6 text-gray-600 leading-relaxed text-lg">
+            <div className="mt-8 max-w-2xl space-y-5 text-gray-500 leading-relaxed">
               <p>
                 At KAAVERI, we are passionate about steel and dedicated
                 to excellence. As a leading manufacturer of TMT bars and
@@ -88,17 +85,17 @@ export default function HomeAbout() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-5 mt-12">
+            <div className="flex flex-wrap gap-4 mt-10">
 
               <Link href="/about-us">
-                <button className="h-14 px-10 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-semibold flex items-center gap-3 transition">
+                <button className="h-12 px-7 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold flex items-center gap-2 transition text-sm">
                   Explore More
-                  <ArrowRight size={18} />
+                  <ArrowRight size={16} />
                 </button>
               </Link>
 
-              <button className="h-14 px-10 rounded-2xl border border-gray-300 bg-white font-medium flex items-center gap-3">
-                <Download size={18} />
+              <button className="h-12 px-7 rounded-xl border border-gray-300 bg-white font-medium flex items-center gap-2 text-sm">
+                <Download size={16} />
                 Download Brochure
               </button>
 
@@ -106,20 +103,20 @@ export default function HomeAbout() {
           </div>
 
           {/* Right */}
-          <div className="relative min-h-[700px] flex items-center justify-center">
+          <div className="relative min-h-[450px] lg:min-h-[600px] flex items-center justify-center">
 
-            {/* Red Circle */}
-            <div className="absolute w-[650px] h-[650px] rounded-full bg-red-600 top-10 right-10" />
+            {/* Red Circle behind */}
+            <div className="absolute w-[480px] h-[480px] rounded-full bg-red-600 top-0 right-0 lg:right-10" />
 
             {/* House */}
-            <div className="relative z-20">
+            <div className="relative z-20 w-full max-w-[850px]">
               <Image
                 src="/image/about1.png"
                 alt="Kaaveri"
                 width={950}
                 height={750}
                 priority
-                className="object-contain"
+                className="object-contain w-full h-auto"
               />
             </div>
 
@@ -129,152 +126,107 @@ export default function HomeAbout() {
               alt="TMT Bars"
               width={500}
               height={250}
-              className="absolute bottom-0 right-0 z-30"
+              className="absolute bottom-0 right-0 z-30 w-[60%] h-auto"
             />
 
           </div>
         </div>
 
         {/* Stats */}
-        <div className="mt-16 bg-white rounded-[30px] shadow-lg border border-gray-100 p-8">
+        <div className="mt-12 bg-white rounded-[24px] shadow-lg border border-gray-100 p-6 lg:p-8">
 
-          <div className="grid md:grid-cols-3">
+          <div className="grid sm:grid-cols-3 gap-6">
 
-            <div className="flex items-center gap-5 md:border-r border-gray-200">
-
-              <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center">
-                <Factory className="text-white" size={24} />
+            <div className="flex items-center gap-4 sm:border-r border-gray-200">
+              <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shrink-0">
+                <Factory className="text-white" size={22} />
               </div>
-
               <div>
-                <h3 className="text-4xl font-bold text-slate-900">
-                  500+
-                </h3>
-                <p className="text-gray-500">
-                  Projects Delivered
-                </p>
+                <h3 className="text-3xl font-bold text-slate-900">500+</h3>
+                <p className="text-gray-500 text-sm">Projects Delivered</p>
               </div>
-
             </div>
 
-            <div className="flex items-center gap-5 md:px-10 md:border-r border-gray-200">
-
-              <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center">
-                <Factory className="text-white" size={24} />
+            <div className="flex items-center gap-4 sm:px-6 sm:border-r border-gray-200">
+              <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shrink-0">
+                <Factory className="text-white" size={22} />
               </div>
-
               <div>
-                <h3 className="text-4xl font-bold text-slate-900">
-                  100K+
-                </h3>
-                <p className="text-gray-500">
-                  Tons Produced
-                </p>
+                <h3 className="text-3xl font-bold text-slate-900">100K+</h3>
+                <p className="text-gray-500 text-sm">Tons Produced</p>
               </div>
-
             </div>
 
-            <div className="flex items-center gap-5 md:px-10">
-
-              <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center">
-                <ShieldCheck className="text-white" size={24} />
+            <div className="flex items-center gap-4 sm:px-6">
+              <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shrink-0">
+                <ShieldCheck className="text-white" size={22} />
               </div>
-
               <div>
-                <h3 className="text-4xl font-bold text-slate-900">
-                  100%
-                </h3>
-                <p className="text-gray-500">
-                  Quality Tested
-                </p>
+                <h3 className="text-3xl font-bold text-slate-900">100%</h3>
+                <p className="text-gray-500 text-sm">Quality Tested</p>
               </div>
-
             </div>
 
           </div>
         </div>
 
         {/* Features */}
-        <div className="grid lg:grid-cols-3 gap-8 mt-10">
+        <div className="grid lg:grid-cols-3 gap-6 mt-6">
 
           {/* Card 1 */}
-          <div className="bg-white rounded-[30px] p-8 shadow-lg border border-gray-100">
-
-            <div className="flex gap-6">
-
-              <div className="w-20 h-20 rounded-full bg-red-50 flex items-center justify-center shrink-0">
-                <Factory className="text-red-600" size={34} />
+          <div className="bg-white rounded-[24px] p-7 shadow-lg border border-gray-100">
+            <div className="flex gap-5">
+              <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shrink-0">
+                <Factory className="text-white" size={26} />
               </div>
-
-              <div className="w-px bg-red-200" />
-
               <div>
-                <h4 className="text-2xl font-bold text-slate-900">
+                <h4 className="text-lg font-bold text-slate-900">
                   Premium TMT Bars
                 </h4>
-
-                <p className="text-gray-500 mt-4 leading-relaxed">
+                <p className="text-gray-500 mt-3 text-sm leading-relaxed">
                   High-strength steel solutions engineered for durability,
                   safety and long-term performance.
                 </p>
-
-                <div className="w-16 h-1 bg-red-600 mt-6 rounded-full" />
+                <div className="w-14 h-[3px] bg-red-600 mt-5 rounded-full" />
               </div>
-
             </div>
           </div>
 
           {/* Card 2 */}
-          <div className="bg-white rounded-[30px] p-8 shadow-lg border border-gray-100">
-
-            <div className="flex gap-6">
-
-              <div className="w-20 h-20 rounded-full bg-red-50 flex items-center justify-center shrink-0">
-                <ShieldCheck className="text-red-600" size={34} />
+          <div className="bg-white rounded-[24px] p-7 shadow-lg border border-gray-100">
+            <div className="flex gap-5">
+              <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shrink-0">
+                <ShieldCheck className="text-white" size={26} />
               </div>
-
-              <div className="w-px bg-red-200" />
-
               <div>
-                <h4 className="text-2xl font-bold text-slate-900">
+                <h4 className="text-lg font-bold text-slate-900">
                   ISI Certified
                 </h4>
-
-                <p className="text-gray-500 mt-4 leading-relaxed">
+                <p className="text-gray-500 mt-3 text-sm leading-relaxed">
                   Manufactured under strict quality control processes
                   and certified to industry standards.
                 </p>
-
-                <div className="w-16 h-1 bg-red-600 mt-6 rounded-full" />
+                <div className="w-14 h-[3px] bg-red-600 mt-5 rounded-full" />
               </div>
-
             </div>
           </div>
 
           {/* Card 3 */}
-          <div className="bg-white rounded-[30px] p-8 shadow-lg border border-gray-100">
-
-            <div className="flex gap-6">
-
-              <div className="w-20 h-20 rounded-full bg-red-50 flex items-center justify-center shrink-0">
-                <HardHat className="text-red-600" size={34} />
+          <div className="bg-white rounded-[24px] p-7 shadow-lg border border-gray-100">
+            <div className="flex gap-5">
+              <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shrink-0">
+                <HardHat className="text-white" size={26} />
               </div>
-
-              <div className="w-px bg-red-200" />
-
               <div>
-                <h4 className="text-2xl font-bold text-slate-900">
+                <h4 className="text-lg font-bold text-slate-900">
                   Trusted Builders
                 </h4>
-
-                <p className="text-gray-500 mt-4 leading-relaxed">
+                <p className="text-gray-500 mt-3 text-sm leading-relaxed">
                   Preferred by leading contractors, developers and
                   infrastructure projects nationwide.
                 </p>
-
-                <div className="w-16 h-1 bg-red-600 mt-6 rounded-full" />
+                <div className="w-14 h-[3px] bg-red-600 mt-5 rounded-full" />
               </div>
-
             </div>
           </div>
 
