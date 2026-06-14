@@ -1,253 +1,212 @@
 "use client";
 
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Factory,
-  ShieldCheck,
-  HardHat,
-  ArrowRight,
-  Download,
+import { 
+  Play, 
+  Factory, 
+  ShieldCheck, 
+  HardHat, 
+  ArrowRight, 
+  Download
 } from "lucide-react";
 
 export default function HomeAbout() {
-  const stats = [
-    {
-      number: "500+",
-      label: "Projects Delivered",
-      icon: Factory,
-    },
-    {
-      number: "100K+",
-      label: "Tons Produced",
-      icon: Factory,
-    },
-    {
-      number: "100%",
-      label: "Quality Tested",
-      icon: ShieldCheck,
-    },
-  ];
-
-  const features = [
-    {
-      title: "Premium TMT Bars",
-      description:
-        "High-strength steel solutions engineered for durability, safety and long-term structural performance.",
-      icon: Factory,
-    },
-    {
-      title: "ISI Certified Quality",
-      description:
-        "Manufactured under rigorous testing processes and certified to meet the highest industry standards.",
-      icon: ShieldCheck,
-    },
-    {
-      title: "Trusted By Builders",
-      description:
-        "Preferred by contractors, engineers and infrastructure projects across the nation.",
-      icon: HardHat,
-    },
-  ];
+  const [playVideo, setPlayVideo] = useState(false);
+  const thumbnailUrl = "/image/about1.png"; // Replace with actual thumbnail path
+  const youtubeVideoId = "dQw4w9WgXcQ"; // Replace with actual YouTube video ID
 
   return (
-    <section className="relative overflow-hidden bg-[#0f172a] py-20 lg:py-28">
-      {/* Background Effects */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 h-[600px] w-[600px] rounded-full bg-red-600/20 blur-[140px]" />
-        <div className="absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-red-500/10 blur-[120px]" />
+<section className="relative overflow-hidden bg-[#f7f7f7] py-12 lg:py-0">
+  {/* Background Texture */}
+  <div className="absolute inset-0">
+    <Image
+      src="/image/aboutbackground.png"
+      alt=""
+      fill
+      className="object-cover opacity-10"
+    />
+  </div>
 
-        <div className="absolute inset-0 opacity-[0.03]">
-          <div
-            className="h-full w-full"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
-              backgroundSize: "80px 80px",
-            }}
+  <div className="relative z-10">
+    <div className="grid lg:grid-cols-[48vw_52vw] min-h-screen items-center">
+      
+      {/* LEFT PANEL */}
+      <div
+        className="relative h-[60vh] lg:h-screen w-full overflow-hidden lg:[clip-path:polygon(0_0,82%_0,100%_50%,82%_100%,0_100%)] rounded-3xl lg:rounded-none mx-4 lg:mx-0 max-w-[calc(100%-2rem)] lg:max-w-none shadow-2xl lg:shadow-none"
+      >
+        {!playVideo ? (
+          <>
+            <Image
+              src={thumbnailUrl}
+              alt="Kaaveri"
+              fill
+              priority
+              className="object-cover"
+            />
+
+            <div className="absolute inset-0 bg-black/40" />
+
+            {/* Tagline */}
+            <div className="absolute top-8 left-8 lg:top-16 lg:left-12 z-20">
+              <div className="w-10 lg:w-14 h-[3px] bg-red-600 mb-3 lg:mb-5" />
+              <h4 className="text-white uppercase tracking-[2px] lg:tracking-[4px] text-xs lg:text-sm font-semibold leading-6 lg:leading-7 drop-shadow-md">
+                MAKING INDIA
+                <br />
+                STRONGER
+              </h4>
+            </div>
+
+            {/* Play Button */}
+            <button
+              onClick={() => setPlayVideo(true)}
+              className="absolute inset-0 flex items-center justify-center z-20"
+            >
+              <div className="w-20 h-20 lg:w-32 lg:h-32 border-2 lg:border-4 border-white/50 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                <div className="w-12 h-12 lg:w-20 lg:h-20 bg-red-600 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.6)]">
+                  <Play
+                    fill="white"
+                    size={24}
+                    className="text-white ml-1 lg:w-8 lg:h-8"
+                  />
+                </div>
+              </div>
+            </button>
+
+            <div className="absolute bottom-16 lg:bottom-28 left-1/2 -translate-x-1/2 text-white uppercase tracking-[2px] lg:tracking-[4px] text-xs lg:text-sm font-semibold whitespace-nowrap drop-shadow-md">
+              WATCH OUR STORY
+            </div>
+          </>
+        ) : (
+          <iframe
+            src={`https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1`}
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
           />
-        </div>
+        )}
       </div>
 
-      <div className="relative z-10 w-full px-6 lg:px-12 xl:px-16">
-        {/* Main Layout */}
-        <div className="grid items-center gap-16 lg:grid-cols-2">
-          {/* Left Content */}
-          <div className="max-w-2xl">
-            <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-red-500/30 bg-red-500/10 px-5 py-2">
-              <span className="h-2 w-2 rounded-full bg-red-500" />
-              <span className="text-xs font-semibold uppercase tracking-[4px] text-red-400">
-                About Kaaveri
-              </span>
-            </div>
+      {/* RIGHT PANEL */}
+      <div className="relative flex items-center mt-8 lg:mt-0">
+        <div className="absolute inset-0 opacity-[0.03]">
+          <Image
+            src="/image/aboutbackground.png"
+            alt=""
+            fill
+            className="object-cover"
+          />
+        </div>
 
-            <h2 className="text-4xl font-black leading-tight text-white md:text-6xl xl:text-7xl">
-              Building
-              <span className="block text-red-500">
-                Stronger Futures
-              </span>
-            </h2>
+        <div className="relative z-10 px-6 sm:px-12 lg:px-24 max-w-[850px]">
+          {/* Label */}
+          <div className="flex items-center gap-4 mb-6 lg:mb-8">
+            <div className="w-14 h-[2px] bg-red-600" />
 
-            <p className="mt-8 text-base leading-relaxed text-slate-300 md:text-lg">
-              KAAVERI is a trusted manufacturer of premium TMT bars and steel
-              products, delivering unmatched strength, reliability and quality
-              for modern infrastructure, residential and industrial projects.
+            <span className="uppercase tracking-[2px] lg:tracking-[4px] text-red-600 font-bold text-xs lg:text-sm">
+              ABOUT KAAVERI
+            </span>
+          </div>
+
+          {/* Heading */}
+          <h2 className="text-4xl sm:text-5xl lg:text-[72px] leading-tight lg:leading-[0.95] font-black text-slate-900">
+            Strength That
+            <span className="block text-red-600">
+              Shapes The Future
+            </span>
+          </h2>
+
+          <div className="w-20 lg:w-28 h-[3px] bg-gray-200 mt-6 lg:mt-8 mb-8 lg:mb-10 relative">
+            <div className="absolute left-0 top-0 w-10 h-[3px] bg-red-600" />
+          </div>
+
+          {/* Content */}
+          <div className="space-y-6 lg:space-y-8 text-base lg:text-lg leading-relaxed text-gray-700">
+            <p>
+              At KAAVERI, we are passionate about steel and dedicated
+              to excellence. As a leading manufacturer of TMT bars and
+              structural steel products, we are committed to providing
+              the construction industry with the highest quality
+              materials.
             </p>
 
-            <p className="mt-5 text-base leading-relaxed text-slate-400">
-              Through advanced manufacturing technologies, strict quality
-              standards and continuous innovation, we empower engineers,
-              builders and developers to create safer and stronger structures
-              for generations.
+            <p>
+              Our state-of-the-art manufacturing processes and
+              rigorous quality control ensure every product meets the
+              highest global standards, empowering builders to create
+              structures that stand the test of time.
             </p>
-
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="/about-us">
-                <button className="group flex h-14 items-center gap-2 rounded-2xl bg-red-600 px-8 font-semibold text-white transition-all duration-300 hover:bg-red-700 hover:shadow-[0_15px_40px_rgba(220,38,38,0.35)]">
-                  Explore More
-                  <ArrowRight
-                    size={18}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
-                </button>
-              </Link>
-
-              <button className="flex h-14 items-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-8 font-medium text-white backdrop-blur-xl transition hover:bg-white/10">
-                <Download size={18} />
-                Download Brochure
-              </button>
-            </div>
           </div>
 
-          {/* Right Image */}
-          <div className="relative">
-            {/* Experience Card */}
-            <div className="absolute left-0 top-10 z-30">
-              <div className="rounded-3xl bg-white p-6 shadow-2xl">
-                <h3 className="text-4xl font-black text-red-600">25+</h3>
-                <p className="mt-1 text-xs font-semibold uppercase tracking-[3px] text-slate-500">
-                  Years Experience
-                </p>
-              </div>
-            </div>
-
-            {/* Main Image Card */}
-            <div className="relative overflow-hidden rounded-[40px] border border-white/10 bg-white/5 backdrop-blur-xl">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
-
-              <Image
-                src="/image/about1.png"
-                alt="Kaaveri"
-                width={1000}
-                height={800}
-                priority
-                className="w-full object-cover"
-              />
-
-              {/* Floating Metric */}
-              <div className="absolute bottom-8 left-8 z-20 rounded-3xl bg-white p-5 shadow-2xl">
-                <h4 className="text-3xl font-black text-red-600">500+</h4>
-                <p className="text-sm text-slate-600">
-                  Projects Delivered
-                </p>
-              </div>
-            </div>
-
-            {/* TMT Bars */}
-            <Image
-              src="/image/tmt-bars.png"
-              alt="TMT Bars"
-              width={500}
-              height={300}
-              className="absolute -bottom-12 right-0 z-20 w-[45%] drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
-            />
-          </div>
-        </div>
-
-        {/* Stats Section */}
-        <div className="mt-20 rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
-          <div className="grid gap-8 md:grid-cols-3">
-            {stats.map((item, index) => {
-              const Icon = item.icon;
-
-              return (
-                <div
-                  key={index}
-                  className="flex items-center gap-5 border-white/10 md:border-r last:border-r-0"
-                >
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-red-600">
-                    <Icon className="text-white" size={26} />
-                  </div>
-
-                  <div>
-                    <h3 className="text-4xl font-black text-white">
-                      {item.number}
-                    </h3>
-                    <p className="mt-1 text-slate-400">
-                      {item.label}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Features */}
-        <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          {features.map((item, index) => {
-            const Icon = item.icon;
-
-            return (
-              <div
-                key={index}
-                className="group relative overflow-hidden rounded-[30px] border border-white/10 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(220,38,38,0.18)]"
-              >
-                <div className="absolute left-0 top-0 h-1 w-full bg-red-600" />
-
-                <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-red-600 text-white">
-                  <Icon size={28} />
-                </div>
-
-                <h3 className="text-xl font-bold text-slate-900">
-                  {item.title}
-                </h3>
-
-                <p className="mt-4 leading-relaxed text-slate-500">
-                  {item.description}
-                </p>
-
-                <div className="mt-6 h-1 w-12 rounded-full bg-red-600 transition-all duration-500 group-hover:w-24" />
-              </div>
-            );
-          })}
-        </div>
-
-        {/* CTA Section */}
-        <div className="mt-12 overflow-hidden rounded-[36px] bg-gradient-to-r from-red-600 to-red-700 p-10 lg:p-14">
-          <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+          {/* Features */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 mt-10 lg:mt-12">
             <div>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[4px] text-red-100">
-                Build With Confidence
-              </p>
+              <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4">
+                <Factory className="text-red-600" size={24} />
+              </div>
 
-              <h3 className="text-3xl font-black text-white lg:text-5xl">
-                Ready To Build Stronger
-                <span className="block">
-                  With KAAVERI Steel?
-                </span>
-              </h3>
+              <h4 className="font-bold text-base lg:text-lg text-slate-900">
+                Premium TMT Bars
+              </h4>
+
+              <p className="text-xs lg:text-sm text-gray-500 mt-1 lg:mt-2">
+                High strength & durability
+              </p>
             </div>
 
-            <Link href="/contact-us">
-              <button className="flex h-14 items-center gap-2 rounded-2xl bg-white px-8 font-semibold text-red-600 transition hover:scale-105">
-                Get A Quote
+            <div>
+              <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4">
+                <ShieldCheck className="text-red-600" size={24} />
+              </div>
+
+              <h4 className="font-bold text-base lg:text-lg text-slate-900">
+                ISI Certified
+              </h4>
+
+              <p className="text-xs lg:text-sm text-gray-500 mt-1 lg:mt-2">
+                Tested & Trusted
+              </p>
+            </div>
+
+            <div>
+              <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4">
+                <HardHat className="text-red-600" size={24} />
+              </div>
+
+              <h4 className="font-bold text-base lg:text-lg text-slate-900">
+                Trusted Builders
+              </h4>
+
+              <p className="text-xs lg:text-sm text-gray-500 mt-1 lg:mt-2">
+                Nationwide partnerships
+              </p>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="flex flex-col sm:flex-row gap-4 lg:gap-5 mt-10 lg:mt-14">
+            <Link href="/about-us">
+              <button className="w-full sm:w-auto h-14 lg:h-16 px-8 lg:px-10 bg-gradient-to-r from-red-700 to-red-500 text-white rounded-xl font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-red-500/30 hover:-translate-y-1 transition-all duration-300">
+                <Play size={18} />
+                Watch Our Journey
                 <ArrowRight size={18} />
               </button>
             </Link>
+
+            <button className="w-full sm:w-auto h-14 lg:h-16 px-8 lg:px-10 border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300 rounded-xl font-semibold flex items-center justify-center gap-3 transition-all duration-300">
+              <Download size={18} />
+              Download Brochure
+            </button>
           </div>
         </div>
+
+        {/* FLOATING STATS CARD */}
+        
+
       </div>
-    </section>
+    </div>
+  </div>
+</section>
   );
 }
