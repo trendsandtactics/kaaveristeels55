@@ -11,113 +11,146 @@ import {
 } from "lucide-react";
 
 export default function HomeAbout() {
+  const stats = [
+    {
+      number: "500+",
+      label: "Projects Delivered",
+      icon: Factory,
+    },
+    {
+      number: "100K+",
+      label: "Tons Produced",
+      icon: Factory,
+    },
+    {
+      number: "100%",
+      label: "Quality Tested",
+      icon: ShieldCheck,
+    },
+  ];
+
+  const features = [
+    {
+      title: "Premium TMT Bars",
+      description:
+        "High-strength steel solutions engineered for durability, safety and long-term structural performance.",
+      icon: Factory,
+    },
+    {
+      title: "ISI Certified Quality",
+      description:
+        "Manufactured under rigorous testing processes and certified to meet the highest industry standards.",
+      icon: ShieldCheck,
+    },
+    {
+      title: "Trusted By Builders",
+      description:
+        "Preferred by contractors, engineers and infrastructure projects across the nation.",
+      icon: HardHat,
+    },
+  ];
+
   return (
-    <section className="relative overflow-hidden bg-[#f7f7f7] py-16 lg:py-20">
-
-      {/* Background decorations */}
+    <section className="relative overflow-hidden bg-[#0f172a] py-20 lg:py-28">
+      {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Concentric arcs top-right */}
-        <div className="absolute -right-40 -top-40 w-[700px] h-[700px]">
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute rounded-full border border-red-100"
-              style={{
-                width: `${500 + i * 50}px`,
-                height: `${500 + i * 50}px`,
-                top: `${i * 5}px`,
-                left: `${i * 5}px`,
-              }}
-            />
-          ))}
-        </div>
+        <div className="absolute top-0 right-0 h-[600px] w-[600px] rounded-full bg-red-600/20 blur-[140px]" />
+        <div className="absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-red-500/10 blur-[120px]" />
 
-        {/* Dots grid */}
-        <div className="absolute top-10 right-10 grid grid-cols-6 gap-3.5">
-          {[...Array(36)].map((_, i) => (
-            <span key={i} className="w-1.5 h-1.5 rounded-full bg-white/70" />
-          ))}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
+              backgroundSize: "80px 80px",
+            }}
+          />
         </div>
-
-        {/* Bottom-right red blob */}
-        <div className="absolute -bottom-32 -right-10 w-[800px] h-[400px] bg-red-600 rounded-[50%]" />
       </div>
 
       <div className="relative z-10 w-full px-6 lg:px-12 xl:px-16">
-
-        {/* Main Section */}
-        <div className="grid lg:grid-cols-[42%_58%] gap-8 items-center">
-
-          {/* Left */}
-          <div>
-
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-9 h-[2px] bg-red-600" />
-              <span className="uppercase tracking-[4px] text-red-600 text-xs font-bold">
-                ABOUT KAAVERI
+        {/* Main Layout */}
+        <div className="grid items-center gap-16 lg:grid-cols-2">
+          {/* Left Content */}
+          <div className="max-w-2xl">
+            <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-red-500/30 bg-red-500/10 px-5 py-2">
+              <span className="h-2 w-2 rounded-full bg-red-500" />
+              <span className="text-xs font-semibold uppercase tracking-[4px] text-red-400">
+                About Kaaveri
               </span>
             </div>
 
-            <h2 className="font-serif text-[36px] md:text-[44px] xl:text-[52px] leading-[1.1] font-bold text-slate-900">
-              Strength That
-              <span className="block text-red-600">
-                Shapes The Future
+            <h2 className="text-4xl font-black leading-tight text-white md:text-6xl xl:text-7xl">
+              Building
+              <span className="block text-red-500">
+                Stronger Futures
               </span>
             </h2>
 
-            <div className="mt-4 flex items-center gap-2">
-              <div className="w-9 h-[3px] bg-red-600" />
-              <div className="w-9 h-[3px] bg-gray-200" />
-            </div>
+            <p className="mt-8 text-base leading-relaxed text-slate-300 md:text-lg">
+              KAAVERI is a trusted manufacturer of premium TMT bars and steel
+              products, delivering unmatched strength, reliability and quality
+              for modern infrastructure, residential and industrial projects.
+            </p>
 
-            <div className="mt-6 space-y-4 text-gray-500 text-sm leading-relaxed">
-              <p>
-                At KAAVERI, we are passionate about steel and dedicated
-                to excellence. As a leading manufacturer of TMT bars and
-                structural steel products, we provide premium quality
-                materials trusted by engineers, builders and developers.
-              </p>
+            <p className="mt-5 text-base leading-relaxed text-slate-400">
+              Through advanced manufacturing technologies, strict quality
+              standards and continuous innovation, we empower engineers,
+              builders and developers to create safer and stronger structures
+              for generations.
+            </p>
 
-              <p>
-                Through advanced manufacturing processes, rigorous quality
-                standards and continuous innovation, we help create
-                stronger and safer structures for future generations.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-3 mt-6">
-
+            <div className="mt-10 flex flex-wrap gap-4">
               <Link href="/about-us">
-                <button className="h-11 px-6 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold flex items-center gap-2 transition text-sm">
+                <button className="group flex h-14 items-center gap-2 rounded-2xl bg-red-600 px-8 font-semibold text-white transition-all duration-300 hover:bg-red-700 hover:shadow-[0_15px_40px_rgba(220,38,38,0.35)]">
                   Explore More
-                  <ArrowRight size={15} />
+                  <ArrowRight
+                    size={18}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
                 </button>
               </Link>
 
-              <button className="h-11 px-6 rounded-xl border border-gray-300 bg-white font-medium flex items-center gap-2 text-sm">
-                <Download size={15} />
+              <button className="flex h-14 items-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-8 font-medium text-white backdrop-blur-xl transition hover:bg-white/10">
+                <Download size={18} />
                 Download Brochure
               </button>
-
             </div>
           </div>
 
-          {/* Right */}
-          <div className="relative min-h-[400px] lg:min-h-[520px] flex items-center justify-end">
+          {/* Right Image */}
+          <div className="relative">
+            {/* Experience Card */}
+            <div className="absolute left-0 top-10 z-30">
+              <div className="rounded-3xl bg-white p-6 shadow-2xl">
+                <h3 className="text-4xl font-black text-red-600">25+</h3>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-[3px] text-slate-500">
+                  Years Experience
+                </p>
+              </div>
+            </div>
 
-            {/* Red Circle behind */}
-            <div className="absolute w-[420px] h-[420px] rounded-full bg-red-600 top-0 right-0" />
+            {/* Main Image Card */}
+            <div className="relative overflow-hidden rounded-[40px] border border-white/10 bg-white/5 backdrop-blur-xl">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
 
-            {/* House */}
-            <div className="relative z-20 w-full max-w-[700px]">
               <Image
                 src="/image/about1.png"
-                alt="Kaaveri Modern House"
-                width={950}
-                height={750}
+                alt="Kaaveri"
+                width={1000}
+                height={800}
                 priority
-                className="object-contain w-full h-auto"
+                className="w-full object-cover"
               />
+
+              {/* Floating Metric */}
+              <div className="absolute bottom-8 left-8 z-20 rounded-3xl bg-white p-5 shadow-2xl">
+                <h4 className="text-3xl font-black text-red-600">500+</h4>
+                <p className="text-sm text-slate-600">
+                  Projects Delivered
+                </p>
+              </div>
             </div>
 
             {/* TMT Bars */}
@@ -125,113 +158,95 @@ export default function HomeAbout() {
               src="/image/tmt-bars.png"
               alt="TMT Bars"
               width={500}
-              height={250}
-              className="absolute bottom-0 right-0 z-30 w-[55%] h-auto"
+              height={300}
+              className="absolute -bottom-12 right-0 z-20 w-[45%] drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
             />
-
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="mt-10 bg-white rounded-[20px] shadow-lg border border-gray-100 p-5 lg:p-6">
+        {/* Stats Section */}
+        <div className="mt-20 rounded-[32px] border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
+          <div className="grid gap-8 md:grid-cols-3">
+            {stats.map((item, index) => {
+              const Icon = item.icon;
 
-          <div className="grid sm:grid-cols-3 gap-4">
+              return (
+                <div
+                  key={index}
+                  className="flex items-center gap-5 border-white/10 md:border-r last:border-r-0"
+                >
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-red-600">
+                    <Icon className="text-white" size={26} />
+                  </div>
 
-            <div className="flex items-center gap-4 sm:border-r border-gray-200">
-              <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center shrink-0">
-                <Factory className="text-white" size={20} />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-slate-900">500+</h3>
-                <p className="text-gray-500 text-sm">Projects Delivered</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 sm:px-6 sm:border-r border-gray-200">
-              <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center shrink-0">
-                <Factory className="text-white" size={20} />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-slate-900">100K+</h3>
-                <p className="text-gray-500 text-sm">Tons Produced</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 sm:px-6">
-              <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center shrink-0">
-                <ShieldCheck className="text-white" size={20} />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-slate-900">100%</h3>
-                <p className="text-gray-500 text-sm">Quality Tested</p>
-              </div>
-            </div>
-
+                  <div>
+                    <h3 className="text-4xl font-black text-white">
+                      {item.number}
+                    </h3>
+                    <p className="mt-1 text-slate-400">
+                      {item.label}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
         {/* Features */}
-        <div className="grid lg:grid-cols-3 gap-5 mt-5">
+        <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          {features.map((item, index) => {
+            const Icon = item.icon;
 
-          {/* Card 1 */}
-          <div className="bg-white rounded-[20px] p-6 shadow-lg border border-gray-100">
-            <div className="flex gap-4">
-              <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shrink-0">
-                <Factory className="text-white" size={22} />
-              </div>
-              <div>
-                <h4 className="text-base font-bold text-slate-900">
-                  Premium TMT Bars
-                </h4>
-                <p className="text-gray-500 mt-2 text-sm leading-relaxed">
-                  High-strength steel solutions engineered for durability,
-                  safety and long-term performance.
+            return (
+              <div
+                key={index}
+                className="group relative overflow-hidden rounded-[30px] border border-white/10 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(220,38,38,0.18)]"
+              >
+                <div className="absolute left-0 top-0 h-1 w-full bg-red-600" />
+
+                <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-red-600 text-white">
+                  <Icon size={28} />
+                </div>
+
+                <h3 className="text-xl font-bold text-slate-900">
+                  {item.title}
+                </h3>
+
+                <p className="mt-4 leading-relaxed text-slate-500">
+                  {item.description}
                 </p>
-                <div className="w-12 h-[3px] bg-red-600 mt-4 rounded-full" />
-              </div>
-            </div>
-          </div>
 
-          {/* Card 2 */}
-          <div className="bg-white rounded-[20px] p-6 shadow-lg border border-gray-100">
-            <div className="flex gap-4">
-              <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shrink-0">
-                <ShieldCheck className="text-white" size={22} />
+                <div className="mt-6 h-1 w-12 rounded-full bg-red-600 transition-all duration-500 group-hover:w-24" />
               </div>
-              <div>
-                <h4 className="text-base font-bold text-slate-900">
-                  ISI Certified
-                </h4>
-                <p className="text-gray-500 mt-2 text-sm leading-relaxed">
-                  Manufactured under strict quality control processes
-                  and certified to industry standards.
-                </p>
-                <div className="w-12 h-[3px] bg-red-600 mt-4 rounded-full" />
-              </div>
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="bg-white rounded-[20px] p-6 shadow-lg border border-gray-100">
-            <div className="flex gap-4">
-              <div className="w-14 h-14 rounded-full bg-red-600 flex items-center justify-center shrink-0">
-                <HardHat className="text-white" size={22} />
-              </div>
-              <div>
-                <h4 className="text-base font-bold text-slate-900">
-                  Trusted Builders
-                </h4>
-                <p className="text-gray-500 mt-2 text-sm leading-relaxed">
-                  Preferred by leading contractors, developers and
-                  infrastructure projects nationwide.
-                </p>
-                <div className="w-12 h-[3px] bg-red-600 mt-4 rounded-full" />
-              </div>
-            </div>
-          </div>
-
+            );
+          })}
         </div>
 
+        {/* CTA Section */}
+        <div className="mt-12 overflow-hidden rounded-[36px] bg-gradient-to-r from-red-600 to-red-700 p-10 lg:p-14">
+          <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+            <div>
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[4px] text-red-100">
+                Build With Confidence
+              </p>
+
+              <h3 className="text-3xl font-black text-white lg:text-5xl">
+                Ready To Build Stronger
+                <span className="block">
+                  With KAAVERI Steel?
+                </span>
+              </h3>
+            </div>
+
+            <Link href="/contact-us">
+              <button className="flex h-14 items-center gap-2 rounded-2xl bg-white px-8 font-semibold text-red-600 transition hover:scale-105">
+                Get A Quote
+                <ArrowRight size={18} />
+              </button>
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );
