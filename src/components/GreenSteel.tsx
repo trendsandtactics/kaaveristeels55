@@ -154,11 +154,7 @@ export default function GreenSteel() {
               ))}
             </div>
 
-            <p className="text-lg text-slate-600 leading-relaxed mb-6 max-w-xl">
-              5-Star Rated Green TMT Bars with verified low carbon emissions.
-              Committed to building eco-friendly structures and a sustainable
-              future for India.
-            </p>
+           
 
             <div className="flex items-center gap-3 text-green-700 font-semibold">
               <CheckCircle2 className="w-5 h-5" />
