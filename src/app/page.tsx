@@ -7,7 +7,7 @@ import GreenSteel from "@/components/GreenSteel";
 import HomeProducts from "@/components/HomeProducts";
 import SteelCalculator from "@/components/Calculators/SteelCalculator";
 import MapEmbed from "@/components/MapEmbed";
-import TrustOnsite from "@/components/trustonsite";
+import TrustOnsite from "@/components/TrustOnsite";
 import { animate } from "framer-motion";
 
 export default function Home() {
