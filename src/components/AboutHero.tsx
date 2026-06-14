@@ -2,128 +2,156 @@ import React from "react";
 import Image from "next/image";
 import { listModuleItems } from "@/lib/dynamic-cms";
 import { resolveMediaUrl } from "@/lib/media";
-import { ArrowRight } from "lucide-react";
 
 interface AboutHeroItem {
-  title?: string | null;
-  short_description?: string | null;
-  content?: string | null;
-  cover_image?: string | null;
-  file_url?: string | null;
-  sort_order?: number | null;
+    title?: string | null;
+    short_description?: string | null;
+    content?: string | null;
+    cover_image?: string | null;
+    file_url?: string | null;
+    sort_order?: number | null;
 }
 
 export default async function AboutHero() {
-  let items: AboutHeroItem[] = [];
+    let items: AboutHeroItem[] = [];
+    try {
+        items = await listModuleItems("aboutHero", { status: "published" });
+        items = items.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+    } catch (e) {
+        console.error("Failed to fetch aboutHero content", e);
+    }
 
-  try {
-    items = await listModuleItems("aboutHero", {
-      status: "published",
-    });
+    const welcome = items[0] || {
+        title: "Welcome to KAAVERI",
+        short_description: "TMT & STRUCTURAL",
+        content: "At KAAVERI, we are passionate about steel and dedicated to excellence. Our company is a leading manufacturer of TMT bars and structural steel products, committed to providing the construction industry with the highest quality materials that ensure strength, safety, and sustainability.",
+    };
 
-    items = items.sort(
-      (a, b) => (a.sort_order || 0) - (b.sort_order || 0)
-    );
-  } catch (error) {
-    console.error("Failed to fetch aboutHero content", error);
-  }
+    const mission = items[1] || {
+        title: "Our Mission",
+        short_description: "Building a Stronger, Sustainable Future",
+        content: "At KAAVERI, our mission is to manufacture and supply superior TMT bars and structural steel products that contribute to the safety, durability, and sustainability of construction projects worldwide. We are dedicated to maintaining the highest standards of quality in all our products.",
+        cover_image: "/image/about1.png",
+    };
 
-  const about = items[0] || {
-    title: "Strength That Supports The Future",
-    short_description: "ABOUT KAAVERI",
-    content:
-      "At KAAVERI Steel, we are passionate about steel and dedicated to excellence. As a leading manufacturer of TMT bars and structural steel products, we are committed to providing the construction industry with the highest quality materials that ensure strength, safety, and sustainability.",
-    cover_image: "/image/about1.png",
-  };
+    const vision = items[2] || {
+        title: "Vision",
+        short_description: "Leading the Steel Industry with Quality, Innovation, and Trust",
+        content: "Our vision is to be the most trusted and respected manufacturer in the steel industry, renowned for our unwavering commitment to quality, innovation, and customer satisfaction. We aim to set new standards in steel manufacturing by embracing cutting-edge technology.",
+        cover_image: "/image/about2.png",
+    };
 
-  const image =
-    about.cover_image || about.file_url
-      ? resolveMediaUrl(
-          (about.cover_image || about.file_url) as string,
-          "/image/about1.png"
-        )
-      : "/image/about1.png";
+    const missionImage = (mission.cover_image || mission.file_url) ? resolveMediaUrl((mission.cover_image || mission.file_url) as string, "/image/about1.png") : "/image/about1.png";
+    const visionImage = (vision.cover_image || vision.file_url) ? resolveMediaUrl((vision.cover_image || vision.file_url) as string, "/image/about2.png") : "/image/about2.png";
 
-  return (
-    <section className="relative overflow-hidden bg-[#f7f7f7] py-20 lg:py-28">
-      {/* Background Texture */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, #000 1px, transparent 0)",
-          backgroundSize: "40px 40px",
-        }}
-      />
+    return (
+        <div className="w-full bg-white">
+            {/* Hero Background Section - Yellow Gradient */}
+            <div className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-28 pb-8 md:pt-32 md:pb-10 relative overflow-hidden shadow-sm border-b border-black/10">
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="grid items-center gap-20 lg:grid-cols-2">
-          {/* LEFT IMAGE */}
-          <div className="relative">
-            {/* Border Box Behind */}
-            <div className="absolute left-8 top-8 h-full w-full border border-[#c52b22]/25" />
+                {/* Glow effect */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
 
-            {/* Image */}
-            <div className="relative z-10 overflow-hidden shadow-xl">
-              <Image
-                src={image}
-                alt="Kaaveri Steel"
-                width={900}
-                height={600}
-                priority
-                className="h-auto w-full object-cover"
-              />
-            </div>
-          </div>
+                {/* Subtle grid pattern */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
 
-          {/* RIGHT CONTENT */}
-          <div>
-            {/* Small Label */}
-            <div className="mb-8 flex items-center gap-4">
-              <div className="h-[2px] w-12 bg-[#c52b22]" />
+                <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+                    
+                    {/* Welcome Section */}
+                    <div className="text-center max-w-4xl mx-auto">
+                        <div className="flex items-center justify-center gap-4 mb-4">
+                            <div className="w-12 h-[2px] bg-black" />
+                            <h2 className="font-sans text-black uppercase tracking-[0.2em] font-bold text-sm">
+                                {welcome.short_description || "About Us"}
+                            </h2>
+                            <div className="w-12 h-[2px] bg-black" />
+                        </div>
 
-              <span className="text-sm font-semibold uppercase tracking-[4px] text-[#c52b22]">
-                {about.short_description || "ABOUT KAAVERI"}
-              </span>
+                        <h1 className="font-serif text-5xl md:text-7xl text-black mb-8 leading-tight drop-shadow-md font-bold">
+                            {welcome.title}
+                        </h1>
+
+                        <div className="font-sans text-black/80 text-lg md:text-xl leading-relaxed font-medium whitespace-pre-wrap">
+                            {welcome.content && welcome.content.includes('<p>') ? (
+                                <div dangerouslySetInnerHTML={{ __html: welcome.content || "" }} />
+                            ) : (
+                                <p>{welcome.content}</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            {/* Heading */}
-            <h2 className="font-serif text-5xl font-medium leading-tight text-slate-900 md:text-6xl xl:text-7xl">
-              Strength That
-              <span className="block text-[#c52b22]">
-                Supports The Future
-              </span>
-            </h2>
+            {/* Content Section */}
+            <div className="max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10 bg-white">
+                
+                {/* Mission Section */}
+                <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20 mb-24">
+                    <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group">
+                        
+                        <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500"></div>
 
-            {/* Content */}
-            <div className="mt-10 space-y-8">
-              <p className="text-lg leading-relaxed text-gray-600">
-                {about.content}
-              </p>
+                        <Image
+                            src={missionImage}
+                            alt={mission.title || "Industrial Teamwork"}
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                    </div>
 
-              <p className="text-lg leading-relaxed text-gray-600">
-                Our state-of-the-art manufacturing processes and
-                rigorous quality control ensure that every product
-                leaving our facility meets the highest global
-                standards, empowering builders to create structures
-                that stand the test of time.
-              </p>
+                    <div className="w-full md:w-1/2">
+                        <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
+                            {mission.title}
+                        </h2>
+
+                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                            {mission.short_description}
+                        </h3>
+
+                        <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                            {mission.content && mission.content.includes('<p>') ? (
+                                <div dangerouslySetInnerHTML={{ __html: mission.content || "" }} />
+                            ) : (
+                                <p>{mission.content}</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Vision Section */}
+                <div className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-20">
+                    <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group">
+                        
+                        <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500"></div>
+
+                        <Image
+                            src={visionImage}
+                            alt={vision.title || "Industrial Factory"}
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                    </div>
+
+                    <div className="w-full md:w-1/2">
+                        <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
+                            {vision.title}
+                        </h2>
+
+                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                            {vision.short_description}
+                        </h3>
+
+                        <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                            {vision.content && vision.content.includes('<p>') ? (
+                                <div dangerouslySetInnerHTML={{ __html: vision.content || "" }} />
+                            ) : (
+                                <p>{vision.content}</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
-            {/* CTA */}
-            <div className="mt-12">
-              <button className="group inline-flex items-center gap-3 bg-[#c52b22] px-10 py-4 text-sm font-semibold uppercase tracking-[2px] text-white transition-all duration-300 hover:bg-[#a32020]">
-                Discover Our Story
-
-                <ArrowRight
-                  size={18}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </button>
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
-  );
+    );
 }
