@@ -9,10 +9,7 @@ import {
   ShieldCheck, 
   HardHat, 
   ArrowRight, 
-  Download, 
-  Award, 
-  Building2, 
-  BadgeCheck 
+  Download
 } from "lucide-react";
 
 export default function HomeAbout() {
