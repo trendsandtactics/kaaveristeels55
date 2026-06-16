@@ -60,15 +60,17 @@ export default function HomeProducts() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1920&q=80"
-          alt="Steel factory background"
+          src="/productbg.png"
+          alt="Products Background"
           fill
-          className="object-cover object-center"
           priority
+          className="object-cover object-center"
         />
+
         {/* Dark overlay for readability */}
         <div className="absolute inset-0 bg-black/70" />
-        {/* Subtle color tint overlay */}
+
+        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900/80" />
       </div>
 
@@ -100,8 +102,7 @@ export default function HomeProducts() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="font-serif text-4xl md:text-6xl lg:text-7xl text-white mb-6"
           >
-            Masterpieces of{" "}
-            <span className="text-red-400">Steel</span>
+            Masterpieces of <span className="text-red-400">Steel</span>
           </motion.h2>
 
           <motion.p
@@ -111,8 +112,8 @@ export default function HomeProducts() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-3xl mx-auto text-lg text-white/70 leading-relaxed"
           >
-            Engineered to perfection, our diverse range of steel products
-            forms the resilient core of iconic structures worldwide.
+            Engineered to perfection, our diverse range of steel products forms
+            the resilient core of iconic structures worldwide.
           </motion.p>
         </div>
 
@@ -142,7 +143,6 @@ export default function HomeProducts() {
                     border border-white/10
                   "
                 >
-                  {/* Image */}
                   <Image
                     src={product.image}
                     alt={product.name}
@@ -155,29 +155,10 @@ export default function HomeProducts() {
                     "
                   />
 
-                  {/* Overlay */}
-                  <div
-                    className="
-                      absolute inset-0
-                      bg-gradient-to-t
-                      from-black
-                      via-black/60
-                      to-black/10
-                    "
-                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/10" />
 
-                  {/* Gold Glow */}
-                  <div
-                    className="
-                      absolute inset-0
-                      bg-gradient-to-br
-                      from-yellow-500/20
-                      via-transparent
-                      to-transparent
-                    "
-                  />
+                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 via-transparent to-transparent" />
 
-                  {/* Shine Effect */}
                   <div
                     className="
                       absolute
@@ -196,7 +177,6 @@ export default function HomeProducts() {
                     "
                   />
 
-                  {/* Content */}
                   <div className="absolute inset-0 z-20 p-8 lg:p-10 flex flex-col justify-between">
                     <div>
                       <div
@@ -223,62 +203,20 @@ export default function HomeProducts() {
                     <div>
                       <div className="w-12 h-1 bg-yellow-400 mb-5 rounded-full" />
 
-                      <h3
-                        className="
-                          text-white
-                          text-4xl
-                          lg:text-5xl
-                          font-bold
-                          mb-5
-                          leading-none
-                        "
-                      >
+                      <h3 className="text-white text-4xl lg:text-5xl font-bold mb-5 leading-none">
                         {product.name}
                       </h3>
 
-                      <p
-                        className="
-                          text-white/85
-                          max-w-sm
-                          leading-relaxed
-                          text-base
-                          mb-8
-                        "
-                      >
+                      <p className="text-white/85 max-w-sm leading-relaxed text-base mb-8">
                         {product.description}
                       </p>
 
                       <div className="flex items-center justify-between">
-                        <div
-                          className="
-                            px-6
-                            py-3
-                            rounded-full
-                            border
-                            border-white/30
-                            backdrop-blur-md
-                            text-white
-                            font-semibold
-                            text-sm
-                          "
-                        >
+                        <div className="px-6 py-3 rounded-full border border-white/30 backdrop-blur-md text-white font-semibold text-sm">
                           EXPLORE PRODUCT
                         </div>
 
-                        <div
-                          className="
-                            w-14
-                            h-14
-                            rounded-full
-                            bg-white
-                            flex
-                            items-center
-                            justify-center
-                            transition-transform
-                            duration-300
-                            group-hover:translate-x-2
-                          "
-                        >
+                        <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2">
                           <ArrowRight className="w-5 h-5 text-black" />
                         </div>
                       </div>
@@ -313,34 +251,14 @@ export default function HomeProducts() {
               const Icon = item.icon;
 
               return (
-                <div
-                  key={item.title}
-                  className="flex items-center gap-4"
-                >
-                  <div
-                    className="
-                      w-14
-                      h-14
-                      rounded-full
-                      bg-green-500/20
-                      border
-                      border-green-400/30
-                      flex
-                      items-center
-                      justify-center
-                      shrink-0
-                    "
-                  >
+                <div key={item.title} className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-full bg-green-500/20 border border-green-400/30 flex items-center justify-center shrink-0">
                     <Icon className="w-6 h-6 text-green-400" />
                   </div>
 
                   <div>
-                    <h4 className="font-bold text-white">
-                      {item.title}
-                    </h4>
-                    <p className="text-white/55 text-sm">
-                      {item.subtitle}
-                    </p>
+                    <h4 className="font-bold text-white">{item.title}</h4>
+                    <p className="text-white/55 text-sm">{item.subtitle}</p>
                   </div>
                 </div>
               );
