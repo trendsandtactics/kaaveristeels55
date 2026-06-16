@@ -1,339 +1,193 @@
 "use client";
 
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Download,
-  Factory,
-  ShieldCheck,
-  Users,
-  Leaf,
-  MapPinned,
-} from "lucide-react";
+import { motion, useInView, animate } from "framer-motion";
+import { ArrowRight, Download, MapPinned, Award } from "lucide-react";
+
+// Animated Counter Component
+function AnimatedCounter({ to, suffix }: { to: number | string; suffix: string }) {
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const inView = useInView(nodeRef, { once: true, margin: "-50px" });
+
+  useEffect(() => {
+    if (!nodeRef.current || !inView) return;
+    
+    if (typeof to === "string") {
+      nodeRef.current.textContent = to + suffix;
+      return;
+    }
+
+    const controls = animate(0, to, {
+      duration: 2.5,
+      ease: [0.25, 0.1, 0.25, 1], // Custom easing for premium feel
+      onUpdate(value) {
+        if (nodeRef.current) {
+          nodeRef.current.textContent = Math.round(value) + suffix;
+        }
+      },
+    });
+    return () => controls.stop();
+  }, [to, suffix, inView]);
+
+  return <span ref={nodeRef}>{typeof to === "number" ? "0" : to}</span>;
+}
 
 export default function HomeAbout() {
-  const features = [
-    {
-      Icon: Factory,
-      title: "Premium TMT Bars",
-      sub: "High strength & durability",
-    },
-    {
-      Icon: ShieldCheck,
-      title: "ISI Certified",
-      sub: "Tested & trusted quality",
-    },
-    {
-      Icon: Users,
-      title: "Trusted Partners",
-      sub: "Nationwide dealer network",
-    },
-  ];
-
-  const values = [
-    {
-      Icon: Factory,
-      title: "Advanced Manufacturing",
-      text: "State-of-the-art facilities",
-    },
-    {
-      Icon: ShieldCheck,
-      title: "Quality Assured",
-      text: "Stringent testing standards",
-    },
-    {
-      Icon: Leaf,
-      title: "Sustainable Future",
-      text: "Eco-friendly processes",
-    },
-    {
-      Icon: MapPinned,
-      title: "Pan India Presence",
-      text: "Strong distribution network",
-    },
-  ];
-
   const stats = [
-    {
-      number: "30+",
-      label: "Years of Excellence",
-    },
-    {
-      number: "500+",
-      label: "Happy Customers",
-    },
-    {
-      number: "1 Mn+",
-      label: "Tons Capacity",
-    },
-    {
-      number: "ISI",
-      label: "Certified Products",
-    },
+    { number: 30, suffix: "+", label: "Years of Excellence" },
+    { number: 500, suffix: "+", label: "Happy Customers" },
+    { number: 1, suffix: " Mn+", label: "Tons Capacity" },
+    { number: "ISI", suffix: "", label: "Certified Products" },
   ];
 
   return (
-    <section className="bg-[#f5f5f5] py-20 lg:py-28 overflow-hidden">
-      <div className="max-w-[1700px] mx-auto px-4">
+    <section className="relative w-full min-h-screen flex items-center justify-center py-24 overflow-hidden bg-[#050505]">
+      {/* Background Assets */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/image/about1.png"
+          alt="Kaaveri Steel Factory"
+          fill
+          priority
+          className="object-cover object-center opacity-40 mix-blend-luminosity"
+        />
+        {/* Gradients for luxury depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent" />
+      </div>
 
-        <div className="bg-white rounded-[30px] overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.08)]">
+      <div className="relative z-10 w-full max-w-[1800px] mx-auto px-6 md:px-12 lg:px-20">
+        {/* Glassmorphism Container */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="w-full bg-white/5 backdrop-blur-[20px] border border-white/10 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.5)] p-8 md:p-14 lg:p-20 overflow-hidden relative"
+        >
+          {/* Internal Accent Glow */}
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-red-600/20 blur-[100px] rounded-full pointer-events-none" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-600/10 blur-[100px] rounded-full pointer-events-none" />
 
-          {/* MAIN SECTION */}
-          <div className="grid lg:grid-cols-2">
-
-            {/* IMAGE SIDE */}
-            <div className="relative min-h-[450px] lg:min-h-[700px]">
-
-              <Image
-                src="/image/about1.png"
-                alt="Kaaveri Steel"
-                fill
-                priority
-                className="object-cover object-center"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-transparent" />
-
-              {/* YEARS CARD */}
-              <div className="absolute top-8 left-8 bg-white/95 backdrop-blur-md rounded-xl shadow-2xl w-[120px] h-[150px] flex flex-col justify-center items-center border-b-4 border-red-600">
-
-                <h3 className="text-5xl font-black text-red-600">
-                  30+
-                </h3>
-
-                <p className="text-center text-[11px] uppercase tracking-[2px] text-gray-600 mt-3">
-                  Years Of
-                  <br />
-                  Excellence
-                </p>
-
-              </div>
-            </div>
-
-            {/* CONTENT SIDE */}
-            <div className="relative bg-white">
-
-              {/* ANGLED PANEL */}
-              <div className="hidden lg:block absolute left-[-90px] top-0 h-full w-[180px] bg-white skew-x-[-12deg]" />
-
-              <div className="relative z-10 p-8 md:p-12 lg:p-20">
-
-                {/* TAG */}
-                <div className="flex items-center gap-3 mb-8">
-
-                  <span className="w-12 h-[2px] bg-red-600" />
-
-                  <span className="uppercase tracking-[4px] text-red-600 text-sm font-bold">
-                    About Kaaveri
-                  </span>
-
-                </div>
-
-                {/* HEADING */}
-                <h2
-                  className="font-black leading-[1.05] text-[#08172A]"
-                  style={{
-                    fontFamily: "Georgia, serif",
-                    fontSize: "clamp(2.5rem,4vw,4.5rem)",
-                  }}
-                >
-                  Built On Steel.
-                </h2>
-
-                <h2
-                  className="font-black leading-[1.05] text-red-600 mt-2"
-                  style={{
-                    fontFamily: "Georgia, serif",
-                    fontSize: "clamp(2.5rem,4vw,4.5rem)",
-                  }}
-                >
-                  Trusted By India.
-                </h2>
-
-                <div className="w-16 h-1 bg-red-600 my-8" />
-
-                {/* CONTENT */}
-                <div className="max-w-[620px] space-y-5 text-gray-600 text-base lg:text-lg leading-8">
-
-                  <p>
-                    At KAAVERI, we are passionate about steel and dedicated
-                    to excellence. As a leading manufacturer of TMT bars
-                    and structural steel products, we supply the construction
-                    industry with materials engineered for durability,
-                    strength, and reliability.
-                  </p>
-
-                  <p>
-                    Our rigorous quality control ensures every product
-                    meets global standards, empowering builders to create
-                    structures that stand strong for generations.
-                  </p>
-
-                </div>
-
-                {/* FEATURE CARDS */}
-                <div className="grid md:grid-cols-3 gap-5 mt-12">
-
-                  {features.map(({ Icon, title, sub }) => (
-                    <div
-                      key={title}
-                      className="
-                        group
-                        bg-white
-                        border
-                        rounded-2xl
-                        p-6
-                        hover:border-red-500
-                        hover:shadow-xl
-                        transition-all
-                        duration-300
-                      "
-                    >
-                      <Icon
-                        size={36}
-                        className="
-                          text-red-600
-                          mb-4
-                          transition-transform
-                          duration-300
-                          group-hover:scale-110
-                        "
-                      />
-
-                      <h4 className="font-bold text-[#08172A]">
-                        {title}
-                      </h4>
-
-                      <p className="text-gray-500 text-sm mt-2">
-                        {sub}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* CTA */}
-                <div className="flex flex-wrap gap-4 mt-12">
-
-                  <Link href="/about-us">
-
-                    <button
-                      className="
-                        bg-red-600
-                        hover:bg-red-700
-                        text-white
-                        px-8
-                        py-4
-                        rounded-lg
-                        uppercase
-                        tracking-[2px]
-                        font-semibold
-                        flex
-                        items-center
-                        gap-3
-                        transition-all
-                        duration-300
-                        hover:-translate-y-1
-                      "
-                    >
-                      Explore More
-                      <ArrowRight size={18} />
-                    </button>
-
-                  </Link>
-
-                  <button
-                    className="
-                      border
-                      border-gray-300
-                      hover:border-red-600
-                      hover:text-red-600
-                      px-8
-                      py-4
-                      rounded-lg
-                      uppercase
-                      tracking-[2px]
-                      font-semibold
-                      flex
-                      items-center
-                      gap-3
-                      transition-all
-                      duration-300
-                    "
-                  >
-                    <Download size={18} />
-                    Download Brochure
-                  </button>
-
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* VALUE STRIP */}
-          <div className="bg-[#08172A]">
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4">
-
-              {values.map(({ Icon, title, text }) => (
-                <div
-                  key={title}
-                  className="
-                    p-8
-                    border-r
-                    border-white/10
-                    last:border-r-0
-                    hover:bg-white/5
-                    transition-all
-                    duration-300
-                  "
-                >
-                  <Icon
-                    size={28}
-                    className="text-red-500 mb-4"
-                  />
-
-                  <h4 className="text-white font-semibold uppercase tracking-[1px]">
-                    {title}
-                  </h4>
-
-                  <p className="text-white/60 text-sm mt-2">
-                    {text}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* STATS */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 bg-white">
-
-            {stats.map((item) => (
-              <div
-                key={item.label}
-                className="
-                  group
-                  p-10
-                  text-center
-                  border-r
-                  last:border-r-0
-                  hover:bg-gray-50
-                  transition-all
-                  duration-300
-                "
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 relative z-10">
+            {/* Left: Typography & Intro */}
+            <div className="flex flex-col justify-center">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="flex items-center gap-4 mb-8"
               >
-                <h3 className="text-4xl lg:text-5xl font-black text-red-600">
-                  {item.number}
-                </h3>
+                <span className="w-16 h-[2px] bg-red-600 shadow-[0_0_10px_rgba(220,38,38,0.8)]" />
+                <span className="uppercase tracking-[0.3em] text-red-500 text-sm font-bold">
+                  About Kaaveri
+                </span>
+              </motion.div>
 
-                <p className="text-gray-500 mt-3 text-sm uppercase tracking-[1px]">
-                  {item.label}
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="font-serif text-5xl md:text-6xl lg:text-7xl xl:text-[80px] leading-[1.05] text-white font-black mb-8"
+              >
+                Forging The <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-500">Future.</span>
+              </motion.h2>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="space-y-6 text-gray-400 text-lg md:text-xl font-light leading-relaxed max-w-xl"
+              >
+                <p>
+                  At KAAVERI, we engineer the resilient core of iconic structures. As a leading manufacturer of premium TMT bars and structural steel, we blend decades of metallurgical mastery with cutting-edge 2026 technology.
                 </p>
-              </div>
-            ))}
-          </div>
+                <p>
+                  Every bar we forge meets stringent global standards, providing unyielding strength, supreme ductility, and sustainable solutions for generations to come.
+                </p>
+              </motion.div>
 
-        </div>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="flex flex-wrap items-center gap-6 mt-12"
+              >
+                <Link href="/about-us">
+                  <button className="relative overflow-hidden group bg-red-600 text-white px-8 py-4 rounded-full uppercase tracking-[0.15em] font-bold text-sm flex items-center gap-3 transition-all hover:bg-red-700 hover:shadow-[0_0_30px_rgba(220,38,38,0.4)]">
+                    <span className="relative z-10">Discover Our Legacy</span>
+                    <ArrowRight size={18} className="relative z-10 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </Link>
+                
+                <button className="group text-white px-8 py-4 rounded-full uppercase tracking-[0.15em] font-bold text-sm flex items-center gap-3 border border-white/20 hover:bg-white/10 transition-all">
+                  <Download size={18} className="text-gray-400 group-hover:text-white transition-colors" />
+                  Brochure
+                </button>
+              </motion.div>
+            </div>
+
+            {/* Right: Stats & Features */}
+            <div className="flex flex-col justify-center gap-12">
+              {/* Animated Stats Grid */}
+              <div className="grid grid-cols-2 gap-6 md:gap-8">
+                {stats.map((stat, idx) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.4 + idx * 0.1 }}
+                    className="bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-md hover:bg-white/10 transition-colors"
+                  >
+                    <div className="text-4xl lg:text-5xl font-black text-white mb-2">
+                      <AnimatedCounter to={stat.number} suffix={stat.suffix} />
+                    </div>
+                    <div className="text-gray-400 text-sm font-semibold uppercase tracking-wider">
+                      {stat.label}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Trust Badges */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="flex items-center gap-8 pt-8 border-t border-white/10"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-red-600/20 flex items-center justify-center text-red-500">
+                    <Award size={24} />
+                  </div>
+                  <div>
+                    <div className="text-white font-bold">ISI Certified</div>
+                    <div className="text-xs text-gray-500 uppercase tracking-widest">Global Standards</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-500">
+                    <MapPinned size={24} />
+                  </div>
+                  <div>
+                    <div className="text-white font-bold">Pan India</div>
+                    <div className="text-xs text-gray-500 uppercase tracking-widest">Vast Network</div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
