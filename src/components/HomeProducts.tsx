@@ -10,35 +10,24 @@ import {
   Layers3,
   Handshake,
   Leaf,
-  BadgeCheck,
 } from "lucide-react";
 
 const products = [
   {
     name: "TMT Bars",
     image: "/tmt1.png",
-    category: "TMT Products",
-    badge: "Earthquake resistant",
-    accentColor: "bg-red-600",
-    badgeColor: "bg-red-50 text-red-800",
-    categoryColor: "text-red-600",
+    category: "TMT PRODUCTS",
     description:
-      "High-strength ribbed TMT bars built for maximum durability, flexibility, and earthquake resistance in demanding construction environments.",
+      "High-strength ribbed TMT bars built for maximum durability, flexibility, and earthquake resistance.",
     href: "/products?category=TMT",
-    specs: ["Fe 500D Grade", "IS 1786:2008", "Corrosion resistant"],
   },
   {
     name: "Structural Steels",
     image: "/structural.png",
-    category: "Structural Products",
-    badge: "Premium grade",
-    accentColor: "bg-yellow-600",
-    badgeColor: "bg-yellow-50 text-yellow-800",
-    categoryColor: "text-yellow-600",
+    category: "STRUCTURAL PRODUCTS",
     description:
-      "Premium quality structural steels designed for robust frameworks and enduring performance across commercial and infrastructure projects.",
+      "Premium quality structural steels designed for robust frameworks and enduring performance.",
     href: "/products?category=Structural",
-    specs: ["IS 2062 Grade", "High tensile", "Weldable"],
   },
 ];
 
@@ -67,126 +56,244 @@ const features = [
 
 export default function HomeProducts() {
   return (
-    <section className="relative overflow-hidden py-20 lg:py-28 bg-white">
-      {/* Subtle background texture */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(220,38,38,0.04)_0%,_transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(202,138,4,0.05)_0%,_transparent_60%)]" />
+    <section
+      className="
+        relative
+        overflow-hidden
+        py-20
+        lg:py-28
+        bg-gradient-to-b
+        from-white
+        via-[#fafafa]
+        to-[#f5f6f3]
+      "
+    >
+      {/* Background Effects */}
+      <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-green-100/30 rounded-full blur-[140px]" />
+
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-yellow-100/30 rounded-full blur-[140px]" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Heading */}
-        <div className="text-center mb-14 lg:mb-18">
+        {/* Heading */}
+        <div className="text-center mb-16 lg:mb-20">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-4 mb-4"
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-4 mb-5"
           >
-            <div className="w-10 h-[2px] bg-red-600" />
-            <span className="uppercase tracking-[0.3em] text-red-600 text-xs font-semibold">
+            <div className="w-12 h-[2px] bg-red-600" />
+
+            <span className="uppercase tracking-[0.35em] text-red-600 text-sm font-bold">
               Our Products
             </span>
-            <div className="w-10 h-[2px] bg-red-600" />
+
+            <div className="w-12 h-[2px] bg-red-600" />
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-serif text-4xl md:text-5xl lg:text-6xl text-slate-900 mb-4 leading-tight"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="
+              font-serif
+              text-4xl
+              md:text-6xl
+              lg:text-7xl
+              text-slate-900
+              mb-6
+            "
           >
             Masterpieces of{" "}
-            <span className="text-red-600">Steel</span>
+            <span className="text-red-600">
+              Steel
+            </span>
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-2xl mx-auto text-base text-slate-500 leading-relaxed"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="
+              max-w-3xl
+              mx-auto
+              text-lg
+              text-slate-600
+              leading-relaxed
+            "
           >
-            Engineered to perfection — our diverse range of steel products forms
-            the resilient core of iconic structures worldwide.
+            Engineered to perfection, our diverse range of steel products
+            forms the resilient core of iconic structures worldwide.
           </motion.p>
         </div>
 
         {/* Product Cards */}
-        <div className="flex flex-col gap-5 mb-6">
+        <div className="grid lg:grid-cols-2 gap-8">
           {products.map((product, index) => (
             <motion.div
               key={product.name}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: index * 0.12 }}
+              transition={{
+                duration: 0.7,
+                delay: index * 0.15,
+              }}
             >
               <Link href={product.href}>
-                <div className="group relative flex overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 min-h-[200px]">
-                  {/* Left accent bar */}
-                  <div className={`w-1.5 flex-shrink-0 ${product.accentColor}`} />
+                <div
+                  className="
+                    group
+                    relative
+                    overflow-hidden
+                    rounded-[32px]
+                    shadow-[0_20px_60px_rgba(0,0,0,0.15)]
+                    h-[520px]
+                    cursor-pointer
+                  "
+                >
+                  {/* Image */}
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="
+                      object-cover
+                      transition-transform
+                      duration-700
+                      group-hover:scale-110
+                    "
+                  />
 
-                  {/* Image panel */}
-                  <div className="relative w-48 sm:w-56 md:w-64 flex-shrink-0 overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
+                  {/* Overlay */}
+                  <div
+                    className="
+                      absolute inset-0
+                      bg-gradient-to-t
+                      from-black
+                      via-black/60
+                      to-black/10
+                    "
+                  />
+
+                  {/* Gold Glow */}
+                  <div
+                    className="
+                      absolute inset-0
+                      bg-gradient-to-br
+                      from-yellow-500/20
+                      via-transparent
+                      to-transparent
+                    "
+                  />
+
+                  {/* Shine Effect */}
+                  <div
+                    className="
+                      absolute
+                      -left-full
+                      top-0
+                      h-full
+                      w-1/2
+                      bg-gradient-to-r
+                      from-transparent
+                      via-white/20
+                      to-transparent
+                      skew-x-12
+                      transition-all
+                      duration-1000
+                      group-hover:left-[140%]
+                    "
+                  />
 
                   {/* Content */}
-                  <div className="flex flex-col justify-between flex-1 p-6 lg:p-8">
+                  <div className="absolute inset-0 z-20 p-8 lg:p-10 flex flex-col justify-between">
                     <div>
-                      {/* Category + badge row */}
-                      <div className="flex items-center gap-3 mb-3">
-                        <span
-                          className={`text-[11px] font-semibold tracking-[0.15em] uppercase ${product.categoryColor}`}
-                        >
-                          {product.category}
-                        </span>
-                        <span
-                          className={`text-[11px] font-medium px-2.5 py-0.5 rounded-md ${product.badgeColor}`}
-                        >
-                          {product.badge}
-                        </span>
-                      </div>
-
-                      {/* Product name */}
-                      <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 leading-tight">
-                        {product.name}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="text-sm text-slate-500 leading-relaxed max-w-md mb-4">
-                        {product.description}
-                      </p>
-
-                      {/* Spec pills */}
-                      <div className="flex flex-wrap gap-2">
-                        {product.specs.map((spec) => (
-                          <span
-                            key={spec}
-                            className="inline-flex items-center gap-1 text-xs text-slate-500 border border-gray-200 rounded-full px-3 py-1"
-                          >
-                            <BadgeCheck className="w-3 h-3 text-slate-400" />
-                            {spec}
-                          </span>
-                        ))}
+                      <div
+                        className="
+                          inline-flex
+                          items-center
+                          px-5
+                          py-2
+                          rounded-full
+                          bg-white/10
+                          backdrop-blur-xl
+                          border
+                          border-white/20
+                          text-white
+                          text-xs
+                          font-semibold
+                          tracking-wider
+                        "
+                      >
+                        {product.category}
                       </div>
                     </div>
 
-                    {/* Footer */}
-                    <div className="flex items-center justify-between mt-6">
-                      <span className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 border border-gray-200 rounded-full px-5 py-2 group-hover:border-slate-400 transition-colors duration-200">
-                        Explore product
-                        <ArrowRight className="w-4 h-4" />
-                      </span>
+                    <div>
+                      <div className="w-12 h-1 bg-yellow-400 mb-5 rounded-full" />
 
-                      <div className="w-9 h-9 rounded-full bg-slate-50 border border-gray-200 flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1">
-                        <ArrowRight className="w-4 h-4 text-slate-500" />
+                      <h3
+                        className="
+                          text-white
+                          text-4xl
+                          lg:text-5xl
+                          font-bold
+                          mb-5
+                          leading-none
+                        "
+                      >
+                        {product.name}
+                      </h3>
+
+                      <p
+                        className="
+                          text-white/85
+                          max-w-sm
+                          leading-relaxed
+                          text-base
+                          mb-8
+                        "
+                      >
+                        {product.description}
+                      </p>
+
+                      <div className="flex items-center justify-between">
+                        <div
+                          className="
+                            px-6
+                            py-3
+                            rounded-full
+                            border
+                            border-white/30
+                            backdrop-blur-md
+                            text-white
+                            font-semibold
+                            text-sm
+                          "
+                        >
+                          EXPLORE PRODUCT
+                        </div>
+
+                        <div
+                          className="
+                            w-14
+                            h-14
+                            rounded-full
+                            bg-white
+                            flex
+                            items-center
+                            justify-center
+                            transition-transform
+                            duration-300
+                            group-hover:translate-x-2
+                          "
+                        >
+                          <ArrowRight className="w-5 h-5 text-black" />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -198,31 +305,58 @@ export default function HomeProducts() {
 
         {/* Features Strip */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-gray-100 border border-gray-100 rounded-2xl overflow-hidden bg-white"
+          transition={{ duration: 0.7 }}
+          className="
+            mt-12
+            bg-white
+            rounded-[32px]
+            shadow-xl
+            border
+            border-gray-100
+            p-6
+            lg:p-8
+          "
         >
-          {features.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.title}
-                className="flex items-center gap-3 px-5 py-5 lg:py-6"
-              >
-                <div className="w-9 h-9 rounded-lg bg-slate-50 flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-5 h-5 text-slate-500" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={item.title}
+                  className="flex items-center gap-4"
+                >
+                  <div
+                    className="
+                      w-14
+                      h-14
+                      rounded-full
+                      bg-green-50
+                      flex
+                      items-center
+                      justify-center
+                      shrink-0
+                    "
+                  >
+                    <Icon className="w-6 h-6 text-green-700" />
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-slate-900">
+                      {item.title}
+                    </h4>
+
+                    <p className="text-slate-500 text-sm">
+                      {item.subtitle}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-slate-800 leading-tight">
-                    {item.title}
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-0.5">{item.subtitle}</p>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </motion.div>
       </div>
     </section>
