@@ -15,15 +15,15 @@ import {
 export default function HomeAbout() {
   return (
     <section className="bg-[#f8f8f8] py-20 overflow-hidden">
-      <div className="max-w-[1800px] mx-auto px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
 
         {/* Main Layout */}
-        <div className="relative bg-white shadow-xl overflow-hidden">
+        <div className="relative bg-white shadow-xl overflow-hidden rounded-2xl">
 
           <div className="grid lg:grid-cols-[55%_45%]">
 
             {/* IMAGE SIDE */}
-            <div className="relative min-h-[750px]">
+            <div className="relative min-h-[400px] lg:min-h-[600px]">
 
               <Image
                 src="/image/about1.png"
@@ -54,7 +54,7 @@ export default function HomeAbout() {
               {/* ANGLED SHAPE */}
               <div className="hidden lg:block absolute left-[-120px] top-0 h-full w-[250px] bg-white skew-x-[-18deg]" />
 
-              <div className="relative z-10 p-10 lg:p-20">
+              <div className="relative z-10 p-8 lg:p-12">
 
                 {/* Tag */}
                 <div className="flex items-center gap-3 mb-8">
