@@ -56,24 +56,27 @@ const features = [
 
 export default function HomeProducts() {
   return (
-    <section
-      className="
-        relative
-        overflow-hidden
-        py-20
-        lg:py-28
-        bg-gradient-to-b
-        from-white
-        via-[#fafafa]
-        to-[#f5f6f3]
-      "
-    >
-      {/* Background Effects */}
-      <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-green-100/30 rounded-full blur-[140px]" />
+    <section className="relative overflow-hidden py-20 lg:py-28">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1920&q=80"
+          alt="Steel factory background"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/70" />
+        {/* Subtle color tint overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900/80" />
+      </div>
 
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-yellow-100/30 rounded-full blur-[140px]" />
+      {/* Decorative glows */}
+      <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-green-500/10 rounded-full blur-[140px] z-0" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-yellow-500/10 rounded-full blur-[140px] z-0" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center mb-16 lg:mb-20">
           <motion.div
@@ -83,13 +86,11 @@ export default function HomeProducts() {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-4 mb-5"
           >
-            <div className="w-12 h-[2px] bg-red-600" />
-
-            <span className="uppercase tracking-[0.35em] text-red-600 text-sm font-bold">
+            <div className="w-12 h-[2px] bg-red-500" />
+            <span className="uppercase tracking-[0.35em] text-red-400 text-sm font-bold">
               Our Products
             </span>
-
-            <div className="w-12 h-[2px] bg-red-600" />
+            <div className="w-12 h-[2px] bg-red-500" />
           </motion.div>
 
           <motion.h2
@@ -97,19 +98,10 @@ export default function HomeProducts() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="
-              font-serif
-              text-4xl
-              md:text-6xl
-              lg:text-7xl
-              text-slate-900
-              mb-6
-            "
+            className="font-serif text-4xl md:text-6xl lg:text-7xl text-white mb-6"
           >
             Masterpieces of{" "}
-            <span className="text-red-600">
-              Steel
-            </span>
+            <span className="text-red-400">Steel</span>
           </motion.h2>
 
           <motion.p
@@ -117,13 +109,7 @@ export default function HomeProducts() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="
-              max-w-3xl
-              mx-auto
-              text-lg
-              text-slate-600
-              leading-relaxed
-            "
+            className="max-w-3xl mx-auto text-lg text-white/70 leading-relaxed"
           >
             Engineered to perfection, our diverse range of steel products
             forms the resilient core of iconic structures worldwide.
@@ -150,9 +136,10 @@ export default function HomeProducts() {
                     relative
                     overflow-hidden
                     rounded-[32px]
-                    shadow-[0_20px_60px_rgba(0,0,0,0.15)]
+                    shadow-[0_20px_60px_rgba(0,0,0,0.5)]
                     h-[520px]
                     cursor-pointer
+                    border border-white/10
                   "
                 >
                   {/* Image */}
@@ -311,11 +298,12 @@ export default function HomeProducts() {
           transition={{ duration: 0.7 }}
           className="
             mt-12
-            bg-white
+            bg-white/10
+            backdrop-blur-xl
             rounded-[32px]
             shadow-xl
             border
-            border-gray-100
+            border-white/15
             p-6
             lg:p-8
           "
@@ -334,22 +322,23 @@ export default function HomeProducts() {
                       w-14
                       h-14
                       rounded-full
-                      bg-green-50
+                      bg-green-500/20
+                      border
+                      border-green-400/30
                       flex
                       items-center
                       justify-center
                       shrink-0
                     "
                   >
-                    <Icon className="w-6 h-6 text-green-700" />
+                    <Icon className="w-6 h-6 text-green-400" />
                   </div>
 
                   <div>
-                    <h4 className="font-bold text-slate-900">
+                    <h4 className="font-bold text-white">
                       {item.title}
                     </h4>
-
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-white/55 text-sm">
                       {item.subtitle}
                     </p>
                   </div>
