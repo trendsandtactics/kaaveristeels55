@@ -11,7 +11,6 @@ import {
   Handshake,
   Leaf,
   BadgeCheck,
-  Zap,
 } from "lucide-react";
 
 const products = [
