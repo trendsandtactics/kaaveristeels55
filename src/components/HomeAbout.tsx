@@ -1,158 +1,248 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Factory, ShieldCheck, Users, ArrowRight, Download, Award } from "lucide-react";
+import {
+  ArrowRight,
+  Download,
+  Factory,
+  ShieldCheck,
+  Users,
+  Award,
+  Leaf,
+  MapPinned,
+} from "lucide-react";
 
 export default function HomeAbout() {
   return (
-    <section className="bg-white overflow-hidden">
-      <div className="grid lg:grid-cols-2 min-h-screen">
+    <section className="bg-[#f8f8f8] py-20 overflow-hidden">
+      <div className="max-w-[1800px] mx-auto px-4 lg:px-8">
 
-        {/* ── LEFT PANEL — Deep navy with image & stats ── */}
-        <div className="relative bg-[#0d1b2a] flex flex-col justify-between p-10 sm:p-14 lg:p-16 min-h-[560px] lg:min-h-screen">
+        {/* Main Layout */}
+        <div className="relative bg-white shadow-xl overflow-hidden">
 
-          {/* Top pill */}
-          <div>
-            <span className="inline-block bg-[#c1272d] text-white text-[10px] font-bold tracking-[3px] uppercase px-4 py-[6px] mb-10">
-              Since 1994
-            </span>
+          <div className="grid lg:grid-cols-[55%_45%]">
 
-            {/* Image */}
-            <div className="relative w-full aspect-[4/3] overflow-hidden mb-10">
+            {/* IMAGE SIDE */}
+            <div className="relative min-h-[750px]">
+
               <Image
                 src="/image/about1.png"
-                alt="Kaaveri Steel manufacturing facility"
+                alt="Kaaveri Steel"
                 fill
-                priority
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-[#0d1b2a]/20" />
+
+              {/* Floating Years Badge */}
+              <div className="absolute top-10 left-10 bg-white shadow-lg w-[120px] h-[170px] flex flex-col justify-center items-center border-b-4 border-red-600">
+
+                <h3 className="text-5xl font-black text-red-600">
+                  30+
+                </h3>
+
+                <p className="text-center text-xs uppercase tracking-[3px] text-gray-600 mt-4">
+                  Years of
+                  <br />
+                  Excellence
+                </p>
+
+              </div>
             </div>
 
-            {/* Trust badges */}
-            <div className="flex flex-col gap-3">
+            {/* CONTENT SIDE */}
+            <div className="relative bg-white">
+
+              {/* ANGLED SHAPE */}
+              <div className="hidden lg:block absolute left-[-120px] top-0 h-full w-[250px] bg-white skew-x-[-18deg]" />
+
+              <div className="relative z-10 p-10 lg:p-20">
+
+                {/* Tag */}
+                <div className="flex items-center gap-3 mb-8">
+                  <span className="w-12 h-[2px] bg-red-600"></span>
+
+                  <span className="text-red-600 uppercase tracking-[4px] text-sm font-bold">
+                    About Kaaveri
+                  </span>
+                </div>
+
+                {/* Heading */}
+                <h2
+                  className="font-black text-[#0d1b2a] leading-none"
+                  style={{
+                    fontFamily: "Georgia, serif",
+                    fontSize: "clamp(3rem,5vw,5rem)",
+                  }}
+                >
+                  Built On Steel.
+                </h2>
+
+                <h2
+                  className="font-black text-red-600 leading-none mt-2"
+                  style={{
+                    fontFamily: "Georgia, serif",
+                    fontSize: "clamp(3rem,5vw,5rem)",
+                  }}
+                >
+                  Trusted By India.
+                </h2>
+
+                <div className="w-16 h-1 bg-red-600 my-10"></div>
+
+                {/* Paragraph */}
+                <div className="space-y-6 text-gray-600 leading-9 text-lg max-w-[700px]">
+
+                  <p>
+                    At KAAVERI, we are passionate about steel and dedicated
+                    to excellence. As a leading manufacturer of TMT bars and
+                    structural steel products, we supply the construction
+                    industry with materials engineered for longevity.
+                  </p>
+
+                  <p>
+                    Our rigorous quality control ensures every product meets
+                    the highest global standards — empowering builders to
+                    raise structures that stand the test of time.
+                  </p>
+
+                </div>
+
+                {/* Feature Panel */}
+                <div className="mt-12 bg-white border rounded-xl shadow-md">
+
+                  <div className="grid md:grid-cols-3">
+
+                    {[
+                      {
+                        Icon: Factory,
+                        title: "Premium TMT Bars",
+                        sub: "High strength & durability",
+                      },
+                      {
+                        Icon: ShieldCheck,
+                        title: "ISI Certified",
+                        sub: "Tested & trusted",
+                      },
+                      {
+                        Icon: Users,
+                        title: "Trusted Partners",
+                        sub: "Nationwide network",
+                      },
+                    ].map(({ Icon, title, sub }) => (
+                      <div
+                        key={title}
+                        className="p-8 border-r last:border-r-0"
+                      >
+                        <Icon
+                          size={40}
+                          className="text-red-600 mb-4"
+                        />
+
+                        <h4 className="font-bold text-[#0d1b2a]">
+                          {title}
+                        </h4>
+
+                        <p className="text-gray-500 mt-2">
+                          {sub}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Buttons */}
+                <div className="flex flex-wrap gap-5 mt-10">
+
+                  <Link href="/about-us">
+                    <button className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 uppercase tracking-[2px] font-semibold flex items-center gap-3 rounded-md">
+                      Explore More
+                      <ArrowRight size={18} />
+                    </button>
+                  </Link>
+
+                  <button className="border border-gray-300 px-10 py-4 uppercase tracking-[2px] font-semibold flex items-center gap-3 rounded-md">
+                    <Download size={18} />
+                    Download Brochure
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* DARK VALUE STRIP */}
+          <div className="bg-[#08172a] text-white">
+
+            <div className="grid md:grid-cols-4">
+
               {[
-                { Icon: Award, title: "ISI Certified", sub: "Tested to global standards" },
-                { Icon: Users, title: "Pan-India Distribution", sub: "Nationwide delivery network" },
-              ].map(({ Icon, title, sub }) => (
+                {
+                  Icon: Factory,
+                  title: "Advanced Manufacturing",
+                  text: "State-of-the-art facilities",
+                },
+                {
+                  Icon: ShieldCheck,
+                  title: "Quality Assured",
+                  text: "Stringent quality testing",
+                },
+                {
+                  Icon: Leaf,
+                  title: "Sustainable Tomorrow",
+                  text: "Eco-friendly processes",
+                },
+                {
+                  Icon: MapPinned,
+                  title: "Pan India Presence",
+                  text: "Strong distribution network",
+                },
+              ].map(({ Icon, title, text }) => (
                 <div
                   key={title}
-                  className="flex items-center gap-4 border border-white/10 bg-white/[0.04] px-5 py-4"
+                  className="p-10 border-r border-white/10 last:border-r-0"
                 >
-                  <Icon size={20} className="text-[#c1272d] shrink-0" />
-                  <div>
-                    <p className="text-white text-sm font-semibold leading-tight">{title}</p>
-                    <p className="text-white/50 text-xs mt-0.5">{sub}</p>
-                  </div>
+                  <Icon
+                    size={38}
+                    className="text-red-500 mb-4"
+                  />
+
+                  <h4 className="font-bold uppercase tracking-[2px]">
+                    {title}
+                  </h4>
+
+                  <p className="text-white/70 mt-2">
+                    {text}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Bottom stats */}
-          <div className="mt-12">
-            <div className="w-full h-px bg-white/10 mb-8" />
-            <div className="flex gap-10 items-end">
-              <div>
-                <p className="text-white font-black leading-none" style={{ fontFamily: "Georgia, serif", fontSize: "clamp(3rem, 6vw, 4rem)" }}>
-                  30+
+          {/* STATS */}
+          <div className="grid md:grid-cols-4 bg-white">
+
+            {[
+              ["30+", "Years of Excellence"],
+              ["500+", "Happy Customers"],
+              ["1 Mn+", "Tons Capacity"],
+              ["ISI", "Certified Products"],
+            ].map(([num, label]) => (
+              <div
+                key={label}
+                className="p-10 text-center border-r last:border-r-0"
+              >
+                <h3 className="text-5xl font-black text-[#0d1b2a]">
+                  {num}
+                </h3>
+
+                <p className="text-gray-500 mt-3">
+                  {label}
                 </p>
-                <p className="text-white/45 text-[10px] tracking-[3px] uppercase mt-2">Years of Excellence</p>
               </div>
-              <div>
-                <p className="text-[#c1272d] font-black leading-none" style={{ fontFamily: "Georgia, serif", fontSize: "clamp(2rem, 4vw, 2.8rem)" }}>
-                  500+
-                </p>
-                <p className="text-white/45 text-[10px] tracking-[3px] uppercase mt-2">Projects Delivered</p>
-              </div>
-            </div>
+            ))}
           </div>
+
         </div>
-
-        {/* ── RIGHT PANEL — White content ── */}
-        <div className="flex items-center py-16 lg:py-0">
-          <div className="px-8 sm:px-14 lg:px-16 xl:px-20 w-full">
-
-            {/* Section tag */}
-            <div className="inline-flex items-center gap-3 bg-[#f0f4ff] px-4 py-2 mb-8">
-              <span className="w-5 h-[2px] bg-[#c1272d]" />
-              <span className="text-[#1a3a8f] text-[11px] font-bold tracking-[3px] uppercase">
-                About Kaaveri
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h2
-              className="text-[#0d1b2a] font-black leading-[1.05] mb-2"
-              style={{ fontFamily: "Georgia, serif", fontSize: "clamp(2.4rem, 4.5vw, 3.6rem)" }}
-            >
-              Built On Steel.
-            </h2>
-            <h2
-              className="font-black leading-[1.05]"
-              style={{
-                fontFamily: "Georgia, serif",
-                fontSize: "clamp(2.4rem, 4.5vw, 3.6rem)",
-                color: "#c1272d",
-                marginBottom: "2rem",
-              }}
-            >
-              Trusted By India.
-            </h2>
-
-            {/* Rule */}
-            <div className="w-14 h-[3px] bg-[#c1272d] mb-8" />
-
-            {/* Body */}
-            <div className="space-y-4 text-[#4a5568] text-[15px] leading-[1.85] mb-10">
-              <p>
-                At KAAVERI, we are passionate about steel and dedicated to excellence.
-                As a leading manufacturer of TMT bars and structural steel products, we
-                supply the construction industry with materials engineered for longevity.
-              </p>
-              <p>
-                Our rigorous quality control ensures every product meets the highest global
-                standards — empowering builders to raise structures that stand the test of time.
-              </p>
-            </div>
-
-            {/* Feature grid — flush cell borders */}
-            <div className="grid grid-cols-3 border border-[#e8ecf0] divide-x divide-[#e8ecf0] mb-10">
-              {[
-                { Icon: Factory, label: "Premium TMT Bars", sub: "High strength & durability" },
-                { Icon: ShieldCheck, label: "ISI Certified", sub: "Tested & trusted" },
-                { Icon: Users, label: "Trusted Partners", sub: "Nationwide network" },
-              ].map(({ Icon, label, sub }) => (
-                <div key={label} className="p-5 lg:p-6">
-                  <div className="w-9 h-9 bg-[#fff0f0] flex items-center justify-center mb-3">
-                    <Icon size={18} className="text-[#c1272d]" />
-                  </div>
-                  <p className="text-[#0d1b2a] text-sm font-semibold leading-tight mb-1">{label}</p>
-                  <p className="text-[#7a8899] text-xs">{sub}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA buttons */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link href="/about-us">
-                <button className="group w-full sm:w-auto bg-[#c1272d] hover:bg-[#a81f24] text-white text-[13px] font-bold tracking-[1.5px] uppercase px-8 py-[15px] flex items-center justify-center gap-3 transition-colors duration-200">
-                  Explore More
-                  <ArrowRight size={16} />
-                </button>
-              </Link>
-
-              <button className="w-full sm:w-auto border-[1.5px] border-[#d0d8e4] hover:border-[#0d1b2a] text-[#0d1b2a] text-[13px] font-semibold tracking-[1px] uppercase px-8 py-[15px] flex items-center justify-center gap-3 transition-colors duration-200">
-                <Download size={15} />
-                Download Brochure
-              </button>
-            </div>
-
-          </div>
-        </div>
-
       </div>
     </section>
   );
