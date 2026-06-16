@@ -8,7 +8,6 @@ import {
   Factory,
   ShieldCheck,
   Users,
-  Award,
   Leaf,
   MapPinned,
 } from "lucide-react";
