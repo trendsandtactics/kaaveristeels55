@@ -56,7 +56,7 @@ const features = [
 
 export default function HomeProducts() {
   return (
-    <section className="relative overflow-hidden py-20 lg:py-24 w-full">
+    <section className="relative overflow-hidden py-20 lg:py-24">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -74,8 +74,8 @@ export default function HomeProducts() {
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900/80" />
       </div>
 
-      {/* Main Container - Full width approach to eliminate side blank spaces */}
-      <div className="relative z-10 w-full px-4 md:px-12 lg:px-16 xl:px-24 mx-auto">
+      {/* Main Container - Set to a balanced 1600px max-width */}
+      <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 lg:px-16 w-full">
         
         {/* Heading */}
         <div className="text-center mb-16 lg:mb-20">
@@ -115,8 +115,8 @@ export default function HomeProducts() {
           </motion.p>
         </div>
 
-        {/* Product Cards Grid - Massive sizing configuration */}
-        <div className="grid lg:grid-cols-2 gap-8 xl:gap-12 w-full">
+        {/* Product Cards Grid - Well proportioned sizes */}
+        <div className="grid lg:grid-cols-2 gap-8 xl:gap-10 w-full">
           {products.map((product, index) => (
             <motion.div
               key={product.name}
@@ -136,14 +136,14 @@ export default function HomeProducts() {
                     relative
                     overflow-hidden
                     rounded-[32px]
-                    shadow-[0_25px_70px_rgba(0,0,0,0.6)]
-                    h-[600px] md:h-[650px] lg:h-[700px]
+                    shadow-[0_20px_50px_rgba(0,0,0,0.5)]
+                    h-[550px] md:h-[600px] lg:h-[640px]
                     cursor-pointer
                     border border-white/10
                     w-full
                   "
                 >
-                  {/* Product Visual Asset */}
+                  {/* Product Image */}
                   <Image
                     src={product.image}
                     alt={product.name}
@@ -157,7 +157,7 @@ export default function HomeProducts() {
                   />
 
                   {/* Dark Vignette Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-transparent" />
 
                   {/* Branding Color Overlay Accent */}
                   <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/15 via-transparent to-transparent" />
@@ -182,7 +182,7 @@ export default function HomeProducts() {
                   />
 
                   {/* Card Content Layout */}
-                  <div className="absolute inset-0 z-20 p-8 md:p-12 lg:p-16 flex flex-col justify-between">
+                  <div className="absolute inset-0 z-20 p-8 md:p-10 lg:p-12 flex flex-col justify-between">
                     <div>
                       <div
                         className="
@@ -206,23 +206,23 @@ export default function HomeProducts() {
                     </div>
 
                     <div>
-                      <div className="w-16 h-1 bg-yellow-400 mb-6 rounded-full" />
+                      <div className="w-14 h-1 bg-yellow-400 mb-5 rounded-full" />
 
-                      <h3 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-none">
+                      <h3 className="text-white text-4xl md:text-5xl font-bold mb-5 leading-none">
                         {product.name}
                       </h3>
 
-                      <p className="text-white/85 max-w-xl leading-relaxed text-base md:text-lg mb-10">
+                      <p className="text-white/85 max-w-lg leading-relaxed text-base md:text-lg mb-8">
                         {product.description}
                       </p>
 
                       <div className="flex items-center justify-between">
-                        <div className="px-8 py-4 rounded-full border border-white/30 backdrop-blur-md text-white font-semibold text-sm tracking-wide transition-colors group-hover:bg-white/10">
+                        <div className="px-7 py-3.5 rounded-full border border-white/30 backdrop-blur-md text-white font-semibold text-sm tracking-wide transition-colors group-hover:bg-white/10">
                           EXPLORE PRODUCT
                         </div>
 
-                        <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-3">
-                          <ArrowRight className="w-6 h-6 text-black" />
+                        <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2">
+                          <ArrowRight className="w-5 h-5 text-black" />
                         </div>
                       </div>
                     </div>
@@ -233,7 +233,7 @@ export default function HomeProducts() {
           ))}
         </div>
 
-        {/* Features Strip - Extended to match edge alignment */}
+        {/* Features Strip - Aligned perfectly with the 1600px grid bounds */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -248,7 +248,6 @@ export default function HomeProducts() {
             border
             border-white/15
             p-8
-            lg:p-10
             w-full
           "
         >
@@ -257,14 +256,14 @@ export default function HomeProducts() {
               const Icon = item.icon;
 
               return (
-                <div key={item.title} className="flex items-center gap-5 justify-start lg:justify-center">
-                  <div className="w-16 h-16 rounded-full bg-green-500/20 border border-green-400/30 flex items-center justify-center shrink-0">
-                    <Icon className="w-7 h-7 text-green-400" />
+                <div key={item.title} className="flex items-center gap-4 justify-start lg:justify-center">
+                  <div className="w-14 h-14 rounded-full bg-green-500/20 border border-green-400/30 flex items-center justify-center shrink-0">
+                    <Icon className="w-6 h-6 text-green-400" />
                   </div>
 
                   <div>
-                    <h4 className="font-bold text-white text-lg">{item.title}</h4>
-                    <p className="text-white/55 text-sm md:text-base">{item.subtitle}</p>
+                    <h4 className="font-bold text-white text-base">{item.title}</h4>
+                    <p className="text-white/55 text-sm">{item.subtitle}</p>
                   </div>
                 </div>
               );
