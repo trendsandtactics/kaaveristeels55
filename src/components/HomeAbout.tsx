@@ -19,47 +19,46 @@ export default function AboutSection() {
     <section className="relative w-full bg-[#f8f9fa] font-sans antialiased overflow-hidden pb-4">
       <div className="w-full mx-auto max-w-[1920px]">
         
-        {/* Main Section - Industrial Layout Grid Splitter */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 min-h-[680px] xl:min-h-[780px] bg-white overflow-hidden w-full">
+        {/* Main Hero Container - Creates the perfect angled separation */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 min-h-[680px] xl:min-h-[760px] bg-white overflow-hidden w-full">
           
           {/* Left Side: Industrial Facility Image Block */}
-          <div className="relative lg:col-span-6 xl:col-span-6 h-[400px] sm:h-[500px] lg:h-auto overflow-hidden w-full group">
+          <div className="relative lg:col-span-6 xl:col-span-6 h-[420px] sm:h-[520px] lg:h-auto overflow-hidden w-full group">
             <Image
               src="/download.png"
               alt="KAAVERI Steel Manufacturing Plant"
               fill
               priority
-              className="object-cover object-center transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+              className="object-cover object-center transform scale-100 group-hover:scale-102 transition-transform duration-700 ease-out"
             />
 
-            {/* Premium Top-Left Vertical Ribbon Badge */}
+            {/* Top-Left Vertical 30+ Ribbon Badge */}
             <div className="absolute top-0 left-6 sm:left-12 bg-gradient-to-b from-[#dc2626] to-[#b91c1c] shadow-2xl w-[80px] sm:w-[90px] pt-6 pb-8 px-2 flex flex-col justify-center items-center z-20">
               <h3 className="text-3xl sm:text-4xl font-black text-white tracking-tighter">30+</h3>
               <p className="text-[9px] sm:text-[10px] tracking-[1.5px] uppercase text-center text-red-100 font-bold leading-tight mt-1">
                 Years Of<br />Excellence
               </p>
-              {/* Swallowtail cut shape at bottom of ribbon */}
               <div 
                 className="absolute bottom-0 left-0 right-0 h-3 bg-white"
                 style={{ clipPath: "polygon(0 100%, 50% 0, 100% 100%, 100% 0, 0 0)" }}
               />
             </div>
 
-            {/* Red accent underlying line beneath chevron divider */}
+            {/* Custom Background Graphic Diagonal Slash */}
             <div 
-              className="hidden lg:block absolute top-0 bottom-0 right-0 w-[30px] bg-[#dc2626] z-10"
+              className="hidden lg:block absolute top-0 bottom-0 right-0 w-[40px] bg-[#dc2626] z-10 translate-x-[2px]"
               style={{
-                clipPath: "polygon(100% 0, 100% 100%, 0% 100%, 100% 50%, 0% 0)",
+                clipPath: "polygon(100% 0, 100% 100%, 0% 100%, 40% 0)",
               }}
             />
           </div>
 
-          {/* Right Side: Content Area with Native CSS Clip Path Handling */}
+          {/* Right Side: Editorial Content Area with Angled Cut */}
           <div 
-            className="relative lg:col-span-6 xl:col-span-6 bg-[#f8f9fa] z-10 lg:-ml-8 xl:-ml-12 pl-6 pr-6 sm:px-12 lg:pl-16 lg:pr-12 xl:pl-24 xl:pr-24 py-12 lg:py-16 flex flex-col justify-center w-full
-              [clip-path:none] lg:[clip-path:polygon(6%_0,100%_0,100%_100%,0%_100%,6%_50%)] xl:[clip-path:polygon(8%_0,100%_0,100%_100%,0%_100%,8%_50%)]"
+            className="relative lg:col-span-6 xl:col-span-6 bg-[#f8f9fa] z-10 lg:-ml-10 pl-6 pr-6 sm:px-12 lg:pl-20 lg:pr-12 xl:pl-24 xl:pr-28 py-14 lg:py-16 flex flex-col justify-center w-full
+              [clip-path:none] lg:[clip-path:polygon(60px_0,100%_0,100%_100%,0%_100%)]"
           >
-            {/* Section Label Tag */}
+            {/* Section Tagline */}
             <div className="flex items-center gap-2.5 mb-4">
               <span className="text-[#dc2626] uppercase tracking-[3px] text-[11px] font-black">
                 About Kaaveri
@@ -67,22 +66,22 @@ export default function AboutSection() {
               <div className="w-8 h-[1.5px] bg-[#dc2626]" />
             </div>
 
-            {/* Massive Editorial Headings */}
-            <h2 className="text-3xl sm:text-4xl xl:text-[46px] font-serif font-black text-[#0f2137] tracking-tight leading-[1.15]">
+            {/* Editorial Headings */}
+            <h2 className="text-3xl sm:text-4xl xl:text-[44px] font-serif font-black text-[#0f2137] tracking-tight leading-[1.15]">
               BUILT ON STEEL.
             </h2>
-            <h2 className="text-3xl sm:text-4xl xl:text-[46px] font-serif font-black text-[#dc2626] tracking-tight leading-[1.15] mt-1 uppercase">
+            <h2 className="text-3xl sm:text-4xl xl:text-[44px] font-serif font-black text-[#dc2626] tracking-tight leading-[1.15] mt-1 uppercase">
               Trusted By India.
             </h2>
 
-            {/* Intro paragraph */}
+            {/* Descriptive Body Text */}
             <p className="text-slate-600 text-sm xl:text-base max-w-xl leading-relaxed mt-5 font-normal">
               At <span className="font-bold text-[#dc2626]">KAAVERI</span>, we are passionate about steel and dedicated to excellence. 
               As a leading manufacturer of TMT bars and structural steel products, we supply the construction 
               industry with materials engineered for longevity.
             </p>
 
-            {/* Blockquote Component */}
+            {/* Executive Quote Block */}
             <div className="my-5 flex gap-3.5 max-w-xl bg-white border border-slate-200/60 p-4 rounded-r-xl border-l-4 border-l-[#dc2626] shadow-sm">
               <span className="text-[#dc2626] font-serif text-3xl font-black leading-none select-none">“</span>
               <p className="text-slate-700 italic text-xs sm:text-sm font-medium leading-relaxed">
@@ -91,9 +90,9 @@ export default function AboutSection() {
               </p>
             </div>
 
-            {/* Grid Feature Row Cards */}
+            {/* Three-Column Specifications Badge Grid */}
             <div className="border border-slate-200/80 rounded-xl bg-white shadow-sm grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-100 overflow-hidden max-w-2xl">
-              <div className="p-3.5 flex items-center gap-3 hover:bg-slate-50/50 transition-colors duration-200">
+              <div className="p-3.5 flex items-center gap-3 hover:bg-slate-50/50 transition-colors duration-150">
                 <div className="p-2 bg-red-50 rounded-lg text-[#dc2626]">
                   <Package className="w-5 h-5 shrink-0" />
                 </div>
@@ -103,7 +102,7 @@ export default function AboutSection() {
                 </div>
               </div>
 
-              <div className="p-3.5 flex items-center gap-3 hover:bg-slate-50/50 transition-colors duration-200">
+              <div className="p-3.5 flex items-center gap-3 hover:bg-slate-50/50 transition-colors duration-150">
                 <div className="p-2 bg-red-50 rounded-lg text-[#dc2626]">
                   <ShieldCheck className="w-5 h-5 shrink-0" />
                 </div>
@@ -113,7 +112,7 @@ export default function AboutSection() {
                 </div>
               </div>
 
-              <div className="p-3.5 flex items-center gap-3 hover:bg-slate-50/50 transition-colors duration-200">
+              <div className="p-3.5 flex items-center gap-3 hover:bg-slate-50/50 transition-colors duration-150">
                 <div className="p-2 bg-red-50 rounded-lg text-[#dc2626]">
                   <Users className="w-5 h-5 shrink-0" />
                 </div>
@@ -124,14 +123,14 @@ export default function AboutSection() {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap gap-3.5 mt-6">
-              <button className="bg-[#b91c1c] hover:bg-[#a31a1a] text-white px-6 sm:px-8 py-3.5 rounded-lg flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase transition-all duration-200 shadow-md hover:shadow-lg active:scale-95">
+            {/* Interactive Call to Actions */}
+            <div className="flex flex-wrap gap-4 mt-6">
+              <button className="bg-[#b91c1c] hover:bg-[#a31a1a] text-white px-7 py-3.5 rounded-lg flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase transition-all duration-150 shadow-md hover:shadow-lg active:scale-98">
                 Explore More
                 <ArrowRight size={13} />
               </button>
 
-              <button className="bg-white border border-slate-300 hover:border-slate-400 text-slate-700 hover:text-slate-900 px-6 sm:px-8 py-3.5 rounded-lg flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase transition-all duration-200 shadow-sm active:scale-95">
+              <button className="bg-white border border-slate-300 hover:border-slate-400 text-slate-700 hover:text-slate-900 px-7 py-3.5 rounded-lg flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase transition-all duration-150 shadow-sm active:scale-98">
                 <Download size={13} />
                 Download Brochure
               </button>
@@ -139,7 +138,7 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Charcoal Blue Features Ribbon */}
+        {/* Features Ribbon (Dark Minimal Styling) */}
         <div className="bg-[#030d1a] text-white w-full relative border-b border-white/5">
           <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 lg:divide-x divide-white/10 w-full relative z-10">
@@ -166,7 +165,7 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Analytics Footer Ribbon */}
+        {/* Statistics Analytics Dashboard Footer Ribbon */}
         <div className="bg-white border-t border-slate-200/60 w-full shadow-sm">
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-x divide-slate-100 sm:divide-y-0 lg:divide-slate-200 w-full">
             <LightStatItem
@@ -192,7 +191,7 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Steel Texture Bottom Accent Accent */}
+        {/* Steel Accent Bottom Strip */}
         <div className="w-full h-2 bg-gradient-to-r from-slate-400 via-slate-500 to-slate-400 border-t border-b border-black/10 shadow-inner mt-0.5" />
 
       </div>
@@ -200,47 +199,25 @@ export default function AboutSection() {
   );
 }
 
-function DarkFeatureItem({
-  icon,
-  title,
-  desc,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-}) {
+function DarkFeatureItem({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
   return (
-    <div className="p-6 sm:p-8 flex items-start gap-4 w-full hover:bg-white/[0.02] transition-colors duration-300">
+    <div className="p-6 sm:p-8 flex items-start gap-4 w-full hover:bg-white/[0.015] transition-colors duration-200">
       <div className="shrink-0 p-2 bg-white/5 rounded-lg border border-white/10">{icon}</div>
       <div>
-        <h4 className="text-[11px] font-black uppercase tracking-[1.5px] text-white/95">
-          {title}
-        </h4>
-        <p className="text-slate-400 text-xs mt-1.5 leading-relaxed font-normal">
-          {desc}
-        </p>
+        <h4 className="text-[11px] font-black uppercase tracking-[1.5px] text-white/95">{title}</h4>
+        <p className="text-slate-400 text-xs mt-1.5 leading-relaxed font-normal">{desc}</p>
       </div>
     </div>
   );
 }
 
-function LightStatItem({
-  icon,
-  value,
-  label,
-}: {
-  icon: React.ReactNode;
-  value: string;
-  label: string;
-}) {
+function LightStatItem({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) {
   return (
-    <div className="p-6 sm:p-7 flex items-center justify-center gap-4 w-full hover:bg-slate-50/60 transition-colors duration-200">
-      <div className="shrink-0 p-2.5 bg-slate-50 rounded-xl">{icon}</div>
+    <div className="p-6 sm:p-7 flex items-center justify-center gap-4 w-full hover:bg-slate-50/50 transition-colors duration-150">
+      <div className="shrink-0 p-2 bg-slate-50 rounded-xl">{icon}</div>
       <div>
-        <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-none">
-          {value}
-        </h3>
-        <p className="text-slate-500 text-[11px] mt-1.5 font-bold tracking-wide uppercase">{label}</p>
+        <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-none">{value}</h3>
+        <p className="text-slate-500 text-[10px] sm:text-[11px] mt-1.5 font-bold tracking-wide uppercase">{label}</p>
       </div>
     </div>
   );
