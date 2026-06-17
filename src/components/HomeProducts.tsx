@@ -62,7 +62,7 @@ export default function HomeProducts() {
       {/* Crisp Background Image with explicit dark solid overlay */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/productbg.png"
+          src="/bg1.png"
           alt="Products Background"
           fill
           priority
