@@ -53,14 +53,14 @@ export default function AboutSection() {
             />
           </div>
 
-          {/* Right Side: Content Area with Angled Cut (Now pure high-contrast White) */}
+          {/* Right Side: Content Area with Angled Cut */}
           <div 
             className="relative lg:col-span-6 xl:col-span-6 bg-white z-10 lg:-ml-10 pl-6 pr-6 sm:px-12 lg:pl-20 lg:pr-12 xl:pl-24 xl:pr-28 py-14 lg:py-16 flex flex-col justify-center w-full
               [clip-path:none] lg:[clip-path:polygon(60px_0,100%_0,100%_100%,0%_100%)]"
           >
             {/* Section Tagline */}
             <div className="flex items-center gap-2.5 mb-4">
-              <span className="text-[#dc2626] uppercase tracking-[3px] text-[11px] font-black">
+              <span className="text-[#dc2626] uppercase tracking-[3px] text-xs font-black">
                 About Kaaveri
               </span>
               <div className="w-8 h-[1.5px] bg-[#dc2626]" />
@@ -74,17 +74,17 @@ export default function AboutSection() {
               Trusted By India.
             </h2>
 
-            {/* Descriptive Body Text */}
-            <p className="text-slate-700 text-sm xl:text-base max-w-xl leading-relaxed mt-5 font-normal">
+            {/* Optimized Bigger Descriptive Body Text */}
+            <p className="text-slate-700 text-base xl:text-lg max-w-2xl leading-relaxed mt-6 font-normal">
               At <span className="font-bold text-[#dc2626]">KAAVERI</span>, we are passionate about steel and dedicated to excellence. 
               As a leading manufacturer of TMT bars and structural steel products, we supply the construction 
               industry with materials engineered for longevity.
             </p>
 
-            {/* Executive Quote Block */}
-            <div className="my-5 flex gap-3.5 max-w-xl bg-slate-50/60 border border-slate-200/60 p-4 rounded-r-xl border-l-4 border-l-[#dc2626] shadow-sm">
-              <span className="text-[#dc2626] font-serif text-3xl font-black leading-none select-none">“</span>
-              <p className="text-slate-800 italic text-xs sm:text-sm font-medium leading-relaxed">
+            {/* Optimized Bigger Executive Quote Block */}
+            <div className="my-6 flex gap-4 max-w-2xl bg-slate-50/60 border border-slate-200/60 p-5 rounded-r-xl border-l-4 border-l-[#dc2626] shadow-sm">
+              <span className="text-[#dc2626] font-serif text-4xl font-black leading-none select-none">“</span>
+              <p className="text-slate-800 italic text-sm sm:text-base font-medium leading-relaxed">
                 Our rigorous quality control ensures every product meets the highest global standards — empowering 
                 builders to raise structures that stand the test of time.
               </p>
@@ -92,39 +92,39 @@ export default function AboutSection() {
 
             {/* Three-Column Specifications Badge Grid */}
             <div className="border border-slate-200/80 rounded-xl bg-slate-50/30 shadow-sm grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-100 overflow-hidden max-w-2xl">
-              <div className="p-3.5 flex items-center gap-3 hover:bg-white transition-colors duration-150">
+              <div className="p-4 flex items-center gap-3.5 hover:bg-white transition-colors duration-150">
                 <div className="p-2 bg-red-50 rounded-lg text-[#dc2626]">
                   <Package className="w-5 h-5 shrink-0" />
                 </div>
                 <div>
-                  <h4 className="font-black text-[11px] text-slate-900 tracking-tight">PREMIUM TMT BARS</h4>
-                  <p className="text-slate-600 text-[10px] mt-0.5">High strength & safety</p>
+                  <h4 className="font-black text-xs text-slate-900 tracking-tight">PREMIUM TMT BARS</h4>
+                  <p className="text-slate-600 text-[11px] mt-0.5">High strength & safety</p>
                 </div>
               </div>
 
-              <div className="p-3.5 flex items-center gap-3 hover:bg-white transition-colors duration-150">
+              <div className="p-4 flex items-center gap-3.5 hover:bg-white transition-colors duration-150">
                 <div className="p-2 bg-red-50 rounded-lg text-[#dc2626]">
                   <ShieldCheck className="w-5 h-5 shrink-0" />
                 </div>
                 <div>
-                  <h4 className="font-black text-[11px] text-slate-900 tracking-tight">ISI CERTIFIED</h4>
-                  <p className="text-slate-600 text-[10px] mt-0.5">Tested & trusted</p>
+                  <h4 className="font-black text-xs text-slate-900 tracking-tight">ISI CERTIFIED</h4>
+                  <p className="text-slate-600 text-[11px] mt-0.5">Tested & trusted</p>
                 </div>
               </div>
 
-              <div className="p-3.5 flex items-center gap-3 hover:bg-white transition-colors duration-150">
+              <div className="p-4 flex items-center gap-3.5 hover:bg-white transition-colors duration-150">
                 <div className="p-2 bg-red-50 rounded-lg text-[#dc2626]">
                   <Users className="w-5 h-5 shrink-0" />
                 </div>
                 <div>
-                  <h4 className="font-black text-[11px] text-slate-900 tracking-tight">TRUSTED PARTNERS</h4>
-                  <p className="text-slate-600 text-[10px] mt-0.5">Nationwide network</p>
+                  <h4 className="font-black text-xs text-slate-900 tracking-tight">TRUSTED PARTNERS</h4>
+                  <p className="text-slate-600 text-[11px] mt-0.5">Nationwide network</p>
                 </div>
               </div>
             </div>
 
             {/* Interactive Call to Actions */}
-            <div className="flex flex-wrap gap-4 mt-6">
+            <div className="flex flex-wrap gap-4 mt-7">
               <button className="bg-[#b91c1c] hover:bg-[#a31a1a] text-white px-7 py-3.5 rounded-lg flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase transition-all duration-150 shadow-md hover:shadow-lg active:scale-98">
                 Explore More
                 <ArrowRight size={13} />
