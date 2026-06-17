@@ -114,7 +114,6 @@ export default function AboutSection() {
                   <p className="text-slate-500 text-[11px] mt-0.5">Pan-India network</p>
                 </div>
               </div>
-            </div>
 
             {/* Action Buttons */}
             <div className="flex flex-wrap gap-4">
