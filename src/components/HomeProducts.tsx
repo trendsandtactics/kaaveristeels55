@@ -62,14 +62,14 @@ export default function HomeProducts() {
       {/* Crisp Background Image with explicit dark solid overlay */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/bg1.png"
+          src="/bg2.png"
           alt="Products Background"
           fill
           priority
           className="object-cover object-center pointer-events-none"
         />
         {/* Solid uniform opacity block instead of distracting gradients */}
-        <div className="absolute inset-0 bg-black/85" />
+        <div className="absolute inset-0 bg-black/10" />
       </div>
 
       {/* Main Container */}
