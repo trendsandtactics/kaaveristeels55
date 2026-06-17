@@ -2,6 +2,7 @@
 "use client";
 
 import Image from "next/image";
+import React from "react";
 import {
   Factory,
   ShieldCheck,
@@ -168,8 +169,6 @@ function FeatureItem({ icon, title, desc }: { icon: React.ReactElement; title: s
     </div>
   );
 }
-
-import React from "react";
 
 function StatItem({ icon, value, label }: { icon: React.ReactElement; value: string; label: string }) {
   return (
