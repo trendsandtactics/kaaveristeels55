@@ -1,3 +1,10 @@
+Ah, the classic production build blocker! The ESLint rule `no-unused-vars` is failing the build because `motion` from `framer-motion` is imported but never actually utilized inside the elements of the new layout.
+
+To fix this and get your Vercel deployment green, we just need to change the standard HTML tags (`div`) to motion tags (`motion.div`) where animations are intended, or cleanly strip out the unused animation hooks.
+
+Here is the fully fixed, production-ready code with the animations correctly hooked up to the layout structure so that ESLint passes:
+
+```tsx
 "use client";
 
 import React, { useRef, useEffect } from "react";
@@ -61,8 +68,14 @@ export default function HomeAbout() {
       {/* Main Content Layout Container */}
       <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 z-10 my-auto grid lg:grid-cols-2 gap-12 items-center">
         
-        {/* Left Text Block */}
-        <div className="flex flex-col max-w-[620px]">
+        {/* Left Text Block with Content Fade-in Animation */}
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col max-w-[620px]"
+        >
           {/* Subheading tag */}
           <div className="flex items-center gap-3 mb-6">
             <span className="w-6 h-[3px] bg-red-600" />
@@ -90,8 +103,15 @@ export default function HomeAbout() {
 
           {/* Statistics Horizontal Grid Layout */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 items-start mb-12 border-l border-white/10 pl-4 sm:pl-0 sm:border-none">
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex gap-3 items-start sm:flex-col sm:gap-2">
+            {stats.map((stat, idx) => (
+              <motion.div 
+                key={stat.label} 
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="flex gap-3 items-start sm:flex-col sm:gap-2"
+              >
                 <div className="mt-1 sm:mt-0 opacity-80">{stat.icon}</div>
                 <div>
                   <div className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center">
@@ -105,7 +125,7 @@ export default function HomeAbout() {
                     {stat.label}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -123,14 +143,20 @@ export default function HomeAbout() {
               Download Brochure
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Area acts as spacing wrapper to highlight raw graphics */}
         <div className="hidden lg:block w-full h-[500px]" />
       </div>
 
       {/* Footer Branding Feature Ribbon */}
-      <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 z-10 mt-12">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 z-10 mt-12"
+      >
         <div className="w-full bg-black/40 backdrop-blur-md border border-white/10 p-8 sm:p-10 rounded-sm grid md:grid-cols-[40%_1fr] gap-8 items-center">
           
           {/* Quote Block */}
@@ -173,7 +199,9 @@ export default function HomeAbout() {
           </div>
 
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
+
+```
