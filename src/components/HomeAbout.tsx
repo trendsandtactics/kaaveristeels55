@@ -1,8 +1,11 @@
+Here is the updated code with the dark background gradient overlays completely removed, allowing the underlying background image to show through clearly.
+
+```tsx
 "use client";
 
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link"; // Fixed the broken import here
+import Link from "next/link";
 import { motion, useInView, animate } from "framer-motion";
 import { ArrowRight, Download, CheckCircle2, Award, Shield, Globe } from "lucide-react";
 
@@ -53,9 +56,6 @@ export default function HomeAbout() {
           priority
           className="object-cover object-center"
         />
-        {/* Subtle dark ambient vignettes */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
       </div>
 
       {/* Main Content Layout Container */}
@@ -199,3 +199,5 @@ export default function HomeAbout() {
     </section>
   );
 }
+
+```
