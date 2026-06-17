@@ -1,10 +1,3 @@
-Ah, the classic production build blocker! The ESLint rule `no-unused-vars` is failing the build because `motion` from `framer-motion` is imported but never actually utilized inside the elements of the new layout.
-
-To fix this and get your Vercel deployment green, we just need to change the standard HTML tags (`div`) to motion tags (`motion.div`) where animations are intended, or cleanly strip out the unused animation hooks.
-
-Here is the fully fixed, production-ready code with the animations correctly hooked up to the layout structure so that ESLint passes:
-
-```tsx
 "use client";
 
 import React, { useRef, useEffect } from "react";
@@ -203,5 +196,3 @@ export default function HomeAbout() {
     </section>
   );
 }
-
-```
