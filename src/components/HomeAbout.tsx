@@ -16,15 +16,15 @@ import {
 
 export default function AboutSection() {
   return (
-    <section className="relative w-full bg-white font-sans antialiased overflow-hidden flex flex-col justify-between min-h-screen">
-      {/* Container stripped of absolute max-width limits to occupy full viewport width */}
-      <div className="w-full max-w-none flex flex-col flex-grow">
+    <section className="relative w-full bg-white font-sans antialiased overflow-hidden flex flex-col justify-between min-h-screen p-0 m-0 border-none">
+      {/* Edge-to-edge layout wrapper */}
+      <div className="w-full w-screen max-w-none flex flex-col flex-grow p-0 m-0">
         
-        {/* Main Edge-to-Edge Split Grid System */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-10 bg-white overflow-hidden w-full flex-grow">
+        {/* Main Edge-to-Edge Split Grid System - Fixed exactly at 50% / 50% */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-2 bg-white overflow-hidden w-full flex-grow p-0 m-0">
           
-          {/* Left Side: Industrial Facility Image Block */}
-          <div className="relative lg:col-span-5 xl:col-span-5 h-[460px] sm:h-[560px] lg:h-auto overflow-hidden w-full group">
+          {/* Left Side: Industrial Facility Image Block (Occupies exactly 50%) */}
+          <div className="relative h-[460px] sm:h-[560px] lg:h-auto overflow-hidden w-full group p-0 m-0">
             <Image
               src="/download.png"
               alt="KAAVERI Steel Manufacturing Plant"
@@ -33,7 +33,7 @@ export default function AboutSection() {
               className="object-cover object-center transform scale-100 group-hover:scale-[1.02] transition-transform duration-[1000ms] ease-out"
             />
 
-            {/* Immersive Top-Left Floating Ribbon Badge */}
+            {/* Floating Ribbon Badge */}
             <div className="absolute top-0 left-8 sm:left-16 bg-gradient-to-b from-[#dc2626] to-[#b91c1c] shadow-2xl w-[85px] sm:w-[100px] pt-8 pb-10 px-2 flex flex-col justify-center items-center z-20">
               <h3 className="text-4xl sm:text-5xl font-serif font-black text-white tracking-tighter">30+</h3>
               <p className="text-[10px] sm:text-[11px] tracking-[2px] uppercase text-center text-red-100 font-black leading-tight mt-1.5">
@@ -54,15 +54,9 @@ export default function AboutSection() {
             />
           </div>
 
-          {/* Right Side: Completely Expansive content frame spanning remaining width */}
-          <div 
-            className="relative lg:col-span-7 xl:col-span-7 bg-white z-10 lg:-ml-14 pl-6 pr-6 sm:px-16 lg:pl-28 lg:pr-16 xl:pl-32 xl:pr-40 py-16 lg:py-24 flex flex-col justify-center w-full flex-grow"
-            style={{
-              clipPath: typeof window !== "undefined" && window.innerWidth >= 1024 
-                ? "polygon(60px 0, 100% 0, 100% 100%, 0% 100%)" 
-                : "none"
-            }}
-          >
+          {/* Right Side: Content Frame Spanning exactly the remaining 50% width */}
+          <div className="relative bg-white z-10 lg:-ml-14 pl-6 pr-6 sm:px-16 lg:pl-24 lg:pr-16 xl:pl-28 xl:pr-32 py-16 lg:py-24 flex flex-col justify-center w-full flex-grow [clip-path:none] lg:[clip-path:polygon(60px_0,100%_0,100%_100%,0%_100%)]">
+            
             {/* Section Tagline */}
             <div className="flex items-center gap-3 mb-5">
               <span className="text-[#dc2626] uppercase tracking-[4px] text-xs sm:text-sm font-black">
@@ -72,22 +66,22 @@ export default function AboutSection() {
             </div>
 
             {/* Editorial Scale Typography */}
-            <h2 className="text-4xl sm:text-5xl xl:text-[56px] font-serif font-black text-[#0f2137] tracking-tight leading-[1.1]">
+            <h2 className="text-4xl sm:text-5xl xl:text-[52px] font-serif font-black text-[#0f2137] tracking-tight leading-[1.1]">
               BUILT ON STEEL.
             </h2>
-            <h2 className="text-4xl sm:text-5xl xl:text-[56px] font-serif font-black text-[#dc2626] tracking-tight leading-[1.1] mt-1.5 uppercase">
+            <h2 className="text-4xl sm:text-5xl xl:text-[52px] font-serif font-black text-[#dc2626] tracking-tight leading-[1.1] mt-1.5 uppercase">
               Trusted By India.
             </h2>
 
             {/* Description Body Text */}
-            <p className="text-slate-700 text-base sm:text-lg xl:text-xl max-w-4xl leading-relaxed mt-6 font-normal">
+            <p className="text-slate-700 text-base sm:text-lg xl:text-xl max-w-3xl leading-relaxed mt-6 font-normal">
               At <span className="font-bold text-[#dc2626]">KAAVERI</span>, we are passionate about steel and dedicated to excellence. 
               As a leading manufacturer of TMT bars and structural steel products, we supply the construction 
               industry with materials engineered for longevity.
             </p>
 
-            {/* Full-width Restored Executive Quote Block */}
-            <div className="my-8 flex gap-4 max-w-4xl bg-slate-50/80 border border-slate-200/80 p-6 rounded-r-2xl border-l-4 border-l-[#dc2626] shadow-sm items-start">
+            {/* Full-width Executive Quote Block */}
+            <div className="my-8 flex gap-4 max-w-3xl bg-slate-50/80 border border-slate-200/80 p-6 rounded-r-2xl border-l-4 border-l-[#dc2626] shadow-sm items-start">
               <span className="text-[#dc2626] font-serif text-5xl font-black leading-none select-none mt-1">“</span>
               <p className="text-slate-800 italic text-sm sm:text-base xl:text-lg font-medium leading-relaxed">
                 Our rigorous quality control ensures every product meets the highest global standards — empowering 
@@ -95,9 +89,9 @@ export default function AboutSection() {
               </p>
             </div>
 
-            {/* Specifications Grid scaling elegantly with full-width container space */}
-            <div className="border border-slate-200/80 rounded-xl bg-slate-50/40 shadow-sm grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 overflow-hidden max-w-4xl mb-8">
-              <div className="p-5 flex items-center gap-4 hover:bg-white transition-all duration-200 group/badge">
+            {/* Specifications Badge Grid */}
+            <div className="border border-slate-200/80 rounded-xl bg-slate-50/40 shadow-sm grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 overflow-hidden max-w-3xl mb-8">
+              <div className="p-4 flex items-center gap-4 hover:bg-white transition-all duration-200 group/badge">
                 <div className="p-3 bg-red-50 rounded-xl text-[#dc2626] group-hover/badge:bg-[#dc2626] group-hover/badge:text-white transition-colors duration-200">
                   <Package className="w-5 h-5 shrink-0" />
                 </div>
@@ -107,7 +101,7 @@ export default function AboutSection() {
                 </div>
               </div>
 
-              <div className="p-5 flex items-center gap-4 hover:bg-white transition-all duration-200 group/badge">
+              <div className="p-4 flex items-center gap-4 hover:bg-white transition-all duration-200 group/badge">
                 <div className="p-3 bg-red-50 rounded-xl text-[#dc2626] group-hover/badge:bg-[#dc2626] group-hover/badge:text-white transition-colors duration-200">
                   <ShieldCheck className="w-5 h-5 shrink-0" />
                 </div>
@@ -117,7 +111,7 @@ export default function AboutSection() {
                 </div>
               </div>
 
-              <div className="p-5 flex items-center gap-4 hover:bg-white transition-all duration-200 group/badge">
+              <div className="p-4 flex items-center gap-4 hover:bg-white transition-all duration-200 group/badge">
                 <div className="p-3 bg-red-50 rounded-xl text-[#dc2626] group-hover/badge:bg-[#dc2626] group-hover/badge:text-white transition-colors duration-200">
                   <Users className="w-5 h-5 shrink-0" />
                 </div>
@@ -143,8 +137,8 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Dynamic Heavy Industry Footers */}
-        <div className="w-full mt-auto">
+        {/* Footers Docked Perfectly to the Bottom Boundaries */}
+        <div className="w-full mt-auto p-0 m-0">
           {/* Top Features Banner Row */}
           <div className="bg-[#030d1a] text-white w-full relative border-b border-white/5">
             <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
@@ -172,6 +166,31 @@ export default function AboutSection() {
             </div>
           </div>
 
+          {/* Bottom Statistics Analytics Row */}
+          <div className="bg-white border-t border-slate-200/80 w-full shadow-lg">
+            <div className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-x divide-slate-100 sm:divide-y-0 lg:divide-slate-200 w-full">
+              <LightStatItem
+                icon={<Award size={32} className="text-[#dc2626]" />}
+                value="30+"
+                label="Years of Excellence"
+              />
+              <LightStatItem
+                icon={<Users size={32} className="text-[#dc2626]" />}
+                value="500+"
+                label="Happy Customers"
+              />
+              <LightStatItem
+                icon={<TrendingUp size={32} className="text-[#dc2626]" />}
+                value="1 Mn+"
+                label="Tons Capacity"
+              />
+              <LightStatItem
+                icon={<ShieldCheck size={32} className="text-[#dc2626]" />}
+                value="ISI"
+                label="Certified Products"
+              />
+            </div>
+          </div>
 
           {/* Industrial Contrast Strip */}
           <div className="w-full h-2.5 bg-gradient-to-r from-slate-400 via-slate-500 to-slate-400 border-t border-b border-black/10 shadow-inner" />
