@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
-import Link from "react-link";
+import Link from "next/link"; // Fixed the broken import here
 import { motion, useInView, animate } from "framer-motion";
 import { ArrowRight, Download, CheckCircle2, Award, Shield, Globe } from "lucide-react";
 
@@ -58,10 +58,10 @@ export default function HomeAbout() {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
       </div>
 
-      {/* Main Content Layout Container (Shifted left via reduced left padding) */}
+      {/* Main Content Layout Container */}
       <div className="relative w-full max-w-[1440px] mx-auto pl-4 sm:pl-8 lg:pl-12 pr-6 sm:pr-12 lg:pr-24 z-10 my-auto grid lg:grid-cols-12 gap-8 items-center">
         
-        {/* Left-Aligned Content Block (Expanded column weight to push closer to the left edge) */}
+        {/* Left-Aligned Content Block */}
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -141,11 +141,11 @@ export default function HomeAbout() {
           </div>
         </motion.div>
 
-        {/* Right Area Spacer narrowed down to pull content left */}
+        {/* Right Area Spacer */}
         <div className="hidden lg:block lg:col-span-2 xl:col-span-2" />
       </div>
 
-      {/* Footer Feature Box Container (Aligned perfectly with the left-shifted grid) */}
+      {/* Footer Feature Box Container */}
       <motion.div 
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
