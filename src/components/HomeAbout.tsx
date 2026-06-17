@@ -135,4 +135,3 @@ export default function HomeAbout() {
   );
 }
 
-look the attached screen shot make the whole section ui ux attarctive and responsive and visually apealling
