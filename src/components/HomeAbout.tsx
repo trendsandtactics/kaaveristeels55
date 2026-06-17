@@ -1,198 +1,260 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { motion, useInView, animate } from "framer-motion";
-import { ArrowRight, Download, CheckCircle2, Award, Shield, Globe } from "lucide-react";
+import {
+  Factory,
+  ShieldCheck,
+  Users,
+  Leaf,
+  Map,
+  Package,
+  Download,
+  ArrowRight,
+  Award,
+  TrendingUp,
+} from "lucide-react";
 
-// Animated Counter Component
-function AnimatedCounter({ to, suffix }: { to: number | string; suffix: string }) {
-  const nodeRef = useRef<HTMLSpanElement>(null);
-  const inView = useInView(nodeRef, { once: true, margin: "-50px" });
-
-  useEffect(() => {
-    if (!nodeRef.current || !inView) return;
-    
-    if (typeof to === "string") {
-      nodeRef.current.textContent = to + suffix;
-      return;
-    }
-
-    const controls = animate(0, to, {
-      duration: 2.5,
-      ease: [0.25, 0.1, 0.25, 1],
-      onUpdate(value) {
-        if (nodeRef.current) {
-          nodeRef.current.textContent = Math.round(value) + suffix;
-        }
-      },
-    });
-    return () => controls.stop();
-  }, [to, suffix, inView]);
-
-  return <span ref={nodeRef}>{typeof to === "number" ? "0" : to}</span>;
-}
-
-export default function HomeAbout() {
-  const stats = [
-    { number: 30, suffix: "+", label: "Years of\nExcellence", icon: <Award className="text-red-500 w-7 h-7" /> },
-    { number: 1, suffix: "Mn+", label: "Tons\nCapacity", icon: <Shield className="text-red-500 w-7 h-7" /> },
-    { number: "ISI", suffix: "", label: "Certified\nProducts", icon: <CheckCircle2 className="text-red-500 w-7 h-7" /> },
-    { number: "PAN INDIA", suffix: "", label: "Vast Distribution\nNetwork", icon: <Globe className="text-red-500 w-7 h-7" /> },
-  ];
-
+export default function AboutSection() {
   return (
-    <section className="relative w-full min-h-screen bg-black text-white flex flex-col justify-between py-12 md:py-16 overflow-hidden">
-      {/* Background Graphic Asset */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <Image
-          src="/Aboutbg.png"
-          alt="Kaaveri Steel Cinematic Industrial Background"
-          fill
-          priority
-          className="object-cover object-center"
-        />
-      </div>
+    <section className="relative bg-[#f8f8f8] overflow-hidden">
+      <div className="max-w-[1600px] mx-auto relative">
 
-      {/* Main Content Layout Container */}
-      <div className="relative w-full max-w-[1440px] mx-auto pl-4 sm:pl-8 lg:pl-12 pr-6 sm:pr-12 lg:pr-24 z-10 my-auto grid lg:grid-cols-12 gap-8 items-center">
-        
-        {/* Left-Aligned Content Block */}
-        <motion.div 
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col lg:col-span-10 xl:col-span-10 w-full"
-        >
-          {/* Subheading tag */}
-          <div className="flex items-center gap-3 mb-4">
-            <span className="w-8 h-[3px] bg-red-600" />
-            <span className="uppercase tracking-[0.25em] text-red-500 text-xs sm:text-sm font-extrabold">
-              About Kaaveri
-            </span>
+        {/* Main Section */}
+        <div className="relative grid lg:grid-cols-2 min-h-[850px]">
+
+          {/* Left Image */}
+          <div className="relative overflow-hidden">
+            <Image
+              src="/about-house.jpg"
+              alt="Steel Structure"
+              fill
+              className="object-cover"
+            />
+
+            {/* Experience Badge */}
+            <div className="absolute top-12 left-12 bg-white w-[120px] h-[150px] shadow-xl flex flex-col items-center justify-center z-20">
+              <h3 className="text-5xl font-bold text-red-600">30+</h3>
+              <p className="text-xs tracking-[3px] uppercase text-slate-600 text-center mt-2">
+                Years of Excellence
+              </p>
+
+              <div className="absolute bottom-0 left-0 w-full h-[4px] bg-red-600" />
+            </div>
           </div>
 
-          {/* Main Heading */}
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold font-sans tracking-tight leading-[1.1] mb-6 max-w-[850px]">
-            Forging India’s <br />
-            Future in Steel <br />
-            <span className="text-red-600">Excellence</span>
-          </h2>
+          {/* Right Content */}
+          <div className="relative bg-white flex items-center">
 
-          {/* Prose Description */}
-          <div className="space-y-4 text-gray-300 text-base sm:text-lg md:text-xl font-normal leading-relaxed mb-8 max-w-[850px] opacity-95">
-            <p>
-              At Kaaveri, we engineer the resilient core of iconic structures. As a leading
-              manufacturer of premium TMT bars and structural steel, we blend decades of
-              metallurgical mastery with cutting-edge technology.
-            </p>
-            <p>
-              Every bar we forge meets stringent global standards, providing unyielding
-              strength, supreme ductility, and sustainable solutions for generations to come.
-            </p>
-          </div>
+            {/* Diagonal Shape */}
+            <div className="hidden lg:block absolute -left-[140px] top-0 h-full w-[280px] bg-white rotate-[15deg]" />
 
-          {/* Statistics Horizontal Grid Layout */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 items-start mb-10 border-l border-white/10 pl-4 sm:pl-0 sm:border-none">
-            {stats.map((stat, idx) => (
-              <motion.div 
-                key={stat.label} 
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="flex gap-4 items-start sm:flex-col sm:gap-3"
-              >
-                <div className="mt-1 sm:mt-0 opacity-90">{stat.icon}</div>
-                <div>
-                  <div className="text-3xl sm:text-4xl font-black text-white tracking-tight flex items-center">
-                    {typeof stat.number === "number" ? (
-                      <AnimatedCounter to={stat.number} suffix={stat.suffix} />
-                    ) : (
-                      <span>{stat.number}</span>
-                    )}
-                  </div>
-                  <div className="text-gray-400 text-xs font-bold uppercase tracking-wider leading-tight whitespace-pre-line mt-1.5">
-                    {stat.label}
+            <div className="relative z-10 px-8 md:px-14 lg:px-20 py-20">
+
+              {/* Label */}
+              <div className="flex items-center gap-4 mb-8">
+                <span className="text-red-600 uppercase tracking-[4px] text-sm font-semibold">
+                  About Kaaveri
+                </span>
+
+                <div className="w-14 h-[2px] bg-red-600" />
+              </div>
+
+              {/* Heading */}
+              <h2 className="text-5xl md:text-6xl xl:text-7xl font-bold leading-tight text-slate-900">
+                Built On Steel.
+              </h2>
+
+              <h2 className="text-5xl md:text-6xl xl:text-7xl font-bold leading-tight text-red-600 mt-2">
+                Trusted By India.
+              </h2>
+
+              <div className="w-16 h-[3px] bg-red-600 mt-8 mb-10" />
+
+              {/* Description */}
+              <div className="space-y-6 text-slate-600 text-lg leading-relaxed max-w-3xl">
+                <p>
+                  At KAAVERI, we are passionate about steel and dedicated to
+                  excellence. As a leading manufacturer of TMT bars and
+                  structural steel products, we supply the construction industry
+                  with materials engineered for longevity.
+                </p>
+
+                <p>
+                  Our rigorous quality control ensures every product meets the
+                  highest global standards empowering builders to raise
+                  structures that stand the test of time.
+                </p>
+              </div>
+
+              {/* Feature Cards */}
+              <div className="grid md:grid-cols-3 mt-12 border rounded-xl overflow-hidden shadow-sm">
+
+                <div className="flex gap-4 p-6 bg-white">
+                  <Package className="w-10 h-10 text-red-600" />
+                  <div>
+                    <h4 className="font-semibold text-slate-900">
+                      Premium TMT Bars
+                    </h4>
+                    <p className="text-sm text-slate-500">
+                      High strength & durability
+                    </p>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
 
-          {/* Action Interactive Elements */}
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-            <Link href="/about-us">
-              <button className="bg-red-600 text-white px-8 sm:px-10 py-3.5 rounded-sm uppercase tracking-widest font-bold text-xs sm:text-sm flex items-center gap-3 transition-all duration-300 hover:bg-red-700 active:scale-95 shadow-lg shadow-red-600/20">
-                <span>Discover Our Legacy</span>
-                <ArrowRight size={18} />
-              </button>
-            </Link>
-            
-            <button className="bg-transparent border border-white/30 hover:border-white text-white px-8 sm:px-10 py-3.5 rounded-sm uppercase tracking-widest font-bold text-xs sm:text-sm flex items-center gap-3 transition-all duration-300 active:scale-95">
-              <Download size={18} className="text-gray-400" />
-              Download Brochure
-            </button>
-          </div>
-        </motion.div>
+                <div className="flex gap-4 p-6 border-x">
+                  <ShieldCheck className="w-10 h-10 text-red-600" />
+                  <div>
+                    <h4 className="font-semibold text-slate-900">
+                      ISI Certified
+                    </h4>
+                    <p className="text-sm text-slate-500">
+                      Tested & trusted
+                    </p>
+                  </div>
+                </div>
 
-        {/* Right Area Spacer */}
-        <div className="hidden lg:block lg:col-span-2 xl:col-span-2" />
-      </div>
+                <div className="flex gap-4 p-6">
+                  <Users className="w-10 h-10 text-red-600" />
+                  <div>
+                    <h4 className="font-semibold text-slate-900">
+                      Trusted Partners
+                    </h4>
+                    <p className="text-sm text-slate-500">
+                      Nationwide network
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-      {/* Footer Feature Box Container */}
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="relative w-full max-w-[1440px] mx-auto pl-4 sm:pl-8 lg:pl-12 pr-6 sm:pr-12 lg:pr-24 z-10 mt-10"
-      >
-        <div className="w-full bg-black/60 backdrop-blur-md border border-white/10 p-6 sm:p-10 rounded-sm grid md:grid-cols-[30%_1fr] gap-6 items-center">
-          
-          {/* Quote Block */}
-          <div className="relative pl-6 border-l-4 border-red-600">
-            <span className="absolute -top-6 left-4 text-6xl text-red-600/20 font-serif select-none pointer-events-none">“</span>
-            <p className="text-lg sm:text-xl font-semibold tracking-wide text-white leading-snug">
-              Building stronger structures. <br />
-              Building a stronger India.
-            </p>
-          </div>
+              {/* Buttons */}
+              <div className="flex flex-wrap gap-5 mt-10">
 
-          {/* Three Feature Highlight Grid */}
-          <div className="grid sm:grid-cols-3 gap-6 md:gap-8 border-t md:border-t-0 md:border-l border-white/10 pt-4 md:pt-0 md:pl-8">
-            <div>
-              <h4 className="text-xs sm:text-sm font-bold uppercase tracking-widest text-white mb-1.5 flex items-center gap-2">
-                <span className="w-2 h-2 bg-red-600 rounded-full" /> Premium Quality
-              </h4>
-              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
-                Stringent testing at every step for unmatched quality standards.
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="text-xs sm:text-sm font-bold uppercase tracking-widest text-white mb-1.5 flex items-center gap-2">
-                <span className="w-2 h-2 bg-red-600 rounded-full" /> Built To Last
-              </h4>
-              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
-                Superior physical strength, unmatched corrosion resistance & durability.
-              </p>
-            </div>
+                <button className="group bg-red-600 hover:bg-red-700 text-white px-10 py-5 rounded-md flex items-center gap-3 font-semibold tracking-wider uppercase transition-all">
+                  Explore More
+                  <ArrowRight
+                    size={18}
+                    className="group-hover:translate-x-1 transition"
+                  />
+                </button>
 
-            <div>
-              <h4 className="text-xs sm:text-sm font-bold uppercase tracking-widest text-white mb-1.5 flex items-center gap-2">
-                <span className="w-2 h-2 bg-red-600 rounded-full" /> Sustainable Future
-              </h4>
-              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
-                Responsible global-standard manufacturing practices for generations to come.
-              </p>
+                <button className="border border-slate-300 hover:border-red-600 px-10 py-5 rounded-md flex items-center gap-3 font-semibold tracking-wider uppercase text-slate-900">
+                  <Download size={18} />
+                  Download Brochure
+                </button>
+              </div>
             </div>
           </div>
-
         </div>
-      </motion.div>
+
+        {/* Dark Feature Strip */}
+        <div className="relative z-20 mx-6 lg:mx-10 -mt-16 bg-gradient-to-r from-[#071326] via-[#0f2341] to-[#071326] rounded-t-xl">
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-4">
+
+            <Feature
+              icon={<Factory size={40} />}
+              title="Advanced Manufacturing"
+              desc="State-of-the-art facilities with global technology"
+            />
+
+            <Feature
+              icon={<ShieldCheck size={40} />}
+              title="Quality Assured"
+              desc="Stringent testing for uncompromised quality"
+            />
+
+            <Feature
+              icon={<Leaf size={40} />}
+              title="Sustainable Tomorrow"
+              desc="Committed to eco-friendly practices"
+            />
+
+            <Feature
+              icon={<Map size={40} />}
+              title="Pan India Presence"
+              desc="Strong distribution network nationwide"
+            />
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="bg-white border border-slate-200 mx-6 lg:mx-10 rounded-b-xl shadow-sm">
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-4">
+
+            <Stat
+              icon={<Award size={38} />}
+              value="30+"
+              label="Years Of Excellence"
+            />
+
+            <Stat
+              icon={<Users size={38} />}
+              value="500+"
+              label="Happy Customers"
+            />
+
+            <Stat
+              icon={<TrendingUp size={38} />}
+              value="1 Mn+"
+              label="Tons Capacity"
+            />
+
+            <Stat
+              icon={<ShieldCheck size={38} />}
+              value="ISI"
+              label="Certified Products"
+            />
+          </div>
+        </div>
+      </div>
     </section>
+  );
+}
+
+function Feature({
+  icon,
+  title,
+  desc,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <div className="flex gap-5 p-8 border-white/10 md:border-r">
+      <div className="text-red-500">{icon}</div>
+
+      <div>
+        <h4 className="text-white uppercase tracking-[2px] font-semibold">
+          {title}
+        </h4>
+
+        <p className="text-slate-300 mt-2 text-sm leading-relaxed">
+          {desc}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function Stat({
+  icon,
+  value,
+  label,
+}: {
+  icon: React.ReactNode;
+  value: string;
+  label: string;
+}) {
+  return (
+    <div className="flex items-center gap-5 p-8 border-r last:border-r-0">
+      <div className="text-red-600">{icon}</div>
+
+      <div>
+        <h3 className="text-5xl font-bold text-slate-900">{value}</h3>
+        <p className="text-slate-500 mt-1">{label}</p>
+      </div>
+    </div>
   );
 }
