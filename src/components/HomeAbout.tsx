@@ -21,7 +21,7 @@ export default function AboutSection() {
       <div className="w-full max-w-none flex flex-col flex-grow">
         
         {/* Main Edge-to-Edge Split Grid System */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 bg-white overflow-hidden w-full flex-grow">
+        <div className="relative grid grid-cols-1 lg:grid-cols-10 bg-white overflow-hidden w-full flex-grow">
           
           {/* Left Side: Industrial Facility Image Block */}
           <div className="relative lg:col-span-5 xl:col-span-5 h-[460px] sm:h-[560px] lg:h-auto overflow-hidden w-full group">
@@ -172,31 +172,6 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Bottom Statistics Analytics Row */}
-          <div className="bg-white border-t border-slate-200/80 w-full shadow-lg">
-            <div className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-x divide-slate-100 sm:divide-y-0 lg:divide-slate-200 w-full">
-              <LightStatItem
-                icon={<Award size={32} className="text-[#dc2626]" />}
-                value="30+"
-                label="Years of Excellence"
-              />
-              <LightStatItem
-                icon={<Users size={32} className="text-[#dc2626]" />}
-                value="500+"
-                label="Happy Customers"
-              />
-              <LightStatItem
-                icon={<TrendingUp size={32} className="text-[#dc2626]" />}
-                value="1 Mn+"
-                label="Tons Capacity"
-              />
-              <LightStatItem
-                icon={<ShieldCheck size={32} className="text-[#dc2626]" />}
-                value="ISI"
-                label="Certified Products"
-              />
-            </div>
-          </div>
 
           {/* Industrial Contrast Strip */}
           <div className="w-full h-2.5 bg-gradient-to-r from-slate-400 via-slate-500 to-slate-400 border-t border-b border-black/10 shadow-inner" />
