@@ -16,210 +16,156 @@ import {
 
 export default function AboutSection() {
   return (
-    <section className="relative w-full bg-white font-sans antialiased overflow-hidden flex flex-col justify-between min-h-screen p-0 m-0 border-none">
-      {/* Edge-to-edge layout wrapper */}
-      <div className="w-full w-screen max-w-none flex flex-col flex-grow p-0 m-0">
+    <section className="relative w-full bg-slate-50 font-sans antialiased py-16 lg:py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Main Edge-to-Edge Split Grid System - Fixed exactly at 50% / 50% */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-2 bg-white overflow-hidden w-full flex-grow p-0 m-0">
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Left Side: Industrial Facility Image Block (Occupies exactly 50%) */}
-          <div className="relative h-[460px] sm:h-[560px] lg:h-auto overflow-hidden w-full group p-0 m-0">
+          {/* Left Side: Industrial Facility Image Block (5 Columns) */}
+          <div className="relative lg:col-span-5 h-[400px] sm:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl group">
             <Image
               src="/download.png"
               alt="KAAVERI Steel Manufacturing Plant"
               fill
               priority
-              className="object-cover object-center transform scale-100 group-hover:scale-[1.02] transition-transform duration-[1000ms] ease-out"
+              className="object-cover object-center transform scale-100 group-hover:scale-[1.03] transition-transform duration-700 ease-out"
             />
+            {/* Elegant Overlay Subtle Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
 
             {/* Floating Ribbon Badge */}
-            <div className="absolute top-0 left-8 sm:left-16 bg-gradient-to-b from-[#dc2626] to-[#b91c1c] shadow-2xl w-[85px] sm:w-[100px] pt-8 pb-10 px-2 flex flex-col justify-center items-center z-20">
-              <h3 className="text-4xl sm:text-5xl font-serif font-black text-white tracking-tighter">30+</h3>
-              <p className="text-[10px] sm:text-[11px] tracking-[2px] uppercase text-center text-red-100 font-black leading-tight mt-1.5">
+            <div className="absolute top-0 left-6 bg-red-600 text-white shadow-lg px-5 py-6 rounded-b-xl flex flex-col items-center z-20 animate-fade-in">
+              <span className="text-3xl sm:text-4xl font-extrabold tracking-tight">30+</span>
+              <span className="text-[10px] tracking-wider uppercase text-center font-bold text-red-100 mt-1 leading-tight">
                 Years Of<br />Excellence
-              </p>
-              <div 
-                className="absolute bottom-0 left-0 right-0 h-4 bg-white"
-                style={{ clipPath: "polygon(0 100%, 50% 0, 100% 100%, 100% 0, 0 0)" }}
-              />
+              </span>
             </div>
-
-            {/* Sharp Diagonal Accent Red Slash */}
-            <div 
-              className="hidden lg:block absolute top-0 bottom-0 right-0 w-[60px] bg-[#dc2626] z-10 translate-x-[2px]"
-              style={{
-                clipPath: "polygon(100% 0, 100% 100%, 0% 100%, 60% 0)",
-              }}
-            />
           </div>
 
-          {/* Right Side: Content Frame Spanning exactly the remaining 50% width */}
-          <div className="relative bg-white z-10 lg:-ml-14 pl-6 pr-6 sm:px-16 lg:pl-24 lg:pr-16 xl:pl-28 xl:pr-32 py-16 lg:py-24 flex flex-col justify-center w-full flex-grow [clip-path:none] lg:[clip-path:polygon(60px_0,100%_0,100%_100%,0%_100%)]">
+          {/* Right Side: Content Frame (7 Columns) */}
+          <div className="lg:col-span-7 flex flex-col justify-center">
             
             {/* Section Tagline */}
-            <div className="flex items-center gap-3 mb-5">
-              <span className="text-[#dc2626] uppercase tracking-[4px] text-xs sm:text-sm font-black">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-red-600 uppercase tracking-widest text-xs font-bold">
                 About Kaaveri
               </span>
-              <div className="w-12 h-[2px] bg-[#dc2626]" />
+              <div className="w-8 h-[2px] bg-red-600" />
             </div>
 
             {/* Editorial Scale Typography */}
-            <h2 className="text-4xl sm:text-5xl xl:text-[52px] font-serif font-black text-[#0f2137] tracking-tight leading-[1.1]">
-              BUILT ON STEEL.
-            </h2>
-            <h2 className="text-4xl sm:text-5xl xl:text-[52px] font-serif font-black text-[#dc2626] tracking-tight leading-[1.1] mt-1.5 uppercase">
-              Trusted By India.
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              BUILT ON STEEL. <br />
+              <span className="text-red-600">TRUSTED BY INDIA.</span>
             </h2>
 
             {/* Description Body Text */}
-            <p className="text-slate-700 text-base sm:text-lg xl:text-xl max-w-3xl leading-relaxed mt-6 font-normal">
-              At <span className="font-bold text-[#dc2626]">KAAVERI</span>, we are passionate about steel and dedicated to excellence. 
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed mt-6 font-normal">
+              At <span className="font-semibold text-slate-900">KAAVERI</span>, we are passionate about steel and dedicated to excellence. 
               As a leading manufacturer of TMT bars and structural steel products, we supply the construction 
               industry with materials engineered for longevity.
             </p>
 
-            {/* Full-width Executive Quote Block */}
-            <div className="my-8 flex gap-4 max-w-3xl bg-slate-50/80 border border-slate-200/80 p-6 rounded-r-2xl border-l-4 border-l-[#dc2626] shadow-sm items-start">
-              <span className="text-[#dc2626] font-serif text-5xl font-black leading-none select-none mt-1">“</span>
-              <p className="text-slate-800 italic text-sm sm:text-base xl:text-lg font-medium leading-relaxed">
-                Our rigorous quality control ensures every product meets the highest global standards — empowering 
-                builders to raise structures that stand the test of time.
+            {/* Executive Quote Block */}
+            <div className="my-6 pl-4 border-l-4 border-red-600 bg-white p-5 rounded-r-xl shadow-sm">
+              <p className="text-slate-700 italic text-sm sm:text-base font-medium leading-relaxed">
+                "Our rigorous quality control ensures every product meets the highest global standards — empowering builders to raise structures that stand the test of time."
               </p>
             </div>
 
-            {/* Specifications Badge Grid */}
-            <div className="border border-slate-200/80 rounded-xl bg-slate-50/40 shadow-sm grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 overflow-hidden max-w-3xl mb-8">
-              <div className="p-4 flex items-center gap-4 hover:bg-white transition-all duration-200 group/badge">
-                <div className="p-3 bg-red-50 rounded-xl text-[#dc2626] group-hover/badge:bg-[#dc2626] group-hover/badge:text-white transition-colors duration-200">
-                  <Package className="w-5 h-5 shrink-0" />
-                </div>
+            {/* Specifications Mini-Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+              <div className="p-4 rounded-xl bg-white border border-slate-100 shadow-sm flex flex-col gap-2">
+                <Package className="w-5 h-5 text-red-600" />
                 <div>
-                  <h4 className="font-black text-xs text-slate-900 tracking-tight">PREMIUM TMT BARS</h4>
-                  <p className="text-slate-600 text-[11px] mt-0.5">High strength & safety</p>
+                  <h4 className="font-bold text-xs text-slate-900 tracking-tight uppercase">Premium TMT Bars</h4>
+                  <p className="text-slate-500 text-[11px] mt-0.5">High strength & safety</p>
                 </div>
               </div>
 
-              <div className="p-4 flex items-center gap-4 hover:bg-white transition-all duration-200 group/badge">
-                <div className="p-3 bg-red-50 rounded-xl text-[#dc2626] group-hover/badge:bg-[#dc2626] group-hover/badge:text-white transition-colors duration-200">
-                  <ShieldCheck className="w-5 h-5 shrink-0" />
-                </div>
+              <div className="p-4 rounded-xl bg-white border border-slate-100 shadow-sm flex flex-col gap-2">
+                <ShieldCheck className="w-5 h-5 text-red-600" />
                 <div>
-                  <h4 className="font-black text-xs text-slate-900 tracking-tight">ISI CERTIFIED</h4>
-                  <p className="text-slate-600 text-[11px] mt-0.5">Tested & trusted</p>
+                  <h4 className="font-bold text-xs text-slate-900 tracking-tight uppercase">ISI Certified</h4>
+                  <p className="text-slate-500 text-[11px] mt-0.5">Tested & trusted solutions</p>
                 </div>
               </div>
 
-              <div className="p-4 flex items-center gap-4 hover:bg-white transition-all duration-200 group/badge">
-                <div className="p-3 bg-red-50 rounded-xl text-[#dc2626] group-hover/badge:bg-[#dc2626] group-hover/badge:text-white transition-colors duration-200">
-                  <Users className="w-5 h-5 shrink-0" />
-                </div>
+              <div className="p-4 rounded-xl bg-white border border-slate-100 shadow-sm flex flex-col gap-2">
+                <Users className="w-5 h-5 text-red-600" />
                 <div>
-                  <h4 className="font-black text-xs text-slate-900 tracking-tight">TRUSTED PARTNERS</h4>
-                  <p className="text-slate-600 text-[11px] mt-0.5">Nationwide network</p>
+                  <h4 className="font-bold text-xs text-slate-900 tracking-tight uppercase">Trusted Partners</h4>
+                  <p className="text-slate-500 text-[11px] mt-0.5">Pan-India network</p>
                 </div>
               </div>
             </div>
 
-            {/* Action Callouts */}
+            {/* Action Buttons */}
             <div className="flex flex-wrap gap-4">
-              <button className="bg-[#b91c1c] hover:bg-[#a31a1a] text-white px-8 py-4 rounded-xl flex items-center justify-center gap-2.5 font-bold text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-98">
+              <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-3.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all duration-200 shadow-sm hover:shadow-md">
                 Explore More
-                <ArrowRight size={15} />
+                <ArrowRight size={16} />
               </button>
 
-              <button className="bg-white border-2 border-slate-300 hover:border-slate-800 text-slate-800 hover:text-black px-8 py-4 rounded-xl flex items-center justify-center gap-2.5 font-bold text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-98">
-                <Download size={15} />
+              <button className="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 px-6 py-3.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all duration-200 shadow-sm">
+                <Download size={16} />
                 Download Brochure
               </button>
             </div>
           </div>
         </div>
 
-        {/* Footers Docked Perfectly to the Bottom Boundaries */}
-        <div className="w-full mt-auto p-0 m-0">
-          {/* Top Features Banner Row */}
-          <div className="bg-[#030d1a] text-white w-full relative border-b border-white/5">
-            <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 lg:divide-x divide-white/10 w-full relative z-10">
-              <DarkFeatureItem
-                icon={<Factory size={24} className="text-[#dc2626]" />}
-                title="Advanced Manufacturing"
-                desc="State-of-the-art facilities with global technology"
-              />
-              <DarkFeatureItem
-                icon={<ShieldCheck size={24} className="text-[#dc2626]" />}
-                title="Quality Assured"
-                desc="Stringent testing for uncompromised quality"
-              />
-              <DarkFeatureItem
-                icon={<Leaf size={24} className="text-[#dc2626]" />}
-                title="Sustainable Tomorrow"
-                desc="Committed to eco-friendly production standard practices"
-              />
-              <DarkFeatureItem
-                icon={<Map size={24} className="text-[#dc2626]" />}
-                title="Pan India Presence"
-                desc="Strong distribution network across the entire nation"
-              />
-            </div>
+        {/* Info Rows Segmented Separately Below */}
+        <div className="mt-20 border-t border-slate-200 pt-12">
+          
+          {/* Features Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <FeatureItem icon={<Factory />} title="Advanced Manufacturing" desc="State-of-the-art facilities with global technology standards." />
+            <FeatureItem icon={<ShieldCheck />} title="Quality Assured" desc="Stringent testing processes for uncompromised structural quality." />
+            <FeatureItem icon={<Leaf />} title="Sustainable Tomorrow" desc="Committed to eco-friendly production standard practices." />
+            <FeatureItem icon={<Map />} title="Pan India Presence" desc="Strong distribution network across the entire nation." />
           </div>
 
-          {/* Bottom Statistics Analytics Row */}
-          <div className="bg-white border-t border-slate-200/80 w-full shadow-lg">
-            <div className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-x divide-slate-100 sm:divide-y-0 lg:divide-slate-200 w-full">
-              <LightStatItem
-                icon={<Award size={32} className="text-[#dc2626]" />}
-                value="30+"
-                label="Years of Excellence"
-              />
-              <LightStatItem
-                icon={<Users size={32} className="text-[#dc2626]" />}
-                value="500+"
-                label="Happy Customers"
-              />
-              <LightStatItem
-                icon={<TrendingUp size={32} className="text-[#dc2626]" />}
-                value="1 Mn+"
-                label="Tons Capacity"
-              />
-              <LightStatItem
-                icon={<ShieldCheck size={32} className="text-[#dc2626]" />}
-                value="ISI"
-                label="Certified Products"
-              />
-            </div>
+          {/* Stats Analytics Dashboard Row */}
+          <div className="bg-white rounded-2xl border border-slate-100 p-6 sm:p-8 shadow-md grid grid-cols-2 lg:grid-cols-4 gap-6 divide-y sm:divide-y-0 lg:divide-x lg:divide-slate-100">
+            <StatItem icon={<Award />} value="30+" label="Years of Excellence" />
+            <div className="pt-4 sm:pt-0"><StatItem icon={<Users />} value="500+" label="Happy Customers" /></div>
+            <div className="pt-4 lg:pt-0"><StatItem icon={<TrendingUp />} value="1 Mn+" label="Tons Capacity" /></div>
+            <div className="pt-4 lg:pt-0"><StatItem icon={<ShieldCheck />} value="ISI" label="Certified Products" /></div>
           </div>
-
-          {/* Industrial Contrast Strip */}
-          <div className="w-full h-2.5 bg-gradient-to-r from-slate-400 via-slate-500 to-slate-400 border-t border-b border-black/10 shadow-inner" />
+          
         </div>
-
       </div>
     </section>
   );
 }
 
-function DarkFeatureItem({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
+function FeatureItem({ icon, title, desc }: { icon: React.ReactElement; title: string; desc: string }) {
   return (
-    <div className="p-6 sm:p-8 xl:p-10 flex items-start gap-4 w-full hover:bg-white/[0.025] transition-colors duration-300">
-      <div className="shrink-0 p-2.5 bg-white/5 rounded-xl border border-white/10 shadow-inner">{icon}</div>
+    <div className="flex gap-4">
+      <div className="shrink-0 text-red-600 mt-1">
+        {React.cloneElement(icon, { size: 22 })}
+      </div>
       <div>
-        <h4 className="text-xs font-black uppercase tracking-[2px] text-white/95">{title}</h4>
-        <p className="text-slate-400 text-xs sm:text-sm mt-2 leading-relaxed font-normal">{desc}</p>
+        <h4 className="text-sm font-bold text-slate-900 tracking-tight">{title}</h4>
+        <p className="text-slate-500 text-xs sm:text-sm mt-1.5 leading-relaxed">{desc}</p>
       </div>
     </div>
   );
 }
 
-function LightStatItem({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) {
+import React from "react";
+
+function StatItem({ icon, value, label }: { icon: React.ReactElement; value: string; label: string }) {
   return (
-    <div className="p-6 sm:p-8 xl:p-10 flex items-center justify-center gap-5 w-full hover:bg-slate-50/80 transition-colors duration-200">
-      <div className="shrink-0 p-3 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm">{icon}</div>
+    <div className="flex items-center gap-4 lg:justify-center w-full">
+      <div className="shrink-0 p-3 bg-red-50 text-red-600 rounded-xl">
+        {React.cloneElement(icon, { size: 24 })}
+      </div>
       <div>
-        <h3 className="text-3xl sm:text-4xl font-serif font-black text-slate-900 tracking-tight leading-none">{value}</h3>
-        <p className="text-slate-600 text-[11px] sm:text-xs mt-2 font-black tracking-widest uppercase">{label}</p>
+        <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-none">{value}</h3>
+        <p className="text-slate-500 text-[11px] font-medium tracking-wider uppercase mt-1">{label}</p>
       </div>
     </div>
   );
