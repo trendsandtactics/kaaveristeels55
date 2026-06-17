@@ -116,12 +116,12 @@ export default function HomeAbout() {
             </div>
 
             {/* Heading */}
-            <h2 className="text-4xl sm:text-5xl xl:text-6xl font-black leading-tight text-slate-900">
-              Building India's
-              <span className="block text-red-600">
-                Strongest Foundations
-              </span>
-            </h2>
+<h2 className="text-4xl sm:text-5xl xl:text-6xl font-black leading-tight text-slate-900">
+  Building India&apos;s
+  <span className="block text-red-600">
+    Strongest Foundations
+  </span>
+</h2>
 
             {/* Description */}
             <p className="mt-8 text-slate-600 leading-relaxed text-base lg:text-lg">
