@@ -16,16 +16,17 @@ import {
 
 export default function AboutSection() {
   return (
-    <section className="relative w-full bg-[#f8f8f8] font-sans antialiased">
-      <div className="w-full mx-auto max-w-[1920px]">
+    <section className="relative w-full bg-white font-sans antialiased left-0 right-0">
+      {/* Container forced to occupy 100% viewport width without padding or max-width limitations */}
+      <div className="w-full min-w-full">
         
-        {/* Main Hero Grid Section */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-[53%_47%] min-h-[680px] xl:min-h-[780px] bg-white overflow-hidden">
+        {/* Main Hero Grid Section - Full Bleed */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-[53%_47%] min-h-[680px] xl:min-h-[780px] bg-white overflow-hidden w-full">
           
           {/* Left Side: Image with Experience Badge */}
-          <div className="relative h-[450px] sm:h-[550px] lg:h-auto overflow-hidden">
+          <div className="relative h-[450px] sm:h-[550px] lg:h-auto overflow-hidden w-full">
             <Image
-              src="/downlaod.png" // Fixed your filename typo locally if needed
+              src="/downlaod.png"
               alt="KAAVERI Steel Structure"
               fill
               priority
@@ -51,7 +52,7 @@ export default function AboutSection() {
 
           {/* Right Side: Content Area with Angled Clip Path */}
           <div 
-            className="relative bg-white z-10 lg:-ml-[12%] pl-8 pr-8 sm:px-12 lg:pl-24 lg:pr-16 xl:pr-24 py-16 lg:py-20 flex flex-col justify-center"
+            className="relative bg-white z-10 lg:-ml-[12%] pl-8 pr-8 sm:px-12 lg:pl-24 lg:pr-16 xl:pr-24 py-16 lg:py-20 flex flex-col justify-center w-full"
             style={{
               clipPath: typeof window !== 'undefined' && window.innerWidth >= 1024 
                 ? "polygon(12% 0, 100% 0, 100% 100%, 0% 100%)" 
@@ -132,9 +133,9 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Navy Blue Feature Strip */}
-        <div className="bg-[#06162c] text-white border-b border-white/5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 lg:divide-x divide-white/10">
+        {/* Navy Blue Feature Strip - Full Bleed */}
+        <div className="bg-[#06162c] text-white border-b border-white/5 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 lg:divide-x divide-white/10 w-full">
             <DarkFeatureItem
               icon={<Factory size={28} className="text-red-500" />}
               title="Advanced Manufacturing"
@@ -158,9 +159,9 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Light Minimalist Stats Footer */}
-        <div className="bg-white border-t border-slate-200">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-slate-200">
+        {/* Light Minimalist Stats Footer - Full Bleed */}
+        <div className="bg-white border-t border-slate-200 w-full">
+          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-slate-200 w-full">
             <LightStatItem
               icon={<Award size={32} className="text-red-600" />}
               value="30+"
@@ -189,7 +190,6 @@ export default function AboutSection() {
   );
 }
 
-/* Internal helper sub-component for Dark Ribbon */
 function DarkFeatureItem({
   icon,
   title,
@@ -200,7 +200,7 @@ function DarkFeatureItem({
   desc: string;
 }) {
   return (
-    <div className="p-8 flex items-start gap-4">
+    <div className="p-8 flex items-start gap-4 w-full">
       <div className="shrink-0 mt-1">{icon}</div>
       <div>
         <h4 className="text-xs font-bold uppercase tracking-[1.5px] text-white">
@@ -214,7 +214,6 @@ function DarkFeatureItem({
   );
 }
 
-/* Internal helper sub-component for Light Bottom Ribbon */
 function LightStatItem({
   icon,
   value,
@@ -225,7 +224,7 @@ function LightStatItem({
   label: string;
 }) {
   return (
-    <div className="p-6 sm:p-8 flex items-center justify-center gap-4">
+    <div className="p-6 sm:p-8 flex items-center justify-center gap-4 w-full">
       <div className="shrink-0">{icon}</div>
       <div>
         <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-none">
