@@ -20,6 +20,7 @@ const products = [
     description:
       "High-strength ribbed TMT bars built for maximum durability, flexibility, and earthquake resistance.",
     href: "/products?category=TMT",
+    accentColor: "group-hover:border-red-500/50",
   },
   {
     name: "Structural Steels",
@@ -28,6 +29,7 @@ const products = [
     description:
       "Premium quality structural steels designed for robust frameworks and enduring performance.",
     href: "/products?category=Structural",
+    accentColor: "group-hover:border-yellow-500/50",
   },
 ];
 
@@ -56,94 +58,94 @@ const features = [
 
 export default function HomeProducts() {
   return (
-    <section className="relative overflow-hidden py-20 lg:py-24">
-      {/* Background Image */}
+    <section className="relative overflow-hidden w-full bg-slate-950 py-16 lg:py-24">
+      {/* Crisp Background Image with explicit dark solid overlay */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/productbg.png"
           alt="Products Background"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-center pointer-events-none"
         />
-
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/70" />
-
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900/80" />
+        {/* Solid uniform opacity block instead of distracting gradients */}
+        <div className="absolute inset-0 bg-black/85" />
       </div>
 
-      {/* Main Container - Set to a balanced 1600px max-width */}
-      <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 lg:px-16 w-full">
+      {/* Main Container */}
+      <div className="relative z-10 w-full max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col justify-between min-h-screen">
         
         {/* Heading */}
-        <div className="text-center mb-16 lg:mb-20">
+        <div className="text-center mb-12 lg:mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-4 mb-5"
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-4 mb-4"
           >
-            <div className="w-12 h-[2px] bg-red-500" />
-            <span className="uppercase tracking-[0.35em] text-red-400 text-sm font-bold">
+            <div className="w-8 h-[2px] bg-red-500" />
+            <span className="uppercase tracking-[0.4em] text-red-500 text-xs font-black">
               Our Products
             </span>
-            <div className="w-12 h-[2px] bg-red-500" />
+            <div className="w-8 h-[2px] bg-red-500" />
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-serif text-4xl md:text-6xl lg:text-7xl text-white mb-6"
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="font-sans font-extrabold tracking-tight text-4xl md:text-6xl lg:text-7xl text-white mb-4"
           >
-            Masterpieces of <span className="text-red-400">Steel</span>
+            Masterpieces of <span className="text-red-500">Steel</span>
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-3xl mx-auto text-lg text-white/70 leading-relaxed"
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="max-w-2xl mx-auto text-base md:text-lg text-slate-400 leading-relaxed"
           >
             Engineered to perfection, our diverse range of steel products forms
             the resilient core of iconic structures worldwide.
           </motion.p>
         </div>
 
-        {/* Product Cards Grid - Well proportioned sizes */}
-        <div className="grid lg:grid-cols-2 gap-8 xl:gap-10 w-full">
+        {/* Product Cards Grid - Occupies the primary real estate space */}
+        <div className="grid lg:grid-cols-2 gap-6 xl:gap-8 w-full flex-grow items-stretch">
           {products.map((product, index) => (
             <motion.div
               key={product.name}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{
-                duration: 0.7,
-                delay: index * 0.15,
+                duration: 0.6,
+                delay: index * 0.1,
               }}
-              className="w-full"
+              className="w-full h-full flex"
             >
-              <Link href={product.href} className="block w-full">
+              <Link href={product.href} className="block w-full h-full group">
                 <div
-                  className="
-                    group
+                  className={`
                     relative
                     overflow-hidden
-                    rounded-[32px]
-                    shadow-[0_20px_50px_rgba(0,0,0,0.5)]
-                    h-[550px] md:h-[600px] lg:h-[640px]
-                    cursor-pointer
-                    border border-white/10
+                    rounded-[24px]
+                    shadow-2xl
+                    min-h-[500px] md:min-h-[580px] lg:h-full
                     w-full
-                  "
+                    border border-white/10
+                    bg-slate-900/40
+                    backdrop-blur-sm
+                    transition-all
+                    duration-500
+                    flex flex-col justify-end
+                    ${product.accentColor}
+                  `}
                 >
-                  {/* Product Image */}
+                  {/* Dynamic Zoom Product Image */}
                   <Image
                     src={product.image}
                     alt={product.name}
@@ -152,17 +154,15 @@ export default function HomeProducts() {
                       object-cover
                       transition-transform
                       duration-700
+                      ease-out
                       group-hover:scale-105
                     "
                   />
 
-                  {/* Dark Vignette Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-transparent" />
+                  {/* Elegant High-Contrast Bottom Vignette Shadow */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10 duration-500 group-hover:via-black/50" />
 
-                  {/* Branding Color Overlay Accent */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/15 via-transparent to-transparent" />
-
-                  {/* Shimmer Effect */}
+                  {/* Clean Shimmer Sweep Animation */}
                   <div
                     className="
                       absolute
@@ -172,58 +172,58 @@ export default function HomeProducts() {
                       w-1/2
                       bg-gradient-to-r
                       from-transparent
-                      via-white/15
+                      via-white/10
                       to-transparent
                       skew-x-12
                       transition-all
                       duration-1000
-                      group-hover:left-[140%]
+                      group-hover:left-[150%]
+                      z-10
                     "
                   />
 
-                  {/* Card Content Layout */}
-                  <div className="absolute inset-0 z-20 p-8 md:p-10 lg:p-12 flex flex-col justify-between">
-                    <div>
-                      <div
-                        className="
-                          inline-flex
-                          items-center
-                          px-5
-                          py-2
-                          rounded-full
-                          bg-white/10
-                          backdrop-blur-xl
-                          border
-                          border-white/20
-                          text-white
-                          text-xs
-                          font-semibold
-                          tracking-wider
-                        "
-                      >
-                        {product.category}
-                      </div>
+                  {/* Card Header Category Tag */}
+                  <div className="absolute top-0 left-0 p-6 md:p-8 z-20">
+                    <div
+                      className="
+                        inline-flex
+                        items-center
+                        px-4
+                        py-1.5
+                        rounded-full
+                        bg-black/50
+                        backdrop-blur-md
+                        border
+                        border-white/10
+                        text-white
+                        text-[11px]
+                        font-bold
+                        tracking-widest
+                      "
+                    >
+                      {product.category}
                     </div>
+                  </div>
 
-                    <div>
-                      <div className="w-14 h-1 bg-yellow-400 mb-5 rounded-full" />
+                  {/* Card Core Interactive Content */}
+                  <div className="relative z-20 p-6 md:p-10 lg:p-12 w-full">
+                    <div className="w-12 h-[3px] bg-red-500 mb-4 rounded-full transition-all duration-300 group-hover:w-20" />
 
-                      <h3 className="text-white text-4xl md:text-5xl font-bold mb-5 leading-none">
-                        {product.name}
-                      </h3>
+                    <h3 className="text-white text-3xl md:text-5xl font-black mb-4 tracking-tight">
+                      {product.name}
+                    </h3>
 
-                      <p className="text-white/85 max-w-lg leading-relaxed text-base md:text-lg mb-8">
-                        {product.description}
-                      </p>
+                    <p className="text-slate-200 max-w-md leading-relaxed text-sm md:text-base mb-8 opacity-90">
+                      {product.description}
+                    </p>
 
-                      <div className="flex items-center justify-between">
-                        <div className="px-7 py-3.5 rounded-full border border-white/30 backdrop-blur-md text-white font-semibold text-sm tracking-wide transition-colors group-hover:bg-white/10">
-                          EXPLORE PRODUCT
-                        </div>
+                    <div className="flex items-center justify-between pt-2">
+                      <div className="px-6 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm text-white font-bold text-xs tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
+                        EXPLORE PRODUCT
+                      </div>
 
-                        <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2">
-                          <ArrowRight className="w-5 h-5 text-black" />
-                        </div>
+                      <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-lg">
+                        <ArrowRight className="w-5 h-5 text-black" />
                       </div>
                     </div>
                   </div>
@@ -233,37 +233,36 @@ export default function HomeProducts() {
           ))}
         </div>
 
-        {/* Features Strip - Aligned perfectly with the 1600px grid bounds */}
+        {/* Features Strip */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.6 }}
           className="
-            mt-16 lg:mt-20
-            bg-white/10
-            backdrop-blur-xl
-            rounded-[32px]
-            shadow-2xl
+            mt-12 lg:mt-16
+            bg-slate-900/60
+            backdrop-blur-md
+            rounded-[20px]
             border
-            border-white/15
-            p-8
+            border-white/5
+            p-6 md:p-8
             w-full
           "
         >
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {features.map((item) => {
               const Icon = item.icon;
 
               return (
                 <div key={item.title} className="flex items-center gap-4 justify-start lg:justify-center">
-                  <div className="w-14 h-14 rounded-full bg-green-500/20 border border-green-400/30 flex items-center justify-center shrink-0">
-                    <Icon className="w-6 h-6 text-green-400" />
+                  <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-red-400" />
                   </div>
 
                   <div>
-                    <h4 className="font-bold text-white text-base">{item.title}</h4>
-                    <p className="text-white/55 text-sm">{item.subtitle}</p>
+                    <h4 className="font-extrabold text-white text-sm md:text-base tracking-tight">{item.title}</h4>
+                    <p className="text-slate-400 text-xs md:text-sm">{item.subtitle}</p>
                   </div>
                 </div>
               );
