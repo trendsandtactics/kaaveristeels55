@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "react-link";
 import { motion, useInView, animate } from "framer-motion";
 import { ArrowRight, Download, CheckCircle2, Award, Shield, Globe } from "lucide-react";
 
@@ -58,16 +58,16 @@ export default function HomeAbout() {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
       </div>
 
-      {/* Main Content Layout Container */}
-      <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 z-10 my-auto grid lg:grid-cols-12 gap-8 items-center">
+      {/* Main Content Layout Container (Shifted left via reduced left padding) */}
+      <div className="relative w-full max-w-[1440px] mx-auto pl-4 sm:pl-8 lg:pl-12 pr-6 sm:pr-12 lg:pr-24 z-10 my-auto grid lg:grid-cols-12 gap-8 items-center">
         
-        {/* Left-aligned Content Block (Shifted slightly left with optimized column weight) */}
+        {/* Left-Aligned Content Block (Expanded column weight to push closer to the left edge) */}
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col lg:col-span-8 xl:col-span-9 w-full"
+          className="flex flex-col lg:col-span-10 xl:col-span-10 w-full"
         >
           {/* Subheading tag */}
           <div className="flex items-center gap-3 mb-4">
@@ -77,15 +77,15 @@ export default function HomeAbout() {
             </span>
           </div>
 
-          {/* Expanded Main Heading */}
+          {/* Main Heading */}
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold font-sans tracking-tight leading-[1.1] mb-6 max-w-[850px]">
             Forging India’s <br />
             Future in Steel <br />
             <span className="text-red-600">Excellence</span>
           </h2>
 
-          {/* Crisp, Highly Readable Prose Description */}
-          <div className="space-y-4 text-gray-300 text-base sm:text-lg md:text-xl font-normal leading-relaxed mb-8 max-w-[800px] opacity-95">
+          {/* Prose Description */}
+          <div className="space-y-4 text-gray-300 text-base sm:text-lg md:text-xl font-normal leading-relaxed mb-8 max-w-[850px] opacity-95">
             <p>
               At Kaaveri, we engineer the resilient core of iconic structures. As a leading
               manufacturer of premium TMT bars and structural steel, we blend decades of
@@ -141,17 +141,17 @@ export default function HomeAbout() {
           </div>
         </motion.div>
 
-        {/* Right Area Spacer */}
-        <div className="hidden lg:block lg:col-span-4 xl:col-span-3" />
+        {/* Right Area Spacer narrowed down to pull content left */}
+        <div className="hidden lg:block lg:col-span-2 xl:col-span-2" />
       </div>
 
-      {/* Footer Feature Box Container (Brought securely back into view) */}
+      {/* Footer Feature Box Container (Aligned perfectly with the left-shifted grid) */}
       <motion.div 
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 z-10 mt-10"
+        className="relative w-full max-w-[1440px] mx-auto pl-4 sm:pl-8 lg:pl-12 pr-6 sm:pr-12 lg:pr-24 z-10 mt-10"
       >
         <div className="w-full bg-black/60 backdrop-blur-md border border-white/10 p-6 sm:p-10 rounded-sm grid md:grid-cols-[30%_1fr] gap-6 items-center">
           
