@@ -76,14 +76,14 @@ export default function HomeAbout() {
               <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">TRUSTED BY INDIA.</span>
             </h2>
 
-            {/* Intro Description text */}
-            <p className="text-slate-600 leading-relaxed text-base">
-              At <span className="text-red-600 font-bold tracking-wide">KAAVERI</span>, we are passionate about steel and dedicated to excellence. As a leading manufacturer of TMT bars and structural steel products, we supply the construction industry with materials engineered for longevity.
+            {/* Expanded Description Text Block */}
+            <p className="text-slate-700 font-normal leading-relaxed text-lg md:text-xl tracking-wide">
+              At <span className="text-red-600 font-extrabold">KAAVERI</span>, we are passionate about steel and dedicated to excellence. As a leading manufacturer of TMT bars and structural steel products, we supply the construction industry with materials engineered for longevity.
             </p>
 
             {/* Blockquote Segment */}
             <div className="relative border-l-4 border-red-600 pl-5 py-2 my-2 bg-gradient-to-r from-slate-50 to-transparent rounded-r-lg">
-              <p className="italic text-slate-700 text-base font-medium leading-relaxed">
+              <p className="italic text-slate-800 text-base font-medium leading-relaxed">
                 {"\"Our rigorous quality control ensures every product meets the highest global standards — empowering builders to raise structures that stand the test of time.\""}
               </p>
             </div>
