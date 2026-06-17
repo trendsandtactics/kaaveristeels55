@@ -16,10 +16,10 @@ import {
 
 export default function AboutSection() {
   return (
-    <section className="relative w-full bg-[#f8f9fa] font-sans antialiased overflow-hidden pb-4">
+    <section className="relative w-full bg-white font-sans antialiased overflow-hidden pb-4">
       <div className="w-full mx-auto max-w-[1920px]">
         
-        {/* Main Hero Container - Creates the perfect angled separation */}
+        {/* Main Hero Container */}
         <div className="relative grid grid-cols-1 lg:grid-cols-12 min-h-[680px] xl:min-h-[760px] bg-white overflow-hidden w-full">
           
           {/* Left Side: Industrial Facility Image Block */}
@@ -29,7 +29,7 @@ export default function AboutSection() {
               alt="KAAVERI Steel Manufacturing Plant"
               fill
               priority
-              className="object-cover object-center transform scale-100 group-hover:scale-102 transition-transform duration-700 ease-out"
+              className="object-cover object-center transform scale-100 group-hover:scale-[1.02] transition-transform duration-700 ease-out"
             />
 
             {/* Top-Left Vertical 30+ Ribbon Badge */}
@@ -53,9 +53,9 @@ export default function AboutSection() {
             />
           </div>
 
-          {/* Right Side: Editorial Content Area with Angled Cut */}
+          {/* Right Side: Content Area with Angled Cut (Now pure high-contrast White) */}
           <div 
-            className="relative lg:col-span-6 xl:col-span-6 bg-[#f8f9fa] z-10 lg:-ml-10 pl-6 pr-6 sm:px-12 lg:pl-20 lg:pr-12 xl:pl-24 xl:pr-28 py-14 lg:py-16 flex flex-col justify-center w-full
+            className="relative lg:col-span-6 xl:col-span-6 bg-white z-10 lg:-ml-10 pl-6 pr-6 sm:px-12 lg:pl-20 lg:pr-12 xl:pl-24 xl:pr-28 py-14 lg:py-16 flex flex-col justify-center w-full
               [clip-path:none] lg:[clip-path:polygon(60px_0,100%_0,100%_100%,0%_100%)]"
           >
             {/* Section Tagline */}
@@ -75,50 +75,50 @@ export default function AboutSection() {
             </h2>
 
             {/* Descriptive Body Text */}
-            <p className="text-slate-600 text-sm xl:text-base max-w-xl leading-relaxed mt-5 font-normal">
+            <p className="text-slate-700 text-sm xl:text-base max-w-xl leading-relaxed mt-5 font-normal">
               At <span className="font-bold text-[#dc2626]">KAAVERI</span>, we are passionate about steel and dedicated to excellence. 
               As a leading manufacturer of TMT bars and structural steel products, we supply the construction 
               industry with materials engineered for longevity.
             </p>
 
             {/* Executive Quote Block */}
-            <div className="my-5 flex gap-3.5 max-w-xl bg-white border border-slate-200/60 p-4 rounded-r-xl border-l-4 border-l-[#dc2626] shadow-sm">
+            <div className="my-5 flex gap-3.5 max-w-xl bg-slate-50/60 border border-slate-200/60 p-4 rounded-r-xl border-l-4 border-l-[#dc2626] shadow-sm">
               <span className="text-[#dc2626] font-serif text-3xl font-black leading-none select-none">“</span>
-              <p className="text-slate-700 italic text-xs sm:text-sm font-medium leading-relaxed">
+              <p className="text-slate-800 italic text-xs sm:text-sm font-medium leading-relaxed">
                 Our rigorous quality control ensures every product meets the highest global standards — empowering 
                 builders to raise structures that stand the test of time.
               </p>
             </div>
 
             {/* Three-Column Specifications Badge Grid */}
-            <div className="border border-slate-200/80 rounded-xl bg-white shadow-sm grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-100 overflow-hidden max-w-2xl">
-              <div className="p-3.5 flex items-center gap-3 hover:bg-slate-50/50 transition-colors duration-150">
+            <div className="border border-slate-200/80 rounded-xl bg-slate-50/30 shadow-sm grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-100 overflow-hidden max-w-2xl">
+              <div className="p-3.5 flex items-center gap-3 hover:bg-white transition-colors duration-150">
                 <div className="p-2 bg-red-50 rounded-lg text-[#dc2626]">
                   <Package className="w-5 h-5 shrink-0" />
                 </div>
                 <div>
                   <h4 className="font-black text-[11px] text-slate-900 tracking-tight">PREMIUM TMT BARS</h4>
-                  <p className="text-slate-500 text-[10px] mt-0.5">High strength & safety</p>
+                  <p className="text-slate-600 text-[10px] mt-0.5">High strength & safety</p>
                 </div>
               </div>
 
-              <div className="p-3.5 flex items-center gap-3 hover:bg-slate-50/50 transition-colors duration-150">
+              <div className="p-3.5 flex items-center gap-3 hover:bg-white transition-colors duration-150">
                 <div className="p-2 bg-red-50 rounded-lg text-[#dc2626]">
                   <ShieldCheck className="w-5 h-5 shrink-0" />
                 </div>
                 <div>
                   <h4 className="font-black text-[11px] text-slate-900 tracking-tight">ISI CERTIFIED</h4>
-                  <p className="text-slate-500 text-[10px] mt-0.5">Tested & trusted</p>
+                  <p className="text-slate-600 text-[10px] mt-0.5">Tested & trusted</p>
                 </div>
               </div>
 
-              <div className="p-3.5 flex items-center gap-3 hover:bg-slate-50/50 transition-colors duration-150">
+              <div className="p-3.5 flex items-center gap-3 hover:bg-white transition-colors duration-150">
                 <div className="p-2 bg-red-50 rounded-lg text-[#dc2626]">
                   <Users className="w-5 h-5 shrink-0" />
                 </div>
                 <div>
                   <h4 className="font-black text-[11px] text-slate-900 tracking-tight">TRUSTED PARTNERS</h4>
-                  <p className="text-slate-500 text-[10px] mt-0.5">Nationwide network</p>
+                  <p className="text-slate-600 text-[10px] mt-0.5">Nationwide network</p>
                 </div>
               </div>
             </div>
@@ -217,7 +217,7 @@ function LightStatItem({ icon, value, label }: { icon: React.ReactNode; value: s
       <div className="shrink-0 p-2 bg-slate-50 rounded-xl">{icon}</div>
       <div>
         <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-none">{value}</h3>
-        <p className="text-slate-500 text-[10px] sm:text-[11px] mt-1.5 font-bold tracking-wide uppercase">{label}</p>
+        <p className="text-slate-600 text-[10px] sm:text-[11px] mt-1.5 font-bold tracking-wide uppercase">{label}</p>
       </div>
     </div>
   );
