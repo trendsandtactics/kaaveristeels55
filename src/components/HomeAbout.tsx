@@ -16,20 +16,21 @@ import {
 
 export default function AboutSection() {
   return (
-    <section className="relative w-full bg-white font-sans antialiased overflow-hidden flex flex-col justify-between">
-      <div className="w-full w-screen max-w-none flex flex-col flex-grow">
+    <section className="relative w-full bg-white font-sans antialiased overflow-hidden flex flex-col justify-between min-h-screen">
+      {/* Container stripped of absolute max-width limits to occupy full viewport width */}
+      <div className="w-full max-w-none flex flex-col flex-grow">
         
-        {/* Main Immersive Split Grid System */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-12 min-h-[80vh] xl:min-h-[85vh] bg-white overflow-hidden w-full flex-grow">
+        {/* Main Edge-to-Edge Split Grid System */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-12 bg-white overflow-hidden w-full flex-grow">
           
           {/* Left Side: Industrial Facility Image Block */}
-          <div className="relative lg:col-span-6 h-[460px] sm:h-[560px] lg:h-auto overflow-hidden w-full group">
+          <div className="relative lg:col-span-5 xl:col-span-5 h-[460px] sm:h-[560px] lg:h-auto overflow-hidden w-full group">
             <Image
               src="/download.png"
               alt="KAAVERI Steel Manufacturing Plant"
               fill
               priority
-              className="object-cover object-center transform scale-100 group-hover:scale-[1.03] transition-transform duration-[1000ms] ease-out"
+              className="object-cover object-center transform scale-100 group-hover:scale-[1.02] transition-transform duration-[1000ms] ease-out"
             />
 
             {/* Immersive Top-Left Floating Ribbon Badge */}
@@ -53,10 +54,14 @@ export default function AboutSection() {
             />
           </div>
 
-          {/* Right Side: High-Contrast Pure White Copy Panel */}
+          {/* Right Side: Completely Expansive content frame spanning remaining width */}
           <div 
-            className="relative lg:col-span-6 bg-white z-10 lg:-ml-14 pl-6 pr-6 sm:px-16 lg:pl-28 lg:pr-16 xl:pl-36 xl:pr-32 py-16 lg:py-24 flex flex-col justify-center w-full
-              [clip-path:none] lg:[clip-path:polygon(80px_0,100%_0,100%_100%,0%_100%)]"
+            className="relative lg:col-span-7 xl:col-span-7 bg-white z-10 lg:-ml-14 pl-6 pr-6 sm:px-16 lg:pl-28 lg:pr-16 xl:pl-32 xl:pr-40 py-16 lg:py-24 flex flex-col justify-center w-full flex-grow"
+            style={{
+              clipPath: typeof window !== "undefined" && window.innerWidth >= 1024 
+                ? "polygon(60px 0, 100% 0, 100% 100%, 0% 100%)" 
+                : "none"
+            }}
           >
             {/* Section Tagline */}
             <div className="flex items-center gap-3 mb-5">
@@ -74,15 +79,15 @@ export default function AboutSection() {
               Trusted By India.
             </h2>
 
-            {/* Fixed Intro Description Body Text (No More Duplication) */}
-            <p className="text-slate-700 text-base sm:text-lg xl:text-xl max-w-2xl leading-relaxed mt-6 font-normal">
+            {/* Description Body Text */}
+            <p className="text-slate-700 text-base sm:text-lg xl:text-xl max-w-4xl leading-relaxed mt-6 font-normal">
               At <span className="font-bold text-[#dc2626]">KAAVERI</span>, we are passionate about steel and dedicated to excellence. 
               As a leading manufacturer of TMT bars and structural steel products, we supply the construction 
               industry with materials engineered for longevity.
             </p>
 
-            {/* Restored and Polished Executive Quote Block */}
-            <div className="my-8 flex gap-4 max-w-2xl bg-slate-50/80 border border-slate-200/80 p-6 rounded-r-2xl border-l-4 border-l-[#dc2626] shadow-sm items-start">
+            {/* Full-width Restored Executive Quote Block */}
+            <div className="my-8 flex gap-4 max-w-4xl bg-slate-50/80 border border-slate-200/80 p-6 rounded-r-2xl border-l-4 border-l-[#dc2626] shadow-sm items-start">
               <span className="text-[#dc2626] font-serif text-5xl font-black leading-none select-none mt-1">“</span>
               <p className="text-slate-800 italic text-sm sm:text-base xl:text-lg font-medium leading-relaxed">
                 Our rigorous quality control ensures every product meets the highest global standards — empowering 
@@ -90,8 +95,8 @@ export default function AboutSection() {
               </p>
             </div>
 
-            {/* Premium Multi-Column Specifications Grid */}
-            <div className="border border-slate-200/80 rounded-xl bg-slate-50/40 shadow-sm grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 overflow-hidden max-w-3xl mb-8">
+            {/* Specifications Grid scaling elegantly with full-width container space */}
+            <div className="border border-slate-200/80 rounded-xl bg-slate-50/40 shadow-sm grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 overflow-hidden max-w-4xl mb-8">
               <div className="p-5 flex items-center gap-4 hover:bg-white transition-all duration-200 group/badge">
                 <div className="p-3 bg-red-50 rounded-xl text-[#dc2626] group-hover/badge:bg-[#dc2626] group-hover/badge:text-white transition-colors duration-200">
                   <Package className="w-5 h-5 shrink-0" />
@@ -123,7 +128,7 @@ export default function AboutSection() {
               </div>
             </div>
 
-            {/* Ergonomic Call to Actions */}
+            {/* Action Callouts */}
             <div className="flex flex-wrap gap-4">
               <button className="bg-[#b91c1c] hover:bg-[#a31a1a] text-white px-8 py-4 rounded-xl flex items-center justify-center gap-2.5 font-bold text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-98">
                 Explore More
@@ -138,10 +143,9 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Heavy Industry Ribbon Footer Container */}
+        {/* Dynamic Heavy Industry Footers */}
         <div className="w-full mt-auto">
-          
-          {/* Features Ribbon (Dark Minimal Styling) */}
+          {/* Top Features Banner Row */}
           <div className="bg-[#030d1a] text-white w-full relative border-b border-white/5">
             <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 lg:divide-x divide-white/10 w-full relative z-10">
@@ -168,7 +172,7 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Statistics Dashboard Footer Ribbon */}
+          {/* Bottom Statistics Analytics Row */}
           <div className="bg-white border-t border-slate-200/80 w-full shadow-lg">
             <div className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-x divide-slate-100 sm:divide-y-0 lg:divide-slate-200 w-full">
               <LightStatItem
@@ -194,7 +198,7 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Solid Polished Steel Accent Trim */}
+          {/* Industrial Contrast Strip */}
           <div className="w-full h-2.5 bg-gradient-to-r from-slate-400 via-slate-500 to-slate-400 border-t border-b border-black/10 shadow-inner" />
         </div>
 
