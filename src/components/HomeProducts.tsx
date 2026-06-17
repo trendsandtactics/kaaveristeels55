@@ -59,7 +59,7 @@ const features = [
 export default function HomeProducts() {
   return (
     <section className="relative overflow-hidden w-full bg-slate-950 py-16 lg:py-24">
-      {/* Crisp Background Image with explicit dark solid overlay */}
+      {/* Crisp Background Image with flat solid overlay */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/bg1.png"
@@ -68,7 +68,6 @@ export default function HomeProducts() {
           priority
           className="object-cover object-center pointer-events-none"
         />
-        {/* Solid uniform opacity block instead of distracting gradients */}
         <div className="absolute inset-0 bg-black/85" />
       </div>
 
@@ -113,7 +112,7 @@ export default function HomeProducts() {
           </motion.p>
         </div>
 
-        {/* Product Cards Grid - Occupies the primary real estate space */}
+        {/* Product Cards Grid */}
         <div className="grid lg:grid-cols-2 gap-6 xl:gap-8 w-full flex-grow items-stretch">
           {products.map((product, index) => (
             <motion.div
@@ -159,8 +158,8 @@ export default function HomeProducts() {
                     "
                   />
 
-                  {/* Elegant High-Contrast Bottom Vignette Shadow */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10 duration-500 group-hover:via-black/50" />
+                  {/* Clean Solid Dark Mask on card hover instead of gradient vignette */}
+                  <div className="absolute inset-0 bg-black/40 z-10 duration-500 group-hover:bg-black/60" />
 
                   {/* Clean Shimmer Sweep Animation */}
                   <div
