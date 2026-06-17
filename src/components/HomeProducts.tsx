@@ -3,273 +3,162 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  ShieldCheck,
-  Layers3,
-  Handshake,
-  Leaf,
-} from "lucide-react";
+import { ArrowRight, FileText, Award, ShieldCheck, Users, HardHat } from "lucide-react";
 
-const products = [
-  {
-    name: "TMT Bars",
-    image: "/tmt1.png",
-    category: "TMT PRODUCTS",
-    description:
-      "High-strength ribbed TMT bars built for maximum durability, flexibility, and earthquake resistance.",
-    href: "/products?category=TMT",
-    accentColor: "group-hover:border-red-500/50",
+const dynamicBadges = [
+  { 
+    title: "PREMIUM TMT BARS", 
+    desc: "Engineered with advanced thermo-mechanical treatment for superior high-grade construction safety, exceptional tensile strength, and enhanced seismic earthquake resilience across heavy structural configurations.",
+    icon: ShieldCheck 
   },
-  {
-    name: "Structural Steels",
-    image: "/structural.png",
-    category: "STRUCTURAL PRODUCTS",
-    description:
-      "Premium quality structural steels designed for robust frameworks and enduring performance.",
-    href: "/products?category=Structural",
-    accentColor: "group-hover:border-yellow-500/50",
+  { 
+    title: "BIS CERTIFIED QUALITY", 
+    desc: "Rigorously evaluated, sampled, and completely certified to absolute industrial perfection under standard Bureau of Indian Standards (BIS) strict benchmarking and regulatory compliance protocols.",
+    icon: Award 
+  },
+  { 
+    title: "STRUCTURAL INTEGRITY", 
+    desc: "Formulated to handle high-stress distribution uniformly across large-span industrial frames, ensuring long-term structural reliability, fatigue resistance, and load-bearing safety parameters.",
+    icon: HardHat 
+  },
+  { 
+    title: "TRUSTED NATIONWIDE PARTNERS", 
+    desc: "Forging infrastructure networks across the country with premium-grade materials perfectly optimized for major commercial mega-structures, massive industrial corridors, and high-density residential complexes.",
+    icon: Users 
   },
 ];
 
-const features = [
-  {
-    icon: ShieldCheck,
-    title: "High Strength",
-    subtitle: "Built to Last",
-  },
-  {
-    icon: Layers3,
-    title: "Superior Quality",
-    subtitle: "Tested & Assured",
-  },
-  {
-    icon: Handshake,
-    title: "Trusted Across India",
-    subtitle: "Building The Nation",
-  },
-  {
-    icon: Leaf,
-    title: "Sustainable Steel",
-    subtitle: "For A Better Tomorrow",
-  },
+const stats = [
+  { label: "30+", sub: "YEARS OF INDUSTRIAL EXCELLENCE" },
+  { label: "500+", sub: "HAPPY ENTERPRISE CUSTOMERS" },
+  { label: "1 Mn+", sub: "TONS ANNUAL PRODUCTION CAPACITY" },
+  { label: "ISI", sub: "100% CERTIFIED PRODUCTS" },
 ];
 
-export default function HomeProducts() {
+export default function HomeAbout() {
   return (
-    <section className="relative overflow-hidden w-full bg-slate-950 py-16 lg:py-24">
-      {/* Crisp Background Image with explicit dark solid overlay */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/productbg.png"
-          alt="Products Background"
-          fill
-          priority
-          className="object-cover object-center pointer-events-none"
-        />
-        {/* Solid uniform opacity block instead of distracting gradients */}
-        <div className="absolute inset-0 bg-black/85" />
-      </div>
-
-      {/* Main Container */}
-      <div className="relative z-10 w-full max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col justify-between min-h-screen">
+    <section className="w-full bg-white min-h-screen flex flex-col justify-between select-none p-0 m-0 box-border">
+      
+      {/* Upper Section: Proportional Asymmetric Grid For Absolute Max-Width Utilization */}
+      <div className="flex-grow grid grid-cols-1 lg:grid-cols-12 w-full">
         
-        {/* Heading */}
-        <div className="text-center mb-12 lg:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-4 mb-4"
-          >
-            <div className="w-8 h-[2px] bg-red-500" />
-            <span className="uppercase tracking-[0.4em] text-red-500 text-xs font-black">
-              Our Products
-            </span>
-            <div className="w-8 h-[2px] bg-red-500" />
-          </motion.div>
+        {/* Left Side: Immersive Imagery Block (Occupies 5 Columns, forced full height framework) */}
+        <div className="relative lg:col-span-5 w-full h-[500px] lg:h-auto overflow-hidden">
+          <Image
+            src="/product.png" 
+            alt="Kaveri Steel Plant Production Facility"
+            fill
+            priority
+            className="object-cover object-center w-full h-full"
+          />
+          
+          {/* Industrial Red Overlay Badge */}
+          <div className="absolute top-12 left-12 bg-gradient-to-br from-red-600 to-red-700 text-white p-6 uppercase text-center shadow-2xl tracking-wider rounded-sm border border-white/10 z-10">
+            <span className="text-4xl font-black block mb-1 tracking-tight">30+</span>
+            <span className="text-[11px] font-black text-red-100 block leading-tight tracking-widest">Years of<br/>Excellence</span>
+          </div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-sans font-extrabold tracking-tight text-4xl md:text-6xl lg:text-7xl text-white mb-4"
-          >
-            Masterpieces of <span className="text-red-500">Steel</span>
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-2xl mx-auto text-base md:text-lg text-slate-400 leading-relaxed"
-          >
-            Engineered to perfection, our diverse range of steel products forms
-            the resilient core of iconic structures worldwide.
-          </motion.p>
+          <div className="hidden lg:block absolute top-0 right-0 h-full w-[1px] bg-slate-200" />
         </div>
 
-        {/* Product Cards Grid - Occupies the primary real estate space */}
-        <div className="grid lg:grid-cols-2 gap-6 xl:gap-8 w-full flex-grow items-stretch">
-          {products.map((product, index) => (
-            <motion.div
-              key={product.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.1,
-              }}
-              className="w-full h-full flex"
-            >
-              <Link href={product.href} className="block w-full h-full group">
-                <div
-                  className={`
-                    relative
-                    overflow-hidden
-                    rounded-[24px]
-                    shadow-2xl
-                    min-h-[500px] md:min-h-[580px] lg:h-full
-                    w-full
-                    border border-white/10
-                    bg-slate-900/40
-                    backdrop-blur-sm
-                    transition-all
-                    duration-500
-                    flex flex-col justify-end
-                    ${product.accentColor}
-                  `}
-                >
-                  {/* Dynamic Zoom Product Image */}
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="
-                      object-cover
-                      transition-transform
-                      duration-700
-                      ease-out
-                      group-hover:scale-105
-                    "
-                  />
+        {/* Right Side: Fully Restructured Wide Copy Area (Occupies 7 Columns with Maximized Font Sizes) */}
+        <div className="lg:col-span-7 flex flex-col justify-center bg-white px-8 sm:px-14 md:px-20 lg:px-24 xl:px-32 py-20 lg:py-16 w-full max-w-none">
+          <div className="w-full max-w-none space-y-12">
+            
+            {/* Context Label */}
+            <div className="flex items-center gap-4">
+              <span className="uppercase tracking-[0.4em] text-red-600 text-sm font-black">
+                ABOUT KAAVERI STEELS
+              </span>
+              <div className="w-24 h-[3px] bg-red-600 rounded-full" />
+            </div>
 
-                  {/* Elegant High-Contrast Bottom Vignette Shadow */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10 duration-500 group-hover:via-black/50" />
+            {/* Massive Typography Header Block */}
+            <div className="space-y-8 w-full max-w-none">
+              <h2 className="font-sans font-black text-5xl sm:text-6xl xl:text-7xl 2xl:text-8xl text-slate-900 tracking-tight leading-[1.08] w-full">
+                BUILT ON INDUSTRIAL STEEL.<br />
+                <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">TRUSTED BY BUILDERS ACROSS INDIA.</span>
+              </h2>
+              
+              {/* Core Description Text Block (Upscaled Font Sizes & Extended Copy to span width natively) */}
+              <p className="text-slate-600 font-normal leading-relaxed text-lg sm:text-xl xl:text-2xl w-full">
+                At <span className="text-red-600 font-extrabold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
+              </p>
 
-                  {/* Clean Shimmer Sweep Animation */}
-                  <div
-                    className="
-                      absolute
-                      -left-full
-                      top-0
-                      h-full
-                      w-1/2
-                      bg-gradient-to-r
-                      from-transparent
-                      via-white/10
-                      to-transparent
-                      skew-x-12
-                      transition-all
-                      duration-1000
-                      group-hover:left-[150%]
-                      z-10
-                    "
-                  />
+              {/* Supporting Block (Fills empty vertical real-estate with rich, professional context) */}
+              <p className="text-slate-500 font-normal leading-relaxed text-base sm:text-lg xl:text-xl w-full">
+                By integrating state-of-the-art continuous rolling mill machinery with automated thermo-processing techniques, our manufacturing framework eliminates hidden vulnerabilities. We continue to pioneer high-ductility metallurgy that withstands environmental shifts, optimizing architectural safety footprints at scale.
+              </p>
+            </div>
 
-                  {/* Card Header Category Tag */}
-                  <div className="absolute top-0 left-0 p-6 md:p-8 z-20">
-                    <div
-                      className="
-                        inline-flex
-                        items-center
-                        px-4
-                        py-1.5
-                        rounded-full
-                        bg-black/50
-                        backdrop-blur-md
-                        border
-                        border-white/10
-                        text-white
-                        text-[11px]
-                        font-bold
-                        tracking-widest
-                      "
-                    >
-                      {product.category}
+            {/* Premium Large Blockquote Accent */}
+            <div className="relative border-l-8 border-red-600 pl-8 py-4 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl w-full">
+              <p className="italic text-slate-800 text-base sm:text-lg xl:text-xl 2xl:text-2xl font-semibold leading-relaxed w-full">
+                {"\"Our rigorous, multi-stage advanced quality control checks ensure that every single production item leaving our plant meets the absolute highest international standards — empowering modern structural engineers and builders to confidently raise industrial frameworks that stand the test of time.\""}
+              </p>
+            </div>
+
+            {/* Feature Cards Grid (Enhanced Padding, Expanded Text, and 4 Column layout across wide viewports) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 w-full max-w-none pt-4">
+              {dynamicBadges.map((badge, idx) => {
+                const Icon = badge.icon;
+                return (
+                  <div 
+                    key={idx} 
+                    className="group border border-slate-200 rounded-xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 bg-slate-50/50 hover:bg-white hover:border-red-500 hover:shadow-2xl"
+                  >
+                    <div className="w-14 h-14 rounded-xl bg-red-50 text-red-600 flex items-center justify-center mb-6 transition-colors group-hover:bg-red-600 group-hover:text-white shrink-0 shadow-sm">
+                      <Icon className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-black text-slate-900 tracking-wider mb-3 uppercase group-hover:text-red-600 transition-colors leading-snug">
+                        {badge.title}
+                      </h4>
+                      <p className="text-xs sm:text-[13px] text-slate-500 leading-relaxed font-normal">
+                        {badge.desc}
+                      </p>
                     </div>
                   </div>
+                );
+              })}
+            </div>
 
-                  {/* Card Core Interactive Content */}
-                  <div className="relative z-20 p-6 md:p-10 lg:p-12 w-full">
-                    <div className="w-12 h-[3px] bg-red-500 mb-4 rounded-full transition-all duration-300 group-hover:w-20" />
-
-                    <h3 className="text-white text-3xl md:text-5xl font-black mb-4 tracking-tight">
-                      {product.name}
-                    </h3>
-
-                    <p className="text-slate-200 max-w-md leading-relaxed text-sm md:text-base mb-8 opacity-90">
-                      {product.description}
-                    </p>
-
-                    <div className="flex items-center justify-between pt-2">
-                      <div className="px-6 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm text-white font-bold text-xs tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
-                        EXPLORE PRODUCT
-                      </div>
-
-                      <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-lg">
-                        <ArrowRight className="w-5 h-5 text-black" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            {/* Interaction Action Group (Upscaled spacing and sizing) */}
+            <div className="flex flex-wrap items-center gap-6 pt-4">
+              <Link 
+                href="/products" 
+                className="px-12 py-5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm tracking-widest rounded-xl transition-all shadow-md hover:shadow-xl flex items-center gap-3 uppercase"
+              >
+                Explore Products <ArrowRight className="w-5 h-5" />
               </Link>
-            </motion.div>
+              <Link 
+                href="/brochure.pdf" 
+                className="px-12 py-5 border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-300 font-bold text-sm tracking-widest rounded-xl transition-all flex items-center gap-3 uppercase"
+              >
+                <FileText className="w-5 h-5 text-slate-400" /> Download Brochure
+              </Link>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* Lower Section: Full-Width Corporate Footer Banner Strip (Boosted padding and sizing) */}
+      <div className="w-full bg-[#071424] text-white border-t border-white/5 shadow-2xl">
+        <div className="w-full grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-white/10">
+          {stats.map((stat, idx) => (
+            <div key={idx} className="p-8 sm:p-10 lg:p-12 flex flex-col justify-center items-center lg:items-start lg:pl-20 hover:bg-white/5 transition-colors duration-300">
+              <span className="text-3xl sm:text-4xl xl:text-5xl 2xl:text-6xl font-black text-white tracking-tight mb-2 bg-gradient-to-b from-white to-slate-200 bg-clip-text">
+                {stat.label}
+              </span>
+              <span className="text-[10px] sm:text-xs xl:text-sm font-bold text-slate-400 tracking-widest uppercase text-center lg:text-left mt-1 leading-none">
+                {stat.sub}
+              </span>
+            </div>
           ))}
         </div>
-
-        {/* Features Strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="
-            mt-12 lg:mt-16
-            bg-slate-900/60
-            backdrop-blur-md
-            rounded-[20px]
-            border
-            border-white/5
-            p-6 md:p-8
-            w-full
-          "
-        >
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {features.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <div key={item.title} className="flex items-center gap-4 justify-start lg:justify-center">
-                  <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0">
-                    <Icon className="w-5 h-5 text-red-400" />
-                  </div>
-
-                  <div>
-                    <h4 className="font-extrabold text-white text-sm md:text-base tracking-tight">{item.title}</h4>
-                    <p className="text-slate-400 text-xs md:text-sm">{item.subtitle}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </motion.div>
       </div>
+
     </section>
   );
 }
