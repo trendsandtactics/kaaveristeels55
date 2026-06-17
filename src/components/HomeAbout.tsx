@@ -1,6 +1,3 @@
-Here is the updated code with the dark background gradient overlays completely removed, allowing the underlying background image to show through clearly.
-
-```tsx
 "use client";
 
 import React, { useRef, useEffect } from "react";
@@ -199,5 +196,3 @@ export default function HomeAbout() {
     </section>
   );
 }
-
-```
