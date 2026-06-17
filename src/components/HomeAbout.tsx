@@ -36,10 +36,10 @@ function AnimatedCounter({ to, suffix }: { to: number | string; suffix: string }
 
 export default function HomeAbout() {
   const stats = [
-    { number: 30, suffix: "+", label: "Years of\nExcellence", icon: <Award className="text-red-500 w-6 h-6" /> },
-    { number: 1, suffix: "Mn+", label: "Tons\nCapacity", icon: <Shield className="text-red-500 w-6 h-6" /> },
-    { number: "ISI", suffix: "", label: "Certified\nProducts", icon: <CheckCircle2 className="text-red-500 w-6 h-6" /> },
-    { number: "PAN INDIA", suffix: "", label: "Vast Distribution\nNetwork", icon: <Globe className="text-red-500 w-6 h-6" /> },
+    { number: 30, suffix: "+", label: "Years of\nExcellence", icon: <Award className="text-red-500 w-7 h-7" /> },
+    { number: 1, suffix: "Mn+", label: "Tons\nCapacity", icon: <Shield className="text-red-500 w-7 h-7" /> },
+    { number: "ISI", suffix: "", label: "Certified\nProducts", icon: <CheckCircle2 className="text-red-500 w-7 h-7" /> },
+    { number: "PAN INDIA", suffix: "", label: "Vast Distribution\nNetwork", icon: <Globe className="text-red-500 w-7 h-7" /> },
   ];
 
   return (
@@ -54,38 +54,38 @@ export default function HomeAbout() {
           className="object-cover object-center"
         />
         {/* Subtle dark ambient vignettes */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
       </div>
 
       {/* Main Content Layout Container */}
-      <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 z-10 my-auto grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 z-10 my-auto grid lg:grid-cols-12 gap-12 items-center">
         
-        {/* Left Text Block with Content Fade-in Animation */}
+        {/* Left & Center-spanning Text Block (Takes 7 of 12 columns for wider, cleaner presence) */}
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col max-w-[620px]"
+          className="flex flex-col lg:col-span-7 xl:col-span-8 w-full"
         >
           {/* Subheading tag */}
           <div className="flex items-center gap-3 mb-6">
-            <span className="w-6 h-[3px] bg-red-600" />
-            <span className="uppercase tracking-[0.2em] text-red-500 text-xs sm:text-sm font-bold">
+            <span className="w-8 h-[3px] bg-red-600" />
+            <span className="uppercase tracking-[0.25em] text-red-500 text-xs sm:text-sm font-extrabold">
               About Kaaveri
             </span>
           </div>
 
-          {/* Heading */}
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold font-sans tracking-tight leading-[1.1] mb-8">
+          {/* Expanded Main Heading */}
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-bold font-sans tracking-tight leading-[1.08] mb-8 max-w-[800px]">
             Forging India’s <br />
             Future in Steel <br />
             <span className="text-red-600">Excellence</span>
           </h2>
 
-          {/* Body Prose Description */}
-          <div className="space-y-6 text-gray-300 text-sm sm:text-base md:text-lg font-normal leading-relaxed mb-10 opacity-90">
+          {/* Upscaled Body Prose Description */}
+          <div className="space-y-6 text-gray-300 text-base sm:text-lg md:text-xl font-normal leading-relaxed mb-12 max-w-[720px] opacity-95">
             <p>
               At Kaaveri, we engineer the resilient core of iconic structures. As a leading manufacturer of premium TMT bars and structural steel, we blend decades of metallurgical mastery with cutting-edge technology.
             </p>
@@ -95,7 +95,7 @@ export default function HomeAbout() {
           </div>
 
           {/* Statistics Horizontal Grid Layout */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 items-start mb-12 border-l border-white/10 pl-4 sm:pl-0 sm:border-none">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 items-start mb-14 border-l border-white/10 pl-4 sm:pl-0 sm:border-none">
             {stats.map((stat, idx) => (
               <motion.div 
                 key={stat.label} 
@@ -103,18 +103,18 @@ export default function HomeAbout() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="flex gap-3 items-start sm:flex-col sm:gap-2"
+                className="flex gap-4 items-start sm:flex-col sm:gap-3"
               >
-                <div className="mt-1 sm:mt-0 opacity-80">{stat.icon}</div>
+                <div className="mt-1 sm:mt-0 opacity-90">{stat.icon}</div>
                 <div>
-                  <div className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center">
+                  <div className="text-3xl sm:text-4xl font-black text-white tracking-tight flex items-center">
                     {typeof stat.number === "number" ? (
                       <AnimatedCounter to={stat.number} suffix={stat.suffix} />
                     ) : (
                       <span>{stat.number}</span>
                     )}
                   </div>
-                  <div className="text-gray-400 text-[11px] font-bold uppercase tracking-wider leading-tight whitespace-pre-line mt-1">
+                  <div className="text-gray-400 text-xs font-bold uppercase tracking-wider leading-tight whitespace-pre-line mt-1.5">
                     {stat.label}
                   </div>
                 </div>
@@ -123,23 +123,23 @@ export default function HomeAbout() {
           </div>
 
           {/* Action Interactive Elements */}
-          <div className="flex flex-wrap items-center gap-4 sm:gap-5">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <Link href="/about-us">
-              <button className="bg-red-600 text-white px-6 sm:px-8 py-3.5 rounded-sm uppercase tracking-widest font-bold text-xs flex items-center gap-3 transition-colors duration-300 hover:bg-red-700">
+              <button className="bg-red-600 text-white px-8 sm:px-10 py-4 rounded-sm uppercase tracking-widest font-bold text-xs sm:text-sm flex items-center gap-3 transition-all duration-300 hover:bg-red-700 active:scale-95 shadow-lg shadow-red-600/20">
                 <span>Discover Our Legacy</span>
-                <ArrowRight size={16} />
+                <ArrowRight size={18} />
               </button>
             </Link>
             
-            <button className="bg-transparent border border-white/30 hover:border-white text-white px-6 sm:px-8 py-3.5 rounded-sm uppercase tracking-widest font-bold text-xs flex items-center gap-3 transition-colors duration-300">
-              <Download size={16} className="text-gray-400" />
+            <button className="bg-transparent border border-white/30 hover:border-white text-white px-8 sm:px-10 py-4 rounded-sm uppercase tracking-widest font-bold text-xs sm:text-sm flex items-center gap-3 transition-all duration-300 active:scale-95">
+              <Download size={18} className="text-gray-400" />
               Download Brochure
             </button>
           </div>
         </motion.div>
 
-        {/* Right Area acts as spacing wrapper to highlight raw graphics */}
-        <div className="hidden lg:block w-full h-[500px]" />
+        {/* Right Area acts as a balanced structural layout separator */}
+        <div className="hidden lg:block lg:col-span-5 xl:col-span-4" />
       </div>
 
       {/* Footer Branding Feature Ribbon */}
@@ -148,45 +148,45 @@ export default function HomeAbout() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 z-10 mt-12"
+        className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 z-10 mt-16"
       >
-        <div className="w-full bg-black/40 backdrop-blur-md border border-white/10 p-8 sm:p-10 rounded-sm grid md:grid-cols-[40%_1fr] gap-8 items-center">
+        <div className="w-full bg-black/50 backdrop-blur-md border border-white/10 p-8 sm:p-12 rounded-sm grid md:grid-cols-[35%_1fr] gap-8 items-center">
           
           {/* Quote Block */}
-          <div className="relative pl-6 border-l-2 border-red-600">
-            <span className="absolute -top-4 left-4 text-6xl text-red-600/20 font-serif select-none pointer-events-none">“</span>
-            <p className="text-lg sm:text-xl font-medium tracking-wide text-white leading-snug">
+          <div className="relative pl-6 border-l-4 border-red-600">
+            <span className="absolute -top-6 left-4 text-7xl text-red-600/20 font-serif select-none pointer-events-none">“</span>
+            <p className="text-xl sm:text-2xl font-semibold tracking-wide text-white leading-snug">
               Building stronger structures. <br />
               Building a stronger India.
             </p>
           </div>
 
           {/* Three Feature Highlight Grid */}
-          <div className="grid sm:grid-cols-3 gap-6 md:gap-8 border-t md:border-t-0 md:border-l border-white/10 pt-6 md:pt-0 md:pl-8">
+          <div className="grid sm:grid-cols-3 gap-8 md:gap-10 border-t md:border-t-0 md:border-l border-white/10 pt-6 md:pt-0 md:pl-10">
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-2 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-red-600 rounded-full" /> Premium Quality
+              <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-2 flex items-center gap-2">
+                <span className="w-2 h-2 bg-red-600 rounded-full" /> Premium Quality
               </h4>
-              <p className="text-gray-400 text-xs leading-relaxed">
-                Stringent testing at every step for unmatched quality.
+              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
+                Stringent testing at every step for unmatched quality standards.
               </p>
             </div>
             
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-2 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-red-600 rounded-full" /> Built To Last
+              <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-2 flex items-center gap-2">
+                <span className="w-2 h-2 bg-red-600 rounded-full" /> Built To Last
               </h4>
-              <p className="text-gray-400 text-xs leading-relaxed">
-                Superior strength, corrosion resistance & durability.
+              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
+                Superior physical strength, unmatched corrosion resistance & durability.
               </p>
             </div>
 
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-2 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-red-600 rounded-full" /> Sustainable Future
+              <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-2 flex items-center gap-2">
+                <span className="w-2 h-2 bg-red-600 rounded-full" /> Sustainable Future
               </h4>
-              <p className="text-gray-400 text-xs leading-relaxed">
-                Responsible manufacturing for generations to come.
+              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
+                Responsible global-standard manufacturing practices for generations to come.
               </p>
             </div>
           </div>
