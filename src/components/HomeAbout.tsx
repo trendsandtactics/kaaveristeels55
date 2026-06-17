@@ -61,13 +61,13 @@ export default function HomeAbout() {
       {/* Main Content Layout Container */}
       <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 z-10 my-auto grid lg:grid-cols-12 gap-12 items-center">
         
-        {/* Left & Center-spanning Text Block (Takes 7 of 12 columns for wider, cleaner presence) */}
+        {/* Expanded Left & Center-spanning Text Block (Increased column layout to utilize empty space) */}
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col lg:col-span-7 xl:col-span-8 w-full"
+          className="flex flex-col lg:col-span-9 xl:col-span-10 w-full"
         >
           {/* Subheading tag */}
           <div className="flex items-center gap-3 mb-6">
@@ -78,19 +78,22 @@ export default function HomeAbout() {
           </div>
 
           {/* Expanded Main Heading */}
-          <h2 className="text-4xl sm:text-6xl md:text-7xl font-bold font-sans tracking-tight leading-[1.08] mb-8 max-w-[800px]">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-bold font-sans tracking-tight leading-[1.08] mb-8 max-w-[950px]">
             Forging India’s <br />
             Future in Steel <br />
             <span className="text-red-600">Excellence</span>
           </h2>
 
-          {/* Upscaled Body Prose Description */}
-          <div className="space-y-6 text-gray-300 text-base sm:text-lg md:text-xl font-normal leading-relaxed mb-12 max-w-[720px] opacity-95">
+          {/* Upscaled Body Prose Description (Increased text size and max-width) */}
+          <div className="space-y-6 text-gray-300 text-lg sm:text-xl md:text-2xl font-normal leading-relaxed mb-12 max-w-[900px] opacity-95">
             <p>
-              At Kaaveri, we engineer the resilient core of iconic structures. As a leading manufacturer of premium TMT bars and structural steel, we blend decades of metallurgical mastery with cutting-edge technology.
+              At Kaaveri, we engineer the resilient core of iconic structures. As a leading
+              manufacturer of premium TMT bars and structural steel, we blend decades of
+              metallurgical mastery with cutting-edge technology.
             </p>
             <p>
-              Every bar we forge meets stringent global standards, providing unyielding strength, supreme ductility, and sustainable solutions for generations to come.
+              Every bar we forge meets stringent global standards, providing unyielding
+              strength, supreme ductility, and sustainable solutions for generations to come.
             </p>
           </div>
 
@@ -138,8 +141,8 @@ export default function HomeAbout() {
           </div>
         </motion.div>
 
-        {/* Right Area acts as a balanced structural layout separator */}
-        <div className="hidden lg:block lg:col-span-5 xl:col-span-4" />
+        {/* Right Area scaled down to let content breathe horizontally */}
+        <div className="hidden lg:block lg:col-span-3 xl:col-span-2" />
       </div>
 
       {/* Footer Branding Feature Ribbon */}
