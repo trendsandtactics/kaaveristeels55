@@ -8,112 +8,105 @@ import { ArrowRight, FileText, Award, ShieldCheck, Users, HardHat } from "lucide
 const dynamicBadges = [
   { 
     title: "PREMIUM TMT BARS", 
-    desc: "Engineered with advanced thermo-mechanical processing for superior high-grade tensile safety, yield strength, and enhanced seismic earthquake resilience across configurations.",
+    desc: "Engineered with advanced thermo-mechanical processing for superior high-grade tensile safety and enhanced seismic resilience.",
     icon: ShieldCheck 
   },
   { 
     title: "BIS CERTIFIED QUALITY", 
-    desc: "Rigorously evaluated, sampled, and completely certified to absolute industrial perfection under standard Bureau of Indian Standards (BIS) strict compliance protocols.",
+    desc: "Rigorously evaluated and certified to absolute industrial perfection under standard Bureau of Indian Standards benchmarking.",
     icon: Award 
   },
   { 
     title: "STRUCTURAL INTEGRITY", 
-    desc: "Formulated to handle extreme load distribution uniformly across large-span industrial frameworks, ensuring long-term structural reliability and fatigue protection.",
+    desc: "Formulated to handle extreme load distribution uniformly across large-span frameworks, ensuring long-term structural reliability.",
     icon: HardHat 
   },
   { 
     title: "TRUSTED NATIONWIDE", 
-    desc: "Forging infrastructure networks across the country with premium-grade materials optimized for major commercial mega-structures and massive manufacturing corridors.",
+    desc: "Forging infrastructure networks across the country with materials perfectly optimized for major commercial mega-structures.",
     icon: Users 
   },
 ];
 
-const stats = [
-  { label: "30+", sub: "YEARS OF INDUSTRIAL EXCELLENCE" },
-  { label: "500+", sub: "HAPPY ENTERPRISE CUSTOMERS" },
-  { label: "1 Mn+", sub: "TONS ANNUAL PRODUCTION CAPACITY" },
-  { label: "ISI", sub: "100% CERTIFIED PRODUCTS" },
-];
-
 export default function HomeAbout() {
   return (
-    <section className="fixed inset-0 w-screen h-screen flex flex-col bg-white overflow-hidden select-none p-0 m-0 box-border z-0">
+    <section className="w-full min-h-screen bg-slate-50 flex flex-col justify-center items-center relative overflow-hidden p-0 m-0 box-border">
       
-      {/* 100% Edge-to-Edge Split Workspace Container */}
-      <div className="flex-1 w-full grid grid-cols-12 overflow-hidden min-h-0">
+      {/* Dynamic Background Accents for Premium Visual Depth */}
+      <div className="absolute top-0 right-0 w-[40vw] h-[40vw] bg-red-500/5 rounded-bl-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-0 left-0 w-[30vw] h-[30vw] bg-slate-200/50 rounded-tr-full blur-2xl pointer-events-none -z-10" />
+
+      {/* Main Responsive Grid Container */}
+      <div className="w-full max-w-[1920px] mx-auto grid grid-cols-1 lg:grid-cols-12 min-h-screen items-stretch">
         
-        {/* Left Aspect Grid Slot: Forced 45% Horizontal Screen Estate */}
-        <div className="relative col-span-5 w-full h-full overflow-hidden bg-slate-900 shrink-0">
+        {/* Left Side: Immersive, Unbounded Imagery Block */}
+        <div className="relative lg:col-span-5 xl:col-span-5 w-full min-h-[350px] sm:min-h-[450px] lg:min-h-0 overflow-hidden shadow-2xl lg:shadow-none">
           <Image
             src="/product.png" 
             alt="Kaveri Steel Plant Production Facility"
             fill
             priority
-            className="object-cover object-center w-full h-full transform scale-100 hover:scale-105 transition-transform duration-1000 ease-out"
+            className="object-cover object-center w-full h-full transform scale-100 hover:scale-103 transition-transform duration-[1.5s] ease-out"
           />
           
-          {/* Immersive Badge Floating Elements */}
-          <div className="absolute top-[6%] left-[6%] bg-gradient-to-br from-red-600 to-red-700 text-white px-8 py-6 uppercase text-center shadow-2xl tracking-widest rounded-sm border border-white/10 z-10">
-            <span className="text-4xl lg:text-5xl font-black block mb-1 tracking-tight">30+</span>
-            <span className="text-[10px] font-black text-red-100 block leading-tight tracking-widest">Years of<br/>Excellence</span>
+          {/* Industrial Red Overlay Badge - Positioned cleanly via viewport standards */}
+          <div className="absolute top-6 left-6 sm:top-10 sm:left-10 bg-gradient-to-br from-red-600 to-red-700 text-white p-5 sm:p-6 uppercase text-center shadow-2xl tracking-widest rounded-md border border-white/10 z-10 backdrop-blur-sm">
+            <span className="text-3xl sm:text-4xl font-black block mb-0.5 tracking-tight">30+</span>
+            <span className="text-[9px] sm:text-[10px] font-black text-red-100 block leading-tight tracking-widest">Years of<br/>Excellence</span>
           </div>
-          
-          <div className="absolute top-0 right-0 h-full w-[1px] bg-white/10 z-10" />
+
+          {/* Clean Premium Divider Line */}
+          <div className="hidden lg:block absolute top-0 right-0 h-full w-[1px] bg-slate-200/60 z-10" />
         </div>
 
-        {/* Right Content Frame: Forced 55% Total Screen Real-estate with dynamic inner viewport stretching */}
-        <div className="col-span-7 w-full h-full flex flex-col justify-between bg-white px-[5vw] py-[4vh] overflow-y-auto min-h-0">
-          <div className="w-full space-y-[4vh] my-auto">
+        {/* Right Side: High-End Expansive Text & Content Frame */}
+        <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-center bg-white px-6 sm:px-12 md:px-16 lg:px-20 xl:px-28 py-12 sm:py-16 lg:py-24 w-full">
+          <div className="w-full space-y-8 sm:space-y-10 lg:space-y-12">
             
-            {/* Top Identity Line */}
+            {/* Top Eyebrow Identifier */}
             <div className="flex items-center gap-4">
-              <span className="uppercase tracking-[0.45em] text-red-600 text-xs lg:text-sm font-black">
+              <span className="uppercase tracking-[0.4em] text-red-600 text-xs sm:text-sm font-black whitespace-nowrap">
                 ABOUT KAAVERI STEELS
               </span>
-              <div className="flex-1 h-[2px] bg-gradient-to-r from-red-600 to-transparent" />
+              <div className="w-full h-[2px] bg-gradient-to-r from-red-600 to-transparent" />
             </div>
 
-            {/* Giant Title Frame utilizing dynamic fluid width calculations */}
-            <div className="space-y-[2.5vh]">
-              <h2 className="font-sans font-black text-[3.2vw] text-slate-900 tracking-tight leading-[1.05] uppercase">
+            {/* Typography Canvas - Scales cleanly from mobile up to huge screens */}
+            <div className="space-y-6">
+              <h2 className="font-sans font-black text-3xl sm:text-5xl xl:text-6xl 2xl:text-7xl text-slate-900 tracking-tight leading-[1.1] uppercase">
                 BUILT ON INDUSTRIAL STEEL.<br />
                 <span className="bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">TRUSTED BY BUILDERS ACROSS INDIA.</span>
               </h2>
               
-              {/* Massive Bold Paragraph Descriptions */}
-              <p className="text-slate-600 font-normal leading-relaxed text-[1.1vw]">
+              <p className="text-slate-600 font-normal leading-relaxed text-base sm:text-lg xl:text-xl xl:leading-relaxed">
                 At <span className="text-red-600 font-extrabold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
-              </p>
-
-              <p className="text-slate-500 font-normal leading-relaxed text-[0.95vw]">
-                By integrating state-of-the-art continuous rolling mill machinery with automated thermo-processing techniques, our manufacturing framework eliminates hidden vulnerabilities. We continue to pioneer high-ductility metallurgy that withstands environmental shifts, optimizing architectural safety footprints at scale.
               </p>
             </div>
 
             {/* Premium Dynamic Blockquote */}
-            <div className="relative border-l-8 border-red-600 pl-[2vw] py-[1.5vh] bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl w-full">
-              <p className="italic text-slate-800 text-[1.25vw] font-semibold leading-relaxed">
-                {"\"Our rigorous, multi-stage advanced quality control checks ensure that every single production item leaving our plant meets the absolute highest international standards — empowering modern structural engineers and builders to confidently raise industrial frameworks that stand the test of time.\""}
+            <div className="relative border-l-[6px] sm:border-l-8 border-red-600 pl-5 sm:pl-6 py-2 sm:py-3 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl w-full">
+              <p className="italic text-slate-800 text-sm sm:text-base xl:text-lg 2xl:text-xl font-semibold leading-relaxed">
+                {"\"Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.\""}
               </p>
             </div>
 
-            {/* 4-Column Feature Grid Stretching Side to Side */}
-            <div className="grid grid-cols-4 gap-[1.5vw] w-full pt-[1vh]">
+            {/* Feature Badges Grid - Completely responsive card architecture */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-4 sm:gap-5 w-full">
               {dynamicBadges.map((badge, idx) => {
                 const Icon = badge.icon;
                 return (
                   <div 
                     key={idx} 
-                    className="group border border-slate-200 rounded-xl p-[1.5vw] flex flex-col justify-between transition-all duration-300 bg-slate-50/50 hover:bg-white hover:border-red-500 hover:shadow-2xl"
+                    className="group border border-slate-150 rounded-xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 bg-slate-50/40 hover:bg-white hover:border-red-500 hover:shadow-xl hover:-translate-y-0.5"
                   >
-                    <div className="w-[3vw] h-[3vw] min-w-[40px] min-h-[40px] rounded-xl bg-red-50 text-red-600 flex items-center justify-center mb-[2vh] transition-colors group-hover:bg-red-600 group-hover:text-white shrink-0 shadow-sm">
-                      <Icon className="w-[1.3vw] h-[1.3vw] min-w-[18px] min-h-[18px]" />
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center mb-4 transition-colors group-hover:bg-red-600 group-hover:text-white shrink-0 shadow-sm">
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
                     <div>
-                      <h4 className="text-[0.85vw] font-black text-slate-900 tracking-wider mb-[1vh] uppercase group-hover:text-red-600 transition-colors leading-tight">
+                      <h4 className="text-xs sm:text-sm font-black text-slate-900 tracking-wider mb-2 uppercase group-hover:text-red-600 transition-colors leading-tight">
                         {badge.title}
                       </h4>
-                      <p className="text-[0.7vw] text-slate-500 leading-relaxed font-normal">
+                      <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed font-normal">
                         {badge.desc}
                       </p>
                     </div>
@@ -122,39 +115,23 @@ export default function HomeAbout() {
               })}
             </div>
 
-            {/* Control Interactions */}
-            <div className="flex items-center gap-6 pt-[1vh]">
+            {/* Call To Actions */}
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2">
               <Link 
                 href="/products" 
-                className="px-[2.5vw] py-[2vh] bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-xs lg:text-sm tracking-widest rounded-xl transition-all shadow-md hover:shadow-2xl flex items-center gap-3 uppercase whitespace-nowrap"
+                className="w-full sm:w-auto px-10 py-4 sm:py-5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-xs tracking-widest rounded-xl transition-all shadow-md hover:shadow-xl flex items-center justify-center gap-3 uppercase whitespace-nowrap"
               >
-                Explore Products <ArrowRight className="w-5 h-5" />
+                Explore Products <ArrowRight className="w-4 h-4" />
               </Link>
               <Link 
                 href="/brochure.pdf" 
-                className="px-[2.5vw] py-[2vh] border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-300 font-bold text-xs lg:text-sm tracking-widest rounded-xl transition-all flex items-center gap-3 uppercase whitespace-nowrap"
+                className="w-full sm:w-auto px-10 py-4 sm:py-5 border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-300 font-bold text-xs tracking-widest rounded-xl transition-all flex items-center justify-center gap-3 uppercase whitespace-nowrap"
               >
-                <FileText className="w-5 h-5 text-slate-400" /> Download Brochure
+                <FileText className="w-4 h-4 text-slate-400" /> Download Brochure
               </Link>
             </div>
 
           </div>
-        </div>
-      </div>
-
-      {/* Full Screen Grid Footer Bar (Height is strictly fixed to prevent component shifting) */}
-      <div className="w-full h-[15vh] min-h-[110px] bg-[#071424] text-white border-t border-white/5 shadow-2xl shrink-0 z-10">
-        <div className="w-full h-full grid grid-cols-4 divide-x divide-white/10">
-          {stats.map((stat, idx) => (
-            <div key={idx} className="h-full px-[3vw] flex flex-col justify-center items-start hover:bg-white/5 transition-colors duration-300">
-              <span className="text-[2.2vw] font-black text-white tracking-tight leading-none mb-1 bg-gradient-to-b from-white to-slate-200 bg-clip-text">
-                {stat.label}
-              </span>
-              <span className="text-[0.75vw] font-bold text-slate-400 tracking-widest uppercase block mt-1 leading-normal">
-                {stat.sub}
-              </span>
-            </div>
-          ))}
         </div>
       </div>
 
