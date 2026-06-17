@@ -33,7 +33,7 @@ export default function AboutSection() {
             />
 
             {/* Immersive Top-Left Floating Ribbon Badge */}
-            <div className="absolute top-0 left-8 sm:left-16 bg-gradient-to-b from-[#dc2626] to-[#b91c1c] shadow-2xl w-[85px] sm:w-[100px] pt-8 pb-10 px-2 flex flex-col justify-center items-center z-20 transition-transform duration-300 group-hover:translate-y-1">
+            <div className="absolute top-0 left-8 sm:left-16 bg-gradient-to-b from-[#dc2626] to-[#b91c1c] shadow-2xl w-[85px] sm:w-[100px] pt-8 pb-10 px-2 flex flex-col justify-center items-center z-20">
               <h3 className="text-4xl sm:text-5xl font-serif font-black text-white tracking-tighter">30+</h3>
               <p className="text-[10px] sm:text-[11px] tracking-[2px] uppercase text-center text-red-100 font-black leading-tight mt-1.5">
                 Years Of<br />Excellence
@@ -74,22 +74,16 @@ export default function AboutSection() {
               Trusted By India.
             </h2>
 
-            {/* Bold, Legible Description Body Text */}
-            <p className="text-slate-700 text-base sm:text-lg xl:text-3xl max-w-3xl leading-relaxed mt-6 font-normal">
+            {/* Fixed Intro Description Body Text (No More Duplication) */}
+            <p className="text-slate-700 text-base sm:text-lg xl:text-xl max-w-2xl leading-relaxed mt-6 font-normal">
               At <span className="font-bold text-[#dc2626]">KAAVERI</span>, we are passionate about steel and dedicated to excellence. 
               As a leading manufacturer of TMT bars and structural steel products, we supply the construction 
               industry with materials engineered for longevity.
             </p>
 
-                         <p className="text-slate-700 text-base sm:text-lg xl:text-3xl max-w-3xl leading-relaxed mt-6 font-normal">
-              At <span className="font-bold text-[#dc2626]">KAAVERI</span>, we are passionate about steel and dedicated to excellence. 
-              As a leading manufacturer of TMT bars and structural steel products, we supply the construction 
-              industry with materials engineered for longevity.
-            </p>
-
-            {/* Prominent High-Contrast Quote Block */}
-            <div className="my-8 flex gap-4 max-w-2xl bg-slate-50/80 border border-slate-200/80 p-6 rounded-r-2xl border-l-4 border-l-[#dc2626] shadow-sm">
-              <span className="text-[#dc2626] font-serif text-5xl font-black leading-none select-none">-</span>
+            {/* Restored and Polished Executive Quote Block */}
+            <div className="my-8 flex gap-4 max-w-2xl bg-slate-50/80 border border-slate-200/80 p-6 rounded-r-2xl border-l-4 border-l-[#dc2626] shadow-sm items-start">
+              <span className="text-[#dc2626] font-serif text-5xl font-black leading-none select-none mt-1">“</span>
               <p className="text-slate-800 italic text-sm sm:text-base xl:text-lg font-medium leading-relaxed">
                 Our rigorous quality control ensures every product meets the highest global standards — empowering 
                 builders to raise structures that stand the test of time.
@@ -133,7 +127,7 @@ export default function AboutSection() {
             <div className="flex flex-wrap gap-4">
               <button className="bg-[#b91c1c] hover:bg-[#a31a1a] text-white px-8 py-4 rounded-xl flex items-center justify-center gap-2.5 font-bold text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-98">
                 Explore More
-                <ArrowRight size={15} className="animate-pulse" />
+                <ArrowRight size={15} />
               </button>
 
               <button className="bg-white border-2 border-slate-300 hover:border-slate-800 text-slate-800 hover:text-black px-8 py-4 rounded-xl flex items-center justify-center gap-2.5 font-bold text-xs sm:text-sm tracking-wider uppercase transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-98">
