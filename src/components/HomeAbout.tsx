@@ -23,7 +23,7 @@ export default function AboutSection() {
           {/* Left Image */}
           <div className="relative min-h-[700px] lg:min-h-screen overflow-hidden">
             <Image
-              src="/about-house.jpg"
+              src="/downlaod.png"
               alt="Steel Structure"
               fill
               priority
@@ -71,7 +71,7 @@ export default function AboutSection() {
               <div className="w-16 h-[3px] bg-red-600 mt-8 mb-10" />
 
               {/* Description */}
-              <div className="space-y-6 text-slate-600 text-lg leading-relaxed max-w-3xl">
+              <div className="space-y-6 text-slate-600 text-lg leading-relaxed max-w-5xl">
                 <p>
                   At KAAVERI, we are passionate about steel and dedicated to
                   excellence. As a leading manufacturer of TMT bars and
