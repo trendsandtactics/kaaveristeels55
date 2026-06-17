@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 // Matches the small square product/badge items shown in the white section
@@ -21,7 +20,7 @@ const stats = [
   { label: "ISI", sub: "CERTIFIED PRODUCTS" },
 ];
 
-export default function HomeProducts() {
+export default function HomeAbout() {
   return (
     <section className="relative w-full overflow-hidden bg-white min-h-screen flex flex-col justify-between">
       {/* Upper Main Split Layout Section */}
@@ -30,7 +29,7 @@ export default function HomeProducts() {
         {/* Left Side: Massive Factory Image with Slanted Edge Styling */}
         <div className="relative lg:col-span-5 h-[400px] lg:h-auto w-full overflow-hidden">
           <Image
-            src="/productbg.png" // Replace with your factory landscape image
+            src="/productbg.png" 
             alt="Kaveri Steel Plant"
             fill
             priority
@@ -67,9 +66,9 @@ export default function HomeProducts() {
             At <span className="text-red-600 font-bold">KAAVERI</span>, we are passionate about steel and dedicated to excellence. As a leading manufacturer of TMT bars and structural steel products, we supply the construction industry with materials engineered for longevity.
           </p>
 
-          {/* Blockquote Segment */}
+          {/* Blockquote Segment - Fixed string interpolation for ESLint */}
           <div className="max-w-xl border-l-2 border-red-600 pl-4 mb-8 italic text-slate-700 text-sm md:text-base">
-            "Our rigorous quality control ensures every product meets the highest global standards — empowering builders to raise structures that stand the test of time."
+            {"\"Our rigorous quality control ensures every product meets the highest global standards — empowering builders to raise structures that stand the test of time.\""}
           </div>
 
           {/* Grid of Inner Feature Badges */}
