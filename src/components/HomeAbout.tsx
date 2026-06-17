@@ -39,7 +39,7 @@ export default function HomeAbout() {
         {/* Left Side: Massive Factory Image */}
         <div className="relative lg:col-span-5 xl:col-span-6 h-[450px] lg:h-auto w-full overflow-hidden shadow-xl">
           <Image
-            src="/upload.png" 
+            src="/product.png" 
             alt="Kaveri Steel Plant"
             fill
             priority
