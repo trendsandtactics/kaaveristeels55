@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import Image from "next/image";
@@ -74,21 +75,34 @@ export default function AboutSection() {
               </p>
             </div>
 
-            {/* Specifications Mini-Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-              <div className="p-4 rounded-xl bg-white border border-slate-100 shadow-sm flex flex-col gap-2">
-                <Package className="w-5 h-5 text-red-600" />
-                <div>
-                  <h4 className="font-bold text-xs text-slate-900 tracking-tight uppercase">Premium TMT Bars</h4>
-                  <p className="text-slate-500 text-[11px] mt-0.5">High strength & safety</p>
+              {/* Feature Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-14">
+                <div className="group min-h-[190px] bg-white rounded-2xl border border-slate-200 p-7 flex flex-col justify-center hover:border-red-500 hover:shadow-2xl transition-all duration-500">
+                  <div className="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center mb-5">
+                    <Package className="w-8 h-8 text-red-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-xl text-slate-900">
+                      Premium TMT Bars
+                    </h4>
+                    <p className="text-slate-500 mt-2 text-base">
+                      High strength & durability
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="p-4 rounded-xl bg-white border border-slate-100 shadow-sm flex flex-col gap-2">
-                <ShieldCheck className="w-5 h-5 text-red-600" />
-                <div>
-                  <h4 className="font-bold text-xs text-slate-900 tracking-tight uppercase">ISI Certified</h4>
-                  <p className="text-slate-500 text-[11px] mt-0.5">Tested & trusted solutions</p>
+                <div className="group min-h-[190px] bg-white rounded-2xl border border-slate-200 p-7 flex flex-col justify-center hover:border-red-500 hover:shadow-2xl transition-all duration-500">
+                  <div className="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center mb-5">
+                    <ShieldCheck className="w-8 h-8 text-red-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-xl text-slate-900">
+                      ISI Certified
+                    </h4>
+                    <p className="text-slate-500 mt-2 text-base">
+                      Tested & trusted
+                    </p>
+                  </div>
                 </div>
               </div>
 
