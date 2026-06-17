@@ -25,7 +25,7 @@ export default function AboutSection() {
           {/* Left Side: Cinematic Image with Zoom Effect */}
           <div className="relative h-[500px] sm:h-[600px] lg:h-auto overflow-hidden w-full group/img">
             <Image
-              src="/downlaod.png"
+              src="/download.png"
               alt="KAAVERI Steel Structure"
               fill
               priority
