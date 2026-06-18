@@ -97,14 +97,11 @@ export default function HomeAbout() {
             </p>
 
             {/* Quote */}
-            <div className="border-l-4 border-red-600 pl-8 py-2">
-              <p className="italic text-slate-700 text-xl md:text-2xl leading-relaxed">
-                "Our rigorous quality control systems ensure that every product
-                leaving our facility meets the highest industry standards,
-                empowering engineers and builders to create structures that
-                stand strong for decades."
-              </p>
-            </div>
+<div className="border-l-4 border-red-600 pl-8 py-2">
+  <p className="italic text-slate-700 text-xl md:text-2xl leading-relaxed">
+    {`"Our rigorous quality control systems ensure that every product leaving our facility meets the highest industry standards, empowering engineers and builders to create structures that stand strong for decades."`}
+  </p>
+</div>
 
             {/* BIG CARDS */}
             <div className="grid md:grid-cols-2 gap-8">
