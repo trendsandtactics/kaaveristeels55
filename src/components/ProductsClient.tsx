@@ -147,7 +147,7 @@ export default function ProductsClient({ categories, products }: ProductsClientP
                                         transition={{ duration: 0.4 }}
                                         className="group flex flex-col bg-white border border-gray-100 shadow-xl overflow-hidden rounded-sm hover:shadow-2xl transition-shadow duration-300"
                                     >
-                                        <div className="relative w-full h-64 bg-gray-50 overflow-hidden">
+                                        <div className="relative w-full aspect-video bg-gray-50 overflow-hidden">
                                             {product.image ? (
                                                 <Image
                                                     src={product.image}
