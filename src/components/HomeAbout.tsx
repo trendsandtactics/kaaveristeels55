@@ -3,12 +3,12 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion"; // Added Variants type import
 import { ArrowRight, FileText } from "lucide-react";
 
 export default function HomeAbout() {
   // Stagger animation container for clean entry
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -19,7 +19,8 @@ export default function HomeAbout() {
     },
   };
 
-  const itemVariants = {
+  // Explicitly typed as Variants to fix the Vercel TypeScript compilation error
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
       opacity: 1, 
