@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { ArrowRight, FileText, Award, ShieldCheck, Users, HardHat } from "lucide-react";
 
 const dynamicBadges = [
@@ -30,105 +31,131 @@ const dynamicBadges = [
 
 export default function HomeAbout() {
   return (
-    <section className="w-full min-h-screen bg-white flex items-stretch relative overflow-hidden p-0 m-0 box-border">
+    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden py-20 lg:py-24">
       
-      {/* Background Subtle Gradient Glow */}
-      <div className="absolute top-0 right-0 w-[30vw] h-[30vw] bg-red-500/5 rounded-bl-full blur-3xl pointer-events-none -z-10" />
+      {/* Full Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/product.png" 
+          alt="Kaveri Steel Plant Production Facility"
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        {/* Dark Overlay for Text Readability */}
+        <div className="absolute inset-0 bg-slate-900/80" />
+      </div>
 
-      {/* Main Responsive Grid Container */}
-      <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-stretch">
+      {/* Industrial Red Overlay Badge */}
+      <motion.div 
+        initial={{ opacity: 0, x: -30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="absolute top-8 left-6 sm:top-10 sm:left-10 bg-red-600 text-white p-5 uppercase text-center shadow-xl tracking-widest z-20 rounded-sm"
+      >
+        <span className="text-3xl sm:text-4xl font-black block mb-0.5 tracking-tight">30+</span>
+        <span className="text-[9px] sm:text-[10px] font-bold text-red-100 block leading-tight tracking-widest">Years of<br/>Excellence</span>
+      </motion.div>
+
+      {/* Main Centered Content */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-12 flex flex-col items-center text-center space-y-10">
         
-        {/* Left Side: Centered Full-Height Imagery Block */}
-        <div className="relative lg:col-span-5 w-full min-h-[500px] lg:min-h-screen overflow-hidden flex items-center justify-center bg-slate-50">
-          <Image
-            src="/product.png" 
-            alt="Kaveri Steel Plant Production Facility"
-            fill
-            priority
-            className="object-cover object-center w-full h-full"
-          />
+        {/* Top Eyebrow Identifier */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="space-y-3 flex flex-col items-center"
+        >
+          <span className="font-body uppercase tracking-[0.3em] text-red-500 text-base font-black block">
+            ABOUT KAAVERI STEELS
+          </span>
+          <div className="w-16 h-[3.5px] bg-red-600 rounded-full" />
+        </motion.div>
+
+        {/* Typography Canvas */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="space-y-6 max-w-4xl mx-auto"
+        >
+          <h2 className="font-serif font-black text-4xl sm:text-5xl xl:text-6xl text-white tracking-tight leading-[1.15]">
+            BUILT ON INDUSTRIAL STEEL.<br />
+            <span className="text-red-500">TRUSTED BY BUILDERS ACROSS INDIA.</span>
+          </h2>
           
-          {/* Industrial Red Overlay Badge */}
-          <div className="absolute top-8 left-8 bg-red-600 text-white p-5 uppercase text-center shadow-xl tracking-widest z-10">
-            <span className="text-3xl font-black block mb-0.5 tracking-tight">30+</span>
-            <span className="text-[9px] font-bold text-red-100 block leading-tight tracking-widest">Years of<br/>Excellence</span>
-          </div>
+          <p className="font-body text-slate-300 font-medium leading-relaxed text-lg sm:text-xl">
+            At <span className="text-red-500 font-extrabold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
+          </p>
+        </motion.div>
+
+        {/* Quote Block */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="relative border-l-4 border-red-500 pl-6 py-3 max-w-4xl mx-auto text-left bg-gradient-to-r from-red-500/10 to-transparent rounded-r-lg"
+        >
+          <p className="font-body italic text-slate-200 text-lg sm:text-xl font-semibold leading-relaxed">
+            {"\"Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.\""}
+          </p>
+        </motion.div>
+
+        {/* Feature Badges Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full pt-4">
+          {dynamicBadges.map((badge, idx) => {
+            const Icon = badge.icon;
+            return (
+              <motion.div 
+                key={idx} 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.4 + (idx * 0.1) }}
+                className="border border-white/10 rounded-xl p-6 flex flex-col items-center text-center bg-white/5 backdrop-blur-md shadow-2xl hover:border-red-500 hover:bg-white/10 transition-all duration-300"
+              >
+                <div className="text-red-500 mb-4 shrink-0 bg-red-500/10 p-3 rounded-full">
+                  <Icon className="w-8 h-8" />
+                </div>
+                <div>
+                  <h4 className="font-sans text-base font-black text-white tracking-wider mb-3 uppercase">
+                    {badge.title}
+                  </h4>
+                  <p className="font-body text-sm text-slate-300 leading-relaxed font-medium">
+                    {badge.desc}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Right Side: Enhanced Text Canvas (Tightened paddings to eliminate the dead white space) */}
-        <div className="lg:col-span-7 flex flex-col justify-center bg-white px-6 sm:px-12 md:px-14 lg:px-12 xl:px-16 py-16 lg:py-12 w-full">
-          <div className="w-full max-w-3xl mr-auto lg:ml-4 space-y-8 lg:space-y-10">
-            
-            {/* Top Eyebrow Identifier */}
-            <div className="space-y-2">
-              <span className="font-body uppercase tracking-[0.3em] text-red-600 text-base font-black block">
-                ABOUT KAAVERI STEELS
-              </span>
-              <div className="w-16 h-[3.5px] bg-red-600" />
-            </div>
-
-            {/* Typography Canvas with Increased Font Sizes */}
-            <div className="space-y-5">
-              <h2 className="font-serif font-black text-4xl sm:text-5xl xl:text-6xl text-slate-900 tracking-tight leading-[1.15]">
-                BUILT ON INDUSTRIAL STEEL.<br />
-                <span className="text-red-600">TRUSTED BY BUILDERS ACROSS INDIA.</span>
-              </h2>
-              
-              <p className="font-body text-slate-700 font-medium leading-relaxed text-lg sm:text-xl">
-                At <span className="text-red-600 font-extrabold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
-              </p>
-            </div>
-
-            {/* Quote Block with Larger Font */}
-            <div className="relative border-l-4 border-red-600 pl-5 py-1">
-              <p className="font-body italic text-slate-800 text-lg sm:text-xl font-semibold leading-relaxed">
-                {"\"Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.\""}
-              </p>
-            </div>
-
-            {/* Feature Badges Grid - Clean 2-Column Desktop Matrix */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
-              {dynamicBadges.map((badge, idx) => {
-                const Icon = badge.icon;
-                return (
-                  <div 
-                    key={idx} 
-                    className="border border-slate-200 rounded-lg p-6 flex flex-col justify-between bg-white shadow-sm hover:border-red-500 transition-colors duration-200"
-                  >
-                    <div className="text-red-600 mb-4 shrink-0">
-                      <Icon className="w-7 h-7" />
-                    </div>
-                    <div>
-                      <h4 className="font-sans text-base font-black text-slate-900 tracking-wider mb-2 uppercase">
-                        {badge.title}
-                      </h4>
-                      <p className="font-body text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
-                        {badge.desc}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link 
-                href="/products" 
-                className="font-body w-full sm:w-auto px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-sm tracking-widest transition-all shadow-md flex items-center justify-center gap-2 uppercase whitespace-nowrap"
-              >
-                Explore Products <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link 
-                href="/brochure.pdf" 
-                className="font-body w-full sm:w-auto px-8 py-4 border border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-sm tracking-widest transition-all flex items-center justify-center gap-2 uppercase whitespace-nowrap"
-              >
-                <FileText className="w-4 h-4 text-slate-400" /> Download Brochure
-              </Link>
-            </div>
-
-          </div>
-        </div>
+        {/* Action Buttons */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="flex flex-wrap items-center justify-center gap-5 pt-6"
+        >
+          <Link 
+            href="/products" 
+            className="font-body w-full sm:w-auto px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-sm tracking-widest transition-all shadow-lg hover:shadow-red-600/30 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-sm"
+          >
+            Explore Products <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link 
+            href="/brochure.pdf" 
+            className="font-body w-full sm:w-auto px-8 py-4 border border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-bold text-sm tracking-widest transition-all flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-sm backdrop-blur-sm"
+          >
+            <FileText className="w-4 h-4" /> Download Brochure
+          </Link>
+        </motion.div>
       </div>
 
     </section>
