@@ -73,16 +73,16 @@ export default function HomeProducts() {
       </div>
 
       {/* Main Container */}
-      <div className="relative z-10 w-full max-w-[2000px] mx-auto px-4 md:px-10 lg:px-16 xl:px-20 flex flex-col justify-between min-h-screen">
+      <div className="relative z-10 w-full max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col justify-between min-h-screen">
         
         {/* Heading Section */}
-        <div className="max-w-7xl mx-auto w-full mb-16 lg:mb-24">
+        <div className="text-center mb-16 lg:mb-24">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="flex items-center gap-4 mb-5 justify-start"
+            className="inline-flex items-center gap-4 mb-5"
           >
             <div className="w-10 h-[2px] bg-red-500" />
             <span className="uppercase tracking-[0.45em] text-red-500 text-sm font-black">
@@ -97,7 +97,7 @@ export default function HomeProducts() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-serif font-bold text-6xl md:text-8xl lg:text-[7rem] text-white mb-6 tracking-tight drop-shadow-md text-left"
+            className="font-serif font-bold text-5xl md:text-7xl lg:text-8xl text-white mb-6 tracking-tight drop-shadow-md"
           >
             Masterpieces of <span className="text-red-500">Steel</span>
           </motion.h2>
@@ -108,7 +108,7 @@ export default function HomeProducts() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-4xl text-xl md:text-2xl lg:text-3xl text-slate-200 leading-relaxed font-normal drop-shadow-sm text-left"
+            className="max-w-3xl mx-auto text-lg md:text-xl text-slate-200 leading-relaxed font-normal drop-shadow-sm"
           >
             Engineered to perfection, our diverse range of steel products forms
             the resilient core of iconic structures worldwide.
@@ -116,7 +116,7 @@ export default function HomeProducts() {
         </div>
 
         {/* Product Cards Grid */}
-        <div className="grid lg:grid-cols-2 gap-10 xl:gap-12 w-full max-w-7xl mx-auto flex-grow items-stretch">
+        <div className="grid lg:grid-cols-2 gap-8 xl:gap-10 w-full flex-grow items-stretch">
           {products.map((product, index) => (
             <motion.div
               key={product.name}
@@ -136,7 +136,7 @@ export default function HomeProducts() {
                     overflow-hidden
                     rounded-[28px]
                     shadow-2xl
-                    min-h-[700px] md:min-h-[800px] lg:min-h-[900px] lg:h-full
+                    min-h-[550px] md:min-h-[620px] lg:h-full
                     w-full
                     border border-white/15
                     bg-slate-900/50
@@ -188,26 +188,26 @@ export default function HomeProducts() {
                   </div>
 
                   {/* Card Interactive Content */}
-                  <div className="relative z-20 p-10 md:p-14 lg:p-16 xl:p-20 w-full">
+                  <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full">
                     <div className="w-14 h-[4px] bg-red-500 mb-5 rounded-full transition-all duration-300 group-hover:w-24" />
 
                     {/* Increased heading sizes */}
-                    <h3 className="text-white text-5xl md:text-7xl lg:text-8xl font-black mb-5 tracking-tight drop-shadow">
+                    <h3 className="text-white text-4xl md:text-6xl font-black mb-5 tracking-tight drop-shadow">
                       {product.name}
                     </h3>
 
                     {/* Enhanced readable font colors & size */}
-                    <p className="text-slate-100 max-w-xl leading-relaxed text-lg md:text-xl lg:text-2xl mb-10 font-normal drop-shadow-sm opacity-95">
+                    <p className="text-slate-100 max-w-lg leading-relaxed text-base md:text-lg mb-10 font-normal drop-shadow-sm opacity-95">
                       {product.description}
                     </p>
 
                     <div className="flex items-center justify-between pt-2">
-                      <div className="px-8 py-4 md:px-10 md:py-5 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white font-black text-sm md:text-base lg:text-lg tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
+                      <div className="px-7 py-3.5 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white font-black text-xs md:text-sm tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
                         EXPLORE PRODUCT
                       </div>
 
-                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-xl">
-                        <ArrowRight className="w-7 h-7 md:w-8 md:h-8 text-black" />
+                      <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-xl">
+                        <ArrowRight className="w-6 h-6 text-black" />
                       </div>
                     </div>
                   </div>
@@ -225,7 +225,6 @@ export default function HomeProducts() {
           transition={{ duration: 0.6 }}
           className="
             mt-16 lg:mt-24
-            max-w-7xl mx-auto
             bg-slate-950/70
             backdrop-blur-lg
             rounded-[24px]
@@ -240,15 +239,15 @@ export default function HomeProducts() {
               const Icon = item.icon;
 
               return (
-                <div key={item.title} className="flex items-center gap-5 justify-start">
+                <div key={item.title} className="flex items-center gap-5 justify-start lg:justify-center">
                   <div className="w-14 h-14 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center shrink-0">
                     <Icon className="w-6 h-6 text-red-400" />
                   </div>
 
                   <div>
                     {/* Bumped text hierarchy in feature strip */}
-                    <h4 className="font-black text-white text-lg md:text-xl lg:text-2xl tracking-tight mb-0.5">{item.title}</h4>
-                    <p className="text-slate-300 text-base md:text-lg font-medium">{item.subtitle}</p>
+                    <h4 className="font-black text-white text-base md:text-lg tracking-tight mb-0.5">{item.title}</h4>
+                    <p className="text-slate-300 text-sm md:text-base font-medium">{item.subtitle}</p>
                   </div>
                 </div>
               );
