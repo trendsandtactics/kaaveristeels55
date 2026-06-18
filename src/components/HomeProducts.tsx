@@ -85,7 +85,7 @@ export default function HomeProducts() {
             className="inline-flex items-center gap-4 mb-5"
           >
             <div className="w-12 h-[2px] bg-red-500" />
-            <span className="uppercase tracking-[0.45em] text-red-500 text-sm font-black">
+            <span className="uppercase tracking-[0.45em] text-red-500 text-base md:text-lg font-black">
               Our Products
             </span>
             <div className="w-12 h-[2px] bg-red-500" />
@@ -136,7 +136,7 @@ export default function HomeProducts() {
                     overflow-hidden
                     rounded-[28px]
                     shadow-2xl
-                    min-h-[650px] md:min-h-[750px] lg:min-h-[850px]
+                    min-h-[700px] md:min-h-[800px] lg:min-h-[900px]
                     w-full
                     border border-white/15
                     bg-slate-900/50
@@ -162,12 +162,12 @@ export default function HomeProducts() {
                   />
 
                   {/* Advanced Gradient Overlay for Perfect Text Visibility */}
-                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute inset-0 z-10 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+                  <div className="absolute inset-x-0 bottom-0 h-[75%] lg:h-[65%] z-10 bg-gradient-to-t from-black/95 via-black/70 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 z-10 bg-black/5 group-hover:bg-transparent transition-colors duration-500" />
 
                   {/* Card Interactive Content */}
                   <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full h-full flex flex-col items-start justify-end text-left mt-auto overflow-hidden">
-                    <span className="text-red-500 font-bold tracking-[0.2em] text-xs md:text-sm lg:text-base mb-4 block transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                    <span className="text-red-500 font-bold tracking-[0.2em] text-sm md:text-base lg:text-xl mb-4 block transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
                       {product.category}
                     </span>
                     
