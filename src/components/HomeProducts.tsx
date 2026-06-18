@@ -73,10 +73,10 @@ export default function HomeProducts() {
       </div>
 
       {/* Main Container */}
-      <div className="relative z-10 w-full max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col justify-between min-h-screen">
+      <div className="relative z-10 w-full max-w-full mx-auto px-4 md:px-8 lg:px-12 xl:px-16 flex flex-col justify-center items-center min-h-screen py-12 lg:py-20 gap-12 lg:gap-16">
         
         {/* Heading Section */}
-        <div className="text-center mb-16 lg:mb-24">
+        <div className="text-center w-full max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -84,11 +84,11 @@ export default function HomeProducts() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-4 mb-5"
           >
-            <div className="w-10 h-[2px] bg-red-500" />
+            <div className="w-12 h-[2px] bg-red-500" />
             <span className="uppercase tracking-[0.45em] text-red-500 text-sm font-black">
               Our Products
             </span>
-            <div className="w-10 h-[2px] bg-red-500" />
+            <div className="w-12 h-[2px] bg-red-500" />
           </motion.div>
 
           {/* Changed to font-serif, updated text size, and bumped tracking to mirror image mockup */}
@@ -116,7 +116,7 @@ export default function HomeProducts() {
         </div>
 
         {/* Product Cards Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 xl:gap-10 w-full flex-grow items-stretch">
+        <div className="grid lg:grid-cols-2 gap-8 xl:gap-10 w-full max-w-full flex-grow items-stretch">
           {products.map((product, index) => (
             <motion.div
               key={product.name}
@@ -143,7 +143,7 @@ export default function HomeProducts() {
                     backdrop-blur-md
                     transition-all
                     duration-500
-                    flex flex-col justify-end
+                    flex flex-col justify-center items-center
                     ${product.accentColor}
                   `}
                 >
@@ -162,25 +162,25 @@ export default function HomeProducts() {
                   />
 
                   {/* Card Interactive Content */}
-                  <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full">
-                    <div className="w-14 h-[4px] bg-red-500 mb-5 rounded-full transition-all duration-300 group-hover:w-24" />
+                  <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full h-full flex flex-col items-center justify-center text-center mt-auto">
+                    <div className="w-16 h-[4px] bg-red-500 mb-6 rounded-full transition-all duration-300 group-hover:w-24 mx-auto" />
 
                     {/* Increased heading sizes */}
-                    <h3 className="text-white text-4xl md:text-6xl font-black mb-5 tracking-tight drop-shadow">
+                    <h3 className="text-white text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight drop-shadow">
                       {product.name}
                     </h3>
 
                     {/* Enhanced readable font colors & size */}
-                    <p className="text-slate-100 max-w-xl leading-relaxed text-xl md:text-2xl lg:text-3xl mb-10 font-normal drop-shadow-sm opacity-95">
+                    <p className="text-slate-100 max-w-2xl mx-auto leading-relaxed text-xl md:text-2xl lg:text-3xl mb-10 font-normal drop-shadow-sm opacity-95">
                       {product.description}
                     </p>
 
-                    <div className="flex items-center justify-between pt-2">
+                    <div className="flex flex-wrap items-center justify-center gap-6 pt-2">
                       <div className="px-10 py-5 md:px-12 md:py-6 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white font-black text-base md:text-lg lg:text-xl tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
                         EXPLORE PRODUCT
                       </div>
 
-                      <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-xl">
+                      <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-xl">
                         <ArrowRight className="w-8 h-8 md:w-10 md:h-10 text-black" />
                       </div>
                     </div>
@@ -198,14 +198,14 @@ export default function HomeProducts() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="
-            mt-16 lg:mt-24
+            mt-0 lg:mt-6
             bg-slate-950/70
             backdrop-blur-lg
             rounded-[24px]
             border
             border-white/10
-            p-8 md:p-10
             w-full
+            p-8 md:p-10 lg:p-12
           "
         >
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
@@ -213,7 +213,7 @@ export default function HomeProducts() {
               const Icon = item.icon;
 
               return (
-                <div key={item.title} className="flex items-center gap-5 justify-start lg:justify-center">
+                <div key={item.title} className="flex flex-col xl:flex-row items-center gap-5 justify-center text-center xl:text-left">
                   <div className="w-14 h-14 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center shrink-0">
                     <Icon className="w-6 h-6 text-red-400" />
                   </div>
