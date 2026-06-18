@@ -4,13 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  ShieldCheck,
-  Layers3,
-  Handshake,
-  Leaf,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const products = [
   {
@@ -30,29 +24,6 @@ const products = [
       "Premium quality structural steels designed for robust frameworks and enduring performance.",
     href: "/products?category=Structural",
     accentColor: "group-hover:border-yellow-500/50",
-  },
-];
-
-const features = [
-  {
-    icon: ShieldCheck,
-    title: "High Strength",
-    subtitle: "Built to Last",
-  },
-  {
-    icon: Layers3,
-    title: "Superior Quality",
-    subtitle: "Tested & Assured",
-  },
-  {
-    icon: Handshake,
-    title: "Trusted Across India",
-    subtitle: "Building The Nation",
-  },
-  {
-    icon: Leaf,
-    title: "Sustainable Steel",
-    subtitle: "For A Better Tomorrow",
   },
 ];
 
@@ -198,44 +169,6 @@ export default function HomeProducts() {
             </motion.div>
           ))}
         </div>
-
-        {/* Features Strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="
-            mt-0 lg:mt-6
-            bg-slate-950/70
-            backdrop-blur-lg
-            rounded-[24px]
-            border
-            border-white/10
-            w-full
-            p-8 md:p-10 lg:p-12
-          "
-        >
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
-            {features.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <div key={item.title} className="flex flex-col xl:flex-row items-center gap-5 justify-center text-center xl:text-left">
-                  <div className="w-14 h-14 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center shrink-0">
-                    <Icon className="w-6 h-6 text-red-400" />
-                  </div>
-
-                  <div>
-                    {/* Bumped text hierarchy in feature strip */}
-                    <h4 className="font-black text-white text-xl md:text-2xl lg:text-3xl tracking-tight mb-0.5">{item.title}</h4>
-                    <p className="text-slate-300 text-lg md:text-xl font-medium">{item.subtitle}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
