@@ -116,7 +116,7 @@ export default function HomeProducts() {
         </div>
 
         {/* Product Cards Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 xl:gap-10 w-full max-w-5xl mx-auto flex-grow items-stretch">
+        <div className="grid lg:grid-cols-2 gap-8 xl:gap-10 w-[80%] max-w-[80%] mx-auto flex-grow items-stretch">
           {products.map((product, index) => (
             <motion.div
               key={product.name}
