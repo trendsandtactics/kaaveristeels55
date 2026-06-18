@@ -136,7 +136,7 @@ export default function HomeProducts() {
                     overflow-hidden
                     rounded-[28px]
                     shadow-2xl
-                    min-h-[700px] md:min-h-[800px] lg:min-h-[900px]
+                    min-h-[800px] md:min-h-[900px] lg:min-h-[1000px]
                     w-full
                     border border-white/15
                     bg-slate-900/50
@@ -167,7 +167,7 @@ export default function HomeProducts() {
 
                   {/* Card Interactive Content */}
                   <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full h-full flex flex-col items-start justify-end text-left mt-auto overflow-hidden">
-                    <span className="text-red-500 font-bold tracking-[0.2em] text-sm md:text-base lg:text-xl mb-4 block transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                    <span className="text-red-500 font-bold tracking-[0.2em] text-lg md:text-xl lg:text-2xl mb-4 block transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
                       {product.category}
                     </span>
                     
