@@ -44,7 +44,7 @@ export default function HomeAbout() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="space-y-3 flex flex-col items-start"
         >
-          <span className="font-body uppercase tracking-[0.3em] text-red-600 text-lg sm:text-xl font-black block">
+          <span className="font-body uppercase tracking-[0.3em] text-red-600 text-base sm:text-lg font-black block">
             ABOUT KAAVERI STEELS
           </span>
           <div className="w-16 h-[3.5px] bg-red-600 rounded-full" />
@@ -58,12 +58,12 @@ export default function HomeAbout() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="space-y-6"
         >
-          <h2 className="font-serif font-black text-5xl sm:text-6xl xl:text-[4rem] text-slate-900 tracking-tight leading-[1.15]">
+          <h2 className="font-serif font-black text-4xl sm:text-5xl xl:text-6xl text-slate-900 tracking-tight leading-[1.15]">
             BUILT ON INDUSTRIAL STEEL.<br />
             <span className="text-red-600">TRUSTED BY BUILDERS ACROSS INDIA.</span>
           </h2>
           
-          <p className="font-body text-slate-600 font-medium leading-relaxed text-xl sm:text-2xl">
+          <p className="font-body text-slate-600 font-medium leading-relaxed text-lg sm:text-xl">
             At <span className="text-red-600 font-extrabold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
           </p>
         </motion.div>
@@ -76,7 +76,7 @@ export default function HomeAbout() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="relative border-l-4 border-red-600 pl-6 py-3 max-w-4xl text-left bg-gradient-to-r from-red-50 to-transparent rounded-r-lg"
         >
-          <p className="font-body italic text-slate-800 text-xl sm:text-2xl font-semibold leading-relaxed">
+          <p className="font-body italic text-slate-800 text-lg sm:text-xl font-semibold leading-relaxed">
             {"\"Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.\""}
           </p>
         </motion.div>
@@ -91,13 +91,13 @@ export default function HomeAbout() {
         >
           <Link 
             href="/products" 
-            className="font-body w-full sm:w-auto px-8 py-4 md:px-10 md:py-5 bg-red-600 hover:bg-red-700 text-white font-bold text-base md:text-lg tracking-widest transition-all shadow-lg hover:shadow-red-600/30 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-sm"
+            className="font-body w-full sm:w-auto px-8 py-4 md:px-10 md:py-5 bg-red-600 hover:bg-red-700 text-white font-bold text-sm md:text-base tracking-widest transition-all shadow-lg hover:shadow-red-600/30 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-sm"
           >
             Explore Products <ArrowRight className="w-4 h-4" />
           </Link>
           <Link 
             href="/brochure.pdf" 
-            className="font-body w-full sm:w-auto px-8 py-4 md:px-10 md:py-5 border border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 font-bold text-base md:text-lg tracking-widest transition-all flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-sm"
+            className="font-body w-full sm:w-auto px-8 py-4 md:px-10 md:py-5 border border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 font-bold text-sm md:text-base tracking-widest transition-all flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-sm"
           >
             <FileText className="w-5 h-5" /> Download Brochure
           </Link>
