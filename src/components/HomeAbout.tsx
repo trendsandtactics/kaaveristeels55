@@ -31,10 +31,10 @@ const dynamicBadges = [
 
 export default function HomeAbout() {
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden py-20 lg:py-24">
+    <section className="relative w-full min-h-screen flex flex-col lg:flex-row items-stretch bg-white overflow-hidden">
       
-      {/* Full Background Image */}
-      <div className="absolute inset-0 z-0">
+      {/* Left Side: Image (50%) */}
+      <div className="relative w-full lg:w-1/2 min-h-[400px] lg:min-h-screen overflow-hidden">
         <Image
           src="/product.png" 
           alt="Kaveri Steel Plant Production Facility"
@@ -42,24 +42,22 @@ export default function HomeAbout() {
           priority
           className="object-cover object-center"
         />
-        {/* Dark Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-slate-900/80" />
+        
+        {/* Industrial Red Overlay Badge */}
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="absolute top-8 left-6 sm:top-10 sm:left-10 bg-red-600 text-white p-5 uppercase text-center shadow-xl tracking-widest z-20 rounded-sm"
+        >
+          <span className="text-3xl sm:text-4xl font-black block mb-0.5 tracking-tight">30+</span>
+          <span className="text-[9px] sm:text-[10px] font-bold text-red-100 block leading-tight tracking-widest">Years of<br/>Excellence</span>
+        </motion.div>
       </div>
 
-      {/* Industrial Red Overlay Badge */}
-      <motion.div 
-        initial={{ opacity: 0, x: -30 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="absolute top-8 left-6 sm:top-10 sm:left-10 bg-red-600 text-white p-5 uppercase text-center shadow-xl tracking-widest z-20 rounded-sm"
-      >
-        <span className="text-3xl sm:text-4xl font-black block mb-0.5 tracking-tight">30+</span>
-        <span className="text-[9px] sm:text-[10px] font-bold text-red-100 block leading-tight tracking-widest">Years of<br/>Excellence</span>
-      </motion.div>
-
-      {/* Main Centered Content */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-12 flex flex-col items-center text-center space-y-10">
+      {/* Right Side: Content (50%) */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-12 xl:px-20 py-16 lg:py-20 bg-white space-y-10">
         
         {/* Top Eyebrow Identifier */}
         <motion.div 
@@ -67,9 +65,9 @@ export default function HomeAbout() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="space-y-3 flex flex-col items-center"
+          className="space-y-3 flex flex-col items-start"
         >
-          <span className="font-body uppercase tracking-[0.3em] text-red-500 text-base font-black block">
+          <span className="font-body uppercase tracking-[0.3em] text-red-600 text-base font-black block">
             ABOUT KAAVERI STEELS
           </span>
           <div className="w-16 h-[3.5px] bg-red-600 rounded-full" />
@@ -81,15 +79,15 @@ export default function HomeAbout() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="space-y-6 max-w-4xl mx-auto"
+          className="space-y-6"
         >
-          <h2 className="font-serif font-black text-4xl sm:text-5xl xl:text-6xl text-white tracking-tight leading-[1.15]">
+          <h2 className="font-serif font-black text-4xl sm:text-5xl xl:text-6xl text-slate-900 tracking-tight leading-[1.15]">
             BUILT ON INDUSTRIAL STEEL.<br />
-            <span className="text-red-500">TRUSTED BY BUILDERS ACROSS INDIA.</span>
+            <span className="text-red-600">TRUSTED BY BUILDERS ACROSS INDIA.</span>
           </h2>
           
-          <p className="font-body text-slate-300 font-medium leading-relaxed text-lg sm:text-xl">
-            At <span className="text-red-500 font-extrabold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
+          <p className="font-body text-slate-600 font-medium leading-relaxed text-lg sm:text-xl">
+            At <span className="text-red-600 font-extrabold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
           </p>
         </motion.div>
 
@@ -99,15 +97,15 @@ export default function HomeAbout() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="relative border-l-4 border-red-500 pl-6 py-3 max-w-4xl mx-auto text-left bg-gradient-to-r from-red-500/10 to-transparent rounded-r-lg"
+          className="relative border-l-4 border-red-600 pl-6 py-3 max-w-4xl text-left bg-gradient-to-r from-red-50 to-transparent rounded-r-lg"
         >
-          <p className="font-body italic text-slate-200 text-lg sm:text-xl font-semibold leading-relaxed">
+          <p className="font-body italic text-slate-800 text-lg sm:text-xl font-semibold leading-relaxed">
             {"\"Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.\""}
           </p>
         </motion.div>
 
         {/* Feature Badges Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full pt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full pt-4">
           {dynamicBadges.map((badge, idx) => {
             const Icon = badge.icon;
             return (
@@ -117,16 +115,16 @@ export default function HomeAbout() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.4 + (idx * 0.1) }}
-                className="border border-white/10 rounded-xl p-6 flex flex-col items-center text-center bg-white/5 backdrop-blur-md shadow-2xl hover:border-red-500 hover:bg-white/10 transition-all duration-300"
+                className="border border-slate-100 rounded-xl p-6 flex flex-col items-start text-left bg-white shadow-lg hover:border-red-600 hover:shadow-xl transition-all duration-300"
               >
-                <div className="text-red-500 mb-4 shrink-0 bg-red-500/10 p-3 rounded-full">
+                <div className="text-red-600 mb-4 shrink-0 bg-red-50 p-3 rounded-full">
                   <Icon className="w-8 h-8" />
                 </div>
                 <div>
-                  <h4 className="font-sans text-base font-black text-white tracking-wider mb-3 uppercase">
+                  <h4 className="font-sans text-base font-black text-slate-900 tracking-wider mb-2 uppercase">
                     {badge.title}
                   </h4>
-                  <p className="font-body text-sm text-slate-300 leading-relaxed font-medium">
+                  <p className="font-body text-sm text-slate-600 leading-relaxed font-medium">
                     {badge.desc}
                   </p>
                 </div>
@@ -141,7 +139,7 @@ export default function HomeAbout() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="flex flex-wrap items-center justify-center gap-5 pt-6"
+          className="flex flex-wrap items-center justify-start gap-4 pt-4"
         >
           <Link 
             href="/products" 
@@ -151,7 +149,7 @@ export default function HomeAbout() {
           </Link>
           <Link 
             href="/brochure.pdf" 
-            className="font-body w-full sm:w-auto px-8 py-4 border border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-bold text-sm tracking-widest transition-all flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-sm backdrop-blur-sm"
+            className="font-body w-full sm:w-auto px-8 py-4 border border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 font-bold text-sm tracking-widest transition-all flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-sm"
           >
             <FileText className="w-4 h-4" /> Download Brochure
           </Link>
