@@ -76,13 +76,13 @@ export default function HomeProducts() {
       <div className="relative z-10 w-full max-w-[2000px] mx-auto px-4 md:px-10 lg:px-16 xl:px-20 flex flex-col justify-between min-h-screen">
         
         {/* Heading Section */}
-        <div className="text-center mb-16 lg:mb-24">
+        <div className="max-w-7xl mx-auto w-full mb-16 lg:mb-24">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-4 mb-5"
+            className="flex items-center gap-4 mb-5 justify-start"
           >
             <div className="w-10 h-[2px] bg-red-500" />
             <span className="uppercase tracking-[0.45em] text-red-500 text-sm font-black">
@@ -97,7 +97,7 @@ export default function HomeProducts() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-serif font-bold text-6xl md:text-8xl lg:text-[7rem] text-white mb-6 tracking-tight drop-shadow-md"
+            className="font-serif font-bold text-6xl md:text-8xl lg:text-[7rem] text-white mb-6 tracking-tight drop-shadow-md text-left"
           >
             Masterpieces of <span className="text-red-500">Steel</span>
           </motion.h2>
@@ -108,7 +108,7 @@ export default function HomeProducts() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-5xl mx-auto text-xl md:text-2xl lg:text-3xl text-slate-200 leading-relaxed font-normal drop-shadow-sm"
+            className="max-w-4xl text-xl md:text-2xl lg:text-3xl text-slate-200 leading-relaxed font-normal drop-shadow-sm text-left"
           >
             Engineered to perfection, our diverse range of steel products forms
             the resilient core of iconic structures worldwide.
@@ -116,7 +116,7 @@ export default function HomeProducts() {
         </div>
 
         {/* Product Cards Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 xl:gap-10 w-full flex-grow items-stretch">
+        <div className="grid lg:grid-cols-2 gap-10 xl:gap-12 w-full max-w-7xl mx-auto flex-grow items-stretch">
           {products.map((product, index) => (
             <motion.div
               key={product.name}
@@ -225,6 +225,7 @@ export default function HomeProducts() {
           transition={{ duration: 0.6 }}
           className="
             mt-16 lg:mt-24
+            max-w-7xl mx-auto
             bg-slate-950/70
             backdrop-blur-lg
             rounded-[24px]
@@ -239,7 +240,7 @@ export default function HomeProducts() {
               const Icon = item.icon;
 
               return (
-                <div key={item.title} className="flex items-center gap-5 justify-start lg:justify-center">
+                <div key={item.title} className="flex items-center gap-5 justify-start">
                   <div className="w-14 h-14 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center shrink-0">
                     <Icon className="w-6 h-6 text-red-400" />
                   </div>
