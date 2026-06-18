@@ -31,16 +31,16 @@ const dynamicBadges = [
 
 export default function HomeAbout() {
   return (
-    <section className="relative w-full min-h-screen flex flex-col lg:flex-row items-stretch bg-white overflow-hidden">
+    <section className="relative w-full h-screen lg:h-[100dvh] flex flex-col lg:flex-row items-stretch bg-white overflow-hidden">
       
       {/* Left Side: Image (50%) */}
-      <div className="relative w-full lg:w-1/2 min-h-[400px] lg:min-h-screen overflow-hidden">
+      <div className="relative w-full lg:w-1/2 h-[40vh] lg:h-full shrink-0 overflow-hidden">
         <Image
           src="/product.png" 
           alt="Kaveri Steel Plant Production Facility"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-center w-full h-full"
         />
         
         {/* Industrial Red Overlay Badge */}
@@ -57,7 +57,7 @@ export default function HomeAbout() {
       </div>
 
       {/* Right Side: Content (50%) */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-12 xl:px-20 py-16 lg:py-20 bg-white space-y-10">
+      <div className="w-full lg:w-1/2 h-[60vh] lg:h-full flex flex-col justify-start lg:justify-center px-6 sm:px-12 md:px-16 lg:px-12 xl:px-20 py-10 lg:py-16 bg-white space-y-8 lg:space-y-10 overflow-y-auto">
         
         {/* Top Eyebrow Identifier */}
         <motion.div 
