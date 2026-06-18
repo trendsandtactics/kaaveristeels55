@@ -4,30 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, FileText, Award, ShieldCheck, Users, HardHat } from "lucide-react";
-
-const dynamicBadges = [
-  { 
-    title: "PREMIUM TMT BARS", 
-    desc: "Engineered with advanced thermo-mechanical processing for superior high-grade tensile safety and enhanced seismic resilience.",
-    icon: ShieldCheck 
-  },
-  { 
-    title: "BIS CERTIFIED QUALITY", 
-    desc: "Rigorously evaluated and certified to absolute industrial perfection under standard Bureau of Indian Standards benchmarking.",
-    icon: Award 
-  },
-  { 
-    title: "STRUCTURAL INTEGRITY", 
-    desc: "Formulated to handle extreme load distribution uniformly across large-span frameworks, ensuring long-term structural reliability.",
-    icon: HardHat 
-  },
-  { 
-    title: "TRUSTED NATIONWIDE", 
-    desc: "Forging infrastructure networks across the country with materials perfectly optimized for major commercial mega-structures.",
-    icon: Users 
-  },
-];
+import { ArrowRight, FileText } from "lucide-react";
 
 export default function HomeAbout() {
   return (
@@ -103,35 +80,6 @@ export default function HomeAbout() {
             {"\"Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.\""}
           </p>
         </motion.div>
-
-        {/* Feature Badges Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 w-full pt-4 items-stretch">
-          {dynamicBadges.map((badge, idx) => {
-            const Icon = badge.icon;
-            return (
-              <motion.div 
-                key={idx} 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 + (idx * 0.1) }}
-                className="border border-slate-100 rounded-xl p-6 sm:p-8 flex flex-col justify-start items-start text-left bg-white shadow-lg hover:border-red-600 hover:shadow-xl transition-all duration-300 h-full"
-              >
-                <div className="text-red-600 mb-5 shrink-0 bg-red-50 p-4 rounded-full">
-                  <Icon className="w-8 h-8 sm:w-10 sm:h-10" />
-                </div>
-                <div className="flex-1 flex flex-col justify-start">
-                  <h4 className="font-sans text-lg sm:text-xl font-black text-slate-900 tracking-wider mb-3 uppercase">
-                    {badge.title}
-                  </h4>
-                  <p className="font-body text-base sm:text-lg text-slate-600 leading-relaxed font-medium">
-                    {badge.desc}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
 
         {/* Action Buttons */}
         <motion.div 
