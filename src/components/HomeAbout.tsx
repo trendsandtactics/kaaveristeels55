@@ -35,11 +35,11 @@ export default function HomeAbout() {
       {/* Background Subtle Gradient Glow */}
       <div className="absolute top-0 right-0 w-[30vw] h-[30vw] bg-red-500/5 rounded-bl-full blur-3xl pointer-events-none -z-10" />
 
-      {/* Main Responsive Grid Container - No max-width restriction to fulfill edge-to-edge layout */}
+      {/* Main Responsive Grid Container */}
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-stretch">
         
-        {/* Left Side: Immersive Full-Height Imagery Block */}
-        <div className="relative lg:col-span-5 w-full min-h-[450px] lg:min-h-screen overflow-hidden">
+        {/* LEFT SIDE: Immersive Full-Height Imagery Block */}
+        <div className="relative lg:col-span-5 w-full min-h-[450px] lg:min-h-screen overflow-hidden order-first lg:order-first">
           <Image
             src="/product.png" 
             alt="Kaveri Steel Plant Production Facility"
@@ -55,8 +55,8 @@ export default function HomeAbout() {
           </div>
         </div>
 
-        {/* Right Side: Structured Typography & Context Box */}
-        <div className="lg:col-span-7 flex flex-col justify-center bg-white px-6 sm:px-12 md:px-16 lg:px-20 xl:px-24 py-16 lg:py-12 w-full">
+        {/* RIGHT SIDE (Middle-to-Right Desktop Space): Structured Typography & Context Box */}
+        <div className="lg:col-span-7 flex flex-col justify-center bg-white px-6 sm:px-12 md:px-16 lg:px-20 xl:px-24 py-16 lg:py-12 w-full order-last lg:order-last">
           <div className="w-full max-w-3xl mx-auto space-y-8 lg:space-y-10">
             
             {/* Top Eyebrow Identifier */}
@@ -134,4 +134,3 @@ export default function HomeAbout() {
     </section>
   );
 }
-
