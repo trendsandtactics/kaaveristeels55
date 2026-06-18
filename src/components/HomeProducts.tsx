@@ -153,7 +153,7 @@ export default function HomeProducts() {
                     alt={product.name}
                     fill
                     className="
-                      object-cover md:object-contain
+                      object-cover object-center
                       transition-transform
                       duration-700
                       ease-out
