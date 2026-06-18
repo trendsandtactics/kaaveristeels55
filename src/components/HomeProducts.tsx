@@ -136,7 +136,7 @@ export default function HomeProducts() {
                     overflow-hidden
                     rounded-[28px]
                     shadow-2xl
-                    min-h-[600px] md:min-h-[700px] lg:min-h-[780px]
+                    min-h-[650px] md:min-h-[750px] lg:min-h-[850px]
                     w-full
                     border border-white/15
                     bg-slate-900/50
