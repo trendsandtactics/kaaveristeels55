@@ -143,7 +143,7 @@ export default function HomeProducts() {
                     backdrop-blur-md
                     transition-all
                     duration-500
-                    flex flex-col justify-center items-center
+                    flex flex-col justify-end items-start
                     ${product.accentColor}
                   `}
                 >
@@ -153,7 +153,7 @@ export default function HomeProducts() {
                     alt={product.name}
                     fill
                     className="
-                      object-cover
+                      object-cover md:object-contain
                       transition-transform
                       duration-700
                       ease-out
@@ -162,8 +162,8 @@ export default function HomeProducts() {
                   />
 
                   {/* Card Interactive Content */}
-                  <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full h-full flex flex-col items-center justify-center text-center mt-auto">
-                    <div className="w-16 h-[4px] bg-red-500 mb-6 rounded-full transition-all duration-300 group-hover:w-24 mx-auto" />
+                  <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full h-full flex flex-col items-start justify-end text-left mt-auto">
+                    <div className="w-16 h-[4px] bg-red-500 mb-6 rounded-full transition-all duration-300 group-hover:w-24" />
 
                     {/* Increased heading sizes */}
                     <h3 className="text-white text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight drop-shadow">
@@ -171,16 +171,16 @@ export default function HomeProducts() {
                     </h3>
 
                     {/* Enhanced readable font colors & size */}
-                    <p className="text-slate-100 max-w-2xl mx-auto leading-relaxed text-xl md:text-2xl lg:text-3xl mb-10 font-normal drop-shadow-sm opacity-95">
+                    <p className="text-slate-100 max-w-2xl leading-relaxed text-xl md:text-2xl lg:text-3xl mb-10 font-normal drop-shadow-sm opacity-95">
                       {product.description}
                     </p>
 
-                    <div className="flex flex-wrap items-center justify-center gap-6 pt-2">
+                    <div className="flex flex-wrap items-center justify-start gap-6 pt-2">
                       <div className="px-10 py-5 md:px-12 md:py-6 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white font-black text-base md:text-lg lg:text-xl tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
                         EXPLORE PRODUCT
                       </div>
 
-                      <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-xl">
+                      <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-xl">
                         <ArrowRight className="w-8 h-8 md:w-10 md:h-10 text-black" />
                       </div>
                     </div>
