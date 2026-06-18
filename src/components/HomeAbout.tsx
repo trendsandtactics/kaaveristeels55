@@ -38,8 +38,8 @@ export default function HomeAbout() {
       {/* Main Responsive Grid Container */}
       <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-stretch">
         
-        {/* LEFT SIDE: Immersive Full-Height Imagery Block */}
-        <div className="relative lg:col-span-5 w-full min-h-[450px] lg:min-h-screen overflow-hidden order-first lg:order-first">
+        {/* Left Side: Centered Full-Height Imagery Block */}
+        <div className="relative lg:col-span-5 w-full min-h-[500px] lg:min-h-screen overflow-hidden flex items-center justify-center bg-slate-50">
           <Image
             src="/product.png" 
             alt="Kaveri Steel Plant Production Facility"
@@ -49,60 +49,60 @@ export default function HomeAbout() {
           />
           
           {/* Industrial Red Overlay Badge */}
-          <div className="absolute top-8 left-8 bg-red-600 text-white p-5 uppercase text-center shadow-xl tracking-widest">
+          <div className="absolute top-8 left-8 bg-red-600 text-white p-5 uppercase text-center shadow-xl tracking-widest z-10">
             <span className="text-3xl font-black block mb-0.5 tracking-tight">30+</span>
             <span className="text-[9px] font-bold text-red-100 block leading-tight tracking-widest">Years of<br/>Excellence</span>
           </div>
         </div>
 
-        {/* RIGHT SIDE (Middle-to-Right Desktop Space): Structured Typography & Context Box */}
-        <div className="lg:col-span-7 flex flex-col justify-center bg-white px-6 sm:px-12 md:px-16 lg:px-20 xl:px-24 py-16 lg:py-12 w-full order-last lg:order-last">
-          <div className="w-full max-w-3xl mx-auto space-y-8 lg:space-y-10">
+        {/* Right Side: Enhanced Text Canvas (Tightened paddings to eliminate the dead white space) */}
+        <div className="lg:col-span-7 flex flex-col justify-center bg-white px-6 sm:px-12 md:px-14 lg:px-12 xl:px-16 py-16 lg:py-12 w-full">
+          <div className="w-full max-w-3xl mr-auto lg:ml-4 space-y-8 lg:space-y-10">
             
             {/* Top Eyebrow Identifier */}
             <div className="space-y-2">
-              <span className="uppercase tracking-[0.3em] text-red-600 text-xs font-black block">
+              <span className="uppercase tracking-[0.3em] text-red-600 text-sm font-black block">
                 ABOUT KAAVERI STEELS
               </span>
-              <div className="w-12 h-[3px] bg-red-600" />
+              <div className="w-16 h-[3.5px] bg-red-600" />
             </div>
 
-            {/* Typography Canvas */}
-            <div className="space-y-4">
+            {/* Typography Canvas with Increased Font Sizes */}
+            <div className="space-y-5">
               <h2 className="font-sans font-black text-3xl sm:text-4xl xl:text-5xl text-slate-900 tracking-tight leading-[1.15]">
                 BUILT ON INDUSTRIAL STEEL.<br />
                 <span className="text-red-600">TRUSTED BY BUILDERS ACROSS INDIA.</span>
               </h2>
               
-              <p className="text-slate-600 font-normal leading-relaxed text-sm sm:text-base">
+              <p className="text-slate-600 font-normal leading-relaxed text-base sm:text-lg">
                 At <span className="text-red-600 font-extrabold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
               </p>
             </div>
 
-            {/* Quote Block */}
+            {/* Quote Block with Larger Font */}
             <div className="relative border-l-4 border-red-600 pl-5 py-1">
-              <p className="italic text-slate-700 text-sm sm:text-base font-medium leading-relaxed">
+              <p className="italic text-slate-700 text-base sm:text-lg font-medium leading-relaxed">
                 {"\"Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.\""}
               </p>
             </div>
 
             {/* Feature Badges Grid - Clean 2-Column Desktop Matrix */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
               {dynamicBadges.map((badge, idx) => {
                 const Icon = badge.icon;
                 return (
                   <div 
                     key={idx} 
-                    className="border border-slate-200 rounded-lg p-5 flex flex-col justify-between bg-white shadow-sm hover:border-red-500 transition-colors duration-200"
+                    className="border border-slate-200 rounded-lg p-6 flex flex-col justify-between bg-white shadow-sm hover:border-red-500 transition-colors duration-200"
                   >
-                    <div className="text-red-600 mb-3 shrink-0">
-                      <Icon className="w-6 h-6" />
+                    <div className="text-red-600 mb-4 shrink-0">
+                      <Icon className="w-7 h-7" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-black text-slate-900 tracking-wider mb-1 uppercase">
+                      <h4 className="text-sm font-black text-slate-900 tracking-wider mb-2 uppercase">
                         {badge.title}
                       </h4>
-                      <p className="text-[11px] text-slate-500 leading-relaxed font-normal">
+                      <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-normal">
                         {badge.desc}
                       </p>
                     </div>
