@@ -61,7 +61,7 @@ export default function HomeAbout() {
             
             {/* Top Eyebrow Identifier */}
             <div className="space-y-2">
-              <span className="uppercase tracking-[0.3em] text-red-600 text-sm font-black block">
+              <span className="font-body uppercase tracking-[0.3em] text-red-600 text-base font-black block">
                 ABOUT KAAVERI STEELS
               </span>
               <div className="w-16 h-[3.5px] bg-red-600" />
@@ -69,19 +69,19 @@ export default function HomeAbout() {
 
             {/* Typography Canvas with Increased Font Sizes */}
             <div className="space-y-5">
-              <h2 className="font-sans font-black text-3xl sm:text-4xl xl:text-5xl text-slate-900 tracking-tight leading-[1.15]">
+              <h2 className="font-serif font-black text-4xl sm:text-5xl xl:text-6xl text-slate-900 tracking-tight leading-[1.15]">
                 BUILT ON INDUSTRIAL STEEL.<br />
                 <span className="text-red-600">TRUSTED BY BUILDERS ACROSS INDIA.</span>
               </h2>
               
-              <p className="text-slate-600 font-normal leading-relaxed text-base sm:text-lg">
+              <p className="font-body text-slate-700 font-medium leading-relaxed text-lg sm:text-xl">
                 At <span className="text-red-600 font-extrabold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
               </p>
             </div>
 
             {/* Quote Block with Larger Font */}
             <div className="relative border-l-4 border-red-600 pl-5 py-1">
-              <p className="italic text-slate-700 text-base sm:text-lg font-medium leading-relaxed">
+              <p className="font-body italic text-slate-800 text-lg sm:text-xl font-semibold leading-relaxed">
                 {"\"Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.\""}
               </p>
             </div>
@@ -99,10 +99,10 @@ export default function HomeAbout() {
                       <Icon className="w-7 h-7" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-black text-slate-900 tracking-wider mb-2 uppercase">
+                      <h4 className="font-sans text-base font-black text-slate-900 tracking-wider mb-2 uppercase">
                         {badge.title}
                       </h4>
-                      <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-normal">
+                      <p className="font-body text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
                         {badge.desc}
                       </p>
                     </div>
@@ -115,13 +115,13 @@ export default function HomeAbout() {
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link 
                 href="/products" 
-                className="w-full sm:w-auto px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs tracking-widest transition-all shadow-md flex items-center justify-center gap-2 uppercase whitespace-nowrap"
+                className="font-body w-full sm:w-auto px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-sm tracking-widest transition-all shadow-md flex items-center justify-center gap-2 uppercase whitespace-nowrap"
               >
                 Explore Products <ArrowRight className="w-4 h-4" />
               </Link>
               <Link 
                 href="/brochure.pdf" 
-                className="w-full sm:w-auto px-8 py-4 border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold text-xs tracking-widest transition-all flex items-center justify-center gap-2 uppercase whitespace-nowrap"
+                className="font-body w-full sm:w-auto px-8 py-4 border border-slate-300 text-slate-800 hover:bg-slate-50 font-bold text-sm tracking-widest transition-all flex items-center justify-center gap-2 uppercase whitespace-nowrap"
               >
                 <FileText className="w-4 h-4 text-slate-400" /> Download Brochure
               </Link>
