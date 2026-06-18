@@ -108,7 +108,7 @@ export default function HomeProducts() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-3xl mx-auto text-lg md:text-xl text-slate-200 leading-relaxed font-normal drop-shadow-sm"
+            className="max-w-5xl mx-auto text-xl md:text-2xl lg:text-3xl text-slate-200 leading-relaxed font-normal drop-shadow-sm"
           >
             Engineered to perfection, our diverse range of steel products forms
             the resilient core of iconic structures worldwide.
@@ -161,32 +161,6 @@ export default function HomeProducts() {
                     "
                   />
 
-                  {/* High-Contrast Bottom Vignette Shadow Gradient for reading card texts */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10 duration-500 group-hover:via-black/60" />
-
-                  {/* Card Header Category Tag */}
-                  <div className="absolute top-0 left-0 p-8 z-20">
-                    <div
-                      className="
-                        inline-flex
-                        items-center
-                        px-4.5
-                        py-2
-                        rounded-full
-                        bg-black/60
-                        backdrop-blur-md
-                        border
-                        border-white/15
-                        text-white
-                        text-xs
-                        font-extrabold
-                        tracking-widest
-                      "
-                    >
-                      {product.category}
-                    </div>
-                  </div>
-
                   {/* Card Interactive Content */}
                   <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full">
                     <div className="w-14 h-[4px] bg-red-500 mb-5 rounded-full transition-all duration-300 group-hover:w-24" />
@@ -197,17 +171,17 @@ export default function HomeProducts() {
                     </h3>
 
                     {/* Enhanced readable font colors & size */}
-                    <p className="text-slate-100 max-w-lg leading-relaxed text-base md:text-lg mb-10 font-normal drop-shadow-sm opacity-95">
+                    <p className="text-slate-100 max-w-xl leading-relaxed text-xl md:text-2xl lg:text-3xl mb-10 font-normal drop-shadow-sm opacity-95">
                       {product.description}
                     </p>
 
                     <div className="flex items-center justify-between pt-2">
-                      <div className="px-7 py-3.5 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white font-black text-xs md:text-sm tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
+                      <div className="px-10 py-5 md:px-12 md:py-6 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white font-black text-base md:text-lg lg:text-xl tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
                         EXPLORE PRODUCT
                       </div>
 
-                      <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-xl">
-                        <ArrowRight className="w-6 h-6 text-black" />
+                      <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-xl">
+                        <ArrowRight className="w-8 h-8 md:w-10 md:h-10 text-black" />
                       </div>
                     </div>
                   </div>
@@ -246,8 +220,8 @@ export default function HomeProducts() {
 
                   <div>
                     {/* Bumped text hierarchy in feature strip */}
-                    <h4 className="font-black text-white text-base md:text-lg tracking-tight mb-0.5">{item.title}</h4>
-                    <p className="text-slate-300 text-sm md:text-base font-medium">{item.subtitle}</p>
+                    <h4 className="font-black text-white text-xl md:text-2xl lg:text-3xl tracking-tight mb-0.5">{item.title}</h4>
+                    <p className="text-slate-300 text-lg md:text-xl font-medium">{item.subtitle}</p>
                   </div>
                 </div>
               );
