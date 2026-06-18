@@ -56,7 +56,7 @@ export default function HomeProducts() {
             className="inline-flex items-center gap-4 mb-5"
           >
             <div className="w-12 h-[2px] bg-red-500" />
-            <span className="uppercase tracking-[0.45em] text-red-500 text-base md:text-lg font-black">
+            <span className="uppercase tracking-[0.45em] text-red-500 text-lg md:text-xl lg:text-2xl font-black">
               Our Products
             </span>
             <div className="w-12 h-[2px] bg-red-500" />
