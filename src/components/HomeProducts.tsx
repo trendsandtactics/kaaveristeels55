@@ -3,154 +3,257 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
-  FileText,
-  Award,
   ShieldCheck,
-  Users,
-  HardHat,
+  Layers3,
+  Handshake,
+  Leaf,
 } from "lucide-react";
 
-const dynamicBadges = [
+const products = [
   {
-    title: "PREMIUM TMT BARS",
-    desc: "Engineered with advanced thermo-mechanical processing for superior high-grade tensile safety and enhanced seismic resilience.",
-    icon: ShieldCheck,
+    name: "TMT Bars",
+    image: "/tmt1.png",
+    category: "TMT PRODUCTS",
+    description:
+      "High-strength ribbed TMT bars built for maximum durability, flexibility, and earthquake resistance.",
+    href: "/products?category=TMT",
+    accentColor: "group-hover:border-red-500/50",
   },
   {
-    title: "BIS CERTIFIED QUALITY",
-    desc: "Rigorously evaluated and certified to absolute industrial perfection under standard Bureau of Indian Standards benchmarking.",
-    icon: Award,
-  },
-  {
-    title: "STRUCTURAL INTEGRITY",
-    desc: "Formulated to handle extreme load distribution uniformly across large-span frameworks, ensuring long-term structural reliability.",
-    icon: HardHat,
-  },
-  {
-    title: "TRUSTED NATIONWIDE",
-    desc: "Forging infrastructure networks across the country with materials perfectly optimized for major commercial mega-structures.",
-    icon: Users,
+    name: "Structural Steels",
+    image: "/structural.png",
+    category: "STRUCTURAL PRODUCTS",
+    description:
+      "Premium quality structural steels designed for robust frameworks and enduring performance.",
+    href: "/products?category=Structural",
+    accentColor: "group-hover:border-yellow-500/50",
   },
 ];
 
-export default function HomeAbout() {
+const features = [
+  {
+    icon: ShieldCheck,
+    title: "High Strength",
+    subtitle: "Built to Last",
+  },
+  {
+    icon: Layers3,
+    title: "Superior Quality",
+    subtitle: "Tested & Assured",
+  },
+  {
+    icon: Handshake,
+    title: "Trusted Across India",
+    subtitle: "Building The Nation",
+  },
+  {
+    icon: Leaf,
+    title: "Sustainable Steel",
+    subtitle: "For A Better Tomorrow",
+  },
+];
+
+export default function HomeProducts() {
   return (
-    <section className="w-full min-h-screen bg-white relative overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute top-0 right-0 w-[40vw] h-[40vw] bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative overflow-hidden w-full bg-slate-900 py-20 lg:py-28">
+      {/* Crisp Background Image with optimized dark uniform overlay */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/bg2.png"
+          alt="Products Background"
+          fill
+          priority
+          className="object-cover object-center pointer-events-none"
+        />
+        {/* Increased opacity layer from 10% to 45% for superior text legibility */}
+        <div className="absolute inset-0 bg-black/45" />
+      </div>
 
-      <div className="grid lg:grid-cols-12 min-h-screen">
-        {/* LEFT IMAGE */}
-        <div className="relative lg:col-span-4 min-h-[600px] lg:min-h-screen overflow-hidden">
-          <Image
-            src="/product.png"
-            alt="Kaveri Steel Plant Production Facility"
-            fill
-            priority
-            className="object-cover"
-          />
+      {/* Main Container */}
+      <div className="relative z-10 w-full max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col justify-between min-h-screen">
+        
+        {/* Heading Section */}
+        <div className="text-center mb-16 lg:mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-4 mb-5"
+          >
+            <div className="w-10 h-[2px] bg-red-500" />
+            <span className="uppercase tracking-[0.45em] text-red-500 text-sm font-black">
+              Our Products
+            </span>
+            <div className="w-10 h-[2px] bg-red-500" />
+          </motion.div>
 
-          {/* Experience Badge */}
-          <div className="absolute top-10 left-10 bg-red-600 text-white px-8 py-6 shadow-2xl z-10">
-            <span className="block text-5xl font-black leading-none">
-              30+
-            </span>
-            <span className="block text-xs uppercase tracking-[0.25em] mt-2 text-red-100">
-              Years of Excellence
-            </span>
-          </div>
+          {/* Changed to font-serif, updated text size, and bumped tracking to mirror image mockup */}
+          <motion.h2
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="font-serif font-bold text-5xl md:text-7xl lg:text-8xl text-white mb-6 tracking-tight drop-shadow-md"
+          >
+            Masterpieces of <span className="text-red-500">Steel</span>
+          </motion.h2>
+
+          {/* Upgraded size to text-lg/text-xl and swapped text-slate-400 for high-contrast slate-200 */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="max-w-3xl mx-auto text-lg md:text-xl text-slate-200 leading-relaxed font-normal drop-shadow-sm"
+          >
+            Engineered to perfection, our diverse range of steel products forms
+            the resilient core of iconic structures worldwide.
+          </motion.p>
         </div>
 
-        {/* RIGHT CONTENT */}
-        <div className="lg:col-span-8 flex items-center bg-white px-8 md:px-14 xl:px-20 py-20">
-          <div className="max-w-6xl w-full space-y-12">
-            {/* Heading */}
-            <div>
-              <span className="uppercase tracking-[0.35em] text-red-600 text-base font-black block mb-4">
-                ABOUT KAAVERI STEELS
-              </span>
+        {/* Product Cards Grid */}
+        <div className="grid lg:grid-cols-2 gap-8 xl:gap-10 w-full flex-grow items-stretch">
+          {products.map((product, index) => (
+            <motion.div
+              key={product.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.1,
+              }}
+              className="w-full h-full flex"
+            >
+              <Link href={product.href} className="block w-full h-full group">
+                <div
+                  className={`
+                    relative
+                    overflow-hidden
+                    rounded-[28px]
+                    shadow-2xl
+                    min-h-[550px] md:min-h-[620px] lg:h-full
+                    w-full
+                    border border-white/15
+                    bg-slate-900/50
+                    backdrop-blur-md
+                    transition-all
+                    duration-500
+                    flex flex-col justify-end
+                    ${product.accentColor}
+                  `}
+                >
+                  {/* Dynamic Zoom Product Image */}
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="
+                      object-cover
+                      transition-transform
+                      duration-700
+                      ease-out
+                      group-hover:scale-105
+                    "
+                  />
 
-              <div className="w-24 h-1 bg-red-600 mb-8" />
+                  {/* High-Contrast Bottom Vignette Shadow Gradient for reading card texts */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10 duration-500 group-hover:via-black/60" />
 
-              <h2 className="font-black text-5xl md:text-6xl xl:text-7xl leading-[1.05] tracking-tight text-slate-900">
-                BUILT ON
-                <br />
-                INDUSTRIAL STEEL.
-                <br />
-                <span className="text-red-600">
-                  TRUSTED BY BUILDERS ACROSS INDIA.
-                </span>
-              </h2>
-            </div>
+                  {/* Card Header Category Tag */}
+                  <div className="absolute top-0 left-0 p-8 z-20">
+                    <div
+                      className="
+                        inline-flex
+                        items-center
+                        px-4.5
+                        py-2
+                        rounded-full
+                        bg-black/60
+                        backdrop-blur-md
+                        border
+                        border-white/15
+                        text-white
+                        text-xs
+                        font-extrabold
+                        tracking-widest
+                      "
+                    >
+                      {product.category}
+                    </div>
+                  </div>
 
-            {/* Description */}
-            <p className="text-xl md:text-2xl text-slate-600 leading-relaxed max-w-5xl">
-              At{" "}
-              <span className="font-extrabold text-red-600">KAAVERI</span>, we
-              are deeply passionate about foundational structural integrity and
-              committed to manufacturing excellence. As a leading manufacturer
-              of premium TMT bars and structural steel products, we proudly
-              support modern infrastructure developments across the nation with
-              sustainable, precision-engineered materials built for generations.
-            </p>
+                  {/* Card Interactive Content */}
+                  <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full">
+                    <div className="w-14 h-[4px] bg-red-500 mb-5 rounded-full transition-all duration-300 group-hover:w-24" />
 
-            {/* Quote */}
-<div className="border-l-4 border-red-600 pl-8 py-2">
-  <p className="italic text-slate-700 text-xl md:text-2xl leading-relaxed">
-    {`"Our rigorous quality control systems ensure that every product leaving our facility meets the highest industry standards, empowering engineers and builders to create structures that stand strong for decades."`}
-  </p>
-</div>
+                    {/* Increased heading sizes */}
+                    <h3 className="text-white text-4xl md:text-6xl font-black mb-5 tracking-tight drop-shadow">
+                      {product.name}
+                    </h3>
 
-            {/* BIG CARDS */}
-            <div className="grid md:grid-cols-2 gap-8">
-              {dynamicBadges.map((badge, idx) => {
-                const Icon = badge.icon;
+                    {/* Enhanced readable font colors & size */}
+                    <p className="text-slate-100 max-w-lg leading-relaxed text-base md:text-lg mb-10 font-normal drop-shadow-sm opacity-95">
+                      {product.description}
+                    </p>
 
-                return (
-                  <div
-                    key={idx}
-                    className="bg-white border border-slate-200 rounded-3xl p-8 lg:p-10 min-h-[260px] shadow-lg hover:shadow-2xl hover:border-red-500 transition-all duration-300"
-                  >
-                    <div className="mb-6">
-                      <div className="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center">
-                        <Icon className="w-9 h-9 text-red-600" />
+                    <div className="flex items-center justify-between pt-2">
+                      <div className="px-7 py-3.5 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white font-black text-xs md:text-sm tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
+                        EXPLORE PRODUCT
+                      </div>
+
+                      <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-xl">
+                        <ArrowRight className="w-6 h-6 text-black" />
                       </div>
                     </div>
-
-                    <h4 className="text-xl font-black uppercase tracking-wide text-slate-900 mb-4">
-                      {badge.title}
-                    </h4>
-
-                    <p className="text-base lg:text-lg text-slate-600 leading-relaxed">
-                      {badge.desc}
-                    </p>
                   </div>
-                );
-              })}
-            </div>
-
-            {/* Buttons */}
-            <div className="flex flex-wrap gap-5 pt-4">
-              <Link
-                href="/products"
-                className="inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white px-10 py-5 text-sm font-bold uppercase tracking-[0.15em] transition-all duration-300 shadow-lg"
-              >
-                Explore Products
-                <ArrowRight className="w-5 h-5" />
+                </div>
               </Link>
-
-              <Link
-                href="/brochure.pdf"
-                className="inline-flex items-center gap-3 border border-slate-300 hover:border-slate-400 text-slate-700 px-10 py-5 text-sm font-bold uppercase tracking-[0.15em] transition-all duration-300"
-              >
-                <FileText className="w-5 h-5" />
-                Download Brochure
-              </Link>
-            </div>
-          </div>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Features Strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="
+            mt-16 lg:mt-24
+            bg-slate-950/70
+            backdrop-blur-lg
+            rounded-[24px]
+            border
+            border-white/10
+            p-8 md:p-10
+            w-full
+          "
+        >
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+            {features.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <div key={item.title} className="flex items-center gap-5 justify-start lg:justify-center">
+                  <div className="w-14 h-14 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center shrink-0">
+                    <Icon className="w-6 h-6 text-red-400" />
+                  </div>
+
+                  <div>
+                    {/* Bumped text hierarchy in feature strip */}
+                    <h4 className="font-black text-white text-base md:text-lg tracking-tight mb-0.5">{item.title}</h4>
+                    <p className="text-slate-300 text-sm md:text-base font-medium">{item.subtitle}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
