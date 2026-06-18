@@ -155,33 +155,41 @@ export default function HomeProducts() {
                     className="
                       object-cover object-center
                       transition-transform
-                      duration-700
+                      duration-1000
                       ease-out
-                      group-hover:scale-105
+                      group-hover:scale-110
                     "
                   />
 
+                  {/* Advanced Gradient Overlay for Perfect Text Visibility */}
+                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 z-10 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+
                   {/* Card Interactive Content */}
-                  <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full h-full flex flex-col items-start justify-end text-left mt-auto">
-                    <div className="w-16 h-[4px] bg-red-500 mb-6 rounded-full transition-all duration-300 group-hover:w-24" />
+                  <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full h-full flex flex-col items-start justify-end text-left mt-auto overflow-hidden">
+                    <span className="text-red-500 font-bold tracking-[0.2em] text-xs md:text-sm lg:text-base mb-4 block transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                      {product.category}
+                    </span>
+                    
+                    <div className="w-16 h-[4px] bg-red-500 mb-6 rounded-full transition-all duration-500 group-hover:w-32 group-hover:bg-white shadow-[0_0_10px_rgba(255,0,0,0.5)] group-hover:shadow-[0_0_15px_rgba(255,255,255,0.8)]" />
 
                     {/* Increased heading sizes */}
-                    <h3 className="text-white text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight drop-shadow">
+                    <h3 className="text-white text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight drop-shadow-xl transform transition-transform duration-500 group-hover:-translate-y-2">
                       {product.name}
                     </h3>
 
                     {/* Enhanced readable font colors & size */}
-                    <p className="text-slate-100 max-w-2xl leading-relaxed text-xl md:text-2xl lg:text-3xl mb-10 font-normal drop-shadow-sm opacity-95">
+                    <p className="text-slate-200 max-w-2xl leading-relaxed text-xl md:text-2xl lg:text-3xl mb-10 font-medium drop-shadow-lg transform transition-all duration-500 group-hover:-translate-y-2 group-hover:text-white">
                       {product.description}
                     </p>
 
-                    <div className="flex flex-wrap items-center justify-start gap-6 pt-2">
-                      <div className="px-10 py-5 md:px-12 md:py-6 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white font-black text-base md:text-lg lg:text-xl tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
+                    <div className="flex flex-wrap items-center justify-start gap-4 md:gap-6 pt-2 transform transition-transform duration-500 group-hover:-translate-y-2">
+                      <div className="px-8 py-4 md:px-10 md:py-5 rounded-full border border-white/40 bg-black/40 backdrop-blur-md text-white font-bold text-sm md:text-base lg:text-lg tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-black group-hover:border-white group-hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
                         EXPLORE PRODUCT
                       </div>
 
-                      <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-xl">
-                        <ArrowRight className="w-8 h-8 md:w-10 md:h-10 text-black" />
+                      <div className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center transition-all duration-500 group-hover:bg-red-600 group-hover:border-red-600 group-hover:translate-x-2 shadow-xl group-hover:shadow-[0_0_30px_rgba(220,38,38,0.6)]">
+                        <ArrowRight className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-white" />
                       </div>
                     </div>
                   </div>
