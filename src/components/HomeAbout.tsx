@@ -3,134 +3,168 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, FileText, Award, ShieldCheck, Users, HardHat } from "lucide-react";
+import {
+  ArrowRight,
+  FileText,
+  Award,
+  ShieldCheck,
+  Users,
+  HardHat,
+} from "lucide-react";
 
 const dynamicBadges = [
-  { 
-    title: "PREMIUM TMT BARS", 
+  {
+    title: "PREMIUM TMT BARS",
     desc: "Engineered with advanced thermo-mechanical processing for superior high-grade tensile safety and enhanced seismic resilience.",
-    icon: ShieldCheck 
+    icon: ShieldCheck,
   },
-  { 
-    title: "BIS CERTIFIED QUALITY", 
-    desc: "Rigorously evaluated and certified to absolute industrial perfection under standard Bureau of Indian Standards benchmarking.",
-    icon: Award 
+  {
+    title: "BIS CERTIFIED QUALITY",
+    desc: "Rigorously evaluated and certified to absolute industrial perfection under Bureau of Indian Standards benchmarking.",
+    icon: Award,
   },
-  { 
-    title: "STRUCTURAL INTEGRITY", 
-    desc: "Formulated to handle extreme load distribution uniformly across large-span frameworks, ensuring long-term structural reliability.",
-    icon: HardHat 
+  {
+    title: "STRUCTURAL INTEGRITY",
+    desc: "Designed to handle extreme load distribution across large-span frameworks while ensuring long-term reliability.",
+    icon: HardHat,
   },
-  { 
-    title: "TRUSTED NATIONWIDE", 
-    desc: "Forging infrastructure networks across the country with materials perfectly optimized for major commercial mega-structures.",
-    icon: Users 
+  {
+    title: "TRUSTED NATIONWIDE",
+    desc: "Supporting landmark infrastructure and industrial developments across India with dependable steel solutions.",
+    icon: Users,
   },
 ];
 
 export default function HomeAbout() {
   return (
-    <section className="w-full min-h-screen bg-white flex items-stretch relative overflow-hidden p-0 m-0 box-border">
-      
-      {/* Background Subtle Gradient Glow */}
-      <div className="absolute top-0 right-0 w-[30vw] h-[30vw] bg-red-500/5 rounded-bl-full blur-3xl pointer-events-none -z-10" />
+    <section className="relative overflow-hidden bg-white">
+      {/* Subtle Background Glow */}
+      <div className="absolute top-0 right-0 w-[35rem] h-[35rem] bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Main Responsive Grid Container */}
-      <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-stretch">
-        
-        {/* Left Side: Centered Full-Height Imagery Block */}
-        <div className="relative lg:col-span-5 w-full min-h-[500px] lg:min-h-screen overflow-hidden flex items-center justify-center bg-slate-50">
+      <div className="grid lg:grid-cols-[48%_52%] min-h-screen">
+        {/* LEFT IMAGE */}
+        <div className="relative min-h-[600px] lg:min-h-screen overflow-hidden">
           <Image
-            src="/product.png" 
-            alt="Kaveri Steel Plant Production Facility"
+            src="/product.png"
+            alt="Kaaveri Steel Manufacturing Facility"
             fill
             priority
-            className="object-cover object-center w-full h-full"
+            className="object-cover object-center"
           />
-          
-          {/* Industrial Red Overlay Badge */}
-          <div className="absolute top-8 left-8 bg-red-600 text-white p-5 uppercase text-center shadow-xl tracking-widest z-10">
-            <span className="text-3xl font-black block mb-0.5 tracking-tight">30+</span>
-            <span className="text-[9px] font-bold text-red-100 block leading-tight tracking-widest">Years of<br/>Excellence</span>
+
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-transparent" />
+
+          {/* Experience Badge */}
+          <div className="absolute top-8 left-8 bg-red-600 text-white px-6 py-5 shadow-2xl z-10">
+            <div className="text-4xl font-black leading-none">30+</div>
+            <div className="text-[10px] uppercase tracking-[0.2em] mt-2 text-red-100">
+              Years of
+              <br />
+              Excellence
+            </div>
           </div>
         </div>
 
-        {/* Right Side: Enhanced Text Canvas (Tightened paddings to eliminate the dead white space) */}
-        <div className="lg:col-span-7 flex flex-col justify-center bg-white px-6 sm:px-12 md:px-14 lg:px-12 xl:px-16 py-16 lg:py-12 w-full">
-          <div className="w-full max-w-3xl mr-auto lg:ml-4 space-y-8 lg:space-y-10">
-            
-            {/* Top Eyebrow Identifier */}
-            <div className="space-y-2">
-              <span className="uppercase tracking-[0.3em] text-red-600 text-sm font-black block">
-                ABOUT KAAVERI STEELS
+        {/* RIGHT CONTENT */}
+        <div className="flex items-center bg-white px-8 sm:px-12 lg:px-16 xl:px-20 py-16 lg:py-20">
+          <div className="w-full max-w-5xl space-y-10">
+            {/* Section Header */}
+            <div>
+              <span className="text-red-600 font-extrabold uppercase tracking-[0.35em] text-sm">
+                About Kaaveri Steels
               </span>
-              <div className="w-16 h-[3.5px] bg-red-600" />
+
+              <div className="w-16 h-1 bg-red-600 mt-3" />
             </div>
 
-            {/* Typography Canvas with Increased Font Sizes */}
-            <div className="space-y-5">
-              <h2 className="font-sans font-black text-3xl sm:text-4xl xl:text-5xl text-slate-900 tracking-tight leading-[1.15]">
-                BUILT ON INDUSTRIAL STEEL.<br />
-                <span className="text-red-600">TRUSTED BY BUILDERS ACROSS INDIA.</span>
+            {/* Main Heading */}
+            <div>
+              <h2 className="font-serif font-black text-5xl md:text-6xl xl:text-7xl text-slate-900 leading-[1.02] tracking-[-0.04em]">
+                BUILT ON
+                <br />
+                INDUSTRIAL STEEL.
+                <br />
+                <span className="text-red-600">
+                  TRUSTED BY BUILDERS
+                  <br />
+                  ACROSS INDIA.
+                </span>
               </h2>
-              
-              <p className="text-slate-600 font-normal leading-relaxed text-base sm:text-lg">
-                At <span className="text-red-600 font-extrabold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
+            </div>
+
+            {/* Description */}
+            <div>
+              <p className="text-slate-600 text-lg md:text-xl leading-9 max-w-4xl">
+                At{" "}
+                <span className="text-red-600 font-extrabold">
+                  KAAVERI STEELS
+                </span>
+                , we are committed to engineering excellence and structural
+                reliability. As a trusted manufacturer of premium TMT bars and
+                structural steel products, we support modern infrastructure,
+                industrial projects, commercial developments, and residential
+                construction across India with precision-crafted steel solutions
+                built for generations.
               </p>
             </div>
 
-            {/* Quote Block with Larger Font */}
-            <div className="relative border-l-4 border-red-600 pl-5 py-1">
-              <p className="italic text-slate-700 text-base sm:text-lg font-medium leading-relaxed">
-                {"\"Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.\""}
+            {/* Quote */}
+            <div className="border-l-4 border-red-600 pl-8 py-2 max-w-4xl">
+              <p className="italic text-slate-700 text-xl md:text-2xl leading-relaxed">
+                "Every steel product leaving our facility undergoes rigorous
+                quality inspection to ensure unmatched strength, consistency,
+                and long-term structural performance."
               </p>
             </div>
 
-            {/* Feature Badges Grid - Clean 2-Column Desktop Matrix */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
+            {/* Feature Cards */}
+            <div className="grid sm:grid-cols-2 gap-6">
               {dynamicBadges.map((badge, idx) => {
                 const Icon = badge.icon;
+
                 return (
-                  <div 
-                    key={idx} 
-                    className="border border-slate-200 rounded-lg p-6 flex flex-col justify-between bg-white shadow-sm hover:border-red-500 transition-colors duration-200"
+                  <div
+                    key={idx}
+                    className="group border border-slate-200 rounded-xl p-8 bg-white hover:border-red-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                   >
-                    <div className="text-red-600 mb-4 shrink-0">
-                      <Icon className="w-7 h-7" />
+                    <div className="w-12 h-12 rounded-lg bg-red-50 flex items-center justify-center mb-5">
+                      <Icon className="w-6 h-6 text-red-600" />
                     </div>
-                    <div>
-                      <h4 className="text-sm font-black text-slate-900 tracking-wider mb-2 uppercase">
-                        {badge.title}
-                      </h4>
-                      <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-normal">
-                        {badge.desc}
-                      </p>
-                    </div>
+
+                    <h4 className="text-base font-black uppercase tracking-wide text-slate-900 mb-3">
+                      {badge.title}
+                    </h4>
+
+                    <p className="text-sm md:text-base text-slate-600 leading-7">
+                      {badge.desc}
+                    </p>
                   </div>
                 );
               })}
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link 
-                href="/products" 
-                className="w-full sm:w-auto px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs tracking-widest transition-all shadow-md flex items-center justify-center gap-2 uppercase whitespace-nowrap"
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap gap-5 pt-2">
+              <Link
+                href="/products"
+                className="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-red-600 hover:bg-red-700 text-white font-bold uppercase tracking-wider text-sm transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                Explore Products <ArrowRight className="w-4 h-4" />
+                Explore Products
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link 
-                href="/brochure.pdf" 
-                className="w-full sm:w-auto px-8 py-4 border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold text-xs tracking-widest transition-all flex items-center justify-center gap-2 uppercase whitespace-nowrap"
+
+              <Link
+                href="/brochure.pdf"
+                className="inline-flex items-center justify-center gap-3 px-10 py-5 border border-slate-300 hover:border-slate-400 hover:bg-slate-50 text-slate-800 font-bold uppercase tracking-wider text-sm transition-all duration-300"
               >
-                <FileText className="w-4 h-4 text-slate-400" /> Download Brochure
+                <FileText className="w-4 h-4" />
+                Download Brochure
               </Link>
             </div>
-
           </div>
         </div>
       </div>
-
     </section>
   );
 }
