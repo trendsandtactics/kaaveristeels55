@@ -58,8 +58,8 @@ const features = [
 
 export default function HomeProducts() {
   return (
-    <section className="relative overflow-hidden w-full bg-slate-10 py-16 lg:py-24">
-      {/* Crisp Background Image with explicit dark solid overlay */}
+    <section className="relative overflow-hidden w-full bg-slate-900 py-20 lg:py-28">
+      {/* Crisp Background Image with optimized dark uniform overlay */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/bg2.png"
@@ -68,53 +68,55 @@ export default function HomeProducts() {
           priority
           className="object-cover object-center pointer-events-none"
         />
-        {/* Solid uniform opacity block instead of distracting gradients */}
-        <div className="absolute inset-0 bg-black/10" />
+        {/* Increased opacity layer from 10% to 45% for superior text legibility */}
+        <div className="absolute inset-0 bg-black/45" />
       </div>
 
       {/* Main Container */}
       <div className="relative z-10 w-full max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 flex flex-col justify-between min-h-screen">
         
-        {/* Heading */}
-        <div className="text-center mb-12 lg:mb-16">
+        {/* Heading Section */}
+        <div className="text-center mb-16 lg:mb-24">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-4 mb-4"
+            className="inline-flex items-center gap-4 mb-5"
           >
-            <div className="w-8 h-[2px] bg-red-500" />
-            <span className="uppercase tracking-[0.4em] text-red-500 text-xs font-black">
+            <div className="w-10 h-[2px] bg-red-500" />
+            <span className="uppercase tracking-[0.45em] text-red-500 text-sm font-black">
               Our Products
             </span>
-            <div className="w-8 h-[2px] bg-red-500" />
+            <div className="w-10 h-[2px] bg-red-500" />
           </motion.div>
 
+          {/* Changed to font-serif, updated text size, and bumped tracking to mirror image mockup */}
           <motion.h2
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-sans font-extrabold tracking-tight text-4xl md:text-6xl lg:text-7xl text-white mb-4"
+            className="font-serif font-bold text-5xl md:text-7xl lg:text-8xl text-white mb-6 tracking-tight drop-shadow-md"
           >
             Masterpieces of <span className="text-red-500">Steel</span>
           </motion.h2>
 
+          {/* Upgraded size to text-lg/text-xl and swapped text-slate-400 for high-contrast slate-200 */}
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-2xl mx-auto text-base md:text-lg text-slate-400 leading-relaxed"
+            className="max-w-3xl mx-auto text-lg md:text-xl text-slate-200 leading-relaxed font-normal drop-shadow-sm"
           >
             Engineered to perfection, our diverse range of steel products forms
             the resilient core of iconic structures worldwide.
           </motion.p>
         </div>
 
-        {/* Product Cards Grid - Occupies the primary real estate space */}
-        <div className="grid lg:grid-cols-2 gap-6 xl:gap-8 w-full flex-grow items-stretch">
+        {/* Product Cards Grid */}
+        <div className="grid lg:grid-cols-2 gap-8 xl:gap-10 w-full flex-grow items-stretch">
           {products.map((product, index) => (
             <motion.div
               key={product.name}
@@ -132,13 +134,13 @@ export default function HomeProducts() {
                   className={`
                     relative
                     overflow-hidden
-                    rounded-[24px]
+                    rounded-[28px]
                     shadow-2xl
-                    min-h-[500px] md:min-h-[580px] lg:h-full
+                    min-h-[550px] md:min-h-[620px] lg:h-full
                     w-full
-                    border border-white/10
-                    bg-slate-900/40
-                    backdrop-blur-sm
+                    border border-white/15
+                    bg-slate-900/50
+                    backdrop-blur-md
                     transition-all
                     duration-500
                     flex flex-col justify-end
@@ -159,45 +161,25 @@ export default function HomeProducts() {
                     "
                   />
 
-                  {/* Elegant High-Contrast Bottom Vignette Shadow */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10 duration-500 group-hover:via-black/50" />
-
-                  {/* Clean Shimmer Sweep Animation */}
-                  <div
-                    className="
-                      absolute
-                      -left-full
-                      top-0
-                      h-full
-                      w-1/2
-                      bg-gradient-to-r
-                      from-transparent
-                      via-white/10
-                      to-transparent
-                      skew-x-12
-                      transition-all
-                      duration-1000
-                      group-hover:left-[150%]
-                      z-10
-                    "
-                  />
+                  {/* High-Contrast Bottom Vignette Shadow Gradient for reading card texts */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10 duration-500 group-hover:via-black/60" />
 
                   {/* Card Header Category Tag */}
-                  <div className="absolute top-0 left-0 p-6 md:p-8 z-20">
+                  <div className="absolute top-0 left-0 p-8 z-20">
                     <div
                       className="
                         inline-flex
                         items-center
-                        px-4
-                        py-1.5
+                        px-4.5
+                        py-2
                         rounded-full
-                        bg-black/50
+                        bg-black/60
                         backdrop-blur-md
                         border
-                        border-white/10
+                        border-white/15
                         text-white
-                        text-[11px]
-                        font-bold
+                        text-xs
+                        font-extrabold
                         tracking-widest
                       "
                     >
@@ -205,25 +187,27 @@ export default function HomeProducts() {
                     </div>
                   </div>
 
-                  {/* Card Core Interactive Content */}
-                  <div className="relative z-20 p-6 md:p-10 lg:p-12 w-full">
-                    <div className="w-12 h-[3px] bg-red-500 mb-4 rounded-full transition-all duration-300 group-hover:w-20" />
+                  {/* Card Interactive Content */}
+                  <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full">
+                    <div className="w-14 h-[4px] bg-red-500 mb-5 rounded-full transition-all duration-300 group-hover:w-24" />
 
-                    <h3 className="text-white text-3xl md:text-5xl font-black mb-4 tracking-tight">
+                    {/* Increased heading sizes */}
+                    <h3 className="text-white text-4xl md:text-6xl font-black mb-5 tracking-tight drop-shadow">
                       {product.name}
                     </h3>
 
-                    <p className="text-slate-200 max-w-md leading-relaxed text-sm md:text-base mb-8 opacity-90">
+                    {/* Enhanced readable font colors & size */}
+                    <p className="text-slate-100 max-w-lg leading-relaxed text-base md:text-lg mb-10 font-normal drop-shadow-sm opacity-95">
                       {product.description}
                     </p>
 
                     <div className="flex items-center justify-between pt-2">
-                      <div className="px-6 py-3 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm text-white font-bold text-xs tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
+                      <div className="px-7 py-3.5 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white font-black text-xs md:text-sm tracking-wider transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
                         EXPLORE PRODUCT
                       </div>
 
-                      <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-lg">
-                        <ArrowRight className="w-5 h-5 text-black" />
+                      <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-2 shadow-xl">
+                        <ArrowRight className="w-6 h-6 text-black" />
                       </div>
                     </div>
                   </div>
@@ -240,29 +224,30 @@ export default function HomeProducts() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="
-            mt-12 lg:mt-16
-            bg-slate-900/60
-            backdrop-blur-md
-            rounded-[20px]
+            mt-16 lg:mt-24
+            bg-slate-950/70
+            backdrop-blur-lg
+            rounded-[24px]
             border
-            border-white/5
-            p-6 md:p-8
+            border-white/10
+            p-8 md:p-10
             w-full
           "
         >
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
             {features.map((item) => {
               const Icon = item.icon;
 
               return (
-                <div key={item.title} className="flex items-center gap-4 justify-start lg:justify-center">
-                  <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0">
-                    <Icon className="w-5 h-5 text-red-400" />
+                <div key={item.title} className="flex items-center gap-5 justify-start lg:justify-center">
+                  <div className="w-14 h-14 rounded-2xl bg-red-500/15 border border-red-500/25 flex items-center justify-center shrink-0">
+                    <Icon className="w-6 h-6 text-red-400" />
                   </div>
 
                   <div>
-                    <h4 className="font-extrabold text-white text-sm md:text-base tracking-tight">{item.title}</h4>
-                    <p className="text-slate-400 text-xs md:text-sm">{item.subtitle}</p>
+                    {/* Bumped text hierarchy in feature strip */}
+                    <h4 className="font-black text-white text-base md:text-lg tracking-tight mb-0.5">{item.title}</h4>
+                    <p className="text-slate-300 text-sm md:text-base font-medium">{item.subtitle}</p>
                   </div>
                 </div>
               );
