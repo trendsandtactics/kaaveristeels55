@@ -36,7 +36,7 @@ export default function HomeAbout() {
       {/* Left Side Image */}
       <div className="relative w-full lg:w-1/2 h-[320px] sm:h-[450px] md:h-[550px] lg:min-h-screen overflow-hidden group">
         <Image
-          src="/product.png"
+          src="/kaaveri.png‎"
           alt="Kaaveri Steels Production Facility"
           fill
           priority
