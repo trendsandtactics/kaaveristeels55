@@ -1,13 +1,13 @@
+```tsx
 "use client";
 
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, Variants } from "framer-motion"; // Added Variants type import
+import { motion, Variants } from "framer-motion";
 import { ArrowRight, FileText } from "lucide-react";
 
 export default function HomeAbout() {
-  // Stagger animation container for clean entry
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -19,117 +19,140 @@ export default function HomeAbout() {
     },
   };
 
-  // Explicitly typed as Variants to fix the Vercel TypeScript compilation error
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { type: "spring", stiffness: 60, damping: 20 } 
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 60,
+        damping: 20,
+      },
     },
   };
 
   return (
-    <section className="relative w-full min-h-screen xl:h-[100dvh] flex flex-col lg:flex-row items-stretch bg-slate-50/50 overflow-hidden">
+    <section className="relative w-full flex flex-col lg:flex-row items-stretch bg-slate-50 overflow-hidden">
       
-      {/* Left Side: Industrial Showcase Image */}
-      <div className="relative w-full lg:w-1/2 h-[45vh] sm:h-[50vh] lg:h-auto shrink-0 overflow-hidden group">
+      {/* Left Side Image */}
+      <div className="relative w-full lg:w-1/2 h-[320px] sm:h-[450px] md:h-[550px] lg:min-h-screen overflow-hidden group">
         <Image
-          src="/product.png" 
-          alt="Kaveri Steel Plant Production Facility"
+          src="/product.png"
+          alt="Kaaveri Steels Production Facility"
           fill
           priority
-          className="object-cover object-center w-full h-full transform scale-100 group-hover:scale-105 transition-transform duration-1000 ease-out"
+          className="object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105"
         />
-        
-        {/* Soft elegant vignette gradient over the image */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-slate-950/20 pointer-events-none" />
-        
-        {/* Industrial Red Overlay Badge */}
-        <motion.div 
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-slate-950/20" />
+
+        {/* Experience Badge */}
+        <motion.div
           initial={{ opacity: 0, scale: 0.9, x: -20 }}
           whileInView={{ opacity: 1, scale: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, type: "spring" }}
-          className="absolute top-6 left-6 sm:top-10 sm:left-10 bg-gradient-to-br from-red-600 to-red-700 text-white p-5 sm:p-6 uppercase text-center shadow-2xl tracking-widest z-20 rounded-md backdrop-blur-sm border border-red-500/20"
+          className="absolute top-6 left-6 sm:top-10 sm:left-10 bg-gradient-to-br from-red-600 to-red-700 text-white p-5 sm:p-6 rounded-lg shadow-2xl z-20"
         >
-          <span className="text-4xl sm:text-5xl font-black block mb-0.5 tracking-tight drop-shadow-md">30+</span>
-          <span className="text-[10px] sm:text-[11px] font-extrabold text-red-100 block leading-tight tracking-widest border-t border-red-500/30 pt-1.5 mt-1">
-            Years of<br/>Excellence
+          <span className="block text-4xl sm:text-5xl font-black">
+            30+
+          </span>
+
+          <span className="block text-[10px] sm:text-xs uppercase tracking-[0.2em] mt-2 border-t border-red-400 pt-2 text-red-100">
+            Years of <br /> Excellence
           </span>
         </motion.div>
       </div>
 
-      {/* Right Side: Copywriting & Content Canvas */}
-      <motion.div 
+      {/* Right Side Content */}
+      <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-14 xl:px-24 py-12 lg:py-16 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)] overflow-y-auto"
+        className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-16 xl:px-24 py-12 lg:py-20 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
       >
-        {/* Subtle decorative background accent */}
+        {/* Decorative Blur */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        <div className="max-w-2xl space-y-8 lg:space-y-10">
+        <div className="max-w-[700px] space-y-8 lg:space-y-10">
           
-          {/* Top Eyebrow Identifier */}
-          <motion.div variants={itemVariants} className="space-y-3 flex flex-col items-start">
-            <span className="font-sans uppercase tracking-[0.25em] text-red-600 text-xs sm:text-sm font-black block">
+          {/* Eyebrow */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col items-start space-y-3"
+          >
+            <span className="uppercase tracking-[0.25em] text-red-600 text-xs sm:text-sm font-black">
               ABOUT KAAVERI STEELS
             </span>
-            <div className="w-12 h-[4px] bg-red-600 rounded-full" />
+
+            <div className="w-14 h-1 bg-red-600 rounded-full" />
           </motion.div>
 
-          {/* Core Typography Canvas */}
+          {/* Heading & Description */}
           <motion.div variants={itemVariants} className="space-y-5">
-            <h2 className="font-serif font-black text-3xl sm:text-4xl md:text-5xl xl:text-5xl text-slate-900 tracking-tight leading-[1.15]">
-              BUILT ON INDUSTRIAL STEEL.<br />
+            <h2 className="font-black text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl text-slate-900 leading-[1.1] tracking-tight">
+              BUILT ON INDUSTRIAL STEEL.
+              <br />
+
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-700">
                 TRUSTED BY BUILDERS ACROSS INDIA.
               </span>
             </h2>
-            
-            <p className="font-sans text-slate-600 font-normal leading-relaxed text-base sm:text-lg">
-              At <span className="text-red-600 font-bold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
+
+            <p className="text-slate-600 leading-relaxed text-base sm:text-lg">
+              At <span className="text-red-600 font-bold">KAAVERI</span>,
+              we are committed to engineering excellence and manufacturing
+              premium-quality TMT bars and structural steel products.
+              With decades of industry expertise, we proudly support
+              infrastructure, commercial, industrial, and residential
+              developments across India with reliable steel solutions
+              built for strength, durability, and long-term performance.
             </p>
           </motion.div>
 
-          {/* Premium Quote Block */}
-          <motion.div 
+          {/* Quote */}
+          <motion.div
             variants={itemVariants}
-            className="relative border-l-4 border-red-600 pl-6 py-4 text-left bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border-y border-r border-slate-100/50"
+            className="relative border-l-4 border-red-600 pl-6 py-4 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border border-slate-100"
           >
-            <p className="font-sans italic text-slate-700 text-base sm:text-lg font-medium leading-relaxed">
-              &ldquo;Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.&rdquo;
+            <p className="italic text-slate-700 text-base sm:text-lg leading-relaxed">
+              “Our rigorous quality assurance process ensures every
+              product leaving our facility meets the highest industry
+              standards, enabling engineers and builders to construct
+              with complete confidence.”
             </p>
           </motion.div>
 
-          {/* Action Buttons (Fully responsive & Interactive) */}
-          <motion.div 
+          {/* Buttons */}
+          <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center justify-start gap-4 pt-4 w-full"
+            className="flex flex-col md:flex-row items-stretch md:items-center gap-4 pt-4"
           >
-            <Link 
-              href="/products" 
-              className="group font-sans w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm tracking-wider transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-red-600/20 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
+            <Link
+              href="/products"
+              className="group w-full md:w-auto px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm uppercase tracking-wider rounded-md shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
             >
-              Explore Products 
-              <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+              Explore Products
+
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
-            
-            <Link 
-              href="/brochure.pdf" 
-              className="font-sans w-full sm:w-auto px-8 py-4 border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-400 font-bold text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
+
+            <Link
+              href="/brochure.pdf"
+              target="_blank"
+              className="w-full md:w-auto px-8 py-4 border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-bold text-sm uppercase tracking-wider rounded-md transition-all duration-300 flex items-center justify-center gap-2"
             >
-              <FileText className="w-4 h-4 text-slate-500" /> 
+              <FileText className="w-4 h-4" />
               Download Brochure
             </Link>
           </motion.div>
-          
+
         </div>
       </motion.div>
-
     </section>
   );
 }
+```
