@@ -111,7 +111,7 @@ export default function HomeAbout() {
             className="flex flex-col sm:flex-row items-center justify-start gap-4 pt-4 w-full"
           >
             <Link 
-              href="/products" 
+              href="/product-brochure" 
               className="group font-sans w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm tracking-wider transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-red-600/20 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
             >
               Explore Products 
