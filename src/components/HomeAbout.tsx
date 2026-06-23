@@ -11,12 +11,12 @@ export default function HomeAbout() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+      transition: { staggerChildren: 0.12, delayChildren: 0.1 },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 24 },
     visible: {
       opacity: 1,
       y: 0,
@@ -26,7 +26,7 @@ export default function HomeAbout() {
 
   const stats = [
     { value: "500+", label: "Projects Delivered" },
-    { value: "98%", label: "Client Satisfaction" },
+    { value: "98%",  label: "Client Satisfaction" },
     { value: "IS 1786", label: "Certified Grade" },
   ];
 
@@ -49,10 +49,10 @@ export default function HomeAbout() {
   ];
 
   return (
-    <section className="relative w-full flex flex-col lg:flex-row bg-slate-50 overflow-hidden min-h-screen">
+    <section className="relative w-full flex flex-col lg:flex-row bg-slate-50 overflow-hidden">
 
-      {/* ── Left Side Image ── */}
-      <div className="relative w-full lg:w-1/2 h-[260px] sm:h-[350px] md:h-[500px] lg:h-auto lg:min-h-screen overflow-hidden group">
+      {/* ── Left: Image ── */}
+      <div className="relative w-full lg:w-1/2 h-[300px] sm:h-[420px] md:h-[560px] lg:h-auto lg:self-stretch overflow-hidden group">
         <Image
           src="/kaaveri1.png"
           alt="Kaaveri Steels Production Facility"
@@ -77,38 +77,37 @@ export default function HomeAbout() {
         </motion.div>
       </div>
 
-      {/* ── Right Side Content ── */}
+      {/* ── Right: Content — stretches to match image height ── */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        className="relative w-full lg:w-1/2 flex flex-col justify-between px-6 sm:px-8 lg:px-10 xl:px-12 py-8 sm:py-10 lg:py-12 bg-white"
+        viewport={{ once: true, margin: "-80px" }}
+        className="relative w-full lg:w-1/2 lg:self-stretch flex flex-col justify-between px-6 sm:px-10 lg:px-10 xl:px-14 py-10 sm:py-12 lg:py-14 bg-white"
       >
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/50 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        {/* ── Top Block ── */}
-        <div className="w-full space-y-5">
+        {/* ── BLOCK 1: Label + Heading + Body + Quote ── */}
+        <div className="flex flex-col gap-6">
 
           {/* Label */}
-          <motion.div variants={itemVariants} className="flex flex-col items-start space-y-2">
+          <motion.div variants={itemVariants} className="flex flex-col items-start gap-2">
             <span className="uppercase tracking-[0.25em] text-red-600 text-sm lg:text-base font-black">
               ABOUT KAAVERI STEELS
             </span>
-            <div className="w-16 h-1 bg-red-600 rounded-full" />
+            <div className="w-16 h-[3px] bg-red-600 rounded-full" />
           </motion.div>
 
-          {/* Heading — no forced <br/>, wraps naturally in 2–3 lines */}
-          <motion.div variants={itemVariants} className="space-y-5">
-            <h2 className="font-black text-[44px] sm:text-[52px] lg:text-[48px] xl:text-[58px] 2xl:text-[68px] text-slate-900 leading-[1.0] tracking-tight w-full">
+          {/* Heading — flows naturally, no forced breaks */}
+          <motion.div variants={itemVariants} className="flex flex-col gap-5">
+            <h2 className="font-black text-[46px] sm:text-[58px] lg:text-[52px] xl:text-[62px] 2xl:text-[72px] text-slate-900 leading-[1.0] tracking-tight">
               BUILT ON INDUSTRIAL STEEL.{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-700">
                 TRUSTED BY BUILDERS ACROSS INDIA.
               </span>
             </h2>
 
-            {/* Description */}
-            <p className="text-slate-600 text-[18px] sm:text-[19px] lg:text-[18px] xl:text-[20px] 2xl:text-[22px] leading-[1.75] w-full">
+            <p className="text-slate-600 text-[19px] sm:text-[21px] lg:text-[20px] xl:text-[22px] 2xl:text-[24px] leading-[1.75]">
               At <span className="font-bold text-red-600">KAAVERI STEELS</span>, we
               are committed to engineering excellence and manufacturing premium-quality
               TMT bars and structural steel products. With decades of expertise, we
@@ -121,9 +120,9 @@ export default function HomeAbout() {
           {/* Quote */}
           <motion.div
             variants={itemVariants}
-            className="border-l-4 border-red-600 pl-5 py-4 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border border-slate-100 w-full"
+            className="border-l-4 border-red-600 pl-5 py-4 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border border-slate-100"
           >
-            <p className="italic text-slate-700 text-[17px] sm:text-[18px] xl:text-[20px] leading-[1.7]">
+            <p className="italic text-slate-700 text-[18px] sm:text-[20px] xl:text-[22px] leading-[1.7]">
               &ldquo;Our rigorous quality assurance process ensures every product
               leaving our facility meets the highest industry standards, enabling
               engineers and builders to construct with complete confidence.&rdquo;
@@ -131,30 +130,30 @@ export default function HomeAbout() {
           </motion.div>
         </div>
 
-        {/* ── Middle Block — Pillars ── */}
+        {/* ── BLOCK 2: Pillars ── */}
         <motion.div
           variants={itemVariants}
-          className="grid grid-cols-3 gap-3 my-6 w-full"
+          className="grid grid-cols-3 gap-3 xl:gap-4 my-8 lg:my-0 lg:py-8"
         >
           {pillars.map(({ icon: Icon, title, desc }) => (
             <div
               key={title}
-              className="flex flex-col gap-2 p-4 xl:p-5 rounded-xl bg-slate-50 border border-slate-100 hover:border-red-100 hover:bg-red-50/30 transition-colors duration-300 w-full"
+              className="flex flex-col gap-3 p-4 xl:p-5 rounded-xl bg-slate-50 border border-slate-100 hover:border-red-100 hover:bg-red-50/30 transition-colors duration-300"
             >
-              <div className="w-10 h-10 rounded-lg bg-red-600/10 flex items-center justify-center shrink-0">
-                <Icon className="w-5 h-5 text-red-600" />
+              <div className="w-11 h-11 rounded-lg bg-red-600/10 flex items-center justify-center shrink-0">
+                <Icon className="w-6 h-6 text-red-600" />
               </div>
-              <span className="font-bold text-slate-900 text-[15px] xl:text-[17px] leading-tight">{title}</span>
-              <p className="text-slate-500 text-[13px] xl:text-[15px] leading-relaxed">{desc}</p>
+              <span className="font-bold text-slate-900 text-[16px] xl:text-[18px] leading-tight">{title}</span>
+              <p className="text-slate-500 text-[14px] xl:text-[16px] leading-relaxed">{desc}</p>
             </div>
           ))}
         </motion.div>
 
-        {/* ── Bottom Block ── */}
-        <div className="w-full space-y-5">
+        {/* ── BLOCK 3: CTAs + Stats ── */}
+        <div className="flex flex-col gap-6">
 
-          {/* CTA Buttons */}
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 w-full">
+          {/* Buttons */}
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3">
             <Link
               href="/products"
               className="group w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-base uppercase tracking-wider rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
@@ -173,23 +172,24 @@ export default function HomeAbout() {
             </Link>
           </motion.div>
 
-          {/* Stats Bar */}
+          {/* Stats */}
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-3 gap-4 pt-5 border-t-2 border-slate-200 w-full"
+            className="grid grid-cols-3 gap-4 pt-6 border-t-2 border-slate-200"
           >
             {stats.map(({ value, label }) => (
               <div key={label} className="flex flex-col items-start">
-                <span className="text-[36px] xl:text-[44px] 2xl:text-[52px] font-black text-slate-900 leading-none">
+                <span className="text-[38px] xl:text-[46px] 2xl:text-[54px] font-black text-slate-900 leading-none">
                   {value}
                 </span>
-                <span className="text-[13px] xl:text-[14px] text-slate-500 uppercase tracking-widest mt-2 font-semibold">
+                <span className="text-[13px] xl:text-[15px] text-slate-500 uppercase tracking-widest mt-2 font-semibold">
                   {label}
                 </span>
               </div>
             ))}
           </motion.div>
         </div>
+
       </motion.div>
     </section>
   );
