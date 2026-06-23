@@ -150,9 +150,9 @@ export default function HomeProducts() {
                     </h3>
 
                     {/* Enhanced readable font colors & size */}
-                    <p className="text-slate-200 max-w-2xl leading-relaxed text-xl md:text-2xl lg:text-3xl mb-10 font-medium drop-shadow-lg transform transition-all duration-500 group-hover:-translate-y-2 group-hover:text-white">
-                      {product.description}
-                    </p>
+<p className="text-slate-200 max-w-3xl leading-[1.4] text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-10 font-medium drop-shadow-lg transform transition-all duration-500 group-hover:-translate-y-2 group-hover:text-white">
+  {product.description}
+</p>
 
                     <div className="flex flex-wrap items-center justify-start gap-4 md:gap-6 pt-2 transform transition-transform duration-500 group-hover:-translate-y-2">
                       <div className="px-8 py-4 md:px-10 md:py-5 rounded-full border border-white/40 bg-black/40 backdrop-blur-md text-white font-bold text-sm md:text-base lg:text-lg tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-black group-hover:border-white group-hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
