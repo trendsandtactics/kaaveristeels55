@@ -143,7 +143,7 @@ export default function HomeAbout() {
             </Link>
 
             <Link
-              href="/brochure.pdf"
+              href="/product-brochure"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-4 border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-bold text-sm uppercase tracking-wider rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
