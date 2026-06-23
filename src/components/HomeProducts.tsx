@@ -150,7 +150,7 @@ export default function HomeProducts() {
                     </h3>
 
                     {/* Enhanced readable font colors & size */}
-<p className="text-slate-200 max-w-3xl leading-[1.4] text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-10 font-medium drop-shadow-lg transform transition-all duration-500 group-hover:-translate-y-2 group-hover:text-white">
+<p className="text-slate-200 max-w-2xl leading-[1.15] text-2xl md:text-3xl lg:text-[42px] mb-8 font-medium drop-shadow-lg transform transition-all duration-500 group-hover:-translate-y-2 group-hover:text-white">
   {product.description}
 </p>
 
