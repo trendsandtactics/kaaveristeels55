@@ -35,7 +35,7 @@ export default function HomeAbout() {
       {/* Left Side: Industrial Showcase Image */}
       <div className="relative w-full lg:w-1/2 h-[45vh] sm:h-[50vh] lg:h-auto shrink-0 overflow-hidden group">
         <Image
-          src="/product.png" 
+          src="/kaaveri1.png" 
           alt="Kaveri Steel Plant Production Facility"
           fill
           priority
