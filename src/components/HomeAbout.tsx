@@ -148,9 +148,9 @@ export default function HomeAbout() {
             className="border-l-4 border-red-600 pl-5 py-4 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border border-slate-100"
           >
             <p className="italic text-slate-700 text-sm sm:text-base lg:text-lg leading-relaxed">
-              "Our rigorous quality assurance process ensures every product
+              &ldquo;Our rigorous quality assurance process ensures every product
               leaving our facility meets the highest industry standards, enabling
-              engineers and builders to construct with complete confidence."
+              engineers and builders to construct with complete confidence.&rdquo;
             </p>
           </motion.div>
         </div>
