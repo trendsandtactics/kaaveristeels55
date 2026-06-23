@@ -49,7 +49,8 @@ export default function HomeAbout() {
   ];
 
   return (
-    <section className="relative w-full flex flex-col lg:flex-row bg-slate-50 overflow-hidden">
+    /* Changed bg-slate-50 to bg-white to eliminate visible color bar seams */
+    <section className="relative w-full flex flex-col lg:flex-row bg-white overflow-hidden py-4 lg:py-0">
 
       {/* ── Left: Image ── */}
       <div className="relative w-full lg:w-1/2 h-[350px] sm:h-[480px] md:h-[600px] lg:h-auto lg:self-stretch overflow-hidden group">
@@ -77,7 +78,7 @@ export default function HomeAbout() {
         </motion.div>
       </div>
 
-      {/* ── Right: Content — Fixed syntax & balanced spacing ── */}
+      {/* ── Right: Content ── */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
