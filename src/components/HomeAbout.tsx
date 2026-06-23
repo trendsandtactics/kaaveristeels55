@@ -32,90 +32,89 @@ export default function HomeAbout() {
   };
 
   return (
-    <section className="relative w-full flex flex-col lg:flex-row bg-slate-50 overflow-hidden">
-      {/* Left Side Image */}
-      <div className="relative w-full lg:w-1/2 h-[260px] sm:h-[350px] md:h-[500px] lg:min-h-[850px] xl:min-h-screen overflow-hidden group">
+    <section className="relative w-full flex flex-col lg:flex-row bg-white overflow-hidden">
+      {/* Left Image */}
+      <div className="relative w-full lg:w-[55%] h-[300px] sm:h-[450px] md:h-[550px] lg:min-h-[850px] overflow-hidden group">
         <Image
           src="/kaaveri1.png"
           alt="Kaaveri Steels Production Facility"
           fill
           priority
-          sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105"
+          sizes="(max-width:1024px) 100vw, 55vw"
+          className="object-cover object-center transition-transform duration-1000 group-hover:scale-105"
         />
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-slate-950/20" />
+        <div className="absolute inset-0 bg-black/30" />
 
         {/* Experience Badge */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, x: -20 }}
-          whileInView={{ opacity: 1, scale: 1, x: 0 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, type: "spring" }}
-          className="absolute top-4 left-4 sm:top-8 sm:left-8 lg:top-10 lg:left-10 bg-gradient-to-br from-red-600 to-red-700 text-white p-4 sm:p-5 lg:p-6 rounded-xl shadow-2xl z-20"
+          transition={{ duration: 0.5 }}
+          className="absolute top-6 left-6 sm:top-10 sm:left-10 bg-gradient-to-br from-red-600 to-red-700 text-white rounded-2xl p-5 sm:p-6 shadow-2xl z-20"
         >
-          <span className="block text-3xl sm:text-4xl lg:text-5xl font-black">
+          <span className="block text-4xl sm:text-5xl font-black">
             30+
           </span>
 
-          <span className="block text-[10px] sm:text-xs uppercase tracking-[0.2em] mt-2 border-t border-red-400 pt-2 text-red-100">
-            Years of
+          <div className="w-full h-px bg-red-300 my-2" />
+
+          <span className="block text-[11px] sm:text-xs uppercase tracking-[0.2em] text-red-100">
+            Years Of
             <br />
             Excellence
           </span>
         </motion.div>
       </div>
 
-      {/* Right Side Content */}
+      {/* Right Content */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        className="relative w-full lg:w-1/2 flex flex-col justify-center px-5 sm:px-8 md:px-10 lg:px-10 xl:px-12 2xl:px-16 py-10 sm:py-12 lg:py-16 bg-white"
+        viewport={{ once: true }}
+        className="relative w-full lg:w-[45%] flex items-center px-6 sm:px-10 lg:px-12 xl:px-16 py-12 lg:py-16"
       >
-        {/* Background Accent */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/50 rounded-full blur-3xl pointer-events-none -z-10" />
-
-        <div className="w-full space-y-6 sm:space-y-8">
-          {/* Section Label */}
+        <div className="w-full max-w-[580px] mx-auto space-y-8">
+          {/* Label */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col items-start space-y-3"
+            className="flex flex-col items-start gap-3"
           >
-            <span className="uppercase tracking-[0.25em] text-red-600 text-xs sm:text-sm font-black">
-              ABOUT KAAVERI STEELS
+            <span className="uppercase tracking-[0.25em] text-red-600 text-xs sm:text-sm font-bold">
+              About Kaaveri Steels
             </span>
 
-            <div className="w-16 h-1 bg-red-600 rounded-full" />
+            <div className="w-14 h-1 bg-red-600 rounded-full" />
           </motion.div>
 
           {/* Heading */}
-          <motion.div variants={itemVariants} className="space-y-5">
-            <h2 className="font-black text-3xl sm:text-4xl lg:text-5xl xl:text-[64px] text-slate-900 leading-[1.05] tracking-tight">
+          <motion.div variants={itemVariants}>
+            <h2 className="font-black text-4xl lg:text-5xl xl:text-6xl text-slate-900 leading-[1.05] tracking-tight">
               BUILT ON
               <br />
               INDUSTRIAL STEEL.
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-700">
-                TRUSTED BY
+              <span className="text-red-600">
+                TRUSTED BY BUILDERS
                 <br />
-                BUILDERS ACROSS
-                <br />
-                INDIA.
+                ACROSS INDIA.
               </span>
             </h2>
+          </motion.div>
 
-            <p className="text-slate-600 text-base lg:text-lg leading-relaxed max-w-3xl">
+          {/* Description */}
+          <motion.div variants={itemVariants}>
+            <p className="text-slate-600 text-base lg:text-lg leading-relaxed">
               At{" "}
-              <span className="font-bold text-red-600">
+              <span className="font-semibold text-red-600">
                 KAAVERI STEELS
               </span>
               , we are committed to engineering excellence and manufacturing
               premium-quality TMT bars and structural steel products. With
               decades of expertise, we support infrastructure, commercial,
-              industrial, and residential developments across India with
+              industrial, and residential developments across India through
               reliable steel solutions built for strength, durability, and
               long-term performance.
             </p>
@@ -124,9 +123,9 @@ export default function HomeAbout() {
           {/* Quote */}
           <motion.div
             variants={itemVariants}
-            className="border-l-4 border-red-600 pl-5 py-4 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border border-slate-100"
+            className="max-w-[520px] border-l-4 border-red-600 pl-5 py-2"
           >
-            <p className="italic text-slate-700 text-sm sm:text-base lg:text-lg leading-relaxed">
+            <p className="italic text-slate-600 text-base leading-relaxed">
               “Our rigorous quality assurance process ensures every product
               leaving our facility meets the highest industry standards,
               enabling engineers and builders to construct with complete
@@ -134,25 +133,24 @@ export default function HomeAbout() {
             </p>
           </motion.div>
 
-          {/* CTA Buttons */}
+          {/* Buttons */}
           <motion.div
             variants={itemVariants}
             className="flex flex-col sm:flex-row gap-4 pt-2"
           >
             <Link
               href="/products"
-              className="group w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm uppercase tracking-wider rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+              className="group inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Explore Products
-
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
 
             <Link
               href="/product-brochure"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-8 py-4 border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-bold text-sm uppercase tracking-wider rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
+              className="inline-flex items-center justify-center gap-2 border border-slate-300 hover:border-slate-500 text-slate-700 hover:text-slate-900 px-8 py-4 rounded-xl font-semibold transition-all duration-300"
             >
               <FileText className="w-4 h-4" />
               Download Brochure
