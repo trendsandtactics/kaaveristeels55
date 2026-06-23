@@ -12,6 +12,16 @@ interface AboutHeroItem {
     sort_order?: number | null;
 }
 
+function renderContent(content?: string | null) {
+    if (!content) return null;
+    // Detect any HTML tag (not just <p>)
+    const isHTML = /<[a-z][\s\S]*>/i.test(content);
+    if (isHTML) {
+        return <div dangerouslySetInnerHTML={{ __html: content }} />;
+    }
+    return <p>{content}</p>;
+}
+
 export default async function AboutHero() {
     let items: AboutHeroItem[] = [];
     try {
@@ -41,8 +51,13 @@ export default async function AboutHero() {
         cover_image: "/image/about2.png",
     };
 
-    const missionImage = (mission.cover_image || mission.file_url) ? resolveMediaUrl((mission.cover_image || mission.file_url) as string, "/image/about1.png") : "/image/about1.png";
-    const visionImage = (vision.cover_image || vision.file_url) ? resolveMediaUrl((vision.cover_image || vision.file_url) as string, "/image/about2.png") : "/image/about2.png";
+    const missionImage = (mission.cover_image || mission.file_url)
+        ? resolveMediaUrl((mission.cover_image || mission.file_url) as string, "/image/about1.png")
+        : "/image/about1.png";
+
+    const visionImage = (vision.cover_image || vision.file_url)
+        ? resolveMediaUrl((vision.cover_image || vision.file_url) as string, "/image/about2.png")
+        : "/image/about2.png";
 
     return (
         <div className="w-full bg-white">
@@ -56,7 +71,7 @@ export default async function AboutHero() {
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
 
                 <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-                    
+
                     {/* Welcome Section */}
                     <div className="text-center max-w-4xl mx-auto">
                         <div className="flex items-center justify-center gap-4 mb-4">
@@ -72,11 +87,7 @@ export default async function AboutHero() {
                         </h1>
 
                         <div className="font-sans text-black/80 text-lg md:text-xl leading-relaxed font-medium whitespace-pre-wrap">
-                            {welcome.content && welcome.content.includes('<p>') ? (
-                                <div dangerouslySetInnerHTML={{ __html: welcome.content || "" }} />
-                            ) : (
-                                <p>{welcome.content}</p>
-                            )}
+                            {renderContent(welcome.content)}
                         </div>
                     </div>
                 </div>
@@ -84,13 +95,11 @@ export default async function AboutHero() {
 
             {/* Content Section */}
             <div className="max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10 bg-white">
-                
+
                 {/* Mission Section */}
                 <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20 mb-24">
                     <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group">
-                        
-                        <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500"></div>
-
+                        <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
                         <Image
                             src={missionImage}
                             alt={mission.title || "Industrial Teamwork"}
@@ -103,17 +112,11 @@ export default async function AboutHero() {
                         <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
                             {mission.title}
                         </h2>
-
                         <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
                             {mission.short_description}
                         </h3>
-
                         <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
-                            {mission.content && mission.content.includes('<p>') ? (
-                                <div dangerouslySetInnerHTML={{ __html: mission.content || "" }} />
-                            ) : (
-                                <p>{mission.content}</p>
-                            )}
+                            {renderContent(mission.content)}
                         </div>
                     </div>
                 </div>
@@ -121,9 +124,7 @@ export default async function AboutHero() {
                 {/* Vision Section */}
                 <div className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-20">
                     <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group">
-                        
-                        <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500"></div>
-
+                        <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
                         <Image
                             src={visionImage}
                             alt={vision.title || "Industrial Factory"}
@@ -136,17 +137,11 @@ export default async function AboutHero() {
                         <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
                             {vision.title}
                         </h2>
-
                         <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
                             {vision.short_description}
                         </h3>
-
                         <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
-                            {vision.content && vision.content.includes('<p>') ? (
-                                <div dangerouslySetInnerHTML={{ __html: vision.content || "" }} />
-                            ) : (
-                                <p>{vision.content}</p>
-                            )}
+                            {renderContent(vision.content)}
                         </div>
                     </div>
                 </div>
