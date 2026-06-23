@@ -96,13 +96,14 @@ export default function HomeAbout() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="relative w-full lg:w-1/2 flex flex-col justify-between px-5 sm:px-8 md:px-10 lg:px-10 xl:px-12 2xl:px-16 py-10 sm:py-12 lg:py-16 bg-white"
+        className="relative w-full lg:w-1/2 flex flex-col justify-between px-6 sm:px-10 md:px-14 lg:px-14 xl:px-16 2xl:px-20 py-10 sm:py-12 lg:py-16 bg-white"
       >
         {/* Background Accent */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/50 rounded-full blur-3xl pointer-events-none -z-10" />
 
         {/* ── Top Block ── */}
-        <div className="w-full space-y-6 sm:space-y-7">
+        <div className="w-full space-y-6 sm:space-y-8">
+
           {/* Section Label */}
           <motion.div
             variants={itemVariants}
@@ -114,9 +115,9 @@ export default function HomeAbout() {
             <div className="w-16 h-1 bg-red-600 rounded-full" />
           </motion.div>
 
-          {/* Heading */}
-          <motion.div variants={itemVariants} className="space-y-5">
-            <h2 className="font-black text-3xl sm:text-4xl lg:text-5xl xl:text-[56px] text-slate-900 leading-[1.05] tracking-tight">
+          {/* Heading — bigger, full width, no line breaks forced */}
+          <motion.div variants={itemVariants} className="space-y-6">
+            <h2 className="font-black text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-slate-900 leading-[1.0] tracking-tight w-full">
               BUILT ON
               <br />
               INDUSTRIAL STEEL.
@@ -130,7 +131,8 @@ export default function HomeAbout() {
               </span>
             </h2>
 
-            <p className="text-slate-600 text-base lg:text-lg leading-relaxed max-w-3xl">
+            {/* Description — no max-w cap, fills full width */}
+            <p className="text-slate-600 text-lg lg:text-xl xl:text-xl leading-relaxed w-full">
               At{" "}
               <span className="font-bold text-red-600">KAAVERI STEELS</span>, we
               are committed to engineering excellence and manufacturing
@@ -145,9 +147,9 @@ export default function HomeAbout() {
           {/* Quote */}
           <motion.div
             variants={itemVariants}
-            className="border-l-4 border-red-600 pl-5 py-4 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border border-slate-100"
+            className="border-l-4 border-red-600 pl-5 py-4 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border border-slate-100 w-full"
           >
-            <p className="italic text-slate-700 text-sm sm:text-base lg:text-lg leading-relaxed">
+            <p className="italic text-slate-700 text-base sm:text-lg xl:text-xl leading-relaxed">
               &ldquo;Our rigorous quality assurance process ensures every product
               leaving our facility meets the highest industry standards, enabling
               engineers and builders to construct with complete confidence.&rdquo;
@@ -158,18 +160,18 @@ export default function HomeAbout() {
         {/* ── Middle Block — Pillars ── */}
         <motion.div
           variants={itemVariants}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-7 sm:my-8"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-8 sm:my-10 w-full"
         >
           {pillars.map(({ icon: Icon, title, desc }) => (
             <div
               key={title}
-              className="flex flex-col gap-2 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-red-100 hover:bg-red-50/30 transition-colors duration-300"
+              className="flex flex-col gap-3 p-5 rounded-xl bg-slate-50 border border-slate-100 hover:border-red-100 hover:bg-red-50/30 transition-colors duration-300 w-full"
             >
-              <div className="w-9 h-9 rounded-lg bg-red-600/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-red-600/10 flex items-center justify-center">
                 <Icon className="w-5 h-5 text-red-600" />
               </div>
-              <span className="font-bold text-slate-900 text-sm">{title}</span>
-              <p className="text-slate-500 text-xs leading-relaxed">{desc}</p>
+              <span className="font-bold text-slate-900 text-base">{title}</span>
+              <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
             </div>
           ))}
         </motion.div>
@@ -179,7 +181,7 @@ export default function HomeAbout() {
           {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-col sm:flex-row gap-4 w-full"
           >
             <Link
               href="/products"
@@ -203,14 +205,14 @@ export default function HomeAbout() {
           {/* Stats Bar */}
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-200"
+            className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-200 w-full"
           >
             {stats.map(({ value, label }) => (
               <div key={label} className="flex flex-col items-start">
-                <span className="text-2xl xl:text-3xl font-black text-slate-900 leading-none">
+                <span className="text-3xl xl:text-4xl font-black text-slate-900 leading-none">
                   {value}
                 </span>
-                <span className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-widest mt-1.5">
+                <span className="text-xs sm:text-sm text-slate-500 uppercase tracking-widest mt-2">
                   {label}
                 </span>
               </div>
