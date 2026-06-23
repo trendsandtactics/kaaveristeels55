@@ -1,3 +1,4 @@
+```tsx
 "use client";
 
 import React from "react";
@@ -58,7 +59,7 @@ function FeatureCard({
   subtitle: string;
 }) {
   return (
-    <div className="group flex items-center gap-5 rounded-[28px] border border-red-100 bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+    <div className="group flex items-center gap-5 rounded-[28px] border border-red-100 bg-white/95 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
       <div className="flex h-16 w-16 min-w-[64px] items-center justify-center rounded-full bg-red-600 text-white shadow-lg">
         <Icon size={30} />
       </div>
@@ -78,9 +79,24 @@ function FeatureCard({
 
 export default function TrustOnSite() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#f8f9fb] flex items-center">
+    <section className="relative min-h-screen overflow-hidden flex items-center">
 
-      <div className="w-full max-w-[2200px] mx-auto px-6 md:px-10 xl:px-16 2xl:px-24">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/bg1.png"
+          alt="Background"
+          fill
+          priority
+          className="object-cover"
+        />
+      </div>
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-white/85 backdrop-blur-[1px]" />
+
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-[2200px] mx-auto px-6 md:px-10 xl:px-16 2xl:px-24">
 
         {/* Header */}
         <div className="text-center mb-16 xl:mb-24">
@@ -89,11 +105,11 @@ export default function TrustOnSite() {
             KAAVERI STEELS
           </p>
 
-          <h2 className="text-5xl md:text-6xl xl:text-7xl 2xl:text-[6rem] font-black text-gray-900 leading-none">
+          <h2 className="text-6xl md:text-7xl xl:text-8xl 2xl:text-[7rem] font-black text-gray-900 leading-none">
             Trust On Site
           </h2>
 
-          <p className="max-w-5xl mx-auto mt-6 text-lg md:text-xl xl:text-2xl text-gray-600 leading-relaxed">
+          <p className="max-w-5xl mx-auto mt-6 text-xl md:text-2xl text-gray-700 leading-relaxed">
             We don’t just promise quality — we prove it with live testing,
             transparency, and engineering excellence.
           </p>
@@ -118,14 +134,14 @@ export default function TrustOnSite() {
           {/* Vehicle */}
           <div className="flex justify-center">
 
-            <div className="relative w-full h-[500px] md:h-[600px] lg:h-[700px] xl:h-[850px]">
+            <div className="relative w-full h-[650px] md:h-[750px] lg:h-[850px] xl:h-[1000px]">
 
               <Image
                 src="/vehicle.png"
                 alt="Trust On Site Vehicle"
                 fill
                 priority
-                className="object-contain object-center drop-shadow-[0_40px_80px_rgba(0,0,0,0.25)]"
+                className="object-contain object-center scale-[1.2] xl:scale-[1.35] drop-shadow-[0_60px_120px_rgba(0,0,0,0.3)]"
               />
 
             </div>
@@ -147,11 +163,11 @@ export default function TrustOnSite() {
         </div>
 
         {/* CTA */}
-        <div className="flex justify-center mt-12">
+        <div className="flex justify-center mt-20">
 
           <Link
             href="/trust-on-site#book-test"
-            className="bg-red-600 hover:bg-red-700 text-white px-12 py-5 text-lg md:text-xl font-semibold rounded-2xl shadow-xl transition-all duration-300 hover:scale-105"
+            className="bg-red-600 hover:bg-red-700 text-white px-16 py-6 text-xl md:text-2xl font-bold rounded-3xl shadow-2xl transition-all duration-300 hover:scale-105"
           >
             Book an Appointment
           </Link>
@@ -163,3 +179,4 @@ export default function TrustOnSite() {
     </section>
   );
 }
+```
