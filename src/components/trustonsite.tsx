@@ -92,7 +92,7 @@ export default function TrustOnSite() {
       </div>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-white/85 backdrop-blur-[1px]" />
+      <div className="absolute inset-0 bg-white/0 backdrop-blur-[0px]" />
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-[2200px] mx-auto px-6 md:px-10 xl:px-16 2xl:px-24">
@@ -100,7 +100,7 @@ export default function TrustOnSite() {
         {/* Header */}
         <div className="text-center mb-16 xl:mb-24">
 
-          <p className="uppercase tracking-[0.5em] text-sm md:text-base text-gray-500 mb-5">
+          <p className="uppercase tracking-[1.5em] text-sm md:text-base text-gray-500 mb-5">
             KAAVERI STEELS
           </p>
 
@@ -108,7 +108,7 @@ export default function TrustOnSite() {
             Trust On Site
           </h2>
 
-          <p className="max-w-5xl mx-auto mt-6 text-xl md:text-2xl text-gray-700 leading-relaxed">
+          <p className="max-w-5xl mx-auto mt-6 text-xl md:text-3xl text-gray-700 leading-relaxed">
             We don’t just promise quality — we prove it with live testing,
             transparency, and engineering excellence.
           </p>
@@ -119,7 +119,7 @@ export default function TrustOnSite() {
         <div className="grid lg:grid-cols-[420px_minmax(900px,1fr)_420px] xl:grid-cols-[450px_minmax(1100px,1fr)_450px] items-center gap-8">
 
           {/* Left Features */}
-          <div className="space-y-6">
+          <div className="space-y-3">
             {leftFeatures.map((item, index) => (
               <FeatureCard
                 key={index}
@@ -148,7 +148,7 @@ export default function TrustOnSite() {
           </div>
 
           {/* Right Features */}
-          <div className="space-y-6">
+          <div className="space-y-3">
             {rightFeatures.map((item, index) => (
               <FeatureCard
                 key={index}
@@ -166,7 +166,7 @@ export default function TrustOnSite() {
 
           <Link
             href="/trust-on-site#book-test"
-            className="bg-red-600 hover:bg-red-700 text-white px-16 py-6 text-xl md:text-2xl font-bold rounded-3xl shadow-2xl transition-all duration-300 hover:scale-105"
+            className="bg-red-600 hover:bg-red-700 text-white px-16 py-6 text-2xl md:text-4xl font-bold rounded-3xl shadow-2xl transition-all duration-300 hover:scale-105"
           >
             Book an Appointment
           </Link>
