@@ -50,7 +50,7 @@ const rightFeatures = [
 
 export default function TrustOnSite() {
   return (
-    <section className="relative overflow-hidden py-20 xl:py-28 2xl:py-32">
+    <section className="relative overflow-hidden py-20 lg:py-24 xl:py-28">
 
       {/* Background */}
       <div className="absolute inset-0">
@@ -67,20 +67,20 @@ export default function TrustOnSite() {
       <div className="absolute inset-0 bg-white/80 backdrop-blur-[2px]" />
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-[2200px] mx-auto px-6 md:px-10 xl:px-20 2xl:px-32">
+      <div className="relative z-10 w-full max-w-[2200px] mx-auto px-6 md:px-10 xl:px-16 2xl:px-24">
 
         {/* Header */}
-        <div className="text-center mb-12 xl:mb-20">
+        <div className="text-center mb-10 lg:mb-16">
 
-          <p className="uppercase tracking-[0.5em] text-sm xl:text-base text-gray-500 mb-5">
+          <p className="uppercase tracking-[0.5em] text-sm md:text-base text-gray-500 mb-4">
             KAAVERI STEELS
           </p>
 
-          <h2 className="text-5xl md:text-7xl xl:text-8xl 2xl:text-[6rem] font-black text-gray-900 leading-none">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-gray-900 leading-none">
             Trust On Site
           </h2>
 
-          <p className="max-w-5xl mx-auto mt-8 text-xl md:text-2xl text-gray-600 leading-relaxed">
+          <p className="max-w-5xl mx-auto mt-6 text-lg md:text-xl xl:text-2xl text-gray-600 leading-relaxed">
             We don’t just promise quality — we prove it with live testing,
             transparency, and engineering excellence.
           </p>
@@ -88,9 +88,9 @@ export default function TrustOnSite() {
         </div>
 
         {/* Main Layout */}
-        <div className="grid lg:grid-cols-[520px_1fr_520px] items-center gap-4">
+        <div className="grid lg:grid-cols-[450px_minmax(900px,1fr)_450px] xl:grid-cols-[500px_minmax(1100px,1fr)_500px] items-center gap-8">
 
-          {/* LEFT FEATURES */}
+          {/* LEFT SIDE */}
           <div className="space-y-8 order-2 lg:order-1">
 
             {leftFeatures.map((item, index) => {
@@ -99,18 +99,18 @@ export default function TrustOnSite() {
               return (
                 <div
                   key={index}
-                  className="group flex items-center gap-6 rounded-[32px] border border-red-100 bg-white/95 p-8 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 min-h-[150px]"
+                  className="flex items-center gap-6 bg-white/95 border border-red-100 rounded-[28px] p-8 min-h-[150px] shadow-xl hover:shadow-2xl transition-all duration-300"
                 >
-                  <div className="flex h-[90px] w-[90px] min-w-[90px] items-center justify-center rounded-full bg-gradient-to-br from-red-700 to-red-500 text-white shadow-xl">
+                  <div className="flex h-[90px] w-[90px] min-w-[90px] items-center justify-center rounded-full bg-gradient-to-br from-red-700 to-red-500 text-white shadow-lg">
                     <Icon size={42} />
                   </div>
 
                   <div>
-                    <h3 className="text-3xl font-bold text-gray-900 leading-tight">
+                    <h3 className="text-2xl xl:text-3xl font-bold text-gray-900 leading-tight">
                       {item.title}
                     </h3>
 
-                    <p className="text-xl text-gray-600 mt-2 leading-relaxed">
+                    <p className="text-lg xl:text-xl text-gray-600 mt-2">
                       {item.subtitle}
                     </p>
                   </div>
@@ -123,21 +123,21 @@ export default function TrustOnSite() {
           {/* CENTER IMAGE */}
           <div className="order-1 lg:order-2 flex justify-center">
 
-            <div className="relative w-full max-w-[1400px] h-[450px] md:h-[600px] lg:h-[700px] xl:h-[850px] 2xl:h-[950px]">
+            <div className="relative w-full h-[450px] md:h-[550px] lg:h-[700px] xl:h-[850px]">
 
               <Image
                 src="/vehicle.png"
                 alt="Trust On Site Vehicle"
                 fill
                 priority
-                className="object-contain object-center drop-shadow-[0_50px_100px_rgba(0,0,0,0.35)]"
+                className="object-contain object-center scale-[1.2] xl:scale-[1.35] drop-shadow-[0_50px_100px_rgba(0,0,0,0.35)]"
               />
 
             </div>
 
           </div>
 
-          {/* RIGHT FEATURES */}
+          {/* RIGHT SIDE */}
           <div className="space-y-8 order-3">
 
             {rightFeatures.map((item, index) => {
@@ -146,18 +146,18 @@ export default function TrustOnSite() {
               return (
                 <div
                   key={index}
-                  className="group flex items-center gap-6 rounded-[32px] border border-red-100 bg-white/95 p-8 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 min-h-[150px]"
+                  className="flex items-center gap-6 bg-white/95 border border-red-100 rounded-[28px] p-8 min-h-[150px] shadow-xl hover:shadow-2xl transition-all duration-300"
                 >
-                  <div className="flex h-[90px] w-[90px] min-w-[90px] items-center justify-center rounded-full bg-gradient-to-br from-red-700 to-red-500 text-white shadow-xl">
+                  <div className="flex h-[90px] w-[90px] min-w-[90px] items-center justify-center rounded-full bg-gradient-to-br from-red-700 to-red-500 text-white shadow-lg">
                     <Icon size={42} />
                   </div>
 
                   <div>
-                    <h3 className="text-3xl font-bold text-gray-900 leading-tight">
+                    <h3 className="text-2xl xl:text-3xl font-bold text-gray-900 leading-tight">
                       {item.title}
                     </h3>
 
-                    <p className="text-xl text-gray-600 mt-2 leading-relaxed">
+                    <p className="text-lg xl:text-xl text-gray-600 mt-2">
                       {item.subtitle}
                     </p>
                   </div>
@@ -170,11 +170,11 @@ export default function TrustOnSite() {
         </div>
 
         {/* CTA */}
-        <div className="flex justify-center mt-8 xl:mt-12">
+        <div className="flex justify-center mt-12">
 
           <Link
             href="/trust-on-site#book-test"
-            className="bg-red-600 hover:bg-red-700 text-white px-14 py-5 text-xl font-semibold rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105"
+            className="bg-red-600 hover:bg-red-700 text-white px-14 py-5 text-lg md:text-xl font-semibold rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105"
           >
             Book an Appointment
           </Link>
@@ -182,6 +182,7 @@ export default function TrustOnSite() {
         </div>
 
       </div>
+
     </section>
   );
 }
