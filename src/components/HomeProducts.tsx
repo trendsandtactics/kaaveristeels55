@@ -150,14 +150,14 @@ export default function HomeProducts() {
                     </h3>
 
                     {/* Enhanced readable font colors & size */}
-<p className="text-slate-200 max-w-2xl leading-[1.15] text-2xl md:text-3xl lg:text-[42px] mb-8 font-medium drop-shadow-lg transform transition-all duration-500 group-hover:-translate-y-2 group-hover:text-white">
+<p className="text-slate-200 max-w-2xl leading-relaxed text-2xl md:text-3xl lg:text-4xl mb-10 font-normal drop-shadow-lg transform transition-all duration-500 group-hover:-translate-y-2 group-hover:text-white">
   {product.description}
 </p>
 
                     <div className="flex flex-wrap items-center justify-start gap-4 md:gap-6 pt-2 transform transition-transform duration-500 group-hover:-translate-y-2">
-                      <div className="px-8 py-4 md:px-10 md:py-5 rounded-full border border-white/40 bg-black/40 backdrop-blur-md text-white font-bold text-sm md:text-base lg:text-lg tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-black group-hover:border-white group-hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
-                        EXPLORE PRODUCT
-                      </div>
+<div className="px-10 py-5 md:px-14 md:py-6 rounded-full border border-white/40 bg-black/40 backdrop-blur-md text-white font-semibold text-base md:text-lg lg:text-xl tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-black group-hover:border-white group-hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
+  EXPLORE PRODUCT
+</div>
 
                       <div className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center transition-all duration-500 group-hover:bg-red-600 group-hover:border-red-600 group-hover:translate-x-2 shadow-xl group-hover:shadow-[0_0_30px_rgba(220,38,38,0.6)]">
                         <ArrowRight className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-white" />
