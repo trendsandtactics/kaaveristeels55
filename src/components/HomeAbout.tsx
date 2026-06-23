@@ -83,7 +83,7 @@ export default function HomeAbout() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="relative w-full lg:w-1/2 flex flex-col justify-between px-4 sm:px-6 lg:px-8 xl:px-10 py-8 sm:py-10 lg:py-12 bg-white"
+        className="relative w-full lg:w-1/2 flex flex-col justify-between px-6 sm:px-8 lg:px-10 xl:px-12 py-8 sm:py-10 lg:py-12 bg-white"
       >
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/50 rounded-full blur-3xl pointer-events-none -z-10" />
 
@@ -92,26 +92,23 @@ export default function HomeAbout() {
 
           {/* Label */}
           <motion.div variants={itemVariants} className="flex flex-col items-start space-y-2">
-            <span className="uppercase tracking-[0.25em] text-red-600 text-sm font-black">
+            <span className="uppercase tracking-[0.25em] text-red-600 text-sm lg:text-base font-black">
               ABOUT KAAVERI STEELS
             </span>
             <div className="w-16 h-1 bg-red-600 rounded-full" />
           </motion.div>
 
-          {/* Heading — massive, zero max-width constraint */}
-          <motion.div variants={itemVariants} className="space-y-4">
-            <h2 className="font-black text-[42px] sm:text-[52px] md:text-[60px] lg:text-[52px] xl:text-[64px] 2xl:text-[76px] text-slate-900 leading-[0.98] tracking-tight w-full block">
-              BUILT ON<br />
-              INDUSTRIAL STEEL.<br />
+          {/* Heading — no forced <br/>, wraps naturally in 2–3 lines */}
+          <motion.div variants={itemVariants} className="space-y-5">
+            <h2 className="font-black text-[44px] sm:text-[52px] lg:text-[48px] xl:text-[58px] 2xl:text-[68px] text-slate-900 leading-[1.0] tracking-tight w-full">
+              BUILT ON INDUSTRIAL STEEL.{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-700">
-                TRUSTED BY<br />
-                BUILDERS ACROSS<br />
-                INDIA.
+                TRUSTED BY BUILDERS ACROSS INDIA.
               </span>
             </h2>
 
-            {/* Description — large, full width */}
-            <p className="text-slate-600 text-[17px] sm:text-[18px] lg:text-[17px] xl:text-[19px] 2xl:text-[21px] leading-[1.7] w-full">
+            {/* Description */}
+            <p className="text-slate-600 text-[18px] sm:text-[19px] lg:text-[18px] xl:text-[20px] 2xl:text-[22px] leading-[1.75] w-full">
               At <span className="font-bold text-red-600">KAAVERI STEELS</span>, we
               are committed to engineering excellence and manufacturing premium-quality
               TMT bars and structural steel products. With decades of expertise, we
@@ -124,9 +121,9 @@ export default function HomeAbout() {
           {/* Quote */}
           <motion.div
             variants={itemVariants}
-            className="border-l-4 border-red-600 pl-5 py-3 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border border-slate-100 w-full"
+            className="border-l-4 border-red-600 pl-5 py-4 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border border-slate-100 w-full"
           >
-            <p className="italic text-slate-700 text-[16px] sm:text-[17px] xl:text-[18px] leading-[1.65]">
+            <p className="italic text-slate-700 text-[17px] sm:text-[18px] xl:text-[20px] leading-[1.7]">
               &ldquo;Our rigorous quality assurance process ensures every product
               leaving our facility meets the highest industry standards, enabling
               engineers and builders to construct with complete confidence.&rdquo;
@@ -142,13 +139,13 @@ export default function HomeAbout() {
           {pillars.map(({ icon: Icon, title, desc }) => (
             <div
               key={title}
-              className="flex flex-col gap-2 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-red-100 hover:bg-red-50/30 transition-colors duration-300 w-full"
+              className="flex flex-col gap-2 p-4 xl:p-5 rounded-xl bg-slate-50 border border-slate-100 hover:border-red-100 hover:bg-red-50/30 transition-colors duration-300 w-full"
             >
               <div className="w-10 h-10 rounded-lg bg-red-600/10 flex items-center justify-center shrink-0">
                 <Icon className="w-5 h-5 text-red-600" />
               </div>
-              <span className="font-bold text-slate-900 text-[15px] leading-tight">{title}</span>
-              <p className="text-slate-500 text-[13px] leading-relaxed">{desc}</p>
+              <span className="font-bold text-slate-900 text-[15px] xl:text-[17px] leading-tight">{title}</span>
+              <p className="text-slate-500 text-[13px] xl:text-[15px] leading-relaxed">{desc}</p>
             </div>
           ))}
         </motion.div>
@@ -160,18 +157,18 @@ export default function HomeAbout() {
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 w-full">
             <Link
               href="/products"
-              className="group w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm uppercase tracking-wider rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+              className="group w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-base uppercase tracking-wider rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
             >
               Explore Products
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
             <Link
               href="/product-brochure"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-8 py-4 border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-bold text-sm uppercase tracking-wider rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-4 border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-bold text-base uppercase tracking-wider rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
             >
-              <FileText className="w-4 h-4" />
+              <FileText className="w-5 h-5" />
               Download Brochure
             </Link>
           </motion.div>
@@ -183,10 +180,10 @@ export default function HomeAbout() {
           >
             {stats.map(({ value, label }) => (
               <div key={label} className="flex flex-col items-start">
-                <span className="text-[32px] xl:text-[40px] 2xl:text-[44px] font-black text-slate-900 leading-none">
+                <span className="text-[36px] xl:text-[44px] 2xl:text-[52px] font-black text-slate-900 leading-none">
                   {value}
                 </span>
-                <span className="text-[11px] sm:text-[12px] text-slate-500 uppercase tracking-widest mt-1.5 font-semibold">
+                <span className="text-[13px] xl:text-[14px] text-slate-500 uppercase tracking-widest mt-2 font-semibold">
                   {label}
                 </span>
               </div>
