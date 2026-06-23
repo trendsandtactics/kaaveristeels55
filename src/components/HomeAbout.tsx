@@ -36,14 +36,16 @@ export default function HomeAbout() {
       {/* Left Side Image */}
       <div className="relative w-full lg:w-1/2 h-[320px] sm:h-[450px] md:h-[550px] lg:min-h-screen overflow-hidden group">
         <Image
-          src="/kaaveri1.png‎"
+          src="/kaaveri1.png"
           alt="Kaaveri Steels Production Facility"
           fill
           priority
+          sizes="(max-width: 1024px) 100vw, 50vw"
           className="object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-slate-950/20" />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-slate-950/20" />
 
         {/* Experience Badge */}
         <motion.div
@@ -51,9 +53,11 @@ export default function HomeAbout() {
           whileInView={{ opacity: 1, scale: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, type: "spring" }}
-          className="absolute top-6 left-6 sm:top-10 sm:left-10 bg-gradient-to-br from-red-600 to-red-700 text-white p-5 sm:p-6 rounded-lg shadow-2xl z-20"
+          className="absolute top-6 left-6 sm:top-10 sm:left-10 bg-gradient-to-br from-red-600 to-red-700 text-white p-5 sm:p-6 rounded-xl shadow-2xl z-20"
         >
-          <span className="block text-4xl sm:text-5xl font-black">30+</span>
+          <span className="block text-4xl sm:text-5xl font-black">
+            30+
+          </span>
 
           <span className="block text-[10px] sm:text-xs uppercase tracking-[0.2em] mt-2 border-t border-red-400 pt-2 text-red-100">
             Years of
@@ -69,12 +73,13 @@ export default function HomeAbout() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-16 xl:px-24 py-12 lg:py-20 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
+        className="relative w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-16 xl:px-24 py-12 lg:py-20 bg-white z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
       >
-        <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
+        {/* Background Accent */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/50 rounded-full blur-3xl pointer-events-none -z-10" />
 
         <div className="max-w-[700px] space-y-8 lg:space-y-10">
-          {/* Heading */}
+          {/* Section Label */}
           <motion.div
             variants={itemVariants}
             className="flex flex-col items-start space-y-3"
@@ -83,10 +88,10 @@ export default function HomeAbout() {
               ABOUT KAAVERI STEELS
             </span>
 
-            <div className="w-14 h-1 bg-red-600 rounded-full" />
+            <div className="w-16 h-1 bg-red-600 rounded-full" />
           </motion.div>
 
-          {/* Main Content */}
+          {/* Heading & Description */}
           <motion.div variants={itemVariants} className="space-y-5">
             <h2 className="font-black text-3xl sm:text-4xl md:text-5xl xl:text-6xl text-slate-900 leading-[1.1] tracking-tight">
               BUILT ON INDUSTRIAL STEEL.
@@ -97,12 +102,16 @@ export default function HomeAbout() {
             </h2>
 
             <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
-              At <span className="font-bold text-red-600">KAAVERI</span>, we
-              are committed to engineering excellence and manufacturing
+              At{" "}
+              <span className="font-bold text-red-600">
+                KAAVERI STEELS
+              </span>
+              , we are committed to engineering excellence and manufacturing
               premium-quality TMT bars and structural steel products. With
               decades of expertise, we support infrastructure, commercial,
               industrial, and residential developments across India with
-              reliable steel solutions built for strength and durability.
+              reliable steel solutions built for strength, durability, and
+              long-term performance.
             </p>
           </motion.div>
 
@@ -119,23 +128,25 @@ export default function HomeAbout() {
             </p>
           </motion.div>
 
-          {/* Buttons */}
+          {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col md:flex-row gap-4 pt-4"
+            className="flex flex-col sm:flex-row gap-4 pt-2"
           >
             <Link
               href="/products"
-              className="group w-full md:w-auto px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm uppercase tracking-wider rounded-md shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+              className="group px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm uppercase tracking-wider rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
             >
               Explore Products
+
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
 
             <Link
               href="/brochure.pdf"
               target="_blank"
-              className="w-full md:w-auto px-8 py-4 border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-bold text-sm uppercase tracking-wider rounded-md transition-all duration-300 flex items-center justify-center gap-2"
+              rel="noopener noreferrer"
+              className="px-8 py-4 border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-bold text-sm uppercase tracking-wider rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
             >
               <FileText className="w-4 h-4" />
               Download Brochure
