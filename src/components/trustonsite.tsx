@@ -58,31 +58,29 @@ function FeatureCard({
   subtitle: string;
 }) {
   return (
-    <div className="group flex items-center gap-4 rounded-[28px] border border-red-100 bg-white/95 p-5 shadow-xl backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
-
+    <div className="group flex items-center gap-5 rounded-[28px] border border-red-100 bg-white/95 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
       <div className="flex h-16 w-16 min-w-[64px] items-center justify-center rounded-full bg-red-600 text-white shadow-lg">
-        <Icon size={28} />
+        <Icon size={30} />
       </div>
 
       <div>
-        <h3 className="text-lg xl:text-xl font-bold text-gray-900 leading-tight">
+        <h3 className="text-xl xl:text-2xl font-bold text-gray-900 leading-tight">
           {title}
         </h3>
 
-        <p className="text-sm text-gray-600 mt-1">
+        <p className="text-sm xl:text-base text-gray-600 mt-1">
           {subtitle}
         </p>
       </div>
-
     </div>
   );
 }
 
 export default function TrustOnSite() {
   return (
-    <section className="relative min-h-[1200px] overflow-hidden flex items-center">
+    <section className="relative min-h-screen overflow-hidden flex items-center">
 
-      {/* Background */}
+      {/* Background Image */}
       <div className="absolute inset-0">
         <Image
           src="/bg1.png"
@@ -93,36 +91,35 @@ export default function TrustOnSite() {
         />
       </div>
 
-      {/* Light Overlay */}
-      <div className="absolute inset-0 bg-white/50" />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-white/0 backdrop-blur-[0px]" />
 
       {/* Content */}
-      <div className="relative z-10 w-full px-6 xl:px-10 2xl:px-16">
+      <div className="relative z-10 w-full max-w-[2200px] mx-auto px-6 md:px-10 xl:px-16 2xl:px-24">
 
-        {/* Heading */}
-        <div className="text-center mb-10">
+        {/* Header */}
+        <div className="text-center mb-16 xl:mb-24">
 
-          <p className="uppercase tracking-[1em] text-gray-500 text-sm mb-3">
+          <p className="uppercase tracking-[1.5em] text-sm md:text-base text-gray-500 mb-5">
             KAAVERI STEELS
           </p>
 
-          <h2 className="text-5xl md:text-7xl xl:text-8xl font-black text-gray-900">
+          <h2 className="text-6xl md:text-7xl xl:text-8xl 2xl:text-[7rem] font-black text-gray-900 leading-none">
             Trust On Site
           </h2>
 
-          <p className="max-w-4xl mx-auto mt-4 text-lg md:text-2xl text-gray-700">
+          <p className="max-w-5xl mx-auto mt-6 text-xl md:text-3xl text-gray-700 leading-relaxed">
             We don’t just promise quality — we prove it with live testing,
             transparency, and engineering excellence.
           </p>
 
         </div>
 
-        {/* Main Layout */}
-        <div className="grid grid-cols-1 xl:grid-cols-[420px_minmax(1400px,1fr)_420px] items-center gap-2">
+        {/* Main Content */}
+        <div className="grid lg:grid-cols-[420px_minmax(900px,1fr)_420px] xl:grid-cols-[450px_minmax(1100px,1fr)_450px] items-center gap-8">
 
           {/* Left Features */}
-          <div className="space-y-4 z-20">
-
+          <div className="space-y-10">
             {leftFeatures.map((item, index) => (
               <FeatureCard
                 key={index}
@@ -131,20 +128,19 @@ export default function TrustOnSite() {
                 subtitle={item.subtitle}
               />
             ))}
-
           </div>
 
           {/* Vehicle */}
-          <div className="relative flex justify-center items-center">
+          <div className="flex justify-center">
 
-            <div className="relative w-full h-[900px] xl:h-[1000px]">
+            <div className="relative w-full h-[750px] md:h-[850px] lg:h-[950px] xl:h-[1100px]">
 
               <Image
                 src="/vehicle.png"
                 alt="Trust On Site Vehicle"
                 fill
                 priority
-                className="object-contain object-center scale-[2] drop-shadow-[0_50px_80px_rgba(0,0,0,0.35)]"
+                className="object-contain object-center scale-[1.2] xl:scale-[1.35] drop-shadow-[0_60px_120px_rgba(0,0,0,0.3)]"
               />
 
             </div>
@@ -152,8 +148,7 @@ export default function TrustOnSite() {
           </div>
 
           {/* Right Features */}
-          <div className="space-y-4 z-20">
-
+          <div className="space-y-10">
             {rightFeatures.map((item, index) => (
               <FeatureCard
                 key={index}
@@ -162,17 +157,16 @@ export default function TrustOnSite() {
                 subtitle={item.subtitle}
               />
             ))}
-
           </div>
 
         </div>
 
         {/* CTA */}
-        <div className="flex justify-center -mt-10 relative z-30">
+        <div className="flex justify-center mt-20">
 
           <Link
             href="/trust-on-site#book-test"
-            className="bg-red-600 hover:bg-red-700 text-white px-14 py-5 text-xl md:text-2xl font-bold rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105"
+            className="bg-red-600 hover:bg-red-700 text-white px-16 py-6 text-2xl md:text-4xl font-bold rounded-3xl shadow-2xl transition-all duration-300 hover:scale-105"
           >
             Book an Appointment
           </Link>
