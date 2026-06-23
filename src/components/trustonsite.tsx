@@ -3,168 +3,114 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Truck,
-  Clock3,
-  Users,
-  SearchCheck,
-  ShieldCheck,
-  Award,
-} from "lucide-react";
+import { ShieldCheck, Award, Users, CheckCircle2 } from "lucide-react";
 
-const leftFeatures = [
-  {
-    icon: Truck,
-    title: "Fully Equipped",
-    subtitle: "Mobile Testing Vehicle",
-  },
-  {
-    icon: Clock3,
-    title: "Instant",
-    subtitle: "Test Result",
-  },
-  {
-    icon: Users,
-    title: "Live Testing In Front Of",
-    subtitle: "Engineers & Builders",
-  },
-];
-
-const rightFeatures = [
-  {
-    icon: SearchCheck,
-    title: "Complete",
-    subtitle: "Transparency",
-  },
+const aboutFeatures = [
   {
     icon: ShieldCheck,
-    title: "No Compromise",
-    subtitle: "On Strength",
+    title: "Uncompromising Quality",
+    description: "Every batch of Kaaveri Steel undergoes rigorous automated testing to ensure maximum tensile strength and durability.",
   },
   {
     icon: Award,
-    title: "Confidence For",
-    subtitle: "100+ Years Of Structure Life",
+    title: "Certified Excellence",
+    description: "Fully compliant with international manufacturing standards, trusted by structural engineers nationwide.",
+  },
+  {
+    icon: Users,
+    title: "Customer-Centric Approach",
+    description: "We work directly alongside builders and developers to deliver custom structural steel solutions on time.",
   },
 ];
 
-function FeatureCard({
-  icon: Icon,
-  title,
-  subtitle,
-}: {
-  icon: React.ElementType;
-  title: string;
-  subtitle: string;
-}) {
+export default function HomeAbout() {
   return (
-    <div className="group flex items-center gap-5 rounded-[28px] border border-red-100 bg-white/95 p-6 xl:p-8 shadow-xl backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-      <div className="flex h-16 w-16 xl:h-20 xl:w-20 min-w-[64px] xl:min-w-[80px] items-center justify-center rounded-full bg-red-600 text-white shadow-lg">
-        <Icon className="w-8 h-8 xl:w-10 xl:h-10" />
-      </div>
+    // 1. EXPANDED SECTION PADDING: Increased vertical padding (py-24 to py-36) for huge breathing room
+    <section className="relative w-full bg-white overflow-hidden py-24 md:py-36">
+      {/* Background Accent Graphics */}
+      <div className="absolute top-0 right-0 -translate-y-12 translate-x-12 w-[500px] h-[500px] bg-red-50/50 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 translate-y-12 -translate-x-12 w-[500px] h-[500px] bg-gray-50 rounded-full blur-3xl pointer-events-none" />
 
-      <div>
-        <h3 className="text-xl xl:text-2xl 2xl:text-3xl font-bold text-gray-900 leading-tight">
-          {title}
-        </h3>
-
-        <p className="text-sm xl:text-lg 2xl:text-xl text-gray-600 mt-1">
-          {subtitle}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-export default function TrustOnSite() {
-  return (
-    <section className="relative min-h-screen overflow-hidden flex flex-col justify-center py-20 w-full">
-
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <Image
-          src="/bg1.png"
-          alt="Background"
-          fill
-          priority
-          className="object-cover"
-        />
-      </div>
-
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-white/0 backdrop-blur-[0px]" />
-
-      {/* Content Container - Uses full width with responsive padding */}
-      <div className="relative z-10 w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 flex flex-col items-center">
-
-        {/* Header */}
-        <div className="text-center mb-10 xl:mb-16 w-full">
-          <p className="uppercase tracking-[1.5em] text-sm md:text-lg font-semibold text-gray-500 mb-5 ml-[1.5em]">
-            KAAVERI STEELS
-          </p>
-
-          <h2 className="text-5xl md:text-7xl xl:text-8xl 2xl:text-[7rem] font-black text-gray-900 leading-none tracking-tight">
-            Trust On Site
-          </h2>
-
-          <p className="max-w-5xl mx-auto mt-6 text-xl md:text-3xl xl:text-4xl text-gray-700 leading-relaxed font-medium">
-            We don’t just promise quality — we prove it with live testing,
-            transparency, and engineering excellence.
-          </p>
-        </div>
-
-        {/* Main Content Grid - Responsive fractional widths instead of fixed massive pixels */}
-        <div className="grid grid-cols-1 lg:grid-cols-[350px_1fr_350px] xl:grid-cols-[450px_1fr_450px] items-center gap-8 w-full">
-
-          {/* Left Features */}
-          <div className="space-y-6 xl:space-y-10 relative z-20">
-            {leftFeatures.map((item, index) => (
-              <FeatureCard
-                key={index}
-                icon={item.icon}
-                title={item.title}
-                subtitle={item.subtitle}
-              />
-            ))}
-          </div>
-
-          {/* Vehicle Display - Fills central space naturally without exploding */}
-          <div className="flex justify-center items-center relative z-10 w-full h-[400px] md:h-[550px] lg:h-[650px] xl:h-[800px] 2xl:h-[900px] pointer-events-none">
+      {/* 2. MAXIMIZED CONTAINER WIDTH: Upgraded from max-w-7xl to max-w-[1600px] for ultra-wide screen impact */}
+      <div className="relative z-10 max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 2xl:px-24">
+        
+        {/* 3. WIDER GRID SPACING: Increased layout gap (gap-16 to xl:gap-24) to isolate columns beautifully */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 xl:gap-24 items-center">
+          
+          {/* Left Column: Media Showcase (Scaled higher for larger monitors) */}
+          <div className="lg:col-span-5 relative w-full aspect-[4/3] sm:aspect-square lg:h-[650px] xl:h-[750px] rounded-[32px] overflow-hidden shadow-2xl bg-gray-100 group">
             <Image
-              src="/vehicle.png"
-              alt="Trust On Site Vehicle"
+              src="/image_182f9a.jpg"
+              alt="Kaaveri Steels Production Facility"
               fill
               priority
-              className="object-contain object-center drop-shadow-[0_40px_80px_rgba(0,0,0,0.3)]"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
           </div>
 
-          {/* Right Features */}
-          <div className="space-y-6 xl:space-y-10 relative z-20">
-            {rightFeatures.map((item, index) => (
-              <FeatureCard
-                key={index}
-                icon={item.icon}
-                title={item.title}
-                subtitle={item.subtitle}
-              />
-            ))}
+          {/* Right Column: Narrative & Features */}
+          <div className="lg:col-span-7 space-y-12">
+            <div>
+              <p className="uppercase tracking-[0.5em] text-sm font-bold text-red-600 mb-4">
+                ABOUT KAAVERI STEELS
+              </p>
+              
+              {/* 4. HERO TYPOGRAPHY SCALING: Pushed heading text to text-4xl up to massive text-7xl sizes */}
+              <h2 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-black text-gray-900 tracking-tight leading-[1.05] mb-8">
+                Building Foundations That Last For Generations
+              </h2>
+              
+              {/* 5. ENHANCED PARAGRAPH TEXT: Increased body copy font sizing and line spacing for crisp readability */}
+              <p className="text-lg md:text-xl xl:text-2xl text-gray-600 leading-relaxed font-normal">
+                With decades of pioneering experience in metallurgical engineering, Kaaveri Steels 
+                has remained at the forefront of infrastructure development. We manufacture high-performance 
+                TMT bars designed to withstand extreme structural stress and seismic conditions.
+              </p>
+            </div>
+
+            {/* Dynamic Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-8">
+              {aboutFeatures.map((feature, index) => {
+                const IconComponent = feature.icon;
+                return (
+                  <div key={index} className="flex gap-6 p-6 rounded-2xl transition-colors duration-300 hover:bg-gray-50">
+                    {/* 6. BIGGER ICON BOX SIZES: Scaled icon wrappers up to h-16 w-16 with larger interior icons */}
+                    <div className="flex h-16 w-16 min-w-[64px] items-center justify-center rounded-2xl bg-red-50 text-red-600">
+                      <IconComponent size={32} />
+                    </div>
+                    <div>
+                      <h3 className="text-xl xl:text-2xl font-bold text-gray-900 mb-2">
+                        {feature.title}
+                      </h3>
+                      <p className="text-base xl:text-lg text-gray-600 leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Call to Action Row */}
+            <div className="pt-6 flex flex-wrap gap-8 items-center">
+              {/* Prominent Action Button */}
+              <Link
+                href="/about"
+                className="inline-flex items-center justify-center bg-gray-900 hover:bg-gray-800 text-white font-bold text-lg xl:text-xl px-10 py-5 rounded-2xl transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              >
+                Learn More Our History
+              </Link>
+              <div className="flex items-center gap-3 text-base xl:text-lg font-semibold text-gray-500 px-2">
+                <CheckCircle2 className="text-green-600 w-6 h-6" />
+                ISO 9001:2015 Certified Production
+              </div>
+            </div>
+
           </div>
 
         </div>
-
-        {/* CTA - Neatly placed below the grid, pulled up slightly with responsive margin */}
-        <div className="mt-12 xl:mt-4 relative z-30">
-          <Link
-            href="/trust-on-site#book-test"
-            className="inline-block bg-red-600 hover:bg-red-700 text-white px-12 py-5 xl:px-20 xl:py-7 text-2xl xl:text-4xl font-extrabold rounded-full shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-[0_20px_50px_rgba(220,38,38,0.3)]"
-          >
-            Book an Appointment
-          </Link>
-        </div>
-
       </div>
-
     </section>
   );
 }
