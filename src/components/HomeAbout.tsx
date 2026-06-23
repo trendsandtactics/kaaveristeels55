@@ -51,7 +51,7 @@ export default function HomeAbout() {
   return (
     <section className="relative w-full flex flex-col lg:flex-row bg-slate-50 overflow-hidden">
 
-      {/* ── Left: Image (Adjusted to sit naturally alongside expanded text) ── */}
+      {/* ── Left: Image ── */}
       <div className="relative w-full lg:w-1/2 h-[350px] sm:h-[480px] md:h-[600px] lg:h-auto lg:self-stretch overflow-hidden group">
         <Image
           src="/kaaveri1.png"
@@ -77,13 +77,12 @@ export default function HomeAbout() {
         </motion.div>
       </div>
 
-      {/* ── Right: Content — Equalized White Spaces and Scaled Text ── */}
+      {/* ── Right: Content — Fixed syntax & balanced spacing ── */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
-        {/* Switched from justify-between to gap-10 for symmetric spacing control */}
         className="relative w-full lg:w-1/2 lg:self-stretch flex flex-col justify-center gap-10 px-6 sm:px-10 lg:px-12 xl:px-16 py-12 sm:py-16 lg:py-20 bg-white"
       >
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/50 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -99,7 +98,7 @@ export default function HomeAbout() {
             <div className="w-20 h-[4px] bg-red-600 rounded-full" />
           </motion.div>
 
-          {/* Heading — Scaled up text sizes */}
+          {/* Heading */}
           <motion.div variants={itemVariants} className="flex flex-col gap-6">
             <h2 className="font-black text-[48px] sm:text-[62px] lg:text-[56px] xl:text-[66px] 2xl:text-[76px] text-slate-900 leading-[1.05] tracking-tight">
               BUILT ON INDUSTRIAL STEEL.{" "}
@@ -118,7 +117,7 @@ export default function HomeAbout() {
             </p>
           </motion.div>
 
-          {/* Quote — Scaled up text size */}
+          {/* Quote */}
           <motion.div
             variants={itemVariants}
             className="border-l-4 border-red-600 pl-6 py-4 bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border border-slate-100"
@@ -131,7 +130,7 @@ export default function HomeAbout() {
           </motion.div>
         </div>
 
-        {/* ── BLOCK 2: Pillars — Scaled up layout sizes ── */}
+        {/* ── BLOCK 2: Pillars ── */}
         <motion.div
           variants={itemVariants}
           className="grid grid-cols-1 md:grid-cols-3 gap-4 xl:gap-6"
@@ -157,7 +156,7 @@ export default function HomeAbout() {
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/products"
-              className="group w-full sm:w-auto px-10 py-4.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-lg uppercase tracking-wider rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+              className="group w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-lg uppercase tracking-wider rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
             >
               Explore Products
               <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -166,14 +165,14 @@ export default function HomeAbout() {
               href="/product-brochure"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-10 py-4.5 border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-bold text-lg uppercase tracking-wider rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-10 py-4 border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-bold text-lg uppercase tracking-wider rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
             >
               <FileText className="w-5 h-5" />
               Download Brochure
             </Link>
           </motion.div>
 
-          {/* Stats — Scaled up stat numbers and labels */}
+          {/* Stats */}
           <motion.div
             variants={itemVariants}
             className="grid grid-cols-3 gap-4 pt-8 border-t-2 border-slate-200"
