@@ -7,7 +7,7 @@ import {
   Factory,
   Link2,
   BarChart3,
-  Ruler
+  // Removed 'Ruler' from here
 } from "lucide-react";
 
 const features = [
@@ -43,7 +43,7 @@ const features = [
   },
 ];
 
-const sizes = ["8", "10", "12", "16", "20", "25", "32"];
+// Removed 'const sizes = [...]' from here
 
 const approvals = [
   "Chennai Metro Rail",
@@ -82,8 +82,6 @@ export default function FullWidthQualitySection() {
           ))}
         </div>
       </div>
-
-
 
       {/* 3. BOTTOM APPROVALS BANNER */}
       <div className="w-full flex flex-col lg:flex-row bg-white">
