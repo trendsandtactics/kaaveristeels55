@@ -81,7 +81,7 @@ function FeatureCard({
 
 export default function TrustOnSite() {
   return (
-    <section className="relative min-h-screen overflow-hidden flex flex-col justify-center py-20 w-full">
+    <section className="relative min-h-screen overflow-hidden flex flex-col justify-center py-32 w-full">
 
       {/* Background Image */}
       <div className="absolute inset-0">
@@ -103,7 +103,7 @@ export default function TrustOnSite() {
         {/* Header - Untouched */}
         <div className="text-center mb-10 xl:mb-16 w-full">
           <p className="uppercase tracking-[1.5em] text-sm md:text-lg font-semibold text-gray-500 mb-5 ml-[1.5em]">
-            KAAVERI STEELS
+            
           </p>
 
           <h2 className="text-5xl md:text-7xl xl:text-8xl 2xl:text-[7rem] font-black text-gray-900 leading-none tracking-tight">
