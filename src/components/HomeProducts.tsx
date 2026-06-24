@@ -99,7 +99,6 @@ export default function HomeProducts() {
       <div className="relative z-10 flex-1 w-full max-w-[1536px] mx-auto px-6 md:px-12 lg:px-12 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 h-full">
           {products.map((p, i) => {
-            const Icon = p.icon;
             const isHovered = hovered === p.id;
 
             return (
@@ -185,18 +184,6 @@ export default function HomeProducts() {
 
                     {/* Bottom content */}
                     <div className="relative z-10 p-7 md:p-10 flex flex-col">
-                      {/* Category */}
-                      <div className="flex items-center gap-2.5 mb-4">
-                        <div
-                          className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                          style={{ backgroundColor: `${p.accent}20`, border: `1px solid ${p.accent}44` }}
-                        >
-                          <Icon className="w-3.5 h-3.5" style={{ color: p.accent }} />
-                        </div>
-                        <span className="text-[10px] font-black tracking-[0.3em] uppercase" style={{ color: p.accent }}>
-                          {p.category}
-                        </span>
-                      </div>
 
                       {/* Accent rule */}
                       <div
@@ -210,7 +197,7 @@ export default function HomeProducts() {
 
                       {/* Name */}
                       <h3
-                        className="font-black text-white leading-[0.93] tracking-tight mb-2 transition-transform duration-500 group-hover:-translate-y-1"
+                        className="font-black text-white leading-[0.93] tracking-tight mb-4 transition-transform duration-500 group-hover:-translate-y-1"
                         style={{
                           fontSize: "clamp(2rem, 3.5vw, 3rem)",
                           textShadow: "0 3px 20px rgba(0,0,0,1)",
@@ -219,24 +206,16 @@ export default function HomeProducts() {
                         {p.name}
                       </h3>
 
-                      {/* Grade */}
-                      <p
-                        className="text-[11px] font-bold tracking-[0.25em] uppercase mb-4 transition-all duration-500 group-hover:-translate-y-1"
-                        style={{ color: p.accent, textShadow: `0 0 16px ${p.accent}99` }}
-                      >
-                        {p.tagline}
-                      </p>
-
                       {/* Description */}
                       <div
-                        className="rounded-xl p-4 mb-6 max-w-[280px] transition-all duration-500 group-hover:-translate-y-1"
+                        className="rounded-xl p-4 mb-6 max-w-[320px] transition-all duration-500 group-hover:-translate-y-1"
                         style={{
                           background: "rgba(0,0,0,0.65)",
                           backdropFilter: "blur(12px)",
                           border: "1px solid rgba(255,255,255,0.06)",
                         }}
                       >
-                        <p className="text-white/90 text-sm leading-relaxed font-medium">{p.description}</p>
+                        <p className="text-white/90 text-base md:text-lg leading-relaxed font-medium">{p.description}</p>
                       </div>
 
                       {/* CTA */}
