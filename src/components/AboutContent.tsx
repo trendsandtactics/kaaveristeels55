@@ -83,25 +83,7 @@ export default function FullWidthQualitySection() {
         </div>
       </div>
 
-      {/* 2. SIZES BANNER - Dark thematic break */}
-      <div className="w-full bg-slate-900 text-white border-y border-slate-800">
-        <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
-          <div className="flex items-center gap-3 text-slate-300">
-            <Ruler size={24} className="text-red-500" />
-            <h4 className="font-bold tracking-widest uppercase text-sm">Available Sizes (MM)</h4>
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            {sizes.map((size) => (
-              <div 
-                key={size} 
-                className="w-12 h-12 rounded-full border border-slate-700 bg-slate-800 flex items-center justify-center font-bold text-lg hover:bg-red-600 hover:border-red-500 hover:text-white hover:-translate-y-1 transition-all duration-300 cursor-default shadow-sm"
-              >
-                {size}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+
 
       {/* 3. BOTTOM APPROVALS BANNER */}
       <div className="w-full flex flex-col lg:flex-row bg-white">
