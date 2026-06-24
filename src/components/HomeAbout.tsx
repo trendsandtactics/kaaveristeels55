@@ -109,7 +109,7 @@ export default function HomeAbout() {
             className="flex flex-col sm:flex-row items-center justify-start gap-3 sm:gap-4 pt-2 sm:pt-4 w-full"
           >
             <Link 
-              href="/product-brochure" 
+              href="/products" 
               className="group font-sans w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-xs sm:text-sm tracking-wider transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-red-600/20 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
             >
               Explore Products 
@@ -117,7 +117,7 @@ export default function HomeAbout() {
             </Link>
             
             <Link 
-              href="/brochure.pdf" 
+              href="/product-brochure" 
               className="font-sans w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-400 font-bold text-xs sm:text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
             >
               <FileText className="w-4 h-4 text-slate-500" /> 
