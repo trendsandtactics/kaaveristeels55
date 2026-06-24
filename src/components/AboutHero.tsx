@@ -62,8 +62,8 @@ export default async function AboutHero() {
     return (
         <div className="w-full bg-white">
             {/* Hero Background Section - Yellow Gradient */}
-            {/* Adjusted padding logic: lg maps to your original md values, md is scaled for smaller screens */}
-            <div className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-28 pb-8 md:pt-24 md:pb-10 lg:pt-32 lg:pb-10 relative overflow-hidden shadow-sm border-b border-black/10">
+            {/* FIX: Increased pt-36 md:pt-40 lg:pt-48 to push content down below your global navigation header */}
+            <div className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-36 pb-8 md:pt-40 md:pb-10 lg:pt-48 lg:pb-10 relative overflow-hidden shadow-sm border-b border-black/10">
 
                 {/* Glow effect */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
@@ -98,7 +98,6 @@ export default async function AboutHero() {
             <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-16 lg:py-20 relative z-10 bg-white">
 
                 {/* Mission Section */}
-                {/* Scaled gaps and image heights specifically for md to prevent small-laptop squishing */}
                 <div className="flex flex-col md:flex-row items-center gap-10 lg:gap-20 mb-20 lg:mb-24">
                     <div className="w-full md:w-1/2 relative h-[350px] lg:h-[500px] rounded-sm overflow-hidden group">
                         <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
