@@ -53,7 +53,6 @@ export default function HomeProducts() {
           className="object-cover object-center opacity-30"
           style={{ filter: "grayscale(30%)" }}
         />
-        {/* Replaced gradient with a solid overlay for text readability */}
         <div className="absolute inset-0 bg-zinc-950/80" />
       </div>
 
@@ -96,9 +95,9 @@ export default function HomeProducts() {
         </motion.p>
       </div>
 
-      {/* ─── CARDS ROW — Centered with heavy side spacing and large gap ─── */}
-      <div className="relative z-10 flex-1 w-full max-w-[1400px] mx-auto px-10 md:px-20 lg:px-32 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 h-full">
+      {/* ─── CARDS ROW — Increased max-width, reduced padding and gap for wider cards ─── */}
+      <div className="relative z-10 flex-1 w-full max-w-[1536px] mx-auto px-6 md:px-12 lg:px-12 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 h-full">
           {products.map((p, i) => {
             const Icon = p.icon;
             const isHovered = hovered === p.id;
@@ -125,7 +124,7 @@ export default function HomeProducts() {
                       transition: "box-shadow 0.5s ease",
                     }}
                   >
-                    {/* ── Product photo — natural colours, no yellow cast ── */}
+                    {/* ── Product photo ── */}
                     <Image
                       src={p.image}
                       alt={p.name}
@@ -215,73 +214,4 @@ export default function HomeProducts() {
                         className="font-black text-white leading-[0.93] tracking-tight mb-2 transition-transform duration-500 group-hover:-translate-y-1"
                         style={{
                           fontSize: "clamp(2rem, 3.5vw, 3rem)",
-                          textShadow: "0 3px 20px rgba(0,0,0,1)",
-                        }}
-                      >
-                        {p.name}
-                      </h3>
-
-                      {/* Grade */}
-                      <p
-                        className="text-[11px] font-bold tracking-[0.25em] uppercase mb-4 transition-all duration-500 group-hover:-translate-y-1"
-                        style={{ color: p.accent, textShadow: `0 0 16px ${p.accent}99` }}
-                      >
-                        {p.tagline}
-                      </p>
-
-                      {/* Description */}
-                      <div
-                        className="rounded-xl p-4 mb-6 max-w-[280px] transition-all duration-500 group-hover:-translate-y-1"
-                        style={{
-                          background: "rgba(0,0,0,0.65)",
-                          backdropFilter: "blur(12px)",
-                          border: "1px solid rgba(255,255,255,0.06)",
-                        }}
-                      >
-                        <p className="text-white/90 text-sm leading-relaxed font-medium">{p.description}</p>
-                      </div>
-
-                      {/* CTA */}
-                      <div className="flex items-center gap-3 transition-transform duration-500 group-hover:-translate-y-1">
-                        <div
-                          className="flex items-center gap-1.5 pl-5 pr-4 py-3 rounded-full font-black text-xs tracking-widest uppercase transition-all duration-400"
-                          style={{
-                            background: isHovered ? p.accent : "rgba(255,255,255,0.07)",
-                            color: isHovered ? "#000" : "#fff",
-                            border: `1.5px solid ${isHovered ? p.accent : "rgba(255,255,255,0.18)"}`,
-                            backdropFilter: "blur(8px)",
-                            boxShadow: isHovered ? `0 0 24px ${p.accent}70` : "none",
-                            transition: "all 0.4s ease",
-                          }}
-                        >
-                          Explore
-                          <ArrowUpRight className="w-3.5 h-3.5" style={{ color: isHovered ? "#000" : "#fff" }} />
-                        </div>
-                        <div className="w-1 h-1 rounded-full bg-white/20" />
-                        <span className="text-white/35 text-[10px] uppercase tracking-widest font-bold group-hover:text-white/60 transition-colors duration-400">
-                          View All
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* ─── BOTTOM STRIP ─── */}
-      <div className="relative z-10 w-full border-t border-white/5 bg-black/50 backdrop-blur-md px-8 py-3.5 flex items-center justify-between gap-4 flex-wrap mt-auto">
-        <p className="text-white/25 text-[10px] uppercase tracking-widest font-bold">
-          Kaveri Steels — Trusted Since 1985
-        </p>
-        <div className="flex items-center gap-6">
-          {["BIS Certified", "ISO 9001:2015", "100% Traceable"].map((b) => (
-            <span key={b} className="text-white/20 text-[10px] uppercase tracking-widest font-bold">{b}</span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+                          textShadow: "0 3px 20px rgba
