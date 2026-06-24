@@ -30,7 +30,6 @@ export default async function AboutHero() {
         console.error("Failed to fetch aboutHero content", e);
     }
 
-    // Default CMS data mapped exactly to "image_347810.jpg"
     const heroData = items[0] || {
         title: "BUILT ON\nINDUSTRIAL STEEL.",
         short_description: "TRUSTED BY\nBUILDERS ACROSS\nINDIA.",
@@ -45,11 +44,13 @@ export default async function AboutHero() {
         : "/image/hero-factory.png";
 
     return (
-        <section className="w-full bg-white pt-24 lg:pt-32 pb-12 lg:pb-20">
-            <div className="max-w-[1600px] mx-auto flex flex-col lg:flex-row min-h-[600px]">
+        // The outer section allows natural height
+        <section className="w-full bg-white pt-24 lg:pt-32 pb-12 lg:pb-20 h-auto overflow-visible">
+            <div className="max-w-[1600px] mx-auto flex flex-col lg:flex-row h-auto items-stretch">
                 
                 {/* LEFT SIDE: Image & 30+ Years Badge */}
-                <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-full">
+                {/* Removed fixed/min heights, using flex-1 so it matches the right side naturally */}
+                <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-auto flex-1">
                     <div className="absolute top-6 left-6 md:top-10 md:left-10 bg-[#C41E3A] text-white p-6 md:p-8 z-10 flex flex-col items-center justify-center shadow-lg">
                         <span className="text-4xl md:text-5xl font-extrabold tracking-tight mb-1">30+</span>
                         <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-center leading-tight">
@@ -67,12 +68,11 @@ export default async function AboutHero() {
                 </div>
 
                 {/* RIGHT SIDE: Typography & Buttons */}
-                <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 py-12 lg:px-16 xl:px-24">
+                {/* Ensured no overflow-y or max-h classes exist here */}
+                <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 py-12 lg:px-16 xl:px-24 h-auto flex-1">
                     
-                    {/* Small Red Accent Line above title */}
                     <div className="w-12 h-1 bg-[#C41E3A] mb-6"></div>
                     
-                    {/* FIXED TITLE: Using whitespace-pre-line to respect CMS newlines without mapping */}
                     <div className="mb-8">
                         <h1 className="font-serif text-4xl md:text-5xl lg:text-[54px] font-extrabold leading-[1.15] text-[#0B1B2D] whitespace-pre-line mb-1">
                             {heroData.title}
@@ -87,14 +87,12 @@ export default async function AboutHero() {
                         {renderContent(heroData.content)}
                     </div>
 
-                    {/* Styled Quote Box to match screenshot */}
                     <div className="border border-gray-100 rounded-xl p-6 bg-white shadow-sm mb-12">
                         <blockquote className="font-serif italic text-gray-800 text-[15px] lg:text-[17px] leading-relaxed">
                             {quoteText}
                         </blockquote>
                     </div>
 
-                    {/* Buttons Container */}
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-auto">
                         <a 
                             href="/products" 
