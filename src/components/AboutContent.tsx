@@ -7,6 +7,7 @@ import {
   Factory,
   Link2,
   BarChart3,
+  CheckCircle2
 } from "lucide-react";
 
 const features = [
@@ -44,190 +45,199 @@ const features = [
 
 const sizes = ["8", "10", "12", "16", "20", "25", "32"];
 
-export default function QualityBanner() {
+const approvals = [
+  "Chennai Metro Rail",
+  "TNPWD",
+  "TNPHC",
+  "TNHB",
+  "TNEB",
+  "PWD",
+];
+
+export default function FullWidthQualitySection() {
   return (
-    <section className="w-full min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center font-sans">
-      <div className="w-full max-w-[1536px] mx-auto">
-        {/* Main Container */}
-        <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-2xl transition-shadow duration-300 hover:shadow-3xl">
-          
-          {/* TOP SECTION: Features */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 divide-y sm:divide-y-0 border-b border-gray-100">
-            {features.map((item, index) => (
-              <div
-                key={index}
-                className="group p-6 text-center flex flex-col items-center hover:bg-red-50/50 transition-colors duration-300 sm:border-r border-gray-100 last:border-r-0"
-              >
-                <div className="p-3 bg-red-50 rounded-full group-hover:bg-red-100 transition-colors duration-300 mb-4">
-                  <item.icon
-                    size={32}
-                    className="text-red-700 group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-                <h3 className="font-bold text-sm text-gray-900 tracking-wide">
-                  {item.title}
-                </h3>
-                <p className="text-xs mt-3 text-gray-500 leading-relaxed max-w-[200px]">
-                  {item.desc}
-                </p>
+    <section className="w-full bg-white font-sans antialiased overflow-hidden flex flex-col">
+      
+      {/* 1. TOP FEATURES BANNER - Full Width, subtle background */}
+      <div className="w-full border-y border-gray-100 bg-gray-50/50">
+        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+          {features.map((item, index) => (
+            <div
+              key={index}
+              className="group px-6 py-10 text-center flex flex-col items-center hover:bg-white transition-all duration-300 cursor-default"
+            >
+              <div className="w-16 h-16 bg-white rounded-2xl shadow-sm border border-red-100 flex items-center justify-center mb-5 group-hover:-translate-y-1 group-hover:shadow-md transition-all duration-300">
+                <item.icon size={28} className="text-red-700" />
               </div>
-            ))}
-          </div>
-
-          {/* MIDDLE SECTION */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 bg-white">
-            
-            {/* LEFT: Grades */}
-            <div className="lg:col-span-4 bg-gradient-to-br from-red-950 via-red-800 to-red-700 text-white p-8 lg:p-10 flex flex-col justify-center relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl -mr-20 -mt-20 group-hover:opacity-10 transition-opacity duration-700"></div>
-              
-              <h2 className="text-3xl font-extrabold tracking-tight relative z-10">
-                KAAVERI GST TMT BARS
-              </h2>
-              <h3 className="mt-6 text-yellow-400 font-bold tracking-widest text-sm relative z-10">
-                AVAILABLE GRADES
+              <h3 className="font-bold text-[13px] text-gray-900 tracking-wider mb-3 uppercase">
+                {item.title}
               </h3>
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5 relative z-10">
-                {["FE 500", "FE 500D", "FE 550", "FE 550D", "FE 600D", "HSCRS"].map((grade) => (
-                  <div
-                    key={grade}
-                    className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 rounded-lg text-center py-2.5 text-sm font-semibold transition-all duration-300 cursor-default"
-                  >
-                    {grade}
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-8 flex justify-center relative z-10">
-                <img
-                  src="/tmt-bars.png"
-                  alt="TMT Bars"
-                  className="w-full max-w-[280px] drop-shadow-2xl hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-            </div>
-
-            {/* CENTER: Sizes */}
-            <div className="lg:col-span-3 p-8 lg:p-10 bg-white border-y lg:border-y-0 lg:border-x border-gray-100 flex flex-col justify-center">
-              <h3 className="text-xl font-bold text-gray-900">
-                AVAILABLE SIZES
-              </h3>
-
-              <div className="grid grid-cols-4 sm:grid-cols-7 lg:grid-cols-4 gap-4 mt-6">
-                {sizes.map((size) => (
-                  <div
-                    key={size}
-                    className="aspect-square rounded-full bg-yellow-400 hover:bg-yellow-500 flex items-center justify-center font-bold text-gray-900 shadow-sm hover:shadow-md hover:scale-110 transition-all duration-300 cursor-pointer text-sm sm:text-base"
-                  >
-                    {size}
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-10 space-y-6">
-                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                  <p className="text-xs font-semibold text-gray-500 tracking-wider">
-                    STANDARD LENGTH
-                  </p>
-                  <p className="font-extrabold text-red-700 text-lg mt-1">
-                    12.2 METERS
-                  </p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                  <p className="text-xs font-semibold text-gray-500 tracking-wider">
-                    CUSTOM LENGTHS
-                  </p>
-                  <p className="font-extrabold text-red-700 text-lg mt-1">
-                    UP TO 30 METERS
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT: Quality */}
-            <div className="lg:col-span-5 bg-gray-900 text-white p-8 lg:p-10 relative overflow-hidden flex flex-col justify-center group">
-              <div className="absolute inset-0 opacity-20 mix-blend-overlay group-hover:opacity-30 transition-opacity duration-700">
-                <img
-                  src="/laboratory.jpg"
-                  alt="Quality Lab Background"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/80 to-transparent"></div>
-
-              <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 mb-2">
-                  <ShieldCheck className="text-yellow-400" size={24} />
-                  <h3 className="text-yellow-400 font-extrabold text-2xl">
-                    COMMITMENT TO QUALITY
-                  </h3>
-                </div>
-                
-                <p className="mt-4 text-base text-gray-300 leading-relaxed max-w-lg">
-                  Every KAAVERI product undergoes rigorous quality checks through
-                  sophisticated chemical and physical testing facilities.
-                </p>
-
-                <div className="grid sm:grid-cols-2 gap-x-4 gap-y-4 mt-8">
-                  {[
-                    "Raw Material Inspection",
-                    "Spectrometric Analysis",
-                    "Online Production Monitoring",
-                    "Physical Testing",
-                    "BIS Standard Verification",
-                    "Test Certificate Issuance",
-                    "Dimensional Accuracy",
-                    "Chemical Analysis",
-                  ].map((item) => (
-                    <div
-                      key={item}
-                      className="flex items-center gap-3 text-sm text-gray-200 hover:text-white transition-colors cursor-default"
-                    >
-                      <span className="flex-shrink-0 w-2 h-2 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.6)]" />
-                      <span className="font-medium">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* BOTTOM SECTION: Approvals */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 border-t border-gray-100 bg-white">
-            
-            <div className="col-span-2 md:col-span-4 lg:col-span-1 bg-yellow-400 font-extrabold text-gray-900 text-sm flex flex-col items-center justify-center p-6 text-center tracking-wider">
-              <span>APPROVED</span>
-              <span>BY</span>
-            </div>
-
-            {[
-              "Chennai Metro Rail",
-              "TNPWD",
-              "TNPHC",
-              "TNHB",
-              "TNEB",
-              "PWD",
-            ].map((item) => (
-              <div
-                key={item}
-                className="p-6 text-center border-l border-gray-100 border-t md:border-t-0 flex flex-col items-center justify-center hover:bg-gray-50 transition-colors group"
-              >
-                <div className="w-14 h-14 mx-auto rounded-full bg-gray-100 mb-3 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300">
-                  <ShieldCheck size={20} className="text-gray-400 group-hover:text-red-700 transition-colors" />
-                </div>
-                <p className="text-xs font-bold text-gray-600">{item}</p>
-              </div>
-            ))}
-
-            <div className="col-span-2 md:col-span-4 lg:col-span-1 bg-yellow-400 p-6 flex items-center justify-center text-center">
-              <p className="font-bold text-sm text-gray-900 leading-snug">
-                Trusted for Government, Infrastructure, Commercial & Residential Projects.
+              <p className="text-xs text-gray-500 leading-relaxed max-w-[220px]">
+                {item.desc}
               </p>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 2. MAIN CONTENT AREA - Edge to Edge Splitting */}
+      <div className="w-full flex flex-col xl:flex-row">
+        
+        {/* LEFT PANELS: Grades (Red Gradient) */}
+        <div className="w-full xl:w-[30%] bg-gradient-to-br from-red-950 via-red-900 to-red-700 text-white p-10 lg:p-16 flex flex-col justify-center relative overflow-hidden">
+          {/* Decorative background glow */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-red-500 opacity-20 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
+          
+          <div className="relative z-10">
+            <h2 className="text-4xl lg:text-5xl font-black tracking-tight leading-none mb-4 drop-shadow-lg">
+              KAAVERI GST
+              <span className="block text-red-200 mt-2 text-3xl lg:text-4xl">TMT BARS</span>
+            </h2>
             
+            <div className="inline-block px-4 py-1 bg-yellow-400/10 border border-yellow-400/30 rounded-full mt-6 mb-8">
+              <h3 className="text-yellow-400 font-bold tracking-widest text-sm uppercase">
+                Available Grades
+              </h3>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {["FE 500", "FE 500D", "FE 550", "FE 550D", "FE 600D", "HSCRS"].map((grade) => (
+                <div
+                  key={grade}
+                  className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-xl px-5 py-3 text-sm font-bold tracking-wide transition-colors cursor-default"
+                >
+                  {grade}
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-12 flex justify-center lg:justify-start">
+              {/* Optional: Add an image here if needed, styled beautifully */}
+               <img
+                  src="/tmt-bars.png"
+                  alt="TMT Bars Illustration"
+                  className="w-full max-w-[240px] drop-shadow-[0_20px_30px_rgba(0,0,0,0.4)]"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }} 
+                />
+            </div>
           </div>
         </div>
+
+        {/* CENTER PANEL: Sizes (Clean White) */}
+        <div className="w-full xl:w-[35%] bg-white p-10 lg:p-16 flex flex-col justify-center">
+          <h3 className="text-2xl font-black text-gray-900 mb-8 uppercase tracking-tight">
+            Available Sizes
+          </h3>
+
+          <div className="flex flex-wrap gap-4 mb-12">
+            {sizes.map((size) => (
+              <div
+                key={size}
+                className="w-16 h-16 rounded-full bg-yellow-400 hover:bg-yellow-500 flex items-center justify-center font-black text-xl text-gray-900 shadow-sm transition-all duration-300 cursor-pointer"
+              >
+                {size}
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-auto">
+            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6">
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">
+                Standard Length
+              </p>
+              <p className="font-black text-red-700 text-2xl">
+                12.2 METERS
+              </p>
+            </div>
+            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6">
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">
+                Custom Lengths
+              </p>
+              <p className="font-black text-red-700 text-2xl">
+                UP TO 30 METERS
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT PANEL: Quality (Dark Theme with Image) */}
+        <div className="w-full xl:w-[35%] bg-slate-950 text-white p-10 lg:p-16 flex flex-col justify-center relative overflow-hidden group">
+          <div className="absolute inset-0 opacity-10 mix-blend-screen transition-opacity duration-700 group-hover:opacity-20">
+            <img
+              src="/laboratory.jpg"
+              alt=""
+              className="w-full h-full object-cover grayscale"
+            />
+          </div>
+          
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-6">
+              <ShieldCheck className="text-yellow-400 w-8 h-8" />
+              <h3 className="text-yellow-400 font-black text-2xl uppercase tracking-tight">
+                Commitment to Quality
+              </h3>
+            </div>
+            
+            <p className="text-slate-300 text-lg leading-relaxed mb-10">
+              Every KAAVERI product undergoes rigorous quality checks through
+              sophisticated chemical and physical testing facilities.
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-x-6 gap-y-4">
+              {[
+                "Raw Material Inspection",
+                "Spectrometric Analysis",
+                "Online Production",
+                "Physical Testing",
+                "BIS Verification",
+                "Test Certificates",
+                "Dimensional Accuracy",
+                "Chemical Analysis",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                  <span className="text-sm font-medium text-slate-200">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. BOTTOM APPROVALS BANNER */}
+      <div className="w-full flex flex-col lg:flex-row border-t border-gray-100 bg-white">
+        
+        {/* Approved By Label */}
+        <div className="bg-yellow-400 px-8 py-6 lg:w-48 flex items-center justify-center shrink-0">
+          <h4 className="font-black text-gray-900 tracking-widest uppercase text-center lg:text-left">
+            Approved By
+          </h4>
+        </div>
+
+        {/* Logos/Names */}
+        <div className="flex-1 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+          {approvals.map((item) => (
+            <div
+              key={item}
+              className="px-6 py-6 flex flex-col items-center justify-center bg-white hover:bg-gray-50 transition-colors"
+            >
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+                <ShieldCheck className="w-5 h-5 text-gray-400" />
+              </div>
+              <span className="text-xs font-bold text-gray-700 text-center uppercase tracking-wide">
+                {item}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Trusted For Label */}
+        <div className="bg-yellow-400 px-8 py-6 lg:w-72 flex items-center justify-center shrink-0 text-center">
+          <p className="font-bold text-sm text-gray-900 leading-snug">
+            Trusted for Government, Infrastructure, Commercial & Residential Projects.
+          </p>
+        </div>
+        
       </div>
     </section>
   );
