@@ -39,8 +39,8 @@ export default function HomeProducts() {
           priority
           className="object-cover object-center pointer-events-none"
         />
-        {/* Increased opacity layer from 10% to 45% for superior text legibility */}
-        <div className="absolute inset-0 bg-black/45" />
+        {/* Increased opacity layer to 60% for superior text legibility against clouds */}
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
       {/* Main Container */}
@@ -62,24 +62,24 @@ export default function HomeProducts() {
             <div className="w-12 h-[2px] bg-red-500" />
           </motion.div>
 
-          {/* Changed to font-serif, updated text size, and bumped tracking to mirror image mockup */}
+          {/* Added heavy drop-shadow for separation from the background image */}
           <motion.h2
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-serif font-bold text-5xl md:text-7xl lg:text-8xl text-white mb-6 tracking-tight drop-shadow-md"
+            className="font-serif font-bold text-5xl md:text-7xl lg:text-8xl text-white mb-6 tracking-tight drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]"
           >
             Masterpieces of <span className="text-red-500">Steel</span>
           </motion.h2>
 
-          {/* Upgraded size to text-lg/text-xl and swapped text-slate-400 for high-contrast slate-200 */}
+          {/* Upgraded text to pure white and added heavy drop-shadow */}
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-5xl mx-auto text-xl md:text-2xl lg:text-3xl text-slate-200 leading-relaxed font-normal drop-shadow-sm"
+            className="max-w-5xl mx-auto text-xl md:text-2xl lg:text-3xl text-white leading-relaxed font-normal drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]"
           >
             Engineered to perfection, our diverse range of steel products forms
             the resilient core of iconic structures worldwide.
@@ -111,7 +111,6 @@ export default function HomeProducts() {
                     w-full
                     border border-white/15
                     bg-slate-900/50
-                    backdrop-blur-md
                     transition-all
                     duration-500
                     flex flex-col justify-end items-start
@@ -132,35 +131,31 @@ export default function HomeProducts() {
                     "
                   />
 
-                  {/* Advanced Gradient Overlay for Perfect Text Visibility */}
-                  <div className="absolute inset-x-0 bottom-0 h-[75%] lg:h-[65%] z-10 bg-gradient-to-t from-black/95 via-black/70 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute inset-0 z-10 bg-black/5 group-hover:bg-transparent transition-colors duration-500" />
-
-                  {/* Card Interactive Content */}
+                  {/* Card Interactive Content - Switched to Dark Text for Yellow Backgrounds */}
                   <div className="relative z-20 p-8 md:p-12 lg:p-14 w-full h-full flex flex-col items-start justify-end text-left mt-auto overflow-hidden">
-                    <span className="text-red-500 font-bold tracking-[0.2em] text-lg md:text-xl lg:text-2xl mb-4 block transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                    <span className="text-red-700 font-bold tracking-[0.2em] text-lg md:text-xl lg:text-2xl mb-4 block transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
                       {product.category}
                     </span>
                     
-                    <div className="w-16 h-[4px] bg-red-500 mb-6 rounded-full transition-all duration-500 group-hover:w-32 group-hover:bg-white shadow-[0_0_10px_rgba(255,0,0,0.5)] group-hover:shadow-[0_0_15px_rgba(255,255,255,0.8)]" />
+                    <div className="w-16 h-[4px] bg-red-600 mb-6 rounded-full transition-all duration-500 group-hover:w-32 group-hover:bg-slate-900" />
 
-                    {/* Increased heading sizes */}
-                    <h3 className="text-white text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight drop-shadow-xl transform transition-transform duration-500 group-hover:-translate-y-2">
+                    {/* Dark text color for bright background contrast */}
+                    <h3 className="text-slate-900 text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight transform transition-transform duration-500 group-hover:-translate-y-2">
                       {product.name}
                     </h3>
 
-                    {/* Enhanced readable font colors & size */}
-<p className="text-slate-200 max-w-2xl leading-relaxed text-2xl md:text-3xl lg:text-4xl mb-10 font-normal drop-shadow-lg transform transition-all duration-500 group-hover:-translate-y-2 group-hover:text-white">
-  {product.description}
-</p>
+                    {/* Dark text color for bright background contrast */}
+                    <p className="text-slate-800 max-w-2xl leading-relaxed text-2xl md:text-3xl lg:text-4xl mb-10 font-normal transform transition-all duration-500 group-hover:-translate-y-2 group-hover:text-slate-950">
+                      {product.description}
+                    </p>
 
                     <div className="flex flex-wrap items-center justify-start gap-4 md:gap-6 pt-2 transform transition-transform duration-500 group-hover:-translate-y-2">
-<div className="px-10 py-5 md:px-14 md:py-6 rounded-full border border-white/40 bg-black/40 backdrop-blur-md text-white font-semibold text-base md:text-lg lg:text-xl tracking-widest transition-all duration-500 group-hover:bg-white group-hover:text-black group-hover:border-white group-hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
-  EXPLORE PRODUCT
-</div>
+                      <div className="px-10 py-5 md:px-14 md:py-6 rounded-full border border-slate-900/40 bg-white/20 backdrop-blur-sm text-slate-900 font-semibold text-base md:text-lg lg:text-xl tracking-widest transition-all duration-500 group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 group-hover:shadow-[0_0_30px_rgba(0,0,0,0.3)]">
+                        EXPLORE PRODUCT
+                      </div>
 
-                      <div className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center transition-all duration-500 group-hover:bg-red-600 group-hover:border-red-600 group-hover:translate-x-2 shadow-xl group-hover:shadow-[0_0_30px_rgba(220,38,38,0.6)]">
-                        <ArrowRight className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-white" />
+                      <div className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-full bg-white/20 backdrop-blur-sm border border-slate-900/30 flex items-center justify-center transition-all duration-500 group-hover:bg-red-600 group-hover:border-red-600 group-hover:translate-x-2 shadow-xl group-hover:shadow-[0_0_30px_rgba(220,38,38,0.6)]">
+                        <ArrowRight className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-slate-900 group-hover:text-white transition-colors duration-500" />
                       </div>
                     </div>
                   </div>
