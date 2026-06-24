@@ -1,135 +1,114 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { motion, Variants } from "framer-motion"; // Added Variants type import
-import { ArrowRight, FileText } from "lucide-react";
+import { listModuleItems } from "@/lib/dynamic-cms";
+import { resolveMediaUrl } from "@/lib/media";
 
-export default function HomeAbout() {
-  // Stagger animation container for clean entry
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
-      },
-    },
-  };
+interface AboutHeroItem {
+    title?: string | null;
+    short_description?: string | null;
+    content?: string | null;
+    cover_image?: string | null;
+    file_url?: string | null;
+    sort_order?: number | null;
+}
 
-  // Explicitly typed as Variants to fix the Vercel TypeScript compilation error
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { type: "spring", stiffness: 60, damping: 20 } 
-    },
-  };
+function renderContent(content?: string | null) {
+    if (!content) return null;
+    const isHTML = /<[a-z][\s\S]*>/i.test(content);
+    if (isHTML) {
+        return <div dangerouslySetInnerHTML={{ __html: content }} />;
+    }
+    return <p>{content}</p>;
+}
 
-  return (
-    <section className="relative w-full min-h-screen xl:h-[100dvh] flex flex-col lg:flex-row items-stretch bg-slate-50/50 overflow-hidden">
-      
-      {/* Left Side: Industrial Showcase Image */}
-      <div className="relative w-full lg:w-1/2 h-[45vh] sm:h-[50vh] lg:h-auto shrink-0 overflow-hidden group">
-        <Image
-          src="/kaaveri1.png" 
-          alt="Kaveri Steel Plant Production Facility"
-          fill
-          priority
-          className="object-cover object-center w-full h-full transform scale-100 group-hover:scale-105 transition-transform duration-1000 ease-out"
-        />
-        
-        {/* Soft elegant vignette gradient over the image */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-slate-950/20 pointer-events-none" />
-        
-        {/* Industrial Red Overlay Badge */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9, x: -20 }}
-          whileInView={{ opacity: 1, scale: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, type: "spring" }}
-          className="absolute top-6 left-6 sm:top-10 sm:left-10 bg-gradient-to-br from-red-600 to-red-700 text-white p-5 sm:p-6 uppercase text-center shadow-2xl tracking-widest z-20 rounded-md backdrop-blur-sm border border-red-500/20"
-        >
-          <span className="text-4xl sm:text-5xl font-black block mb-0.5 tracking-tight drop-shadow-md">30+</span>
-          <span className="text-[10px] sm:text-[11px] font-extrabold text-red-100 block leading-tight tracking-widest border-t border-red-500/30 pt-1.5 mt-1">
-            Years of<br/>Excellence
-          </span>
-        </motion.div>
-      </div>
+export default async function AboutHero() {
+    let items: AboutHeroItem[] = [];
+    try {
+        items = await listModuleItems("aboutHero", { status: "published" });
+        items = items.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+    } catch (e) {
+        console.error("Failed to fetch aboutHero content", e);
+    }
 
-      {/* Right Side: Copywriting & Content Canvas */}
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-14 xl:px-24 py-12 lg:py-16 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)] overflow-y-auto"
-      >
-        {/* Subtle decorative background accent */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
+    const heroData = items[0] || {
+        title: "BUILT ON\nINDUSTRIAL STEEL.",
+        short_description: "TRUSTED BY\nBUILDERS ACROSS\nINDIA.",
+        content: "At <strong style='color:#C41E3A'>KAAVERI</strong>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.",
+        cover_image: "/image/hero-factory.png",
+    };
 
-        <div className="max-w-2xl space-y-8 lg:space-y-10">
-          
-          {/* Top Eyebrow Identifier */}
-          <motion.div variants={itemVariants} className="space-y-3 flex flex-col items-start">
-            <span className="font-sans uppercase tracking-[0.25em] text-red-600 text-xs sm:text-sm font-black block">
-              ABOUT KAAVERI STEELS
-            </span>
-            <div className="w-12 h-[4px] bg-red-600 rounded-full" />
-          </motion.div>
+    const quoteText = `"Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time."`;
 
-          {/* Core Typography Canvas */}
-          <motion.div variants={itemVariants} className="space-y-5">
-            <h2 className="font-serif font-black text-3xl sm:text-4xl md:text-5xl xl:text-5xl text-slate-900 tracking-tight leading-[1.15]">
-              BUILT ON INDUSTRIAL STEEL.<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-700">
-                TRUSTED BY BUILDERS ACROSS INDIA.
-              </span>
-            </h2>
-            
-            <p className="font-sans text-slate-600 font-normal leading-relaxed text-base sm:text-lg">
-              At <span className="text-red-600 font-bold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
-            </p>
-          </motion.div>
+    const heroImage = (heroData.cover_image || heroData.file_url)
+        ? resolveMediaUrl((heroData.cover_image || heroData.file_url) as string, "/image/hero-factory.png")
+        : "/image/hero-factory.png";
 
-          {/* Premium Quote Block */}
-          <motion.div 
-            variants={itemVariants}
-            className="relative border-l-4 border-red-600 pl-6 py-4 text-left bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border-y border-r border-slate-100/50"
-          >
-            <p className="font-sans italic text-slate-700 text-base sm:text-lg font-medium leading-relaxed">
-              &ldquo;Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.&rdquo;
-            </p>
-          </motion.div>
+    return (
+        <section className="w-full bg-white pt-24 lg:pt-32 pb-12 lg:pb-20">
+            <div className="max-w-[1600px] mx-auto flex flex-col lg:flex-row">
 
-          {/* Action Buttons (Fully responsive & Interactive) */}
-          <motion.div 
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center justify-start gap-4 pt-4 w-full"
-          >
-            <Link 
-              href="/product-brochure" 
-              className="group font-sans w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm tracking-wider transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-red-600/20 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
-            >
-              Explore Products 
-              <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
-            </Link>
-            
-            <Link 
-              href="/brochure.pdf" 
-              className="font-sans w-full sm:w-auto px-8 py-4 border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-400 font-bold text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
-            >
-              <FileText className="w-4 h-4 text-slate-500" /> 
-              Download Brochure
-            </Link>
-          </motion.div>
-          
-        </div>
-      </motion.div>
+                {/* LEFT SIDE: Image & 30+ Years Badge */}
+                <div className="w-full lg:w-1/2 relative aspect-[4/3] lg:aspect-auto lg:min-h-[600px]">
+                    <div className="absolute top-6 left-6 md:top-10 md:left-10 bg-[#C41E3A] text-white p-6 md:p-8 z-10 flex flex-col items-center justify-center shadow-lg">
+                        <span className="text-4xl md:text-5xl font-extrabold tracking-tight mb-1">30+</span>
+                        <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-center leading-tight">
+                            Years Of<br />Excellence
+                        </span>
+                    </div>
 
-    </section>
-  );
+                    <Image
+                        src={heroImage}
+                        alt="Kaaveri Steel Factory"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                </div>
+
+                {/* RIGHT SIDE: Typography & Buttons */}
+                <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 py-12 lg:px-16 xl:px-24">
+
+                    <div className="w-12 h-1 bg-[#C41E3A] mb-6"></div>
+
+                    <div className="mb-8">
+                        <h1 className="font-serif text-4xl md:text-5xl lg:text-[54px] font-extrabold leading-[1.15] text-[#0B1B2D] whitespace-pre-line mb-1">
+                            {heroData.title}
+                        </h1>
+
+                        <h2 className="font-serif text-4xl md:text-5xl lg:text-[54px] font-extrabold leading-[1.15] text-[#C41E3A] whitespace-pre-line">
+                            {heroData.short_description}
+                        </h2>
+                    </div>
+
+                    <div className="font-sans text-gray-600 text-base lg:text-lg leading-relaxed mb-10">
+                        {renderContent(heroData.content)}
+                    </div>
+
+                    <div className="border border-gray-100 rounded-xl p-6 bg-white shadow-sm mb-12">
+                        <blockquote className="font-serif italic text-gray-800 text-[15px] lg:text-[17px] leading-relaxed">
+                            {quoteText}
+                        </blockquote>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                        
+                            href="/products"
+                            className="inline-flex items-center justify-center bg-[#C41E3A] text-white font-bold text-sm tracking-wider uppercase px-8 py-4 transition-colors hover:bg-[#A01830] rounded-sm"
+                        >
+                            Explore Products
+                        </a>
+                        
+                            href="/brochure.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center bg-transparent text-gray-800 border border-gray-300 font-bold text-sm tracking-wider uppercase px-8 py-4 transition-colors hover:bg-gray-50 rounded-sm"
+                        >
+                            Download Brochure
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    );
 }
