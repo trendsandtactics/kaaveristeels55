@@ -10,7 +10,7 @@ const products = [
   {
     id: "tmt",
     name: "TMT Bars",
-    image: "/tmt1.png",
+    image: "/tmt1.png", // Ensure this image is clear and brighter
     category: "TMT Products",
     description:
       "High-strength ribbed bars engineered for seismic zones — maximum ductility, weld-ready, corrosion-resistant.",
@@ -24,7 +24,7 @@ const products = [
   {
     id: "structural",
     name: "Structural Steels",
-    image: "/structural.png",
+    image: "/structural.png", // Ensure this image is clear and brighter
     category: "Structural Products",
     description:
       "Premium IS 2062 certified sections — angles, channels, I-beams, and plates for frameworks that outlast generations.",
@@ -43,17 +43,17 @@ export default function HomeProducts() {
   return (
     <section className="relative w-full min-h-screen overflow-hidden bg-zinc-950 flex flex-col">
 
-      {/* BACKGROUND — No Gradient */}
+      {/* BACKGROUND — Brightened & Gradient Removed */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/bg2.png"
+          src="/bg2.png" // The same background image, now displayed with no gradient overlay
           alt=""
           fill
           priority
-          className="object-cover object-center opacity-30"
-          style={{ filter: "grayscale(30%)" }}
+          className="object-cover object-center opacity-70" // Increased opacity and removed dark overlay for clarity
+          style={{ filter: "grayscale(10%)" }} // Keeps a professional grayscale tint but reveals the full scene
         />
-        <div className="absolute inset-0 bg-zinc-950/80" />
+        {/* No dark gradient overlay is included here */}
       </div>
 
       {/* HEADER */}
@@ -81,7 +81,7 @@ export default function HomeProducts() {
           Masterpieces of{" "}
           <em className="not-italic text-red-500" style={{ textShadow: "0 0 50px rgba(239,68,68,0.6)" }}>
             Steel
-          </em>
+          }
         </motion.h2>
 
         <motion.p
@@ -123,7 +123,7 @@ export default function HomeProducts() {
                       transition: "box-shadow 0.5s ease",
                     }}
                   >
-                    {/* Product photo */}
+                    {/* Product photo (Ensure these are clear and bright) */}
                     <Image
                       src={p.image}
                       alt={p.name}
@@ -218,10 +218,10 @@ export default function HomeProducts() {
                         <p className="text-white/90 text-base md:text-lg leading-relaxed font-medium">{p.description}</p>
                       </div>
 
-                      {/* CTA */}
+                      {/* CTA — Button size increased for higher visibility */}
                       <div className="flex items-center gap-3 transition-transform duration-500 group-hover:-translate-y-1">
                         <div
-                          className="flex items-center gap-1.5 pl-5 pr-4 py-3 rounded-full font-black text-xs tracking-widest uppercase transition-all duration-400"
+                          className="flex items-center gap-2 pl-10 pr-8 py-5 rounded-full font-black text-sm tracking-widest uppercase transition-all duration-400"
                           style={{
                             background: isHovered ? p.accent : "rgba(255,255,255,0.07)",
                             color: isHovered ? "#000" : "#fff",
@@ -248,14 +248,14 @@ export default function HomeProducts() {
         </div>
       </div>
 
-      {/* BOTTOM STRIP */}
-      <div className="relative z-10 w-full border-t border-white/5 bg-black/50 backdrop-blur-md px-8 py-3.5 flex items-center justify-between gap-4 flex-wrap mt-auto">
-        <p className="text-white/25 text-[10px] uppercase tracking-widest font-bold">
+      {/* BOTTOM STRIP — Footer content size increased significantly */}
+      <div className="relative z-10 w-full border-t border-white/5 bg-black/50 backdrop-blur-md px-10 py-5 flex items-center justify-between gap-6 flex-wrap mt-auto">
+        <p className="text-white/35 text-sm uppercase tracking-widest font-bold">
           Kaveri Steels — Trusted Since 1985
         </p>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-8">
           {["BIS Certified", "ISO 9001:2015", "100% Traceable"].map((b) => (
-            <span key={b} className="text-white/20 text-[10px] uppercase tracking-widest font-bold">{b}</span>
+            <span key={b} className="text-white/30 text-sm uppercase tracking-widest font-bold">{b}</span>
           ))}
         </div>
       </div>
