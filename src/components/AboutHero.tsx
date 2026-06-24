@@ -30,10 +30,10 @@ export default async function AboutHero() {
         console.error("Failed to fetch aboutHero content", e);
     }
 
-    // Defaulting to content that matches your screenshot if CMS fails
+    // Default CMS data mapped exactly to "image_347810.jpg"
     const heroData = items[0] || {
-        title: "BUILT ON \nINDUSTRIAL STEEL.",
-        short_description: "TRUSTED BY \nBUILDERS ACROSS \nINDIA.",
+        title: "BUILT ON\nINDUSTRIAL STEEL.",
+        short_description: "TRUSTED BY\nBUILDERS ACROSS\nINDIA.",
         content: "At <strong style='color:#C41E3A'>KAAVERI</strong>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.",
         cover_image: "/image/hero-factory.png", 
     };
@@ -45,13 +45,11 @@ export default async function AboutHero() {
         : "/image/hero-factory.png";
 
     return (
-        // Added pt-24 lg:pt-32 to ensure content drops below your fixed navbar
         <section className="w-full bg-white pt-24 lg:pt-32 pb-12 lg:pb-20">
             <div className="max-w-[1600px] mx-auto flex flex-col lg:flex-row min-h-[600px]">
                 
                 {/* LEFT SIDE: Image & 30+ Years Badge */}
                 <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-full">
-                    {/* Floating Red Badge */}
                     <div className="absolute top-6 left-6 md:top-10 md:left-10 bg-[#C41E3A] text-white p-6 md:p-8 z-10 flex flex-col items-center justify-center shadow-lg">
                         <span className="text-4xl md:text-5xl font-extrabold tracking-tight mb-1">30+</span>
                         <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-center leading-tight">
@@ -71,27 +69,36 @@ export default async function AboutHero() {
                 {/* RIGHT SIDE: Typography & Buttons */}
                 <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 py-12 lg:px-16 xl:px-24">
                     
-                    <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] mb-2 text-[#0B1B2D]">
-                        {heroData.title?.split('\n').map((line, i) => <React.Fragment key={i}>{line}<br/></React.Fragment>)}
-                    </h1>
+                    {/* Small Red Accent Line above title */}
+                    <div className="w-12 h-1 bg-[#C41E3A] mb-6"></div>
                     
-                    <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] mb-8 text-[#C41E3A]">
-                        {heroData.short_description?.split('\n').map((line, i) => <React.Fragment key={i}>{line}<br/></React.Fragment>)}
-                    </h2>
+                    {/* FIXED TITLE: Using whitespace-pre-line to respect CMS newlines without mapping */}
+                    <div className="mb-8">
+                        <h1 className="font-serif text-4xl md:text-5xl lg:text-[54px] font-extrabold leading-[1.15] text-[#0B1B2D] whitespace-pre-line mb-1">
+                            {heroData.title}
+                        </h1>
+                        
+                        <h2 className="font-serif text-4xl md:text-5xl lg:text-[54px] font-extrabold leading-[1.15] text-[#C41E3A] whitespace-pre-line">
+                            {heroData.short_description}
+                        </h2>
+                    </div>
 
                     <div className="font-sans text-gray-600 text-base lg:text-lg leading-relaxed mb-10">
                         {renderContent(heroData.content)}
                     </div>
 
-                    <blockquote className="font-serif italic text-gray-800 text-lg lg:text-xl leading-relaxed mb-12 border-l-2 border-transparent">
-                        {quoteText}
-                    </blockquote>
+                    {/* Styled Quote Box to match screenshot */}
+                    <div className="border border-gray-100 rounded-xl p-6 bg-white shadow-sm mb-12">
+                        <blockquote className="font-serif italic text-gray-800 text-[15px] lg:text-[17px] leading-relaxed">
+                            {quoteText}
+                        </blockquote>
+                    </div>
 
                     {/* Buttons Container */}
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-auto">
                         <a 
                             href="/products" 
-                            className="inline-flex items-center justify-center bg-[#C41E3A] text-white font-bold text-sm tracking-wider uppercase px-8 py-4 transition-colors hover:bg-[#A01830]"
+                            className="inline-flex items-center justify-center bg-[#C41E3A] text-white font-bold text-sm tracking-wider uppercase px-8 py-4 transition-colors hover:bg-[#A01830] rounded-sm"
                         >
                             Explore Products
                         </a>
@@ -99,7 +106,7 @@ export default async function AboutHero() {
                             href="/brochure.pdf" 
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center bg-transparent text-gray-800 border border-gray-300 font-bold text-sm tracking-wider uppercase px-8 py-4 transition-colors hover:bg-gray-50"
+                            className="inline-flex items-center justify-center bg-transparent text-gray-800 border border-gray-300 font-bold text-sm tracking-wider uppercase px-8 py-4 transition-colors hover:bg-gray-50 rounded-sm"
                         >
                             Download Brochure
                         </a>
