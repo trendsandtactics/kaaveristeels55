@@ -62,7 +62,8 @@ export default async function AboutHero() {
     return (
         <div className="w-full bg-white">
             {/* Hero Background Section - Yellow Gradient */}
-            <div className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-28 pb-8 md:pt-32 md:pb-10 relative overflow-hidden shadow-sm border-b border-black/10">
+            {/* Adjusted padding logic: lg maps to your original md values, md is scaled for smaller screens */}
+            <div className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-28 pb-8 md:pt-24 md:pb-10 lg:pt-32 lg:pb-10 relative overflow-hidden shadow-sm border-b border-black/10">
 
                 {/* Glow effect */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
@@ -70,7 +71,7 @@ export default async function AboutHero() {
                 {/* Subtle grid pattern */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
 
-                <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+                <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 relative z-10">
 
                     {/* Welcome Section */}
                     <div className="text-center max-w-4xl mx-auto">
@@ -82,7 +83,7 @@ export default async function AboutHero() {
                             <div className="w-12 h-[2px] bg-black" />
                         </div>
 
-                        <h1 className="font-serif text-5xl md:text-7xl text-black mb-8 leading-tight drop-shadow-md font-bold">
+                        <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-black mb-8 leading-tight drop-shadow-md font-bold">
                             {welcome.title}
                         </h1>
 
@@ -94,11 +95,12 @@ export default async function AboutHero() {
             </div>
 
             {/* Content Section */}
-            <div className="max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10 bg-white">
+            <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-16 lg:py-20 relative z-10 bg-white">
 
                 {/* Mission Section */}
-                <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20 mb-24">
-                    <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group">
+                {/* Scaled gaps and image heights specifically for md to prevent small-laptop squishing */}
+                <div className="flex flex-col md:flex-row items-center gap-10 lg:gap-20 mb-20 lg:mb-24">
+                    <div className="w-full md:w-1/2 relative h-[350px] lg:h-[500px] rounded-sm overflow-hidden group">
                         <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
                         <Image
                             src={missionImage}
@@ -112,18 +114,18 @@ export default async function AboutHero() {
                         <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
                             {mission.title}
                         </h2>
-                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                        <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl text-black mb-4 lg:mb-6 leading-tight drop-shadow-sm font-extrabold">
                             {mission.short_description}
                         </h3>
-                        <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                        <div className="font-body text-black/80 text-base lg:text-lg leading-relaxed font-medium whitespace-pre-wrap">
                             {renderContent(mission.content)}
                         </div>
                     </div>
                 </div>
 
                 {/* Vision Section */}
-                <div className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-20">
-                    <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group">
+                <div className="flex flex-col md:flex-row-reverse items-center gap-10 lg:gap-20">
+                    <div className="w-full md:w-1/2 relative h-[350px] lg:h-[500px] rounded-sm overflow-hidden group">
                         <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
                         <Image
                             src={visionImage}
@@ -137,10 +139,10 @@ export default async function AboutHero() {
                         <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
                             {vision.title}
                         </h2>
-                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                        <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl text-black mb-4 lg:mb-6 leading-tight drop-shadow-sm font-extrabold">
                             {vision.short_description}
                         </h3>
-                        <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                        <div className="font-body text-black/80 text-base lg:text-lg leading-relaxed font-medium whitespace-pre-wrap">
                             {renderContent(vision.content)}
                         </div>
                     </div>
