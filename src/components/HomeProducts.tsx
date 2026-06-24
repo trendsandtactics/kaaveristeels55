@@ -62,11 +62,12 @@ export default function HomeProducts() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.45 }}
-          className="flex items-center gap-3 mb-5"
+          className="flex items-center gap-4 mb-5"
         >
-          <div className="w-8 h-px bg-red-500/70" />
-          <span className="text-red-400 text-[11px] font-black tracking-[0.45em] uppercase">Our Products</span>
-          <div className="w-8 h-px bg-red-500/70" />
+          <div className="w-10 h-px bg-red-500/70" />
+          {/* Increased text size here */}
+          <span className="text-red-400 text-sm md:text-base font-black tracking-[0.45em] uppercase">Our Products</span>
+          <div className="w-10 h-px bg-red-500/70" />
         </motion.div>
 
         <motion.h2
@@ -88,7 +89,7 @@ export default function HomeProducts() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.14 }}
-          className="text-zinc-300 text-base md:text-lg max-w-lg leading-relaxed"
+          className="text-zinc-300 text-lg md:text-xl max-w-lg leading-relaxed"
         >
           Engineered to perfection — our steel forms the resilient core of iconic structures worldwide.
         </motion.p>
@@ -152,14 +153,6 @@ export default function HomeProducts() {
                       }}
                     />
 
-                    {/* Watermark number */}
-                    <div
-                      className="absolute top-4 left-6 font-black text-white/[0.04] select-none pointer-events-none leading-none group-hover:text-white/[0.07] transition-colors duration-700"
-                      style={{ fontSize: "clamp(5rem, 11vw, 9rem)", lineHeight: 1 }}
-                    >
-                      {p.number}
-                    </div>
-
                     {/* Spec chips */}
                     <div className="absolute top-5 right-5 flex flex-col gap-2 items-end">
                       {p.specs.map((spec, si) => (
@@ -168,7 +161,7 @@ export default function HomeProducts() {
                           initial={{ opacity: 0, x: 14 }}
                           animate={isHovered ? { opacity: 1, x: 0 } : { opacity: 0, x: 14 }}
                           transition={{ duration: 0.3, delay: si * 0.07 }}
-                          className="text-[10px] font-black tracking-widest uppercase px-3 py-1.5 rounded-full"
+                          className="text-xs font-black tracking-widest uppercase px-4 py-2 rounded-full"
                           style={{
                             backgroundColor: "rgba(0,0,0,0.7)",
                             backdropFilter: "blur(10px)",
@@ -205,19 +198,19 @@ export default function HomeProducts() {
                         {p.name}
                       </h3>
 
-                      {/* Description */}
+                      {/* Description - Size slightly increased */}
                       <div
-                        className="rounded-xl p-4 mb-6 max-w-[320px] transition-all duration-500 group-hover:-translate-y-1"
+                        className="rounded-xl p-4 mb-6 max-w-[340px] transition-all duration-500 group-hover:-translate-y-1"
                         style={{
                           background: "rgba(0,0,0,0.65)",
                           backdropFilter: "blur(12px)",
                           border: "1px solid rgba(255,255,255,0.06)",
                         }}
                       >
-                        <p className="text-white/90 text-base md:text-lg leading-relaxed font-medium">{p.description}</p>
+                        <p className="text-white/90 text-lg md:text-xl leading-relaxed font-medium">{p.description}</p>
                       </div>
 
-                      {/* CTA */}
+                      {/* CTA - View All removed */}
                       <div className="flex items-center gap-3 transition-transform duration-500 group-hover:-translate-y-1">
                         <div
                           className="flex items-center gap-2 pl-10 pr-8 py-5 rounded-full font-black text-sm tracking-widest uppercase transition-all duration-400"
@@ -233,10 +226,6 @@ export default function HomeProducts() {
                           Explore
                           <ArrowUpRight className="w-3.5 h-3.5" style={{ color: isHovered ? "#000" : "#fff" }} />
                         </div>
-                        <div className="w-1 h-1 rounded-full bg-white/20" />
-                        <span className="text-white/35 text-[10px] uppercase tracking-widest font-bold group-hover:text-white/60 transition-colors duration-400">
-                          View All
-                        </span>
                       </div>
                     </div>
                   </div>
