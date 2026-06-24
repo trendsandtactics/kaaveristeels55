@@ -7,7 +7,6 @@ import { motion, Variants } from "framer-motion";
 import { ArrowRight, FileText } from "lucide-react";
 
 export default function HomeAbout() {
-  // Stagger animation container for clean entry
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -19,7 +18,6 @@ export default function HomeAbout() {
     },
   };
 
-  // Explicitly typed as Variants to fix the Vercel TypeScript compilation error
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
@@ -30,14 +28,9 @@ export default function HomeAbout() {
   };
 
   return (
-    {/* FIX 1: Removed xl:h-[100dvh]. 
-      Using min-h-screen allows the container to grow if content demands it, 
-      preventing text from being clipped by overflow-hidden.
-    */}
     <section className="relative w-full min-h-screen flex flex-col lg:flex-row items-stretch bg-slate-50/50 overflow-hidden">
       
       {/* Left Side: Industrial Showcase Image */}
-      {/* FIX 2: Used min-h-[45vh] and lg:min-h-screen to ensure the image acts properly as a flex sibling when the right side stretches */}
       <div className="relative w-full lg:w-1/2 min-h-[45vh] sm:min-h-[50vh] lg:min-h-screen shrink-0 overflow-hidden group">
         <Image
           src="/kaaveri1.png" 
@@ -66,7 +59,6 @@ export default function HomeAbout() {
       </div>
 
       {/* Right Side: Copywriting & Content Canvas */}
-      {/* FIX 3: Toned down padding on lg screens (laptops) to lg:px-10 and lg:py-10. Preserved large padding for xl */}
       <motion.div 
         variants={containerVariants}
         initial="hidden"
@@ -89,7 +81,6 @@ export default function HomeAbout() {
 
           {/* Core Typography Canvas */}
           <motion.div variants={itemVariants} className="space-y-4 sm:space-y-5">
-            {/* FIX 4: Kept text-4xl for laptops (lg) so it doesn't overwhelm the vertical space, pushed 5xl to xl screens */}
             <h2 className="font-serif font-black text-3xl sm:text-4xl lg:text-4xl xl:text-5xl text-slate-900 tracking-tight leading-[1.15]">
               BUILT ON INDUSTRIAL STEEL.<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-700">
@@ -97,7 +88,6 @@ export default function HomeAbout() {
               </span>
             </h2>
             
-            {/* FIX 5: Adjusted body text to text-base on laptops, pushing text-lg to xl screens */}
             <p className="font-sans text-slate-600 font-normal leading-relaxed text-base lg:text-base xl:text-lg">
               At <span className="text-red-600 font-bold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
             </p>
