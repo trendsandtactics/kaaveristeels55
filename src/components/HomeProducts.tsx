@@ -16,7 +16,6 @@ const products = [
       "High-strength ribbed bars engineered for seismic zones — maximum ductility, weld-ready, corrosion-resistant.",
     href: "/products?category=TMT",
     accent: "#ef4444",
-    accentDark: "#7f1d1d",
     tagline: "Fe-500 · Fe-550D · Fe-600",
     icon: Zap,
     specs: ["Seismic Zone IV/V", "BIS Certified", "Rib Pattern Pro"],
@@ -31,7 +30,6 @@ const products = [
       "Premium IS 2062 certified sections — angles, channels, I-beams, and plates for frameworks that outlast generations.",
     href: "/products?category=Structural",
     accent: "#f59e0b",
-    accentDark: "#78350f",
     tagline: "IS 2062 · E250 · E350",
     icon: Layers,
     specs: ["BIS IS 2062", "E250 to E450", "Full Section Range"],
@@ -45,14 +43,22 @@ export default function HomeProducts() {
   return (
     <section className="relative w-full min-h-screen overflow-hidden bg-zinc-950 flex flex-col">
 
-      {/* ─── GLOBAL BG ─── */}
+      {/* ─── BACKGROUND — No Gradient ─── */}
       <div className="absolute inset-0 z-0">
-        <Image src="/bg2.png" alt="" fill priority className="object-cover object-center opacity-30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-zinc-950/40 to-zinc-950/90" />
+        <Image
+          src="/bg2.png"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center opacity-30"
+          style={{ filter: "grayscale(30%)" }}
+        />
+        {/* Replaced gradient with a solid overlay for text readability */}
+        <div className="absolute inset-0 bg-zinc-950/80" />
       </div>
 
       {/* ─── HEADER ─── */}
-      <div className="relative z-10 w-full flex flex-col items-center text-center px-6 pt-16 pb-12">
+      <div className="relative z-10 w-full flex flex-col items-center text-center px-6 pt-16 pb-10">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -90,197 +96,189 @@ export default function HomeProducts() {
         </motion.p>
       </div>
 
-      {/* ─── PRODUCT CARDS ─── */}
-      <div className="relative z-10 flex-1 grid grid-cols-1 lg:grid-cols-2 w-full">
-        {products.map((p, i) => {
-          const Icon = p.icon;
-          const isHovered = hovered === p.id;
+      {/* ─── CARDS ROW — Centered with heavy side spacing and large gap ─── */}
+      <div className="relative z-10 flex-1 w-full max-w-[1400px] mx-auto px-10 md:px-20 lg:px-32 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 h-full">
+          {products.map((p, i) => {
+            const Icon = p.icon;
+            const isHovered = hovered === p.id;
 
-          return (
-            <motion.div
-              key={p.id}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: i * 0.13, ease: [0.22, 1, 0.36, 1] }}
-              className="relative"
-              onMouseEnter={() => setHovered(p.id)}
-              onMouseLeave={() => setHovered(null)}
-            >
-              <Link href={p.href} className="block w-full h-full group">
-                <div className="relative overflow-hidden w-full min-h-[75vh] lg:min-h-[80vh] flex flex-col justify-end">
-
-                  {/* Product photo */}
-                  <Image
-                    src={p.image}
-                    alt={p.name}
-                    fill
-                    className="object-cover object-center transition-transform duration-[1400ms] ease-out group-hover:scale-[1.08]"
-                  />
-
-                  {/* Base dark gradient — guarantees text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/10" />
-
-                  {/* Accent color atmosphere — top corner */}
+            return (
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: i * 0.13, ease: [0.22, 1, 0.36, 1] }}
+                onMouseEnter={() => setHovered(p.id)}
+                onMouseLeave={() => setHovered(null)}
+                className="h-full"
+              >
+                <Link href={p.href} className="block w-full h-full group">
                   <div
-                    className="absolute inset-0 opacity-40 transition-opacity duration-700 group-hover:opacity-70"
+                    className="relative overflow-hidden rounded-2xl w-full min-h-[68vh] lg:min-h-[65vh] flex flex-col justify-end bg-zinc-900/50"
                     style={{
-                      background: `radial-gradient(ellipse 70% 55% at 80% 5%, ${p.accent}55, transparent 65%)`,
+                      border: `1px solid rgba(255,255,255,0.08)`,
+                      boxShadow: isHovered
+                        ? `0 0 0 1.5px ${p.accent}55, 0 32px 80px rgba(0,0,0,0.7)`
+                        : "0 16px 48px rgba(0,0,0,0.5)",
+                      transition: "box-shadow 0.5s ease",
                     }}
-                  />
-
-                  {/* Animated accent glow at bottom on hover */}
-                  <div
-                    className="absolute bottom-0 left-0 right-0 h-1 transition-all duration-700"
-                    style={{
-                      background: isHovered
-                        ? `linear-gradient(90deg, transparent, ${p.accent}, transparent)`
-                        : "transparent",
-                      boxShadow: isHovered ? `0 0 30px 4px ${p.accent}80` : "none",
-                    }}
-                  />
-
-                  {/* ─ Top-left number watermark ─ */}
-                  <div
-                    className="absolute top-6 left-8 font-black text-white/5 select-none pointer-events-none leading-none transition-all duration-700 group-hover:text-white/10"
-                    style={{ fontSize: "clamp(6rem, 14vw, 11rem)", lineHeight: 1 }}
                   >
-                    {p.number}
-                  </div>
+                    {/* ── Product photo — natural colours, no yellow cast ── */}
+                    <Image
+                      src={p.image}
+                      alt={p.name}
+                      fill
+                      className="object-cover object-center transition-transform duration-[1400ms] ease-out group-hover:scale-[1.07]"
+                    />
 
-                  {/* ─ Top-right: spec chips (visible on hover) ─ */}
-                  <div className="absolute top-6 right-6 flex flex-col gap-2 items-end">
-                    {p.specs.map((spec, si) => (
-                      <motion.div
-                        key={spec}
-                        initial={{ opacity: 0, x: 16 }}
-                        animate={isHovered ? { opacity: 1, x: 0 } : { opacity: 0, x: 16 }}
-                        transition={{ duration: 0.35, delay: si * 0.07 }}
-                        className="text-[10px] font-black tracking-widest uppercase px-3 py-1.5 rounded-full"
-                        style={{
-                          backgroundColor: "rgba(0,0,0,0.65)",
-                          backdropFilter: "blur(8px)",
-                          border: `1px solid ${p.accent}50`,
-                          color: p.accent,
-                        }}
-                      >
-                        {spec}
-                      </motion.div>
-                    ))}
-                  </div>
+                    {/* Dark scrim to protect text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
 
-                  {/* ─ BOTTOM CONTENT ─ */}
-                  <div className="relative z-10 p-7 md:p-10 lg:p-12 flex flex-col">
-
-                    {/* Category badge */}
-                    <div className="flex items-center gap-3 mb-5">
-                      <div
-                        className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ backgroundColor: `${p.accent}22`, border: `1px solid ${p.accent}55` }}
-                      >
-                        <Icon className="w-4 h-4" style={{ color: p.accent }} />
-                      </div>
-                      <span
-                        className="text-[11px] font-black tracking-[0.3em] uppercase"
-                        style={{ color: p.accent }}
-                      >
-                        {p.category}
-                      </span>
-                    </div>
-
-                    {/* Accent rule */}
+                    {/* Very subtle accent glow at TOP only */}
                     <div
-                      className="h-[3px] rounded-full mb-5 transition-all duration-500 ease-out group-hover:w-28"
+                      className="absolute top-0 left-0 right-0 h-32 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                       style={{
-                        width: "44px",
-                        background: `linear-gradient(90deg, ${p.accent}, ${p.accent}44)`,
-                        boxShadow: `0 0 14px ${p.accent}99`,
+                        background: `linear-gradient(180deg, ${p.accent}22 0%, transparent 100%)`,
                       }}
                     />
 
-                    {/* Product name */}
-                    <h3
-                      className="font-black text-white leading-[0.92] tracking-tight mb-3 transition-transform duration-500 group-hover:-translate-y-1"
-                      style={{
-                        fontSize: "clamp(2.5rem, 5vw, 4rem)",
-                        textShadow: "0 3px 24px rgba(0,0,0,1), 0 0 60px rgba(0,0,0,0.8)",
-                      }}
-                    >
-                      {p.name}
-                    </h3>
-
-                    {/* Grade tagline */}
-                    <p
-                      className="text-[11px] font-bold tracking-[0.25em] uppercase mb-5 transition-all duration-500 group-hover:-translate-y-1"
-                      style={{ color: p.accent, textShadow: `0 0 20px ${p.accent}` }}
-                    >
-                      {p.tagline}
-                    </p>
-
-                    {/* Description box */}
+                    {/* Glowing bottom edge on hover */}
                     <div
-                      className="rounded-2xl p-5 mb-7 max-w-xs transition-all duration-500 group-hover:-translate-y-1"
+                      className="absolute bottom-0 left-0 right-0 h-px transition-all duration-700"
                       style={{
-                        background: "rgba(0,0,0,0.6)",
-                        backdropFilter: "blur(14px)",
-                        border: "1px solid rgba(255,255,255,0.07)",
-                        boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
+                        background: isHovered
+                          ? `linear-gradient(90deg, transparent 5%, ${p.accent} 50%, transparent 95%)`
+                          : "transparent",
+                        boxShadow: isHovered ? `0 0 24px 3px ${p.accent}80` : "none",
                       }}
+                    />
+
+                    {/* Watermark number */}
+                    <div
+                      className="absolute top-4 left-6 font-black text-white/[0.04] select-none pointer-events-none leading-none group-hover:text-white/[0.07] transition-colors duration-700"
+                      style={{ fontSize: "clamp(5rem, 11vw, 9rem)", lineHeight: 1 }}
                     >
-                      <p className="text-white/90 text-sm md:text-base leading-relaxed font-medium">
-                        {p.description}
-                      </p>
+                      {p.number}
                     </div>
 
-                    {/* CTA */}
-                    <div className="flex items-center gap-3 transition-transform duration-500 group-hover:-translate-y-1">
-                      {/* Primary pill */}
-                      <div
-                        className="flex items-center gap-2 pl-6 pr-5 py-3.5 rounded-full font-black text-sm tracking-widest uppercase transition-all duration-400"
-                        style={{
-                          background: isHovered
-                            ? p.accent
-                            : "rgba(255,255,255,0.08)",
-                          color: isHovered ? "#000" : "#fff",
-                          border: `1.5px solid ${isHovered ? p.accent : "rgba(255,255,255,0.2)"}`,
-                          backdropFilter: "blur(8px)",
-                          boxShadow: isHovered ? `0 0 28px ${p.accent}80` : "none",
-                          transition: "all 0.4s ease",
-                        }}
-                      >
-                        Explore
-                        <ArrowUpRight
-                          className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                          style={{ color: isHovered ? "#000" : "#fff" }}
-                        />
+                    {/* Spec chips — slide in on hover */}
+                    <div className="absolute top-5 right-5 flex flex-col gap-2 items-end">
+                      {p.specs.map((spec, si) => (
+                        <motion.div
+                          key={spec}
+                          initial={{ opacity: 0, x: 14 }}
+                          animate={isHovered ? { opacity: 1, x: 0 } : { opacity: 0, x: 14 }}
+                          transition={{ duration: 0.3, delay: si * 0.07 }}
+                          className="text-[10px] font-black tracking-widest uppercase px-3 py-1.5 rounded-full"
+                          style={{
+                            backgroundColor: "rgba(0,0,0,0.7)",
+                            backdropFilter: "blur(10px)",
+                            border: `1px solid ${p.accent}44`,
+                            color: p.accent,
+                          }}
+                        >
+                          {spec}
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    {/* ── Bottom content ── */}
+                    <div className="relative z-10 p-7 md:p-10 flex flex-col">
+
+                      {/* Category */}
+                      <div className="flex items-center gap-2.5 mb-4">
+                        <div
+                          className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                          style={{ backgroundColor: `${p.accent}20`, border: `1px solid ${p.accent}44` }}
+                        >
+                          <Icon className="w-3.5 h-3.5" style={{ color: p.accent }} />
+                        </div>
+                        <span className="text-[10px] font-black tracking-[0.3em] uppercase" style={{ color: p.accent }}>
+                          {p.category}
+                        </span>
                       </div>
 
-                      {/* Divider dot */}
-                      <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+                      {/* Accent rule */}
+                      <div
+                        className="h-[3px] rounded-full mb-4 transition-all duration-500 ease-out group-hover:w-24"
+                        style={{
+                          width: "40px",
+                          background: `linear-gradient(90deg, ${p.accent}, ${p.accent}33)`,
+                          boxShadow: `0 0 12px ${p.accent}88`,
+                        }}
+                      />
 
-                      {/* Ghost label */}
-                      <span className="text-white/40 text-xs uppercase tracking-widest font-semibold transition-colors duration-400 group-hover:text-white/70">
-                        View All
-                      </span>
+                      {/* Name */}
+                      <h3
+                        className="font-black text-white leading-[0.93] tracking-tight mb-2 transition-transform duration-500 group-hover:-translate-y-1"
+                        style={{
+                          fontSize: "clamp(2rem, 3.5vw, 3rem)",
+                          textShadow: "0 3px 20px rgba(0,0,0,1)",
+                        }}
+                      >
+                        {p.name}
+                      </h3>
+
+                      {/* Grade */}
+                      <p
+                        className="text-[11px] font-bold tracking-[0.25em] uppercase mb-4 transition-all duration-500 group-hover:-translate-y-1"
+                        style={{ color: p.accent, textShadow: `0 0 16px ${p.accent}99` }}
+                      >
+                        {p.tagline}
+                      </p>
+
+                      {/* Description */}
+                      <div
+                        className="rounded-xl p-4 mb-6 max-w-[280px] transition-all duration-500 group-hover:-translate-y-1"
+                        style={{
+                          background: "rgba(0,0,0,0.65)",
+                          backdropFilter: "blur(12px)",
+                          border: "1px solid rgba(255,255,255,0.06)",
+                        }}
+                      >
+                        <p className="text-white/90 text-sm leading-relaxed font-medium">{p.description}</p>
+                      </div>
+
+                      {/* CTA */}
+                      <div className="flex items-center gap-3 transition-transform duration-500 group-hover:-translate-y-1">
+                        <div
+                          className="flex items-center gap-1.5 pl-5 pr-4 py-3 rounded-full font-black text-xs tracking-widest uppercase transition-all duration-400"
+                          style={{
+                            background: isHovered ? p.accent : "rgba(255,255,255,0.07)",
+                            color: isHovered ? "#000" : "#fff",
+                            border: `1.5px solid ${isHovered ? p.accent : "rgba(255,255,255,0.18)"}`,
+                            backdropFilter: "blur(8px)",
+                            boxShadow: isHovered ? `0 0 24px ${p.accent}70` : "none",
+                            transition: "all 0.4s ease",
+                          }}
+                        >
+                          Explore
+                          <ArrowUpRight className="w-3.5 h-3.5" style={{ color: isHovered ? "#000" : "#fff" }} />
+                        </div>
+                        <div className="w-1 h-1 rounded-full bg-white/20" />
+                        <span className="text-white/35 text-[10px] uppercase tracking-widest font-bold group-hover:text-white/60 transition-colors duration-400">
+                          View All
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            </motion.div>
-          );
-        })}
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
 
       {/* ─── BOTTOM STRIP ─── */}
-      <div className="relative z-10 w-full border-t border-white/5 bg-black/60 backdrop-blur-md px-8 py-4 flex items-center justify-between gap-4 flex-wrap">
-        <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
+      <div className="relative z-10 w-full border-t border-white/5 bg-black/50 backdrop-blur-md px-8 py-3.5 flex items-center justify-between gap-4 flex-wrap mt-auto">
+        <p className="text-white/25 text-[10px] uppercase tracking-widest font-bold">
           Kaveri Steels — Trusted Since 1985
         </p>
         <div className="flex items-center gap-6">
-          {["BIS Certified", "ISO 9001:2015", "100% Traceable"].map((badge) => (
-            <span key={badge} className="text-white/25 text-[10px] uppercase tracking-widest font-bold">
-              {badge}
-            </span>
+          {["BIS Certified", "ISO 9001:2015", "100% Traceable"].map((b) => (
+            <span key={b} className="text-white/20 text-[10px] uppercase tracking-widest font-bold">{b}</span>
           ))}
         </div>
       </div>
