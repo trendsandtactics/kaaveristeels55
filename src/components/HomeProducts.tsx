@@ -64,10 +64,13 @@ export default function HomeProducts() {
           transition={{ duration: 0.45 }}
           className="flex items-center gap-4 mb-5"
         >
-          <div className="w-10 h-px bg-red-500/70" />
-          {/* Increased text size here */}
-          <span className="text-red-400 text-sm md:text-base font-black tracking-[0.45em] uppercase">Our Products</span>
-          <div className="w-10 h-px bg-red-500/70" />
+<div className="w-10 h-px bg-[#6D071A]" />
+
+<span className="text-[#6D071A] text-sm md:text-base font-black tracking-[0.45em] uppercase">
+  Our Products
+</span>
+
+<div className="w-10 h-px bg-[#6D071A]" />
         </motion.div>
 
         <motion.h2
