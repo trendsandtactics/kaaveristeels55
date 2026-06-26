@@ -93,59 +93,74 @@ export default async function AboutHero() {
                 </div>
             </div>
 
-            {/* Content Section */}
-            <div className="max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10 bg-white">
-
-                {/* Mission Section */}
-                <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20 mb-24">
-                    <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group">
-                        <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
-                        <Image
-                            src={missionImage}
-                            alt={mission.title || "Industrial Teamwork"}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                    </div>
-
-                    <div className="w-full md:w-1/2">
-                        <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
-                            {mission.title}
-                        </h2>
-                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
-                            {mission.short_description}
-                        </h3>
-                        <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
-                            {renderContent(mission.content)}
-                        </div>
-                    </div>
+            {/* Content Section with a Background Image wrapper */}
+            <div className="w-full relative py-20 overflow-hidden bg-gray-50">
+                {/* Section Background Image with Light Overlay for Text Readability */}
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/image/industrial-bg.jpg" // Replace with your desired background image path
+                        alt="Section Background"
+                        fill
+                        priority
+                        className="object-cover"
+                    />
+                    {/* Soft light overlay to keep text highly legible */}
+                    <div className="absolute inset-0 bg-white/90 backdrop-blur-[2px]" />
                 </div>
 
-                {/* Vision Section */}
-                <div className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-20">
-                    <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group">
-                        <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
-                        <Image
-                            src={visionImage}
-                            alt={vision.title || "Industrial Factory"}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                    </div>
+                <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
 
-                    <div className="w-full md:w-1/2">
-                        <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
-                            {vision.title}
-                        </h2>
-                        <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
-                            {vision.short_description}
-                        </h3>
-                        <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
-                            {renderContent(vision.content)}
+                    {/* Mission Section */}
+                    <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20 mb-24">
+                        <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group shadow-lg">
+                            <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
+                            <Image
+                                src={missionImage}
+                                alt={mission.title || "Industrial Teamwork"}
+                                fill
+                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                        </div>
+
+                        <div className="w-full md:w-1/2">
+                            <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
+                                {mission.title}
+                            </h2>
+                            <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                                {mission.short_description}
+                            </h3>
+                            <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                                {renderContent(mission.content)}
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                    {/* Vision Section */}
+                    <div className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-20">
+                        <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group shadow-lg">
+                            <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
+                            <Image
+                                src={visionImage}
+                                alt={vision.title || "Industrial Factory"}
+                                fill
+                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                        </div>
+
+                        <div className="w-full md:w-1/2">
+                            <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
+                                {vision.title}
+                            </h2>
+                            <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                                {vision.short_description}
+                            </h3>
+                            <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                                {renderContent(vision.content)}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     );
