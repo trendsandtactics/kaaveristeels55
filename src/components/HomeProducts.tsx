@@ -56,7 +56,7 @@ export default function HomeProducts() {
       </div>
 
       {/* HEADER */}
-      <div className="relative z-10 w-full flex flex-col items-center text-center px-6 pt-16 pb-10">
+      <div className="relative z-10 w-full flex flex-col items-center text-center px-6 pt-10 pb-10">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -79,7 +79,7 @@ export default function HomeProducts() {
           style={{ fontSize: "clamp(2.5rem, 5.5vw, 4.5rem)", textShadow: "0 4px 30px rgba(0,0,0,0.8)" }}
         >
           Masterpieces of{" "}
-          <em className="not-italic text-red-500" style={{ textShadow: "0 0 50px rgba(239,68,68,0.6)" }}>
+          <em className="not-italic text-white" style={{ textShadow: "0 4px 30px rgba(0,0,0,.8)" }}>
             Steel
           </em>
         </motion.h2>
@@ -154,25 +154,7 @@ export default function HomeProducts() {
                     />
 
                     {/* Spec chips */}
-                    <div className="absolute top-5 right-5 flex flex-col gap-2 items-end">
-                      {p.specs.map((spec, si) => (
-                        <motion.div
-                          key={spec}
-                          initial={{ opacity: 0, x: 14 }}
-                          animate={isHovered ? { opacity: 1, x: 0 } : { opacity: 0, x: 14 }}
-                          transition={{ duration: 0.3, delay: si * 0.07 }}
-                          className="text-xs font-black tracking-widest uppercase px-4 py-2 rounded-full"
-                          style={{
-                            backgroundColor: "rgba(0,0,0,0.7)",
-                            backdropFilter: "blur(10px)",
-                            border: `1px solid ${p.accent}44`,
-                            color: p.accent,
-                          }}
-                        >
-                          {spec}
-                        </motion.div>
-                      ))}
-                    </div>
+                    
 
                     {/* Bottom content */}
                     <div className="relative z-10 p-7 md:p-10 flex flex-col">
@@ -237,16 +219,7 @@ export default function HomeProducts() {
       </div>
 
       {/* BOTTOM STRIP */}
-      <div className="relative z-10 w-full border-t border-white/5 bg-black/50 backdrop-blur-md px-10 py-5 flex items-center justify-between gap-6 flex-wrap mt-auto">
-        <p className="text-white/35 text-sm uppercase tracking-widest font-bold">
-          Kaveri Steels — Trusted Since 1985
-        </p>
-        <div className="flex items-center gap-8">
-          {["BIS Certified", "ISO 9001:2015", "100% Traceable"].map((b) => (
-            <span key={b} className="text-white/30 text-sm uppercase tracking-widest font-bold">{b}</span>
-          ))}
-        </div>
-      </div>
+
     </section>
   );
 }
