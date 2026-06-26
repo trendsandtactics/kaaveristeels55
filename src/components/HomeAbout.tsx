@@ -48,8 +48,8 @@ export default function HomeAbout() {
           transition={{ duration: 0.6, type: "spring" }}
           className="absolute top-6 left-6 sm:top-10 sm:left-10 bg-gradient-to-br from-red-600 to-red-700 text-white p-4 sm:p-6 uppercase text-center shadow-2xl tracking-widest z-20 rounded-md backdrop-blur-sm border border-red-500/20"
         >
-          <span className="text-3xl sm:text-5xl font-black block mb-0.5 tracking-tight drop-shadow-md">30+</span>
-          <span className="text-[9px] sm:text-[11px] font-extrabold text-red-100 block leading-tight tracking-widest border-t border-red-500/30 pt-1.5 mt-1">
+          <span className="text-4xl sm:text-6xl font-black block mb-0.5 tracking-tight drop-shadow-md">30+</span>
+          <span className="text-[10px] sm:text-[13px] font-extrabold text-red-100 block leading-tight tracking-widest border-t border-red-500/30 pt-1.5 mt-1">
             Years of<br/>Excellence
           </span>
         </motion.div>
@@ -67,25 +67,25 @@ export default function HomeAbout() {
         <div className="w-full max-w-3xl flex flex-col justify-between h-full flex-grow gap-8 lg:gap-10">
           
           <motion.div variants={itemVariants} className="flex flex-col items-start pt-2">
-            <span className="font-sans uppercase tracking-[0.25em] text-red-600 text-sm sm:text-base lg:text-sm font-black block mb-3">
+            <span className="font-sans uppercase tracking-[0.25em] text-red-600 text-base sm:text-lg lg:text-base font-black block mb-3">
               ABOUT KAAVERI STEELS
             </span>
             <div className="w-12 h-[4px] bg-red-600 rounded-full" />
           </motion.div>
 
           <motion.div variants={itemVariants} className="space-y-6 flex-grow flex flex-col justify-center">
-            <h2 className="font-serif font-black text-4xl sm:text-5xl lg:text-5xl text-slate-900 tracking-tight leading-[1.15]">
+            <h2 className="font-serif font-black text-5xl sm:text-6xl lg:text-6xl text-slate-900 tracking-tight leading-[1.15]">
               BUILT ON INDUSTRIAL STEEL.<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-700">
                 TRUSTED BY BUILDERS ACROSS INDIA.
               </span>
             </h2>
             
-            <div className="space-y-5">
-              <p className="font-sans text-slate-600 font-normal leading-relaxed text-lg lg:text-base">
+            <div className="space-y-6">
+              <p className="font-sans text-slate-600 font-normal leading-relaxed text-xl lg:text-xl">
                 At <span className="text-red-600 font-bold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
               </p>
-              <p className="font-sans text-slate-600 font-normal leading-relaxed text-lg lg:text-base">
+              <p className="font-sans text-slate-600 font-normal leading-relaxed text-xl lg:text-xl">
                 Beyond manufacturing, we believe in forging lasting partnerships with our clients. By integrating cutting-edge metallurgical technologies with eco-friendly production practices, our advanced facilities deliver steel with superior yield strength, extraordinary ductility, and unmatched seismic resistance. Whether constructing towering commercial skyscrapers or vital national infrastructure, we provide the unwavering strength your vision demands.
               </p>
             </div>
@@ -95,7 +95,7 @@ export default function HomeAbout() {
             variants={itemVariants}
             className="relative border-l-4 border-red-600 pl-5 sm:pl-8 py-4 sm:py-6 lg:py-5 text-left bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border-y border-r border-slate-100/50"
           >
-            <p className="font-sans italic text-slate-700 text-lg lg:text-lg font-medium leading-relaxed">
+            <p className="font-sans italic text-slate-700 text-xl lg:text-2xl font-medium leading-relaxed">
               &ldquo;Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.&rdquo;
             </p>
           </motion.div>
@@ -106,17 +106,17 @@ export default function HomeAbout() {
           >
             <Link 
               href="/products" 
-              className="group font-sans w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 lg:px-8 lg:py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm sm:text-base lg:text-sm tracking-wider transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-red-600/20 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
+              className="group font-sans w-full sm:w-auto px-8 sm:px-10 py-5 sm:py-6 lg:px-10 lg:py-5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-base sm:text-lg lg:text-base tracking-wider transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-red-600/20 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
             >
               Explore Products 
-              <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-6 h-6 transform group-hover:translate-x-1 transition-transform" />
             </Link>
             
             <Link 
               href="/product-brochure" 
-              className="font-sans w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 lg:px-8 lg:py-4 border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-400 font-bold text-sm sm:text-base lg:text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
+              className="font-sans w-full sm:w-auto px-8 sm:px-10 py-5 sm:py-6 lg:px-10 lg:py-5 border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-400 font-bold text-base sm:text-lg lg:text-base tracking-wider transition-all duration-300 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
             >
-              <FileText className="w-5 h-5 text-slate-500" /> 
+              <FileText className="w-6 h-6 text-slate-500" /> 
               Download Brochure
             </Link>
           </motion.div>
