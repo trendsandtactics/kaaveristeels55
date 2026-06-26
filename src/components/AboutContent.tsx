@@ -7,7 +7,6 @@ import {
   Factory,
   Link2,
   BarChart3,
-  // Removed 'Ruler' from here
 } from "lucide-react";
 
 const features = [
@@ -43,10 +42,8 @@ const features = [
   },
 ];
 
-// Removed 'const sizes = [...]' from here
-
 const approvals = [
-  "Chennai Metro Rail",
+  "CHENNAI METRO RAIL",
   "TNPWD",
   "TNPHC",
   "TNHB",
@@ -56,70 +53,122 @@ const approvals = [
 
 export default function FullWidthQualitySection() {
   return (
-    <section className="w-full bg-white font-sans antialiased overflow-hidden flex flex-col shadow-sm">
-      
-      {/* 1. TOP FEATURES BANNER - Full Width with subtle gradient */}
-      <div className="w-full border-y border-gray-100 bg-gradient-to-b from-gray-50/80 to-white">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+    <section className="bg-gradient-to-b from-white via-gray-50 to-white py-20 overflow-hidden">
+
+      {/* Heading */}
+      <div className="max-w-7xl mx-auto text-center px-6 mb-14">
+        <span className="uppercase tracking-[0.35em] text-red-700 text-sm font-semibold">
+          Our Strength
+        </span>
+
+        <h2 className="mt-3 text-4xl md:text-6xl font-black font-serif text-gray-900">
+          Engineered for Excellence
+        </h2>
+
+        <div className="w-20 h-1 bg-red-600 mx-auto mt-6 rounded-full" />
+      </div>
+
+      {/* Feature Cards */}
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+
           {features.map((item, index) => (
             <div
               key={index}
-              className="group px-6 py-12 text-center flex flex-col items-center hover:bg-white transition-all duration-500 cursor-default relative overflow-hidden"
+              className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 duration-500 overflow-hidden relative"
             >
-              {/* Subtle hover background effect */}
-              <div className="absolute inset-0 bg-red-50/0 group-hover:bg-red-50/30 transition-colors duration-500 z-0" />
-              
-              <div className="relative z-10 w-16 h-16 bg-white rounded-2xl shadow-sm border border-red-100 flex items-center justify-center mb-6 group-hover:-translate-y-2 group-hover:shadow-lg group-hover:shadow-red-100/50 group-hover:border-red-200 transition-all duration-300">
-                <item.icon size={28} className="text-red-700 group-hover:scale-110 transition-transform duration-300" />
+              {/* Top Glow */}
+              <div className="absolute inset-0 bg-gradient-to-b from-red-50/40 to-transparent opacity-0 group-hover:opacity-100 transition duration-500" />
+
+              <div className="relative p-8 flex flex-col items-center text-center">
+
+                <div className="w-20 h-20 rounded-full bg-gradient-to-b from-white to-red-50 border border-red-100 shadow-md flex items-center justify-center mb-7 group-hover:scale-110 transition">
+                  <item.icon
+                    className="text-red-600"
+                    size={32}
+                  />
+                </div>
+
+                <h3 className="font-serif font-bold uppercase text-lg leading-tight text-gray-900 mb-5">
+                  {item.title}
+                </h3>
+
+                <p className="text-gray-500 leading-8 text-sm">
+                  {item.desc}
+                </p>
               </div>
-              <h3 className="relative z-10 font-bold text-[13px] text-gray-900 tracking-wider mb-3 uppercase">
-                {item.title}
-              </h3>
-              <p className="relative z-10 text-xs text-gray-500 leading-relaxed max-w-[220px] group-hover:text-gray-700 transition-colors">
-                {item.desc}
-              </p>
+
+              {/* Bottom Accent */}
+              <div className="h-1.5 w-full bg-red-600 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
             </div>
           ))}
+
         </div>
       </div>
 
-      {/* 3. BOTTOM APPROVALS BANNER */}
-      <div className="w-full flex flex-col lg:flex-row bg-white">
-        
-        {/* Approved By Label */}
-        <div className="bg-amber-400 px-8 py-8 lg:w-48 flex items-center justify-center shrink-0 shadow-inner">
-          <h4 className="font-black text-gray-900 tracking-widest uppercase text-center lg:text-left text-sm">
-            Approved By
-          </h4>
-        </div>
+      {/* Trust Strip */}
+      <div className="max-w-7xl mx-auto px-6 mt-10">
 
-        {/* Logos/Names */}
-        <div className="flex-1 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 divide-y md:divide-y-0 md:divide-x divide-gray-100 border-y lg:border-y-0 border-gray-100">
-          {approvals.map((item) => (
-            <div
-              key={item}
-              className="group px-4 py-8 flex flex-col items-center justify-center bg-white hover:bg-gray-50 transition-all duration-300"
-            >
-              <div className="w-12 h-12 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:bg-amber-50 group-hover:border-amber-200 transition-all duration-300">
-                <ShieldCheck className="w-5 h-5 text-gray-400 group-hover:text-amber-600 transition-colors" />
+        <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-md bg-white">
+
+          <div className="flex flex-col lg:flex-row">
+
+            {/* Left */}
+            <div className="bg-gradient-to-r from-red-700 to-red-600 text-white lg:w-60 flex items-center justify-center p-8">
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="w-6 h-6" />
+                <span className="uppercase tracking-wider font-bold">
+                  Trusted By
+                </span>
               </div>
-              <span className="text-[11px] sm:text-xs font-bold text-gray-600 group-hover:text-gray-900 text-center uppercase tracking-wide">
-                {item}
-              </span>
             </div>
-          ))}
+
+            {/* Logos */}
+            <div className="flex-1 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
+
+              {approvals.map((item) => (
+                <div
+                  key={item}
+                  className="group border-l border-gray-100 p-6 flex flex-col items-center justify-center hover:bg-gray-50 transition"
+                >
+                  <div className="w-14 h-14 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center mb-4 group-hover:scale-110 transition">
+                    <ShieldCheck className="text-blue-600 w-6 h-6" />
+                  </div>
+
+                  <span className="font-semibold text-gray-800 text-xs tracking-wide text-center">
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Right */}
+            <div className="lg:w-80 bg-gradient-to-br from-gray-50 to-white border-l border-gray-100 flex items-center justify-center p-8">
+
+              <div className="text-center">
+
+                <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
+                  <ShieldCheck className="text-red-600" />
+                </div>
+
+                <h4 className="font-bold text-xl text-gray-900 leading-snug">
+                  Trusted for Government,
+                  <br />
+                  Infrastructure,
+                  <br />
+                  Commercial &
+                  <br />
+                  Residential Projects
+                </h4>
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
-        {/* Trusted For Label */}
-        <div className="bg-slate-50 px-8 py-8 lg:w-80 flex flex-col items-center justify-center shrink-0 text-center border-l border-gray-100">
-          <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mb-3">
-            <ShieldCheck size={16} className="text-red-700" />
-          </div>
-          <p className="font-bold text-sm text-gray-800 leading-snug">
-            Trusted for Government, Infrastructure, Commercial & Residential Projects.
-          </p>
-        </div>
-        
       </div>
     </section>
   );
