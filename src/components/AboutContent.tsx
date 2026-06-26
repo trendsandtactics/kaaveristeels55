@@ -53,89 +53,83 @@ const approvals = [
 
 export default function FullWidthQualitySection() {
   return (
-    <section className="bg-gradient-to-b from-white via-gray-50 to-white py-20 overflow-hidden">
-
+    <section className="w-full bg-gradient-to-b from-white via-gray-50 to-white py-20 overflow-hidden">
       {/* Heading */}
-      <div className="max-w-7xl mx-auto text-center px-6 mb-14">
+      <div className="w-full text-center px-6 sm:px-8 lg:px-16 xl:px-24 mb-16">
         <span className="uppercase tracking-[0.35em] text-red-700 text-sm font-semibold">
           Our Strength
         </span>
 
-        <h2 className="mt-3 text-4xl md:text-6xl font-black font-serif text-gray-900">
+        <h2 className="mt-4 text-4xl md:text-5xl xl:text-6xl font-black font-serif text-gray-900">
           Engineered for Excellence
         </h2>
 
-        <div className="w-20 h-1 bg-red-600 mx-auto mt-6 rounded-full" />
+        <div className="w-24 h-1 bg-red-600 mx-auto mt-6 rounded-full" />
       </div>
 
       {/* Feature Cards */}
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="w-full px-6 sm:px-8 lg:px-16 xl:px-24">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
-
           {features.map((item, index) => (
             <div
               key={index}
-              className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 duration-500 overflow-hidden relative"
+              className="group relative overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
             >
-              {/* Top Glow */}
+              {/* Hover Background */}
               <div className="absolute inset-0 bg-gradient-to-b from-red-50/40 to-transparent opacity-0 group-hover:opacity-100 transition duration-500" />
 
               <div className="relative p-8 flex flex-col items-center text-center">
-
-                <div className="w-20 h-20 rounded-full bg-gradient-to-b from-white to-red-50 border border-red-100 shadow-md flex items-center justify-center mb-7 group-hover:scale-110 transition">
+                {/* Icon */}
+                <div className="w-20 h-20 rounded-full bg-gradient-to-b from-white to-red-50 border border-red-100 shadow-md flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <item.icon
+                    size={34}
                     className="text-red-600"
-                    size={32}
                   />
                 </div>
 
-                <h3 className="font-serif font-bold uppercase text-lg leading-tight text-gray-900 mb-5">
+                <h3 className="font-serif font-bold text-lg uppercase text-gray-900 leading-tight mb-4">
                   {item.title}
                 </h3>
 
-                <p className="text-gray-500 leading-8 text-sm">
+                <p className="text-gray-500 text-sm leading-7">
                   {item.desc}
                 </p>
               </div>
 
               {/* Bottom Accent */}
-              <div className="h-1.5 w-full bg-red-600 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
+              <div className="h-1.5 bg-red-600 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500" />
             </div>
           ))}
-
         </div>
       </div>
 
       {/* Trust Strip */}
-      <div className="max-w-7xl mx-auto px-6 mt-10">
-
-        <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-md bg-white">
-
-          <div className="flex flex-col lg:flex-row">
-
+      <div className="w-full px-6 sm:px-8 lg:px-16 xl:px-24 mt-12">
+        <div className="overflow-hidden rounded-2xl border border-gray-100 shadow-lg bg-white">
+          <div className="flex flex-col xl:flex-row">
             {/* Left */}
-            <div className="bg-gradient-to-r from-red-700 to-red-600 text-white lg:w-60 flex items-center justify-center p-8">
+            <div className="xl:w-72 bg-gradient-to-r from-red-700 to-red-600 text-white flex items-center justify-center p-8">
               <div className="flex items-center gap-3">
-                <ShieldCheck className="w-6 h-6" />
-                <span className="uppercase tracking-wider font-bold">
+                <ShieldCheck className="w-7 h-7" />
+
+                <span className="uppercase tracking-widest font-bold text-lg">
                   Trusted By
                 </span>
               </div>
             </div>
 
-            {/* Logos */}
+            {/* Middle */}
             <div className="flex-1 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
-
               {approvals.map((item) => (
                 <div
                   key={item}
-                  className="group border-l border-gray-100 p-6 flex flex-col items-center justify-center hover:bg-gray-50 transition"
+                  className="group border-l border-gray-100 p-8 flex flex-col items-center justify-center hover:bg-gray-50 transition"
                 >
-                  <div className="w-14 h-14 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center mb-4 group-hover:scale-110 transition">
-                    <ShieldCheck className="text-blue-600 w-6 h-6" />
+                  <div className="w-16 h-16 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <ShieldCheck className="text-blue-600 w-7 h-7" />
                   </div>
 
-                  <span className="font-semibold text-gray-800 text-xs tracking-wide text-center">
+                  <span className="text-xs font-semibold text-gray-800 tracking-wide text-center">
                     {item}
                   </span>
                 </div>
@@ -143,16 +137,16 @@ export default function FullWidthQualitySection() {
             </div>
 
             {/* Right */}
-            <div className="lg:w-80 bg-gradient-to-br from-gray-50 to-white border-l border-gray-100 flex items-center justify-center p-8">
-
+            <div className="xl:w-80 border-l border-gray-100 bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-10">
               <div className="text-center">
-
-                <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
-                  <ShieldCheck className="text-red-600" />
+                <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-5">
+                  <ShieldCheck className="text-red-600 w-7 h-7" />
                 </div>
 
-                <h4 className="font-bold text-xl text-gray-900 leading-snug">
-                  Trusted for Government,
+                <h4 className="font-bold text-2xl text-gray-900 leading-snug">
+                  Trusted for
+                  <br />
+                  Government,
                   <br />
                   Infrastructure,
                   <br />
@@ -160,15 +154,10 @@ export default function FullWidthQualitySection() {
                   <br />
                   Residential Projects
                 </h4>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
     </section>
   );
