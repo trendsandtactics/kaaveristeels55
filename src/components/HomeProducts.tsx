@@ -64,13 +64,7 @@ export default function HomeProducts() {
           transition={{ duration: 0.45 }}
           className="flex items-center gap-4 mb-5"
         >
-<div className="h-[3px] w-14 bg-yellow-500 rounded-full"></div>
 
-    <span className="text-white uppercase tracking-[0.5em] text-sm font-extrabold">
-        OUR PRODUCTS
-    </span>
-
-    <div className="h-[3px] w-14 bg-yellow-500 rounded-full"></div>
         </motion.div>
 
         <motion.h2
