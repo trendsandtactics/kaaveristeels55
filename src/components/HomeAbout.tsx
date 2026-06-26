@@ -28,9 +28,9 @@ export default function HomeAbout() {
   };
 
   return (
-    <section className="relative w-full flex flex-col lg:flex-row items-stretch bg-slate-50/50 overflow-hidden">
+    <section className="relative w-full min-h-screen flex flex-col lg:flex-row items-stretch bg-slate-50/50 overflow-hidden">
       
-      <div className="relative w-full lg:w-1/2 min-h-[50vh] lg:min-h-0 shrink-0 overflow-hidden group">
+      <div className="relative w-full lg:w-1/2 min-h-[50vh] lg:min-h-screen shrink-0 overflow-hidden group">
         <Image
           src="/kaaveri1.png" 
           alt="Kaveri Steel Plant Production Facility"
@@ -60,20 +60,20 @@ export default function HomeAbout() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="w-full lg:w-1/2 flex flex-col justify-center items-start px-6 sm:px-12 md:px-16 lg:px-16 py-16 lg:py-16 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
+        className="w-full lg:w-1/2 flex flex-col items-start px-6 sm:px-12 md:px-16 lg:px-16 py-12 lg:py-16 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
       >
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        <div className="w-full max-w-2xl space-y-8 lg:space-y-8">
+        <div className="w-full max-w-3xl flex flex-col justify-between h-full flex-grow gap-8 lg:gap-10">
           
-          <motion.div variants={itemVariants} className="space-y-3 flex flex-col items-start">
-            <span className="font-sans uppercase tracking-[0.25em] text-red-600 text-sm sm:text-base lg:text-sm font-black block">
+          <motion.div variants={itemVariants} className="flex flex-col items-start pt-2">
+            <span className="font-sans uppercase tracking-[0.25em] text-red-600 text-sm sm:text-base lg:text-sm font-black block mb-3">
               ABOUT KAAVERI STEELS
             </span>
             <div className="w-12 h-[4px] bg-red-600 rounded-full" />
           </motion.div>
 
-          <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6 lg:space-y-5">
+          <motion.div variants={itemVariants} className="space-y-6 flex-grow flex flex-col justify-center">
             <h2 className="font-serif font-black text-4xl sm:text-5xl lg:text-5xl text-slate-900 tracking-tight leading-[1.15]">
               BUILT ON INDUSTRIAL STEEL.<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-700">
@@ -81,7 +81,7 @@ export default function HomeAbout() {
               </span>
             </h2>
             
-            <div className="space-y-4">
+            <div className="space-y-5">
               <p className="font-sans text-slate-600 font-normal leading-relaxed text-lg lg:text-base">
                 At <span className="text-red-600 font-bold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
               </p>
@@ -102,7 +102,7 @@ export default function HomeAbout() {
 
           <motion.div 
             variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center justify-start gap-4 sm:gap-6 lg:gap-4 pt-2 sm:pt-4 lg:pt-2 w-full"
+            className="flex flex-col sm:flex-row items-center justify-start gap-4 sm:gap-6 lg:gap-4 pb-2 w-full"
           >
             <Link 
               href="/products" 
