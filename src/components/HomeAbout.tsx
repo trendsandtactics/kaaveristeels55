@@ -85,9 +85,9 @@ export default function HomeAbout() {
               <p className="font-sans text-slate-600 font-normal leading-relaxed text-lg lg:text-base">
                 At <span className="text-red-600 font-bold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
               </p>
-              <p className="font-sans text-slate-600 font-normal leading-relaxed text-lg lg:text-base">
-                Beyond manufacturing, we believe in forging lasting partnerships with our clients. By integrating cutting-edge metallurgical technologies with eco-friendly production practices, our advanced facilities deliver steel with superior yield strength, extraordinary ductility, and unmatched seismic resistance. Whether constructing towering commercial skyscrapers or vital national infrastructure, we provide the unwavering strength your vision demands.
-              </p>
+              <p className="font-sans text-slate-600 font-normal leading-relaxed text-2xl lg:text-xl">
+  Beyond manufacturing, we believe in forging lasting partnerships with our clients. By integrating cutting-edge metallurgical technologies with eco-friendly production practices, our advanced facilities deliver steel with superior yield strength, extraordinary ductility, and unmatched seismic resistance. Whether constructing towering commercial skyscrapers or vital national infrastructure, we provide the unwavering strength your vision demands.
+</p>
             </div>
           </motion.div>
 
@@ -95,7 +95,7 @@ export default function HomeAbout() {
             variants={itemVariants}
             className="relative border-l-4 border-red-600 pl-5 sm:pl-8 py-4 sm:py-6 lg:py-5 text-left bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border-y border-r border-slate-100/50"
           >
-            <p className="font-sans italic text-slate-700 text-lg lg:text-lg font-medium leading-relaxed">
+            <p className="font-sans text-slate-600 font-normal leading-relaxed text-2xl lg:text-xl">
               &ldquo;Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.&rdquo;
             </p>
           </motion.div>
