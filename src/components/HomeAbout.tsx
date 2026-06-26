@@ -81,9 +81,14 @@ export default function HomeAbout() {
               </span>
             </h2>
             
-            <p className="font-sans text-slate-600 font-normal leading-relaxed text-lg lg:text-base">
-              At <span className="text-red-600 font-bold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
-            </p>
+            <div className="space-y-4">
+              <p className="font-sans text-slate-600 font-normal leading-relaxed text-lg lg:text-base">
+                At <span className="text-red-600 font-bold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
+              </p>
+              <p className="font-sans text-slate-600 font-normal leading-relaxed text-lg lg:text-base">
+                Beyond manufacturing, we believe in forging lasting partnerships with our clients. By integrating cutting-edge metallurgical technologies with eco-friendly production practices, our advanced facilities deliver steel with superior yield strength, extraordinary ductility, and unmatched seismic resistance. Whether constructing towering commercial skyscrapers or vital national infrastructure, we provide the unwavering strength your vision demands.
+              </p>
+            </div>
           </motion.div>
 
           <motion.div 
