@@ -82,7 +82,7 @@ export default function HomeAbout() {
             </h2>
             
             <div className="space-y-5">
-              <p className="font-sans text-slate-600 font-normal leading-relaxed text-lg lg:text-base">
+             <p className="font-sans text-slate-600 font-normal leading-relaxed text-2xl lg:text-xl">
                 At <span className="text-red-600 font-bold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
               </p>
               <p className="font-sans text-slate-600 font-normal leading-relaxed text-2xl lg:text-xl">
