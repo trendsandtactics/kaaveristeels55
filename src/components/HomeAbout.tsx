@@ -64,12 +64,16 @@ export default function HomeAbout() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-10 xl:px-20 py-12 lg:py-10 xl:py-16 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
+        /* Increased padding on lg/xl to balance the newly expanded width */
+        className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-16 xl:px-24 py-12 lg:py-16 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
       >
         {/* Subtle decorative background accent */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        <div className="max-w-2xl space-y-6 lg:space-y-8">
+        {/* FIX: Removed 'max-w-2xl' and replaced with 'w-full'.
+            Increased vertical spacing from 'space-y-6 lg:space-y-8' to 'space-y-10 lg:space-y-14'
+        */}
+        <div className="w-full space-y-10 lg:space-y-14">
           
           {/* Top Eyebrow Identifier */}
           <motion.div variants={itemVariants} className="space-y-3 flex flex-col items-start">
