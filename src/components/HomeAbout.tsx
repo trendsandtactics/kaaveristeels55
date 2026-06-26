@@ -28,10 +28,12 @@ export default function HomeAbout() {
   };
 
   return (
-    <section className="relative w-full min-h-screen lg:min-h-[85vh] xl:min-h-screen flex flex-col lg:flex-row items-stretch bg-slate-50/50 overflow-hidden">
+    {/* Removed min-h-screen to let padding and content control the height naturally */}
+    <section className="relative w-full flex flex-col lg:flex-row items-stretch bg-slate-50/50 overflow-hidden">
       
       {/* Left Side: Industrial Showcase Image */}
-      <div className="relative w-full lg:w-1/2 min-h-[45vh] sm:min-h-[50vh] shrink-0 overflow-hidden group">
+      {/* Removed lg:min-h-0 because items-stretch handles desktop height, kept min-h-[50vh] for mobile stack */}
+      <div className="relative w-full lg:w-1/2 min-h-[50vh] lg:min-h-0 shrink-0 overflow-hidden group">
         <Image
           src="/kaaveri1.png" 
           alt="Kaveri Steel Plant Production Facility"
@@ -40,10 +42,8 @@ export default function HomeAbout() {
           className="object-cover object-center w-full h-full transform scale-100 group-hover:scale-105 transition-transform duration-1000 ease-out"
         />
         
-        {/* Soft elegant vignette gradient over the image */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-slate-950/20 pointer-events-none" />
         
-        {/* Industrial Red Overlay Badge */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.9, x: -20 }}
           whileInView={{ opacity: 1, scale: 1, x: 0 }}
@@ -59,19 +59,18 @@ export default function HomeAbout() {
       </div>
 
       {/* Right Side: Copywriting & Content Canvas */}
+      {/* Replaced viewport sizing with explicit padding (py-16, lg:py-20, xl:py-28) to guarantee exact spacing */}
       <motion.div 
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-12 xl:px-24 py-12 lg:py-8 xl:py-16 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
+        className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-12 xl:px-24 py-16 lg:py-20 xl:py-28 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
       >
-        {/* Subtle decorative background accent */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
         <div className="w-full space-y-10 lg:space-y-8 xl:space-y-12">
           
-          {/* Top Eyebrow Identifier */}
           <motion.div variants={itemVariants} className="space-y-3 flex flex-col items-start">
             <span className="font-sans uppercase tracking-[0.25em] text-red-600 text-sm sm:text-base font-black block">
               ABOUT KAAVERI STEELS
@@ -79,7 +78,6 @@ export default function HomeAbout() {
             <div className="w-12 h-[4px] bg-red-600 rounded-full" />
           </motion.div>
 
-          {/* Core Typography Canvas */}
           <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6 lg:space-y-4 xl:space-y-6">
             <h2 className="font-serif font-black text-4xl sm:text-5xl lg:text-5xl xl:text-6xl text-slate-900 tracking-tight leading-[1.15]">
               BUILT ON INDUSTRIAL STEEL.<br />
@@ -93,7 +91,6 @@ export default function HomeAbout() {
             </p>
           </motion.div>
 
-          {/* Premium Quote Block */}
           <motion.div 
             variants={itemVariants}
             className="relative border-l-4 border-red-600 pl-5 sm:pl-8 py-4 sm:py-6 lg:py-4 xl:py-6 text-left bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border-y border-r border-slate-100/50"
@@ -103,7 +100,6 @@ export default function HomeAbout() {
             </p>
           </motion.div>
 
-          {/* Action Buttons */}
           <motion.div 
             variants={itemVariants}
             className="flex flex-col sm:flex-row items-center justify-start gap-4 sm:gap-6 lg:gap-4 xl:gap-6 pt-2 sm:pt-4 lg:pt-2 w-full"
