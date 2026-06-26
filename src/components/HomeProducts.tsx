@@ -65,11 +65,6 @@ export default function HomeProducts() {
           className="flex items-center gap-4 mb-5"
         >
 <div className="w-10 h-px bg-[#6D071A]" />
-
-<span className="text-[#6D071A] text-sm md:text-base font-black tracking-[0.45em] uppercase">
-  Our Products
-</span>
-
 <div className="w-10 h-px bg-[#6D071A]" />
         </motion.div>
 
