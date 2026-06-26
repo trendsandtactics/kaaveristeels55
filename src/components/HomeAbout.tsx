@@ -28,11 +28,9 @@ export default function HomeAbout() {
   };
 
   return (
-    {/* 1. Adjusted height: lg gets 85vh to reduce empty space on small laptops, xl gets full screen */}
     <section className="relative w-full min-h-screen lg:min-h-[85vh] xl:min-h-screen flex flex-col lg:flex-row items-stretch bg-slate-50/50 overflow-hidden">
       
       {/* Left Side: Industrial Showcase Image */}
-      {/* Removed lg:min-h-screen here; items-stretch on the parent handles equal height perfectly */}
       <div className="relative w-full lg:w-1/2 min-h-[45vh] sm:min-h-[50vh] shrink-0 overflow-hidden group">
         <Image
           src="/kaaveri1.png" 
@@ -66,13 +64,11 @@ export default function HomeAbout() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        {/* 2. Adjusted padding: tighter on lg (py-8), spacious on xl (py-16) */}
         className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-12 xl:px-24 py-12 lg:py-8 xl:py-16 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
       >
         {/* Subtle decorative background accent */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        {/* 3. Adjusted internal spacing: tighter on lg (space-y-8), spacious on xl (space-y-12) */}
         <div className="w-full space-y-10 lg:space-y-8 xl:space-y-12">
           
           {/* Top Eyebrow Identifier */}
