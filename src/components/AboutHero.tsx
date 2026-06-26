@@ -32,22 +32,22 @@ export default async function AboutHero() {
     }
 
     const welcome = items[0] || {
-        title: "Welcome to KAAVERI",
+        title: "Welcome to Kaaveri",
         short_description: "TMT & STRUCTURAL",
         content: "At KAAVERI, we are passionate about steel and dedicated to excellence. Our company is a leading manufacturer of TMT bars and structural steel products, committed to providing the construction industry with the highest quality materials that ensure strength, safety, and sustainability.",
     };
 
     const mission = items[1] || {
-        title: "Our Mission",
-        short_description: "Building a Stronger, Sustainable Future",
-        content: "At KAAVERI, our mission is to manufacture and supply superior TMT bars and structural steel products that contribute to the safety, durability, and sustainability of construction projects worldwide. We are dedicated to maintaining the highest standards of quality in all our products.",
+        title: "ABOUT US",
+        short_description: "Building Strength, Delivering Excellence",
+        content: "Located at Maruthur Village, Kuttalam Taluk, Mayiladuthurai District, near Kumbakonam, our state-of-the-art greenfield manufacturing facility is one of the most advanced steel production plants in India. The facility has a production capacity of 24,000 metric tonnes of TMT bars per month, enabling us to meet the growing demands of infrastructure, commercial, industrial, and residential projects across the country.",
         cover_image: "/image/about1.png",
     };
 
     const vision = items[2] || {
-        title: "Vision",
+        title: "OUR LEGACY",
         short_description: "Leading the Steel Industry with Quality, Innovation, and Trust",
-        content: "Our vision is to be the most trusted and respected manufacturer in the steel industry, renowned for our unwavering commitment to quality, innovation, and customer satisfaction. We aim to set new standards in steel manufacturing by embracing cutting-edge technology.",
+        content: "With decades of industry expertise, Kaaveri Steels has evolved from its roots as Mayavaram Rolling Mill Private Limited into a modern and technologically advanced steel manufacturing company. Our unwavering focus on quality and continuous innovation has helped us earn approvals from prestigious organizations.",
         cover_image: "/image/about2.png",
     };
 
@@ -60,108 +60,95 @@ export default async function AboutHero() {
         : "/image/about2.png";
 
     return (
-        <div className="w-full bg-white">
-            {/* Hero Background Section - Yellow Gradient */}
-            <div className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-28 pb-8 md:pt-32 md:pb-10 relative overflow-hidden shadow-sm border-b border-black/10">
-
-                {/* Glow effect */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
-
-                {/* Subtle grid pattern */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
-
-                {/* Keep the welcome text centered and contained */}
-                <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-                    {/* Welcome Section */}
-                    <div className="text-center max-w-4xl mx-auto">
-                        <div className="flex items-center justify-center gap-4 mb-4">
-                            <div className="w-12 h-[2px] bg-black" />
-                            <h2 className="font-sans text-black uppercase tracking-[0.2em] font-bold text-sm">
-                                {welcome.short_description || "About Us"}
+        <div className="w-full bg-[#f8f9fa] font-sans">
+            {/* Hero Background Section - Solid Golden Yellow matching reference */}
+            <div className="w-full bg-[#FBC02D] pt-32 pb-20 relative overflow-hidden border-b border-black/5">
+                <div className="max-w-5xl mx-auto px-6 md:px-12 relative z-10">
+                    <div className="text-center">
+                        <div className="flex items-center justify-center gap-4 mb-6">
+                            <div className="w-16 h-[1px] bg-black" />
+                            <h2 className="text-black uppercase tracking-[0.25em] font-bold text-xs md:text-sm">
+                                {welcome.short_description || "TMT & STRUCTURAL"}
                             </h2>
-                            <div className="w-12 h-[2px] bg-black" />
+                            <div className="w-16 h-[1px] bg-black" />
                         </div>
 
-                        <h1 className="font-serif text-5xl md:text-7xl text-black mb-8 leading-tight drop-shadow-md font-bold">
+                        <h1 className="font-serif text-5xl md:text-7xl text-black mb-8 leading-tight font-bold">
                             {welcome.title}
                         </h1>
 
-                        <div className="font-sans text-black/80 text-lg md:text-xl leading-relaxed font-medium whitespace-pre-wrap">
+                        <div className="text-black/85 text-base md:text-lg leading-relaxed font-medium max-w-3xl mx-auto whitespace-pre-wrap">
                             {renderContent(welcome.content)}
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Content Section with a Background Image wrapper */}
-            <div className="w-full relative py-20 overflow-hidden bg-gray-50">
-                {/* Section Background Image with Light Overlay for Text Readability */}
-                <div className="absolute inset-0 z-0">
+            {/* Content Section with a very subtle background */}
+            <div className="w-full relative overflow-hidden bg-[#f4f5f7]">
+                
+                {/* Background watermark overlay (optional, subtle texture) */}
+                <div className="absolute inset-0 z-0 opacity-40 mix-blend-multiply pointer-events-none">
                     <Image
-                        src="/metro.png" // Replace with your desired background image path
-                        alt="Section Background"
+                        src="/metro.png" // Can be swapped with a faint industrial pattern
+                        alt="Background Texture"
                         fill
-                        priority
                         className="object-cover"
                     />
-                    {/* Soft light overlay to keep text highly legible */}
-                    <div className="absolute inset-0 bg-white/90 backdrop-blur-[2px]" />
+                    <div className="absolute inset-0 bg-white/80 backdrop-blur-sm" />
                 </div>
 
-                {/* REMOVED max-w-7xl and mx-auto to allow full-width expansion.
-                  Added vertical flex layout for the gap between mission and vision sections.
-                */}
-                <div className="w-full relative z-10 flex flex-col gap-16 md:gap-24">
+                <div className="w-full relative z-10 flex flex-col">
 
-                    {/* Mission Section (Full Width Split) */}
-                    <div className="flex flex-col md:flex-row items-center w-full">
-                        {/* Image takes exactly half the screen on desktop */}
-                        <div className="w-full md:w-1/2 relative h-[400px] md:h-[600px] overflow-hidden group shadow-lg">
-                            <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
+                    {/* Section 1 (Image Left, Text Right) */}
+                    <div className="flex flex-col md:flex-row items-stretch w-full min-h-[500px] lg:min-h-[650px]">
+                        
+                        {/* Image Half */}
+                        <div className="w-full md:w-1/2 relative min-h-[400px] md:min-h-full overflow-hidden">
                             <Image
                                 src={missionImage}
-                                alt={mission.title || "Industrial Teamwork"}
+                                alt={mission.short_description || "Industrial Teamwork"}
                                 fill
-                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                className="object-cover"
                             />
                         </div>
 
-                        {/* Text takes the other half, with internal padding to prevent it from hugging the edges */}
-                        <div className="w-full md:w-1/2 px-6 py-12 md:px-16 lg:px-24">
-                            <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
+                        {/* Text Half */}
+                        <div className="w-full md:w-1/2 flex flex-col justify-center px-8 py-16 md:p-16 lg:p-24 xl:p-32 bg-white/60 backdrop-blur-md">
+                            <h2 className="text-red-700 uppercase tracking-widest font-bold text-xs md:text-sm mb-4">
                                 {mission.title}
                             </h2>
-                            <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                            <h3 className="font-serif text-4xl md:text-5xl lg:text-5xl text-gray-900 mb-6 leading-tight font-extrabold">
                                 {mission.short_description}
                             </h3>
-                            <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                            <div className="text-gray-700 text-base lg:text-lg leading-relaxed whitespace-pre-wrap">
                                 {renderContent(mission.content)}
                             </div>
                         </div>
                     </div>
 
-                    {/* Vision Section (Full Width Split, Reversed) */}
-                    <div className="flex flex-col md:flex-row-reverse items-center w-full">
-                        {/* Image takes exactly half the screen on desktop */}
-                        <div className="w-full md:w-1/2 relative h-[400px] md:h-[600px] overflow-hidden group shadow-lg">
-                            <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
+                    {/* Section 2 (Text Left, Image Right) */}
+                    <div className="flex flex-col md:flex-row-reverse items-stretch w-full min-h-[500px] lg:min-h-[650px]">
+                        
+                        {/* Image Half */}
+                        <div className="w-full md:w-1/2 relative min-h-[400px] md:min-h-full overflow-hidden">
                             <Image
                                 src={visionImage}
-                                alt={vision.title || "Industrial Factory"}
+                                alt={vision.short_description || "Industrial Factory"}
                                 fill
-                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                className="object-cover"
                             />
                         </div>
 
-                        {/* Text takes the other half, with internal padding */}
-                        <div className="w-full md:w-1/2 px-6 py-12 md:px-16 lg:px-24">
-                            <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
+                        {/* Text Half */}
+                        <div className="w-full md:w-1/2 flex flex-col justify-center px-8 py-16 md:p-16 lg:p-24 xl:p-32 bg-transparent">
+                            <h2 className="text-red-700 uppercase tracking-widest font-bold text-xs md:text-sm mb-4">
                                 {vision.title}
                             </h2>
-                            <h3 className="font-serif text-4xl md:text-5xl text-black mb-6 leading-tight drop-shadow-sm font-extrabold">
+                            <h3 className="font-serif text-4xl md:text-5xl lg:text-5xl text-gray-900 mb-6 leading-tight font-extrabold">
                                 {vision.short_description}
                             </h3>
-                            <div className="font-body text-black/80 text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                            <div className="text-gray-700 text-base lg:text-lg leading-relaxed whitespace-pre-wrap">
                                 {renderContent(vision.content)}
                             </div>
                         </div>
