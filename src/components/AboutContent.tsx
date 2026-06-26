@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   ShieldCheck,
   Microscope,
@@ -42,13 +43,15 @@ const features = [
   },
 ];
 
+// Updated to include image paths. 
+// Note: Place these images in your Next.js /public directory (e.g., /public/logos/...)
 const approvals = [
-  "CHENNAI METRO RAIL",
-  "TNPWD",
-  "TNPHC",
-  "TNHB",
-  "TNEB",
-  "PWD",
+  { name: "CHENNAI METRO RAIL", logo: "/CMRL.png" },
+  { name: "TNPWD", logo: "/logos/tnpwd.png" },
+  { name: "TNPHC", logo: "/logos/tnphc.png" },
+  { name: "TNHB", logo: "/logos/tnhb.png" },
+  { name: "TNEB", logo: "/logos/tneb.png" },
+  { name: "PWD", logo: "/logos/pwd.png" },
 ];
 
 export default function FullWidthQualitySection() {
@@ -118,19 +121,26 @@ export default function FullWidthQualitySection() {
               </div>
             </div>
 
-            {/* Middle */}
+            {/* Middle - Updated for Logos */}
             <div className="flex-1 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
               {approvals.map((item) => (
                 <div
-                  key={item}
+                  key={item.name}
                   className="group border-l border-gray-100 p-8 flex flex-col items-center justify-center hover:bg-gray-50 transition"
                 >
-                  <div className="w-16 h-16 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <ShieldCheck className="text-blue-600 w-7 h-7" />
+                  {/* Image Container with relative positioning for Next/Image fill */}
+                  <div className="relative w-20 h-16 mb-4 group-hover:scale-110 transition-transform flex items-center justify-center">
+                    <Image
+                      src={item.logo}
+                      alt={`${item.name} Logo`}
+                      fill
+                      className="object-contain" 
+                      sizes="(max-width: 768px) 80px, 80px"
+                    />
                   </div>
 
                   <span className="text-xs font-semibold text-gray-800 tracking-wide text-center">
-                    {item}
+                    {item.name}
                   </span>
                 </div>
               ))}
