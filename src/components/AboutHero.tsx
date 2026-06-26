@@ -70,8 +70,8 @@ export default async function AboutHero() {
                 {/* Subtle grid pattern */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
 
+                {/* Keep the welcome text centered and contained */}
                 <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-
                     {/* Welcome Section */}
                     <div className="text-center max-w-4xl mx-auto">
                         <div className="flex items-center justify-center gap-4 mb-4">
@@ -98,7 +98,7 @@ export default async function AboutHero() {
                 {/* Section Background Image with Light Overlay for Text Readability */}
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="/metro.png‎" // Replace with your desired background image path
+                        src="/metro.png" // Replace with your desired background image path
                         alt="Section Background"
                         fill
                         priority
@@ -108,11 +108,15 @@ export default async function AboutHero() {
                     <div className="absolute inset-0 bg-white/90 backdrop-blur-[2px]" />
                 </div>
 
-                <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+                {/* REMOVED max-w-7xl and mx-auto to allow full-width expansion.
+                  Added vertical flex layout for the gap between mission and vision sections.
+                */}
+                <div className="w-full relative z-10 flex flex-col gap-16 md:gap-24">
 
-                    {/* Mission Section */}
-                    <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20 mb-24">
-                        <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group shadow-lg">
+                    {/* Mission Section (Full Width Split) */}
+                    <div className="flex flex-col md:flex-row items-center w-full">
+                        {/* Image takes exactly half the screen on desktop */}
+                        <div className="w-full md:w-1/2 relative h-[400px] md:h-[600px] overflow-hidden group shadow-lg">
                             <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
                             <Image
                                 src={missionImage}
@@ -122,7 +126,8 @@ export default async function AboutHero() {
                             />
                         </div>
 
-                        <div className="w-full md:w-1/2">
+                        {/* Text takes the other half, with internal padding to prevent it from hugging the edges */}
+                        <div className="w-full md:w-1/2 px-6 py-12 md:px-16 lg:px-24">
                             <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
                                 {mission.title}
                             </h2>
@@ -135,9 +140,10 @@ export default async function AboutHero() {
                         </div>
                     </div>
 
-                    {/* Vision Section */}
-                    <div className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-20">
-                        <div className="w-full md:w-1/2 relative h-[400px] md:h-[500px] rounded-sm overflow-hidden group shadow-lg">
+                    {/* Vision Section (Full Width Split, Reversed) */}
+                    <div className="flex flex-col md:flex-row-reverse items-center w-full">
+                        {/* Image takes exactly half the screen on desktop */}
+                        <div className="w-full md:w-1/2 relative h-[400px] md:h-[600px] overflow-hidden group shadow-lg">
                             <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
                             <Image
                                 src={visionImage}
@@ -147,7 +153,8 @@ export default async function AboutHero() {
                             />
                         </div>
 
-                        <div className="w-full md:w-1/2">
+                        {/* Text takes the other half, with internal padding */}
+                        <div className="w-full md:w-1/2 px-6 py-12 md:px-16 lg:px-24">
                             <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-sm mb-4">
                                 {vision.title}
                             </h2>
