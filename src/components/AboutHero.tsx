@@ -62,7 +62,12 @@ export default async function AboutHero() {
     return (
         <div className="w-full bg-white">
             {/* Hero Background Section - Yellow Gradient */}
-            <div className="w-full bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow pt-28 pb-8 md:pt-32 md:pb-10 relative overflow-hidden shadow-sm border-b border-black/10">
+            <div
+    className="w-full pt-28 pb-8 md:pt-32 md:pb-10 relative overflow-hidden shadow-sm border-b border-black/10 bg-cover bg-center bg-no-repeat"
+    style={{
+        backgroundImage: "url('/image/about-bg.jpg')",
+    }}
+>
 
                 {/* Glow effect */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
