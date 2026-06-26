@@ -71,7 +71,7 @@ export default function FullWidthQualitySection() {
 
       {/* Feature Cards */}
       <div className="w-full px-6 sm:px-8 lg:px-16 xl:px-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {features.map((item, index) => (
             <div
               key={index}
