@@ -60,48 +60,48 @@ export default function HomeAbout() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-12 xl:px-24 py-16 lg:py-20 xl:py-28 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
+        className="w-full lg:w-1/2 flex flex-col justify-center items-start px-6 sm:px-12 md:px-16 lg:px-16 py-16 lg:py-16 bg-white relative z-10 lg:shadow-[-20px_0_40px_rgba(0,0,0,0.03)]"
       >
         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        <div className="w-full space-y-10 lg:space-y-8 xl:space-y-12">
+        <div className="w-full max-w-2xl space-y-8 lg:space-y-8">
           
           <motion.div variants={itemVariants} className="space-y-3 flex flex-col items-start">
-            <span className="font-sans uppercase tracking-[0.25em] text-red-600 text-sm sm:text-base font-black block">
+            <span className="font-sans uppercase tracking-[0.25em] text-red-600 text-sm sm:text-base lg:text-sm font-black block">
               ABOUT KAAVERI STEELS
             </span>
             <div className="w-12 h-[4px] bg-red-600 rounded-full" />
           </motion.div>
 
-          <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6 lg:space-y-4 xl:space-y-6">
-            <h2 className="font-serif font-black text-4xl sm:text-5xl lg:text-5xl xl:text-6xl text-slate-900 tracking-tight leading-[1.15]">
+          <motion.div variants={itemVariants} className="space-y-4 sm:space-y-6 lg:space-y-5">
+            <h2 className="font-serif font-black text-4xl sm:text-5xl lg:text-5xl text-slate-900 tracking-tight leading-[1.15]">
               BUILT ON INDUSTRIAL STEEL.<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-700">
                 TRUSTED BY BUILDERS ACROSS INDIA.
               </span>
             </h2>
             
-            <p className="font-sans text-slate-600 font-normal leading-relaxed text-lg lg:text-base xl:text-xl">
+            <p className="font-sans text-slate-600 font-normal leading-relaxed text-lg lg:text-base">
               At <span className="text-red-600 font-bold">KAAVERI</span>, we are deeply passionate about foundational structural integrity and committed to manufacturing perfection. As an industry-leading manufacturer of high-grade premium TMT bars and heavy structural steel products, we proudly supply modern infrastructure developments across the entire sub-continent with sustainable, precision-rolled materials engineered explicitly for multigenerational longevity.
             </p>
           </motion.div>
 
           <motion.div 
             variants={itemVariants}
-            className="relative border-l-4 border-red-600 pl-5 sm:pl-8 py-4 sm:py-6 lg:py-4 xl:py-6 text-left bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border-y border-r border-slate-100/50"
+            className="relative border-l-4 border-red-600 pl-5 sm:pl-8 py-4 sm:py-6 lg:py-5 text-left bg-gradient-to-r from-slate-50 to-transparent rounded-r-xl border-y border-r border-slate-100/50"
           >
-            <p className="font-sans italic text-slate-700 text-lg lg:text-base xl:text-2xl font-medium leading-relaxed">
+            <p className="font-sans italic text-slate-700 text-lg lg:text-lg font-medium leading-relaxed">
               &ldquo;Our rigorous, multi-stage quality control checks ensure that every production item leaving our plant meets the absolute highest global standards — empowering structural engineers and builders to confidently raise frameworks that stand the test of time.&rdquo;
             </p>
           </motion.div>
 
           <motion.div 
             variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center justify-start gap-4 sm:gap-6 lg:gap-4 xl:gap-6 pt-2 sm:pt-4 lg:pt-2 w-full"
+            className="flex flex-col sm:flex-row items-center justify-start gap-4 sm:gap-6 lg:gap-4 pt-2 sm:pt-4 lg:pt-2 w-full"
           >
             <Link 
               href="/products" 
-              className="group font-sans w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 lg:px-6 lg:py-3 xl:px-10 xl:py-5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm sm:text-base lg:text-sm xl:text-base tracking-wider transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-red-600/20 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
+              className="group font-sans w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 lg:px-8 lg:py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm sm:text-base lg:text-sm tracking-wider transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-red-600/20 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
             >
               Explore Products 
               <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
@@ -109,7 +109,7 @@ export default function HomeAbout() {
             
             <Link 
               href="/product-brochure" 
-              className="font-sans w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 lg:px-6 lg:py-3 xl:px-10 xl:py-5 border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-400 font-bold text-sm sm:text-base lg:text-sm xl:text-base tracking-wider transition-all duration-300 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
+              className="font-sans w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 lg:px-8 lg:py-4 border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-400 font-bold text-sm sm:text-base lg:text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 uppercase whitespace-nowrap rounded-md"
             >
               <FileText className="w-5 h-5 text-slate-500" /> 
               Download Brochure
