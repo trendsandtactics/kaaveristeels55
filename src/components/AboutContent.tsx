@@ -47,11 +47,10 @@ const features = [
 // Note: Place these images in your Next.js /public directory (e.g., /public/logos/...)
 const approvals = [
   { name: "CHENNAI METRO RAIL", logo: "/CMRL.png" },
-  { name: "TNPWD", logo: "/logos/tnpwd.png" },
-  { name: "TNPHC", logo: "/logos/tnphc.png" },
-  { name: "TNHB", logo: "/logos/tnhb.png" },
-  { name: "TNEB", logo: "/logos/tneb.png" },
-  { name: "PWD", logo: "/logos/pwd.png" },
+  { name: "TNPWD", logo: "/TNPWD.png" },
+  { name: "TNPHC", logo: "/TNPHC.png" },
+  { name: "TNHB", logo: "/TNHB.png" },
+  { name: "TNEB", logo: "/TNEB.png" },
 ];
 
 export default function FullWidthQualitySection() {
