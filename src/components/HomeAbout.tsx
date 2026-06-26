@@ -28,11 +28,8 @@ export default function HomeAbout() {
   };
 
   return (
-    {/* Removed min-h-screen to let padding and content control the height naturally */}
     <section className="relative w-full flex flex-col lg:flex-row items-stretch bg-slate-50/50 overflow-hidden">
       
-      {/* Left Side: Industrial Showcase Image */}
-      {/* Removed lg:min-h-0 because items-stretch handles desktop height, kept min-h-[50vh] for mobile stack */}
       <div className="relative w-full lg:w-1/2 min-h-[50vh] lg:min-h-0 shrink-0 overflow-hidden group">
         <Image
           src="/kaaveri1.png" 
@@ -58,8 +55,6 @@ export default function HomeAbout() {
         </motion.div>
       </div>
 
-      {/* Right Side: Copywriting & Content Canvas */}
-      {/* Replaced viewport sizing with explicit padding (py-16, lg:py-20, xl:py-28) to guarantee exact spacing */}
       <motion.div 
         variants={containerVariants}
         initial="hidden"
