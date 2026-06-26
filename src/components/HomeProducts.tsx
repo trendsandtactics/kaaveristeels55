@@ -64,13 +64,15 @@ export default function HomeProducts() {
           transition={{ duration: 0.45 }}
           className="flex items-center gap-4 mb-5"
         >
-<div className="w-12 h-[2px] bg-[#D4AF37]" />
+<div className="inline-flex items-center gap-4 mb-6">
+  <div className="w-16 h-px bg-gradient-to-r from-transparent via-yellow-500 to-yellow-500" />
 
-<span className="text-[#D4AF37] tracking-[0.45em]">
+  <span className="px-5 py-2 rounded-full bg-black/40 backdrop-blur-md border border-yellow-500/30 text-yellow-400 text-sm font-bold tracking-[0.35em] uppercase shadow-lg">
     OUR PRODUCTS
-</span>
+  </span>
 
-<div className="w-12 h-[2px] bg-[#D4AF37]" />
+  <div className="w-16 h-px bg-gradient-to-l from-transparent via-yellow-500 to-yellow-500" />
+
         </motion.div>
 
         <motion.h2
