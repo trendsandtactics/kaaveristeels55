@@ -98,7 +98,7 @@ export default async function AboutHero() {
                 {/* Section Background Image with Light Overlay for Text Readability */}
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="/image/industrial-bg.jpg" // Replace with your desired background image path
+                        src="/metro.png‎" // Replace with your desired background image path
                         alt="Section Background"
                         fill
                         priority
