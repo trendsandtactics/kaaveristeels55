@@ -70,7 +70,6 @@ export default async function AboutHero() {
                 {/* Subtle grid pattern */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none mix-blend-overlay opacity-30" />
 
-                {/* Keep the welcome text centered and contained */}
                 <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
                     {/* Welcome Section */}
                     <div className="text-center max-w-4xl mx-auto">
@@ -82,8 +81,8 @@ export default async function AboutHero() {
                             <div className="w-8 md:w-12 h-[2px] bg-black" />
                         </div>
 
-                        {/* Scaled text sizes for different breakpoints */}
-                        <h1 className="font-serif text-4xl md:text-5xl lg:text-7xl text-black mb-6 md:mb-8 leading-tight drop-shadow-md font-bold">
+                        {/* Smoother scaling for the hero title */}
+                        <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-black mb-6 md:mb-8 leading-tight drop-shadow-md font-bold">
                             {welcome.title}
                         </h1>
 
@@ -96,7 +95,6 @@ export default async function AboutHero() {
 
             {/* Content Section with a Background Image wrapper */}
             <div className="w-full relative py-16 md:py-24 overflow-hidden bg-gray-50">
-                {/* Section Background Image with Light Overlay for Text Readability */}
                 <div className="absolute inset-0 z-0">
                     <Image
                         src="/metro.png" // Replace with your desired background image path
@@ -105,16 +103,15 @@ export default async function AboutHero() {
                         priority
                         className="object-cover"
                     />
-                    {/* Soft light overlay to keep text highly legible */}
                     <div className="absolute inset-0 bg-white/90 backdrop-blur-[2px]" />
                 </div>
 
                 <div className="w-full relative z-10 flex flex-col gap-16 lg:gap-24">
 
-                    {/* Mission Section (Full Width Split on lg instead of md) */}
+                    {/* Mission Section */}
                     <div className="flex flex-col lg:flex-row items-stretch w-full">
-                        {/* Image scales gracefully based on device */}
-                        <div className="w-full lg:w-1/2 relative h-[350px] md:h-[450px] lg:h-[600px] overflow-hidden group shadow-lg">
+                        {/* Image Side: Using min-height and items-stretch to match text height perfectly */}
+                        <div className="w-full lg:w-1/2 relative min-h-[350px] md:min-h-[450px] lg:min-h-full overflow-hidden group shadow-lg">
                             <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
                             <Image
                                 src={missionImage}
@@ -124,24 +121,24 @@ export default async function AboutHero() {
                             />
                         </div>
 
-                        {/* Text Container: Vertically centered and properly padded */}
-                        <div className="w-full lg:w-1/2 px-6 py-10 md:p-12 lg:p-16 xl:p-24 flex flex-col justify-center">
+                        {/* Text Container: Smart padding and text sizes for laptops (lg) */}
+                        <div className="w-full lg:w-1/2 px-6 py-10 md:p-12 lg:px-10 lg:py-16 xl:p-20 2xl:p-24 flex flex-col justify-center">
                             <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-xs md:text-sm mb-3 md:mb-4">
                                 {mission.title}
                             </h2>
-                            <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl text-black mb-4 md:mb-6 leading-tight drop-shadow-sm font-extrabold">
+                            <h3 className="font-serif text-3xl md:text-4xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-black mb-4 md:mb-6 leading-tight drop-shadow-sm font-extrabold">
                                 {mission.short_description}
                             </h3>
-                            <div className="font-body text-black/80 text-base md:text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                            <div className="font-body text-black/80 text-base md:text-lg lg:text-base xl:text-lg leading-relaxed font-medium whitespace-pre-wrap">
                                 {renderContent(mission.content)}
                             </div>
                         </div>
                     </div>
 
-                    {/* Vision Section (Full Width Split, Reversed on lg instead of md) */}
+                    {/* Vision Section */}
                     <div className="flex flex-col lg:flex-row-reverse items-stretch w-full">
-                        {/* Image scales gracefully based on device */}
-                        <div className="w-full lg:w-1/2 relative h-[350px] md:h-[450px] lg:h-[600px] overflow-hidden group shadow-lg">
+                        {/* Image Side */}
+                        <div className="w-full lg:w-1/2 relative min-h-[350px] md:min-h-[450px] lg:min-h-full overflow-hidden group shadow-lg">
                             <div className="absolute inset-0 bg-[#800000]/10 z-10 mix-blend-multiply group-hover:bg-transparent transition-colors duration-500" />
                             <Image
                                 src={visionImage}
@@ -151,15 +148,15 @@ export default async function AboutHero() {
                             />
                         </div>
 
-                        {/* Text Container: Vertically centered and properly padded */}
-                        <div className="w-full lg:w-1/2 px-6 py-10 md:p-12 lg:p-16 xl:p-24 flex flex-col justify-center">
+                        {/* Text Container: Smart padding and text sizes for laptops (lg) */}
+                        <div className="w-full lg:w-1/2 px-6 py-10 md:p-12 lg:px-10 lg:py-16 xl:p-20 2xl:p-24 flex flex-col justify-center">
                             <h2 className="font-body text-[#800000] uppercase tracking-[0.2em] font-bold text-xs md:text-sm mb-3 md:mb-4">
                                 {vision.title}
                             </h2>
-                            <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl text-black mb-4 md:mb-6 leading-tight drop-shadow-sm font-extrabold">
+                            <h3 className="font-serif text-3xl md:text-4xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-black mb-4 md:mb-6 leading-tight drop-shadow-sm font-extrabold">
                                 {vision.short_description}
                             </h3>
-                            <div className="font-body text-black/80 text-base md:text-lg leading-relaxed font-medium whitespace-pre-wrap">
+                            <div className="font-body text-black/80 text-base md:text-lg lg:text-base xl:text-lg leading-relaxed font-medium whitespace-pre-wrap">
                                 {renderContent(vision.content)}
                             </div>
                         </div>
