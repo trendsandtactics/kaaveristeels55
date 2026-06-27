@@ -28,8 +28,8 @@ export default function HomeAbout() {
   };
 
   return (
-    {/* Forced flex-row across ALL devices */}
     <section className="relative w-full flex flex-row items-stretch bg-white overflow-hidden min-h-[50vh]">
+      {/* Forced flex-row across ALL devices */}
       
       {/* Left: Image Section (Forced 50% width) */}
       <div className="relative w-1/2 shrink-0 group overflow-hidden">
