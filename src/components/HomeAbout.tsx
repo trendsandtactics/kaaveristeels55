@@ -70,28 +70,7 @@ export default function HomeAbout() {
         </motion.div>
 
         {/* Bottom overlay stats strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="absolute bottom-0 left-0 right-0 z-20 flex divide-x divide-white/20"
-        >
-          {stats.map(({ icon: Icon, value, label }) => (
-            <div
-              key={label}
-              className="flex-1 flex flex-col items-center justify-center gap-1 py-4 lg:py-5 bg-slate-900/75 backdrop-blur-sm"
-            >
-              <Icon className="w-4 h-4 text-red-400 mb-1" />
-              <span className="text-white font-black text-lg lg:text-xl xl:text-2xl leading-none">
-                {value}
-              </span>
-              <span className="text-slate-300 text-[9px] lg:text-[10px] uppercase tracking-widest font-semibold">
-                {label}
-              </span>
-            </div>
-          ))}
-        </motion.div>
+       
       </div>
 
       {/* ── RIGHT: Content Panel ── */}
