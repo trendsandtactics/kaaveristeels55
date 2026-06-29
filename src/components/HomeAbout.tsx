@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
-import { ArrowRight, FileText, Shield, Zap, Globe } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
 
 export default function HomeAbout() {
   const containerVariants: Variants = {
@@ -23,12 +23,6 @@ export default function HomeAbout() {
       transition: { type: "spring", stiffness: 60, damping: 18 },
     },
   };
-
-  const stats = [
-    { icon: Shield, value: "IS:1786", label: "Certified Grade" },
-    { icon: Zap, value: "500D+", label: "TMT Strength" },
-    { icon: Globe, value: "12+", label: "States Served" },
-  ];
 
   return (
     <section
@@ -69,8 +63,7 @@ export default function HomeAbout() {
           </span>
         </motion.div>
 
-        {/* Bottom overlay stats strip */}
-      
+      </div>
 
       {/* ── RIGHT: Content Panel ── */}
       <motion.div
