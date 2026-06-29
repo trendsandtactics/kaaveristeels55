@@ -32,11 +32,12 @@ export default function HomeAbout() {
 
   return (
     <section
-      className="relative w-full flex flex-col lg:flex-row items-stretch bg-white overflow-hidden"
+      className="relative w-full flex flex-col lg:flex-row items-stretch bg-white overflow-hidden lg:min-h-screen"
       style={{ margin: 0, padding: 0 }}
     >
       {/* ── LEFT: Image Panel ── */}
-      <div className="relative w-full lg:w-[52%] shrink-0 group overflow-hidden"
+      <div
+        className="relative w-full lg:w-[52%] shrink-0 group overflow-hidden lg:self-stretch"
         style={{ minHeight: "clamp(320px, 55vw, 700px)" }}
       >
         <Image
@@ -103,11 +104,11 @@ export default function HomeAbout() {
           px-6 py-12
           sm:px-10 sm:py-14
           md:px-12 md:py-16
-          lg:px-12 lg:py-16
-          xl:px-16 xl:py-20"
+          lg:px-10 lg:py-10
+          xl:px-16 xl:py-0"
       >
         {/* Eyebrow */}
-        <motion.div variants={itemVariants} className="flex items-center gap-3 mb-6 lg:mb-8">
+        <motion.div variants={itemVariants} className="flex items-center gap-3 mb-5 lg:mb-6">
           <div className="w-8 lg:w-10 h-[2px] bg-red-700" />
           <span className="uppercase tracking-[0.25em] text-red-700 font-bold text-[10px] lg:text-xs">
             About Kaaveri Steels
@@ -117,7 +118,7 @@ export default function HomeAbout() {
         {/* Headline */}
         <motion.h2
           variants={itemVariants}
-          className="font-serif font-black text-slate-900 leading-[1.1] tracking-tight mb-6 lg:mb-8
+          className="font-serif font-black text-slate-900 leading-[1.1] tracking-tight mb-5 lg:mb-6
             text-3xl
             sm:text-4xl
             md:text-4xl
@@ -137,7 +138,7 @@ export default function HomeAbout() {
         {/* Body paragraphs */}
         <motion.div
           variants={itemVariants}
-          className="space-y-4 lg:space-y-5 mb-7 lg:mb-9"
+          className="space-y-3 lg:space-y-4 mb-5 lg:mb-6"
         >
           <p className="text-slate-600 leading-relaxed font-normal
             text-sm sm:text-base lg:text-base xl:text-lg">
@@ -164,7 +165,7 @@ export default function HomeAbout() {
         {/* Pull Quote */}
         <motion.blockquote
           variants={itemVariants}
-          className="relative border-l-[3px] border-red-700 pl-5 lg:pl-6 py-3 mb-8 lg:mb-10 bg-gradient-to-r from-red-50/60 to-transparent rounded-r-sm"
+          className="relative border-l-[3px] border-red-700 pl-5 lg:pl-6 py-3 mb-6 lg:mb-7 bg-gradient-to-r from-red-50/60 to-transparent rounded-r-sm"
         >
           <p className="text-slate-700 font-medium italic leading-relaxed
             text-sm sm:text-base lg:text-base xl:text-lg">
@@ -175,7 +176,7 @@ export default function HomeAbout() {
         </motion.blockquote>
 
         {/* Divider */}
-        <motion.div variants={itemVariants} className="w-full h-px bg-slate-100 mb-8 lg:mb-10" />
+        <motion.div variants={itemVariants} className="w-full h-px bg-slate-100 mb-6 lg:mb-7" />
 
         {/* CTA Buttons */}
         <motion.div
