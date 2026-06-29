@@ -32,13 +32,13 @@ export default function HomeAbout() {
 
   return (
     <section
-      className="relative w-full flex flex-col lg:flex-row items-stretch bg-white overflow-hidden lg:min-h-screen"
+      className="relative w-full flex flex-col lg:flex-row bg-white overflow-hidden"
       style={{ margin: 0, padding: 0 }}
     >
       {/* ── LEFT: Image Panel ── */}
       <div
-        className="relative w-full lg:w-[52%] shrink-0 group overflow-hidden lg:self-stretch"
-        style={{ minHeight: "clamp(320px, 55vw, 700px)" }}
+        className="relative w-full lg:w-[52%] shrink-0 group overflow-hidden"
+        style={{ minHeight: "clamp(340px, 60vh, 100vh)" }}
       >
         <Image
           src="/kaaveri1.png"
@@ -100,15 +100,20 @@ export default function HomeAbout() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
-        className="w-full lg:w-[48%] flex flex-col justify-center bg-white relative z-10
-          px-6 py-12
-          sm:px-10 sm:py-14
-          md:px-12 md:py-16
-          lg:px-10 lg:py-10
-          xl:px-16 xl:py-0"
+        className="
+          w-full lg:w-[48%]
+          flex flex-col justify-center
+          bg-white relative z-10
+          px-6 py-10
+          sm:px-10 sm:py-12
+          md:px-12 md:py-14
+          lg:px-8 lg:py-8
+          xl:px-14 xl:py-12
+          2xl:px-16 2xl:py-16
+        "
       >
         {/* Eyebrow */}
-        <motion.div variants={itemVariants} className="flex items-center gap-3 mb-5 lg:mb-6">
+        <motion.div variants={itemVariants} className="flex items-center gap-3 mb-4 lg:mb-5">
           <div className="w-8 lg:w-10 h-[2px] bg-red-700" />
           <span className="uppercase tracking-[0.25em] text-red-700 font-bold text-[10px] lg:text-xs">
             About Kaaveri Steels
@@ -118,12 +123,11 @@ export default function HomeAbout() {
         {/* Headline */}
         <motion.h2
           variants={itemVariants}
-          className="font-serif font-black text-slate-900 leading-[1.1] tracking-tight mb-5 lg:mb-6
-            text-3xl
-            sm:text-4xl
-            md:text-4xl
-            lg:text-4xl
-            xl:text-5xl"
+          className="
+            font-serif font-black text-slate-900 leading-[1.1] tracking-tight
+            mb-4 lg:mb-5
+            text-3xl sm:text-4xl lg:text-[2rem] xl:text-4xl 2xl:text-5xl
+          "
         >
           BUILT ON{" "}
           <span className="relative inline-block">
@@ -138,10 +142,9 @@ export default function HomeAbout() {
         {/* Body paragraphs */}
         <motion.div
           variants={itemVariants}
-          className="space-y-3 lg:space-y-4 mb-5 lg:mb-6"
+          className="space-y-3 mb-4 lg:mb-5"
         >
-          <p className="text-slate-600 leading-relaxed font-normal
-            text-sm sm:text-base lg:text-base xl:text-lg">
+          <p className="text-slate-600 leading-relaxed font-normal text-sm lg:text-sm xl:text-base">
             At{" "}
             <span className="text-red-700 font-bold">KAAVERI</span>, we are deeply
             passionate about foundational structural integrity and committed to
@@ -151,8 +154,7 @@ export default function HomeAbout() {
             sustainable, precision-rolled materials engineered explicitly for
             multigenerational longevity.
           </p>
-          <p className="text-slate-600 leading-relaxed font-normal
-            text-sm sm:text-base lg:text-base xl:text-lg">
+          <p className="text-slate-600 leading-relaxed font-normal text-sm lg:text-sm xl:text-base">
             Beyond manufacturing, we believe in forging lasting partnerships with our
             clients. By integrating cutting-edge metallurgical technologies with
             eco-friendly production practices, our advanced facilities deliver steel with
@@ -165,10 +167,9 @@ export default function HomeAbout() {
         {/* Pull Quote */}
         <motion.blockquote
           variants={itemVariants}
-          className="relative border-l-[3px] border-red-700 pl-5 lg:pl-6 py-3 mb-6 lg:mb-7 bg-gradient-to-r from-red-50/60 to-transparent rounded-r-sm"
+          className="relative border-l-[3px] border-red-700 pl-5 lg:pl-6 py-2.5 mb-5 lg:mb-6 bg-gradient-to-r from-red-50/60 to-transparent rounded-r-sm"
         >
-          <p className="text-slate-700 font-medium italic leading-relaxed
-            text-sm sm:text-base lg:text-base xl:text-lg">
+          <p className="text-slate-700 font-medium italic leading-relaxed text-sm lg:text-sm xl:text-base">
             &ldquo;Our rigorous, multi-stage quality control ensures every product leaving
             our plant meets the highest global standards — empowering engineers to raise
             frameworks that stand the test of time.&rdquo;
@@ -176,19 +177,19 @@ export default function HomeAbout() {
         </motion.blockquote>
 
         {/* Divider */}
-        <motion.div variants={itemVariants} className="w-full h-px bg-slate-100 mb-6 lg:mb-7" />
+        <motion.div variants={itemVariants} className="w-full h-px bg-slate-100 mb-5 lg:mb-6" />
 
         {/* CTA Buttons */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-wrap items-center gap-3 lg:gap-4"
+          className="flex flex-wrap items-center gap-3"
         >
           <Link
             href="/products"
-            className="group inline-flex items-center gap-2 px-6 py-3.5 lg:px-8 lg:py-4
+            className="group inline-flex items-center gap-2 px-5 py-3 lg:px-6 lg:py-3.5
               bg-red-700 hover:bg-red-800 text-white font-bold uppercase tracking-wider
               transition-all duration-300 shadow-lg hover:shadow-red-700/30
-              rounded-sm text-xs lg:text-sm"
+              rounded-sm text-xs"
           >
             Explore Products
             <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
@@ -196,10 +197,10 @@ export default function HomeAbout() {
 
           <Link
             href="/product-brochure"
-            className="group inline-flex items-center gap-2 px-6 py-3.5 lg:px-8 lg:py-4
+            className="group inline-flex items-center gap-2 px-5 py-3 lg:px-6 lg:py-3.5
               border border-slate-200 hover:border-red-200 text-slate-700 hover:text-red-700
               hover:bg-red-50 font-bold uppercase tracking-wider
-              transition-all duration-300 rounded-sm text-xs lg:text-sm"
+              transition-all duration-300 rounded-sm text-xs"
           >
             <FileText className="w-4 h-4 text-slate-400 group-hover:text-red-600 transition-colors" />
             Download Brochure
