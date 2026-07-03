@@ -230,7 +230,7 @@ export default function Footer() {
                                     className="text-red-500 shrink-0"
                                 />
 
-                                <span>info@kaaveristeel.co.in</span>
+                                <span>info@kaaveristeels.com</span>
                             </div>
                         </div>
                     </div>
