@@ -126,34 +126,28 @@ export default function FullWidthQualitySection() {
             </div>
 
             {/* Middle - Logos Grid */}
-{/* Middle - Horizontally Scrollable Logos */}
-{/* Middle - Auto Scrolling Logos */}
-<div className="flex-1 overflow-hidden bg-white">
-  <div className="logo-slider">
-    <div className="logo-track">
-      {[...approvals, ...approvals].map((item, index) => (
-        <div
-          key={`${item.name}-${index}`}
-          className="logo-item group"
-        >
-          <div className="relative w-20 h-14 mb-3 group-hover:scale-110 transition-transform duration-300">
-            <Image
-              src={item.logo}
-              alt={item.name}
-              fill
-              className="object-contain"
-              sizes="80px"
-            />
-          </div>
+            <div className="flex-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+              {approvals.map((item) => (
+                <div
+                  key={item.name}
+                  className="group lg:border-l border-t lg:border-t-0 border-gray-100 p-4 lg:p-3 xl:p-4 2xl:p-8 flex flex-col items-center justify-center hover:bg-gray-50 transition"
+                >
+                  <div className="relative w-16 h-12 xl:w-20 xl:h-14 2xl:w-20 2xl:h-16 mb-2 xl:mb-3 group-hover:scale-110 transition-transform flex items-center justify-center">
+                    <Image
+                      src={item.logo}
+                      alt={`${item.name} Logo`}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 1280px) 64px, 80px"
+                    />
+                  </div>
 
-          <span className="text-xs font-semibold text-gray-800 text-center">
-            {item.name}
-          </span>
-        </div>
-      ))}
-    </div>
-  </div>
-</div>
+                  <span className="text-[10px] xl:text-xs font-semibold text-gray-800 tracking-wide text-center">
+                    {item.name}
+                  </span>
+                </div>
+              ))}
+            </div>
 
             {/* Right Box - Controlled width for laptops */}
             <div className="lg:w-48 xl:w-56 2xl:w-80 lg:border-l border-t lg:border-t-0 border-gray-100 bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-6 lg:p-4 xl:p-6 2xl:p-10 shrink-0">
