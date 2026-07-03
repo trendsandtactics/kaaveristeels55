@@ -49,6 +49,12 @@ const approvals = [
   { name: "TNPHC", logo: "/TNPHC.png" },
   { name: "TNHB", logo: "/TNHB.png" },
   { name: "TNEB", logo: "/TNEB.png" },
+  { name: "CMDA", logo: "/cmda.png" },
+  { name: "SDAT", logo: "/SDAT.png" },
+  { name: "TANGEDCO", logo: "/TANGEDCO.png" },
+  { name: "THERMAX", logo: "/thermax.png" },
+  { name: "TANTRANSCO", logo: "/TTCL.png" },
+  { name: "TNUHBD", logo: "/tnhouse.png" },
 ];
 
 export default function FullWidthQualitySection() {
