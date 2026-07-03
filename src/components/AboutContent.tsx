@@ -127,28 +127,31 @@ export default function FullWidthQualitySection() {
 
             {/* Middle - Logos Grid */}
 {/* Middle - Horizontally Scrollable Logos */}
-<div className="flex-1 overflow-x-auto no-scrollbar">
-  <div className="flex min-w-max">
-    {approvals.map((item) => (
-      <div
-        key={item.name}
-        className="group flex-shrink-0 w-40 lg:w-44 xl:w-48 2xl:w-52 border-l border-gray-100 p-4 lg:p-4 xl:p-5 2xl:p-8 flex flex-col items-center justify-center hover:bg-gray-50 transition"
-      >
-        <div className="relative w-20 h-16 mb-3 group-hover:scale-110 transition-transform duration-300">
-          <Image
-            src={item.logo}
-            alt={`${item.name} Logo`}
-            fill
-            className="object-contain"
-            sizes="80px"
-          />
-        </div>
+{/* Middle - Auto Scrolling Logos */}
+<div className="flex-1 overflow-hidden bg-white">
+  <div className="logo-slider">
+    <div className="logo-track">
+      {[...approvals, ...approvals].map((item, index) => (
+        <div
+          key={`${item.name}-${index}`}
+          className="logo-item group"
+        >
+          <div className="relative w-20 h-14 mb-3 group-hover:scale-110 transition-transform duration-300">
+            <Image
+              src={item.logo}
+              alt={item.name}
+              fill
+              className="object-contain"
+              sizes="80px"
+            />
+          </div>
 
-        <span className="text-xs font-semibold text-gray-800 text-center leading-tight">
-          {item.name}
-        </span>
-      </div>
-    ))}
+          <span className="text-xs font-semibold text-gray-800 text-center">
+            {item.name}
+          </span>
+        </div>
+      ))}
+    </div>
   </div>
 </div>
 
