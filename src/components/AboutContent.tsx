@@ -1,4 +1,28 @@
-      {/* Trust Strip */}
+"use client";
+
+import React from "react";
+import Image from "next/image";
+import { ShieldCheck } from "lucide-react";
+
+const approvals = [
+  { name: "L&T", logo: "/clients/lt.png" },
+  { name: "JSW", logo: "/clients/jsw.png" },
+  { name: "TATA", logo: "/clients/tata.png" },
+  { name: "NTPC", logo: "/clients/ntpc.png" },
+  { name: "BHEL", logo: "/clients/bhel.png" },
+  { name: "SAIL", logo: "/clients/sail.png" },
+  { name: "CPWD", logo: "/clients/cpwd.png" },
+  { name: "MES", logo: "/clients/mes.png" },
+  { name: "IO", logo: "/clients/io.png" },
+  { name: "HP", logo: "/clients/hp.png" },
+];
+
+export default function AboutContent() {
+  return (
+    <section className="w-full bg-gray-50 pb-16 md:pb-24">
+      {/* ... other content ... */}
+
+      {/* Trust Strip - This is where the auto-scrolling logos are */}
       <div className="w-full px-4 sm:px-8 lg:px-10 xl:px-12 2xl:px-24 mt-12 lg:mt-16 2xl:mt-20">
         <div className="overflow-hidden rounded-2xl border border-gray-100 shadow-lg bg-white flex flex-col lg:flex-row">
           {/* Left Box */}
@@ -33,3 +57,6 @@
           </div>
         </div>
       </div>
+    </section>
+  );
+}
