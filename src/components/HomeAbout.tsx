@@ -100,14 +100,13 @@ export default function HomeAbout() {
             text-3xl sm:text-4xl lg:text-[2rem] xl:text-4xl 2xl:text-5xl
           "
         >
-          BUILT ON{" "}
+          Engineered for{" "}  
           <span className="relative inline-block">
-            INDUSTRIAL
+            Excellence
             <span className="absolute bottom-1 left-0 w-full h-[3px] bg-red-700/30 rounded-full" />
           </span>{" "}
-          STEEL.
           <br />
-          <span className="text-red-700">TRUSTED BY BUILDERS ACROSS INDIA.</span>
+          <span className="text-red-700">Built for Generations.</span>
         </motion.h2>
 
         {/* Body paragraphs */}
