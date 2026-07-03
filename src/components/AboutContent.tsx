@@ -134,18 +134,18 @@ export default function FullWidthQualitySection() {
         className="flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 px-4 py-2 flex flex-col items-center"
       >
         {/* Logo */}
-        <div className="flex h-20 w-full items-center justify-center">
+        <div className="flex h-16 w-full items-center justify-center">
           <Image
             src={item.logo}
             alt={`${item.name} Logo`}
             width={90}
             height={60}
-            className="block h-16 w-auto object-contain"
+            className="block max-h-14 w-auto object-contain"
           />
         </div>
 
         {/* Name */}
-        <span className="mt-2 text-[10px] xl:text-xs font-semibold text-gray-800 tracking-wide text-center leading-tight">
+        <span className="text-[10px] xl:text-xs font-semibold text-gray-800 tracking-wide text-center leading-tight">
           {item.name}
         </span>
       </div>
