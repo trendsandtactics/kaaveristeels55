@@ -1,5 +1,3 @@
-      </div>
-
       {/* Trust Strip */}
       <div className="w-full px-4 sm:px-8 lg:px-10 xl:px-12 2xl:px-24 mt-12 lg:mt-16 2xl:mt-20">
         <div className="overflow-hidden rounded-2xl border border-gray-100 shadow-lg bg-white flex flex-col lg:flex-row">
@@ -35,4 +33,3 @@
           </div>
         </div>
       </div>
-
