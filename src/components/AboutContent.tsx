@@ -133,7 +133,7 @@ export default function FullWidthQualitySection() {
                     key={`${item.name}-${index}`}
                     className="flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 p-4 lg:p-3 xl:p-4 2xl:p-8 flex flex-col items-center justify-center"
                   >
-                    <div className="relative w-16 h-12 xl:w-20 xl:h-14 2xl:w-20 2xl:h-16 mb-2 xl:mb-3 flex items-center justify-center">
+                    <div className="relative w-16 h-12 xl:w-20 xl:h-14 2xl:w-20 2xl:h-16 mb-1.5 flex items-center justify-center">
                       <Image
                         src={item.logo}
                         alt={`${item.name} Logo`}
