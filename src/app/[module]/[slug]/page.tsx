@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { getPublicModuleItemBySlug } from "@/lib/dynamic-cms";
+import { getPublicModuleItemBySlug, getPublicModuleItemMetaBySlug } from "@/lib/dynamic-cms";
 import { resolveMediaUrl } from "@/lib/media";
 import { buildItemMetadata } from "@/lib/seo";
 import ClientFadeUp from "@/components/ClientFadeUp";
@@ -27,11 +27,13 @@ const MODULE_PATHS: Record<string, string> = {
   mediaEvents: "/media-events",
 };
 
+export const revalidate = 0;
+
 export async function generateMetadata({ params }: { params: Promise<{ module: string; slug: string }> }): Promise<Metadata> {
   const { module, slug } = await params;
   if (!ALLOWED_MODULES.has(module)) return {};
 
-  const item = await getPublicModuleItemBySlug(module, slug);
+  const item = await getPublicModuleItemMetaBySlug(module, slug);
   if (!item) return {};
 
   return buildItemMetadata(item);

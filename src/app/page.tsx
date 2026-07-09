@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/seo";
 import HomeClient from "@/app/HomeClient";
 
-export const revalidate = 300;
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata("home");

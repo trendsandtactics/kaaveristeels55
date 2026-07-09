@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import SteelCalculator from "@/components/Calculators/SteelCalculator";
 import { buildPageMetadata } from "@/lib/seo";
 
-export const revalidate = 300;
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata("weight-bundle-calculator");

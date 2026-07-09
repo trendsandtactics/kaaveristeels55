@@ -554,28 +554,35 @@ export async function deleteModuleItem(moduleName: string, id: number): Promise<
 }
 
 
+async function queryPublicModuleItemBySlug(moduleName: string, slug: string): Promise<RowDataPacket | null> {
+  if (moduleName === "dealers") {
+    const [rows] = await getPool().query<RowDataPacket[]>(
+      `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE slug = ? AND status = 'published' LIMIT 1`,
+      [slug],
+    );
+    return rows[0] ?? null;
+  }
+
+  const moduleKey = safeModule(moduleName);
+  const table = MODULE_TABLES[moduleKey];
+  const [rows] = await getPool().query<RowDataPacket[]>(
+    `SELECT * FROM ${table} WHERE slug = ? AND status = 'published' LIMIT 1`,
+    [slug],
+  );
+
+  return rows[0] ?? null;
+}
+
 export async function getPublicModuleItemBySlug(moduleName: string, slug: string): Promise<RowDataPacket | null> {
   await ensureDynamicCmsTables();
   const cacheKey = `dynamic-cms:detail:${moduleName}:${slug}`;
-  return getOrSetCache(cacheKey, PUBLIC_DETAIL_CACHE_TTL_MS, async () => {
+  return getOrSetCache(cacheKey, PUBLIC_DETAIL_CACHE_TTL_MS, () => queryPublicModuleItemBySlug(moduleName, slug));
+}
 
-    if (moduleName === "dealers") {
-      const [rows] = await getPool().query<RowDataPacket[]>(
-        `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE slug = ? AND status = 'published' LIMIT 1`,
-        [slug],
-      );
-      return rows[0] ?? null;
-    }
-
-    const moduleKey = safeModule(moduleName);
-    const table = MODULE_TABLES[moduleKey];
-    const [rows] = await getPool().query<RowDataPacket[]>(
-      `SELECT * FROM ${table} WHERE slug = ? AND status = 'published' LIMIT 1`,
-      [slug],
-    );
-
-    return rows[0] ?? null;
-  });
+// Uncached — used only to build <title>/<meta> tags, which must always reflect the latest saved SEO data.
+export async function getPublicModuleItemMetaBySlug(moduleName: string, slug: string): Promise<RowDataPacket | null> {
+  await ensureDynamicCmsTables();
+  return queryPublicModuleItemBySlug(moduleName, slug);
 }
 
 export type PageSeoRow = RowDataPacket & {
@@ -597,11 +604,9 @@ export async function listPageSeoEntries(): Promise<PageSeoRow[]> {
 
 export async function getPageSeoEntry(pageKey: string): Promise<PageSeoRow | null> {
   await ensureDynamicCmsTables();
-  const cacheKey = `dynamic-cms:seo-meta:${pageKey}`;
-  return getOrSetCache(cacheKey, PUBLIC_DETAIL_CACHE_TTL_MS, async () => {
-    const [rows] = await getPool().query<PageSeoRow[]>("SELECT * FROM seo_meta WHERE page_key = ? LIMIT 1", [pageKey]);
-    return rows[0] ?? null;
-  });
+  // Always read fresh — this feeds <title>/<meta> tags directly, so it must never serve stale cache.
+  const [rows] = await getPool().query<PageSeoRow[]>("SELECT * FROM seo_meta WHERE page_key = ? LIMIT 1", [pageKey]);
+  return rows[0] ?? null;
 }
 
 export async function upsertPageSeoEntry(
@@ -615,5 +620,4 @@ export async function upsertPageSeoEntry(
      ON DUPLICATE KEY UPDATE title = VALUES(title), description = VALUES(description), keywords = VALUES(keywords), og_image = VALUES(og_image)`,
     [pageKey, input.title ?? null, input.description ?? null, input.keywords ?? null, input.og_image ?? null],
   );
-  clearCacheByPrefix("dynamic-cms:seo-meta:");
 }

@@ -3,7 +3,7 @@ import AboutHero from "@/components/AboutHero";
 import AboutContent from "@/components/AboutContent";
 import { buildPageMetadata } from "@/lib/seo";
 
-export const revalidate = 300;
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
     return buildPageMetadata("about-us");
