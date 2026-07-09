@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { PAGE_SEO_DEFS } from "@/lib/seo-pages";
+import { revalidateModuleCache } from "@/app/actions";
 
 type SeoEntry = {
   page_key: string;
@@ -107,6 +108,7 @@ export default function AdminPagesSeoPanel() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Save failed.");
+      await revalidateModuleCache();
       setMessage(`Saved SEO for "${activeDef.label}".`);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Save failed.");
