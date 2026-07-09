@@ -126,21 +126,21 @@ export default function FullWidthQualitySection() {
             </div>
 
             {/* Middle - Logos Grid (vertically centered so it doesn't leave empty space at the bottom when the row stretches to match the taller side panels) */}
-            <div className="flex-1 overflow-hidden group flex items-center bg-gray-50/50">
+            <div className="flex-1 overflow-hidden group flex items-center">
               <div className="flex animate-scroll group-hover:[animation-play-state:paused] w-full">
                 {[...approvals, ...approvals].map((item, index) => (
                   <div
                     key={`${item.name}-${index}`}
-                    className="flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 px-3 py-3 flex flex-col items-center justify-center"
+                    className="flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 px-4 py-2 flex flex-col items-center justify-center"
                   >
-                    {/* Logo card - white bg + border + shadow so logos stand out */}
-                    <div className="flex h-28 lg:h-32 2xl:h-40 w-full items-center justify-center bg-white rounded-xl border border-gray-200 shadow-sm p-3">
+                    {/* Logo - no box, just bigger image */}
+                    <div className="flex h-32 lg:h-36 2xl:h-44 w-full items-center justify-center">
                       <Image
                         src={item.logo}
                         alt={`${item.name} Logo`}
-                        width={180}
-                        height={130}
-                        className="block max-h-24 lg:max-h-28 2xl:max-h-36 w-auto object-contain"
+                        width={220}
+                        height={160}
+                        className="block max-h-28 lg:max-h-32 2xl:max-h-40 w-auto object-contain"
                       />
                     </div>
                     {/* Name */}
