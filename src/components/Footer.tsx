@@ -337,7 +337,7 @@ export default function Footer() {
                             href="#"
                             className="text-white/35 hover:text-red-500 transition-all duration-300 uppercase tracking-[0.2em] text-[11px]"
                         >
-                            Privacy Policy
+                           
                         </Link>
 
                         <div className="w-px h-3 bg-red-500/40" />
@@ -346,7 +346,7 @@ export default function Footer() {
                             href="#"
                             className="text-white/35 hover:text-red-500 transition-all duration-300 uppercase tracking-[0.2em] text-[11px]"
                         >
-                            Terms Of Service
+                            
                         </Link>
                     </div>
                 </div>
