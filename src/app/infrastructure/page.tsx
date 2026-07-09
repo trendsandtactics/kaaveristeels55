@@ -1,11 +1,14 @@
+import type { Metadata } from "next";
 import React from "react";
 import Link from "next/link";
 import { Settings, CheckCircle, Users, Truck } from "lucide-react";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-    title: "Infrastructure | KAAVERI TMT Bars & Structural",
-    description: "Discover KAAVERI's advanced manufacturing facilities that power high-capacity, high-quality steel production.",
-};
+export const revalidate = 300;
+
+export async function generateMetadata(): Promise<Metadata> {
+    return buildPageMetadata("infrastructure");
+}
 
 export default function InfrastructurePage() {
     const highlights = [

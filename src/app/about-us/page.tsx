@@ -1,11 +1,13 @@
+import type { Metadata } from "next";
 import AboutHero from "@/components/AboutHero";
 import AboutContent from "@/components/AboutContent";
+import { buildPageMetadata } from "@/lib/seo";
 
+export const revalidate = 300;
 
-export const metadata = {
-    title: "About Us | KAAVERI TMT & STRUCTURAL",
-    description: "Learn about KAAVERI, a leading manufacturer of TMT bars and structural steel products.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+    return buildPageMetadata("about-us");
+}
 
 export default function AboutUsPage() {
     return (

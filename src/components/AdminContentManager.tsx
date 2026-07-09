@@ -1,15 +1,16 @@
 "use client";
 
 import AdminCertificationsPanel from "@/components/AdminCertificationsPanel";
+import AdminPagesSeoPanel from "@/components/AdminPagesSeoPanel";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { revalidateModuleCache } from "@/app/actions";
 
 type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators" | "aboutUs" | "aboutHero";
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
-type ModuleName = ContentModuleName | SupportModuleName | "certifications";
+type ModuleName = ContentModuleName | SupportModuleName | "certifications" | "pagesSeo";
 
-type ModuleDef = { key: ModuleName; label: string; kind: "content" | "support" | "certifications"; description: string };
+type ModuleDef = { key: ModuleName; label: string; kind: "content" | "support" | "certifications" | "seo"; description: string };
 type Item = Record<string, unknown> & { id: number; title?: string; slug?: string; status?: string; updated_at?: string };
 
 type FormState = {
@@ -22,10 +23,15 @@ type FormState = {
   cover_image: string;
   file_url: string;
   video_url: string;
+  meta_title: string;
+  meta_description: string;
+  meta_keywords: string;
+  og_image: string;
   extra_data: Record<string, string>;
 };
 
 const MODULES: ModuleDef[] = [
+  { key: "pagesSeo", label: "Pages SEO", kind: "seo", description: "Manage meta title, description, keywords and OG image for every site page" },
   { key: "certifications", label: "Certifications", kind: "certifications", description: "Upload and manage certification files" },
   { key: "products", label: "Products", kind: "content", description: "Product catalog, specs, brochure links" },
   { key: "mediaEvents", label: "Media & Events", kind: "content", description: "Event highlights and company news" },
@@ -56,6 +62,10 @@ const initialForm = (): FormState => ({
   cover_image: "",
   file_url: "",
   video_url: "",
+  meta_title: "",
+  meta_description: "",
+  meta_keywords: "",
+  og_image: "",
   extra_data: {},
 });
 
@@ -116,7 +126,7 @@ export default function AdminContentManager() {
 
   const fetchItems = async (bypassCache = false) => {
     // Prevent generic content fetching when specialized panels are active
-    if (activeDef.kind === "certifications") return;
+    if (activeDef.kind === "certifications" || activeDef.kind === "seo") return;
     
     const baseUrl = activeDef.kind === "support" 
       ? endpointForSupportModule(activeModule as SupportModuleName)
@@ -223,7 +233,7 @@ export default function AdminContentManager() {
   };
 
   const deleteRow = async (id: number) => {
-    if (activeDef.kind === "certifications") return;
+    if (activeDef.kind === "certifications" || activeDef.kind === "seo") return;
     if (!confirm("Delete this record?")) return;
     
     let url = `/api/admin/content/${activeModule}/${id}`;
@@ -487,6 +497,10 @@ export default function AdminContentManager() {
       cover_image: String(row.cover_image ?? ""),
       file_url: String(row.file_url ?? ""),
       video_url: String(row.video_url ?? ""),
+      meta_title: String(row.meta_title ?? ""),
+      meta_description: String(row.meta_description ?? ""),
+      meta_keywords: String(row.meta_keywords ?? ""),
+      og_image: String(row.og_image ?? ""),
       extra_data: extra ?? {},
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -497,7 +511,7 @@ export default function AdminContentManager() {
     setForm((state) => ({ ...state, content: richEditorRef.current?.innerHTML ?? "" }));
   };
 
-  const uploadFromDevice = async (rawFile: File, target: "cover_image" | "file_url" | "video_url") => {
+  const uploadFromDevice = async (rawFile: File, target: "cover_image" | "file_url" | "video_url" | "og_image") => {
     setMessage("Preparing upload...");
     let file = rawFile;
 
@@ -1106,6 +1120,47 @@ export default function AdminContentManager() {
 
                 {renderModuleSpecificFields()}
 
+                {activeModule !== "calculators" ? (
+                  <div className="md:col-span-2 space-y-3 rounded-xl border border-slate-200 bg-slate-50/60 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">SEO</p>
+                    <input
+                      className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2"
+                      placeholder="Meta title (leave blank to use page title)"
+                      value={form.meta_title}
+                      onChange={(e) => setForm((s) => ({ ...s, meta_title: e.target.value }))}
+                    />
+                    <textarea
+                      className="min-h-16 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2"
+                      placeholder="Meta description (leave blank to use short description)"
+                      value={form.meta_description}
+                      onChange={(e) => setForm((s) => ({ ...s, meta_description: e.target.value }))}
+                    />
+                    <input
+                      className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2"
+                      placeholder="Meta keywords (comma-separated)"
+                      value={form.meta_keywords}
+                      onChange={(e) => setForm((s) => ({ ...s, meta_keywords: e.target.value }))}
+                    />
+                    <div className="space-y-2">
+                      <input
+                        className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2"
+                        placeholder="Social share (OG) image URL (leave blank to use cover image)"
+                        value={form.og_image}
+                        onChange={(e) => setForm((s) => ({ ...s, og_image: e.target.value }))}
+                      />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="w-full rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-xs file:font-semibold"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) uploadFromDevice(file, "og_image");
+                        }}
+                      />
+                    </div>
+                  </div>
+                ) : null}
+
                 {activeModule !== "calculators" && activeModule !== "aboutUs" ? (
                   <>
                     <input type="number" className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Sort order" value={form.sort_order} onChange={(e) => setForm((s) => ({ ...s, sort_order: Number(e.target.value) }))} />
@@ -1123,7 +1178,9 @@ export default function AdminContentManager() {
           </div>
         ) : null}
 
-        {activeDef.kind !== "certifications" ? (
+        {activeDef.kind === "seo" ? <AdminPagesSeoPanel /> : null}
+
+        {activeDef.kind !== "certifications" && activeDef.kind !== "seo" ? (
           activeDef.kind === "support" ? renderListPanel() : null
         ) : null}
       </section>

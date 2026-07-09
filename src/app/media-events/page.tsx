@@ -1,10 +1,12 @@
 import DynamicModulePage from "@/components/DynamicModulePage";
 import { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Media & Events | KAAVERI Steels",
-  description: "Stay updated with the latest news, media, and events at KAAVERI Steels.",
-};
+export const revalidate = 300;
+
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata("media-events");
+}
 
 export default function MediaEventsPage() {
   return (

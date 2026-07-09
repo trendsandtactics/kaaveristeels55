@@ -1,8 +1,12 @@
+import type { Metadata } from "next";
 import SteelCalculator from "@/components/Calculators/SteelCalculator";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "Weight & Bundle Calculator | KAAVERI",
-};
+export const revalidate = 300;
+
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata("weight-bundle-calculator");
+}
 
 export default function WeightBundleCalculatorPage() {
   return (

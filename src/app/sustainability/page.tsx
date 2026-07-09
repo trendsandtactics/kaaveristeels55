@@ -1,11 +1,14 @@
+import type { Metadata } from "next";
 import React from "react";
 import Link from "next/link";
 import { Leaf, Wind, Recycle, CheckSquare } from "lucide-react";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-    title: "Sustainability | KAAVERI TMT Bars & Structural",
-    description: "Learn about KAAVERI's commitment to building a greener future with responsible and eco-friendly steel production.",
-};
+export const revalidate = 300;
+
+export async function generateMetadata(): Promise<Metadata> {
+    return buildPageMetadata("sustainability");
+}
 
 export default function SustainabilityPage() {
     const keyPoints = [

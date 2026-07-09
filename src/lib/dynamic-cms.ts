@@ -38,6 +38,8 @@ export type ContentInput = {
   sort_order?: number;
   meta_title?: string | null;
   meta_description?: string | null;
+  meta_keywords?: string | null;
+  og_image?: string | null;
   extra_data?: Record<string, unknown> | null;
 };
 
@@ -55,6 +57,8 @@ type ContentRow = RowDataPacket & {
   sort_order: number;
   meta_title: string | null;
   meta_description: string | null;
+  meta_keywords: string | null;
+  og_image: string | null;
   extra_data: string | null;
   created_at: string;
   updated_at: string;
@@ -94,6 +98,8 @@ function baseContentTable(tableName: string): string {
       sort_order INT NOT NULL DEFAULT 0,
       meta_title VARCHAR(255) NULL,
       meta_description TEXT NULL,
+      meta_keywords TEXT NULL,
+      og_image VARCHAR(500) NULL,
       extra_data JSON NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -126,6 +132,11 @@ export async function ensureDynamicCmsTables(): Promise<void> {
   await pool.query(baseContentTable("pages"));
   await pool.query(baseContentTable("calculators"));
   await pool.query(baseContentTable("aboutHero"));
+
+  for (const table of Object.values(MODULE_TABLES)) {
+    try { await pool.query(`ALTER TABLE ${table} ADD COLUMN meta_keywords TEXT NULL`); } catch {}
+    try { await pool.query(`ALTER TABLE ${table} ADD COLUMN og_image VARCHAR(500) NULL`); } catch {}
+  }
 
   await pool.query(`
     CREATE TABLE IF NOT EXISTS product_categories (
@@ -190,6 +201,10 @@ export async function ensureDynamicCmsTables(): Promise<void> {
   try { await pool.query("ALTER TABLE dealers ADD COLUMN video_url VARCHAR(500) NULL"); } catch {}
   try { await pool.query("ALTER TABLE dealers ADD COLUMN latitude VARCHAR(60) NULL"); } catch {}
   try { await pool.query("ALTER TABLE dealers ADD COLUMN longitude VARCHAR(60) NULL"); } catch {}
+  try { await pool.query("ALTER TABLE dealers ADD COLUMN meta_title VARCHAR(255) NULL"); } catch {}
+  try { await pool.query("ALTER TABLE dealers ADD COLUMN meta_description TEXT NULL"); } catch {}
+  try { await pool.query("ALTER TABLE dealers ADD COLUMN meta_keywords TEXT NULL"); } catch {}
+  try { await pool.query("ALTER TABLE dealers ADD COLUMN og_image VARCHAR(500) NULL"); } catch {}
 
   try { await pool.query("ALTER TABLE aboutHero ADD COLUMN slug VARCHAR(240) NULL"); } catch {}
   try { await pool.query("ALTER TABLE aboutHero ADD COLUMN short_description TEXT NULL"); } catch {}
@@ -324,7 +339,7 @@ async function queryModuleItems(moduleName: string, options?: { status?: string;
       where.push("(title LIKE ? OR city LIKE ? OR state LIKE ?)");
       params.push(`%${options.q}%`, `%${options.q}%`, `%${options.q}%`);
     }
-    const sql = `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,NULL as meta_title,NULL as meta_description, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers ${where.length ? `WHERE ${where.join(" AND ")}` : ""} ORDER BY featured DESC, sort_order ASC, updated_at DESC LIMIT ${limit}`;
+    const sql = `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers ${where.length ? `WHERE ${where.join(" AND ")}` : ""} ORDER BY featured DESC, sort_order ASC, updated_at DESC LIMIT ${limit}`;
     const [rows] = await getPool().query<ContentRow[]>(sql, params);
     return rows;
   }
@@ -367,7 +382,7 @@ export async function getAdminModuleItemById(moduleName: string, id: number): Pr
 
   if (moduleName === "dealers") {
     const [rows] = await getPool().query<ContentRow[]>(
-      `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,NULL as meta_title,NULL as meta_description, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE id = ? LIMIT 1`,
+      `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE id = ? LIMIT 1`,
       [id],
     );
     return rows[0] ?? null;
@@ -386,8 +401,8 @@ export async function createModuleItem(moduleName: string, input: ContentInput):
 
   if (moduleName === "dealers") {
     const [result] = await getPool().execute<ResultSetHeader>(
-      `INSERT INTO dealers (title, slug, short_description, content, cover_image, file_url, video_url, city, state, phone, email, map_url, latitude, longitude, status, featured, sort_order)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO dealers (title, slug, short_description, content, cover_image, file_url, video_url, city, state, phone, email, map_url, latitude, longitude, status, featured, sort_order, meta_title, meta_description, meta_keywords, og_image)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         input.title,
         slug,
@@ -406,6 +421,10 @@ export async function createModuleItem(moduleName: string, input: ContentInput):
         input.status ?? "draft",
         input.featured ? 1 : 0,
         input.sort_order ?? 0,
+        input.meta_title ?? null,
+        input.meta_description ?? null,
+        input.meta_keywords ?? null,
+        input.og_image ?? null,
       ],
     );
     clearCacheByPrefix("dynamic-cms:");
@@ -416,8 +435,8 @@ export async function createModuleItem(moduleName: string, input: ContentInput):
   const table = MODULE_TABLES[moduleKey];
 
   const [result] = await getPool().execute<ResultSetHeader>(
-    `INSERT INTO ${table} (title, slug, short_description, content, cover_image, file_url, video_url, status, featured, sort_order, meta_title, meta_description, extra_data)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO ${table} (title, slug, short_description, content, cover_image, file_url, video_url, status, featured, sort_order, meta_title, meta_description, meta_keywords, og_image, extra_data)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       input.title,
       slug,
@@ -431,6 +450,8 @@ export async function createModuleItem(moduleName: string, input: ContentInput):
       input.sort_order ?? 0,
       input.meta_title ?? null,
       input.meta_description ?? null,
+      input.meta_keywords ?? null,
+      input.og_image ?? null,
       input.extra_data ? JSON.stringify(input.extra_data) : null,
     ],
   );
@@ -445,7 +466,7 @@ export async function updateModuleItem(moduleName: string, id: number, input: Co
 
   if (moduleName === "dealers") {
     const [result] = await getPool().execute<ResultSetHeader>(
-      `UPDATE dealers SET title=?, slug=?, short_description=?, content=?, cover_image=?, file_url=?, video_url=?, city=?, state=?, phone=?, email=?, map_url=?, latitude=?, longitude=?, status=?, featured=?, sort_order=? WHERE id=?`,
+      `UPDATE dealers SET title=?, slug=?, short_description=?, content=?, cover_image=?, file_url=?, video_url=?, city=?, state=?, phone=?, email=?, map_url=?, latitude=?, longitude=?, status=?, featured=?, sort_order=?, meta_title=?, meta_description=?, meta_keywords=?, og_image=? WHERE id=?`,
       [
         input.title,
         slug,
@@ -464,6 +485,10 @@ export async function updateModuleItem(moduleName: string, id: number, input: Co
         input.status ?? "draft",
         input.featured ? 1 : 0,
         input.sort_order ?? 0,
+        input.meta_title ?? null,
+        input.meta_description ?? null,
+        input.meta_keywords ?? null,
+        input.og_image ?? null,
         id,
       ],
     );
@@ -478,7 +503,7 @@ export async function updateModuleItem(moduleName: string, id: number, input: Co
   const table = MODULE_TABLES[moduleKey];
 
   const [result] = await getPool().execute<ResultSetHeader>(
-    `UPDATE ${table} SET title=?, slug=?, short_description=?, content=?, cover_image=?, file_url=?, video_url=?, status=?, featured=?, sort_order=?, meta_title=?, meta_description=?, extra_data=? WHERE id=?`,
+    `UPDATE ${table} SET title=?, slug=?, short_description=?, content=?, cover_image=?, file_url=?, video_url=?, status=?, featured=?, sort_order=?, meta_title=?, meta_description=?, meta_keywords=?, og_image=?, extra_data=? WHERE id=?`,
     [
       input.title,
       slug,
@@ -492,6 +517,8 @@ export async function updateModuleItem(moduleName: string, id: number, input: Co
       input.sort_order ?? 0,
       input.meta_title ?? null,
       input.meta_description ?? null,
+      input.meta_keywords ?? null,
+      input.og_image ?? null,
       input.extra_data ? JSON.stringify(input.extra_data) : null,
       id,
     ],
@@ -534,7 +561,7 @@ export async function getPublicModuleItemBySlug(moduleName: string, slug: string
 
     if (moduleName === "dealers") {
       const [rows] = await getPool().query<RowDataPacket[]>(
-        `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,NULL as meta_title,NULL as meta_description, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE slug = ? AND status = 'published' LIMIT 1`,
+        `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE slug = ? AND status = 'published' LIMIT 1`,
         [slug],
       );
       return rows[0] ?? null;
@@ -549,4 +576,44 @@ export async function getPublicModuleItemBySlug(moduleName: string, slug: string
 
     return rows[0] ?? null;
   });
+}
+
+export type PageSeoRow = RowDataPacket & {
+  id: number;
+  page_key: string;
+  title: string | null;
+  description: string | null;
+  keywords: string | null;
+  og_image: string | null;
+  updated_at: string;
+  created_at: string;
+};
+
+export async function listPageSeoEntries(): Promise<PageSeoRow[]> {
+  await ensureDynamicCmsTables();
+  const [rows] = await getPool().query<PageSeoRow[]>("SELECT * FROM seo_meta");
+  return rows;
+}
+
+export async function getPageSeoEntry(pageKey: string): Promise<PageSeoRow | null> {
+  await ensureDynamicCmsTables();
+  const cacheKey = `dynamic-cms:seo-meta:${pageKey}`;
+  return getOrSetCache(cacheKey, PUBLIC_DETAIL_CACHE_TTL_MS, async () => {
+    const [rows] = await getPool().query<PageSeoRow[]>("SELECT * FROM seo_meta WHERE page_key = ? LIMIT 1", [pageKey]);
+    return rows[0] ?? null;
+  });
+}
+
+export async function upsertPageSeoEntry(
+  pageKey: string,
+  input: { title?: string | null; description?: string | null; keywords?: string | null; og_image?: string | null },
+): Promise<void> {
+  await ensureDynamicCmsTables();
+  await getPool().execute(
+    `INSERT INTO seo_meta (page_key, title, description, keywords, og_image)
+     VALUES (?, ?, ?, ?, ?)
+     ON DUPLICATE KEY UPDATE title = VALUES(title), description = VALUES(description), keywords = VALUES(keywords), og_image = VALUES(og_image)`,
+    [pageKey, input.title ?? null, input.description ?? null, input.keywords ?? null, input.og_image ?? null],
+  );
+  clearCacheByPrefix("dynamic-cms:seo-meta:");
 }

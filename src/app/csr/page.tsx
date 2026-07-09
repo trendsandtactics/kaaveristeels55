@@ -1,16 +1,17 @@
+import type { Metadata } from "next";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { listModuleItems } from "@/lib/dynamic-cms";
 import { resolveMediaUrl } from "@/lib/media";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const metadata = {
-  title: "Corporate Social Responsibility | KAAVERI Steels",
-  description: "Building a better tomorrow, together. Explore our commitment to social and environmental well-being.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return buildPageMetadata("csr");
+}
 
 export default async function CSRPage() {
   const events = await listModuleItems("csr", { status: "published" });
