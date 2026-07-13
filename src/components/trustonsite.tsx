@@ -137,12 +137,7 @@ export default function TrustOnSite() {
               src="/vehicle.png"
               alt="Trust On Site Vehicle"
               fill
-<<<<<<< HEAD
-              priority
               className="object-contain object-center drop-shadow-[0_40px_80px_rgba(0,0,0,0.3)]"
-=======
-              className="object-contain object-bottom drop-shadow-[0_40px_80px_rgba(0,0,0,0.35)]"
->>>>>>> 6a8cff1 (fast)
             />
           </div>
 

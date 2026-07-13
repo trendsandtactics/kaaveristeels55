@@ -110,7 +110,6 @@ export default function TrustOnSiteClient() {
         alt="vehicle"
         width={1024}
         height={500}
-        priority
         className="w-full max-w-5xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
       />
     </div>

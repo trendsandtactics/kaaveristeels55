@@ -175,6 +175,7 @@ export default function CertificationsClient() {
           <img
             src={selectedCertificate.fileUrl}
             alt={selectedCertificate.title}
+            decoding="async"
             className="max-h-[95vh] max-w-[95vw] object-contain"
           />
         </div>

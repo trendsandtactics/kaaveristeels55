@@ -174,7 +174,6 @@ export default function GreenSteel() {
               {/* Glow */}
               <div className="absolute inset-0 bg-green-300/20 blur-3xl scale-110 rounded-full" />
 
-<<<<<<< HEAD
               {/* Certificate Card */}
               <div
                 className="
@@ -192,7 +191,6 @@ export default function GreenSteel() {
                   alt="Green Steel Certificate"
                   width={650}
                   height={900}
-                  priority
                   className="
                     w-full
                     max-w-[580px]
@@ -201,29 +199,6 @@ export default function GreenSteel() {
                   "
                 />
               </div>
-=======
-        {/* RIGHT CERTIFICATE */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="w-full md:w-[45%] flex justify-center mt-8 md:mt-0"
-        >
-
-          {/* LIMIT CERTIFICATE SIZE */}
-          <div className="max-w-md w-full">
-            <Image
-              src="/Green.jpg"
-              alt="Green Steel Certificate"
-              width={800}
-              height={1100}
-              className="w-full h-auto object-contain shadow-lg rounded-md"
-            />
-          </div>
-
-        </motion.div>
->>>>>>> 6a8cff1 (fast)
 
               {/* Badge */}
               <div className="absolute -bottom-6 -left-6 bg-green-600 text-white px-6 py-4 rounded-2xl shadow-xl">
