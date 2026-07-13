@@ -238,7 +238,7 @@ export default function DealersClient() {
   }, [dealers, selectedCity, userLocation, userAddress]);
 
   const activeMapUrl = useMemo(() => {
-    const baseUrl = "https://www.google.com/maps/d/embed?mid=1rSs36GRxboJ0rm90vpd-HVfbWRNE_oM&ehbc=2E312F&noprof=1";
+    const baseUrl = "https://www.google.com/maps/d/embed?mid=13I9QtlS8-FlaTl8_rKrwFdf1PsNWpW0&ehbc=2E312F&noprof=1";
     
     if (selectedDealer) {
       if (selectedDealer.latitude && selectedDealer.longitude) {
