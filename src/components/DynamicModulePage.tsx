@@ -358,6 +358,21 @@ export default function DynamicModulePage({
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-gray-200">No Video Available</div>
                         )
+                      ) : module === "mediaEvents" ? (
+                        <div className="block w-full h-full">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={imageSrc}
+                            alt={item.title}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
+                        </div>
                       ) : (
                         <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="block w-full h-full">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -482,6 +497,24 @@ export default function DynamicModulePage({
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-200">No Video Available</div>
                     )
+                  ) : module === "mediaEvents" ? (
+                    <div className="block w-full h-full">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imageSrc}
+                        alt={item.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+                      <p className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.18em] text-white font-semibold z-10">
+                        {module}
+                      </p>
+                    </div>
                   ) : (
                     <Link href={`/${formatModuleRoute(module)}/${item.slug}`} prefetch={true} className="block w-full h-full">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
