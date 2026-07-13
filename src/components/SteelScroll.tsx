@@ -16,7 +16,7 @@ export default function SteelScroll() {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
       />
 
       {/* Content */}

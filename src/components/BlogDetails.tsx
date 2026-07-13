@@ -132,10 +132,11 @@ export default function BlogDetails({ blog }: BlogDetailProps) {
           className="w-full h-[450px] md:h-[600px] rounded-[12px] overflow-hidden shadow-xl bg-white border border-black/5 relative flex-shrink-0 mb-12 md:mb-16"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img 
-            src={coverImage} 
-            alt={blog?.title || "Blog Cover"} 
-            className="w-full h-full object-cover block" 
+          <img
+            src={coverImage}
+            alt={blog?.title || "Blog Cover"}
+            decoding="async"
+            className="w-full h-full object-cover block"
           />
         </motion.div>
       </section>
