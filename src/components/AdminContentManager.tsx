@@ -5,12 +5,34 @@ import AdminPagesSeoPanel from "@/components/AdminPagesSeoPanel";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { revalidateModuleCache } from "@/app/actions";
+import {
+  Search,
+  Award,
+  Package,
+  Calendar,
+  FileText,
+  FolderKanban,
+  Briefcase,
+  MapPin,
+  Image as ImageIcon,
+  FileDown,
+  Bell,
+  Heart,
+  LayoutPanelTop,
+  Info,
+  Layers,
+  Inbox,
+  Mail,
+  UserCheck,
+  Calculator,
+  type LucideIcon,
+} from "lucide-react";
 
 type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators" | "aboutUs" | "aboutHero";
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
 type ModuleName = ContentModuleName | SupportModuleName | "certifications" | "pagesSeo";
 
-type ModuleDef = { key: ModuleName; label: string; kind: "content" | "support" | "certifications" | "seo"; description: string };
+type ModuleDef = { key: ModuleName; label: string; kind: "content" | "support" | "certifications" | "seo"; description: string; icon: LucideIcon };
 type Item = Record<string, unknown> & { id: number; title?: string; slug?: string; status?: string; updated_at?: string };
 
 type FormState = {
@@ -31,25 +53,31 @@ type FormState = {
 };
 
 const MODULES: ModuleDef[] = [
-  { key: "pagesSeo", label: "Pages SEO", kind: "seo", description: "Manage meta title, description, keywords and OG image for every site page" },
-  { key: "certifications", label: "Certifications", kind: "certifications", description: "Upload and manage certification files" },
-  { key: "products", label: "Products", kind: "content", description: "Product catalog, specs, brochure links" },
-  { key: "mediaEvents", label: "Media & Events", kind: "content", description: "Event highlights and company news" },
-  { key: "blogs", label: "Blogs", kind: "content", description: "Rich blog content with SEO-ready publishing" },
-  { key: "projects", label: "Projects", kind: "content", description: "Project case studies and outcomes" },
-  { key: "careers", label: "Careers", kind: "content", description: "Job listings and vacancy details" },
-  { key: "dealers", label: "Dealers", kind: "content", description: "Dealer directory with city/state filters" },
-  { key: "galleries", label: "Photo/Video Gallery", kind: "content", description: "Visual media and showcase assets" },
-  { key: "brochures", label: "Brochures", kind: "content", description: "Downloadable product brochures/PDFs" },
-  { key: "popups", label: "Popups", kind: "content", description: "Homepage event/offer popup controls" },
-  { key: "csr", label: "CSR", kind: "content", description: "Manage Corporate Social Responsibility events and initiatives" },
-  { key: "pages", label: "Pages Content", kind: "content", description: "Manage page-specific dynamic sections like CTAs" },
-  { key: "aboutUs", label: "About Us", kind: "content", description: "Manage About Us section content and YouTube URL" },
-  { key: "aboutHero", label: "About Hero", kind: "content", description: "Manage About Hero content and images" },
-  { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries" },
-  { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue" },
-  { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes" },
-  { key: "calculators", label: "Calculators", kind: "content", description: "Manage calculator formulas and parameters" },
+  { key: "pagesSeo", label: "Pages SEO", kind: "seo", description: "Manage meta title, description, keywords and OG image for every site page", icon: Search },
+  { key: "certifications", label: "Certifications", kind: "certifications", description: "Upload and manage certification files", icon: Award },
+  { key: "products", label: "Products", kind: "content", description: "Product catalog, specs, brochure links", icon: Package },
+  { key: "mediaEvents", label: "Media & Events", kind: "content", description: "Event highlights and company news", icon: Calendar },
+  { key: "blogs", label: "Blogs", kind: "content", description: "Rich blog content with SEO-ready publishing", icon: FileText },
+  { key: "projects", label: "Projects", kind: "content", description: "Project case studies and outcomes", icon: FolderKanban },
+  { key: "careers", label: "Careers", kind: "content", description: "Job listings and vacancy details", icon: Briefcase },
+  { key: "dealers", label: "Dealers", kind: "content", description: "Dealer directory with city/state filters", icon: MapPin },
+  { key: "galleries", label: "Photo/Video Gallery", kind: "content", description: "Visual media and showcase assets", icon: ImageIcon },
+  { key: "brochures", label: "Brochures", kind: "content", description: "Downloadable product brochures/PDFs", icon: FileDown },
+  { key: "popups", label: "Popups", kind: "content", description: "Homepage event/offer popup controls", icon: Bell },
+  { key: "csr", label: "CSR", kind: "content", description: "Manage Corporate Social Responsibility events and initiatives", icon: Heart },
+  { key: "pages", label: "Pages Content", kind: "content", description: "Manage page-specific dynamic sections like CTAs", icon: LayoutPanelTop },
+  { key: "aboutUs", label: "About Us", kind: "content", description: "Manage About Us section content and YouTube URL", icon: Info },
+  { key: "aboutHero", label: "About Hero", kind: "content", description: "Manage About Hero content and images", icon: Layers },
+  { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries", icon: Inbox },
+  { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue", icon: Mail },
+  { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes", icon: UserCheck },
+  { key: "calculators", label: "Calculators", kind: "content", description: "Manage calculator formulas and parameters", icon: Calculator },
+];
+
+const MODULE_GROUPS: { label: string; kinds: ModuleDef["kind"][] }[] = [
+  { label: "SEO & Certifications", kinds: ["seo", "certifications"] },
+  { label: "Content Modules", kinds: ["content"] },
+  { label: "Support Inbox", kinds: ["support"] },
 ];
 
 const initialForm = (): FormState => ({
@@ -858,10 +886,17 @@ export default function AdminContentManager() {
   };
 
   const renderListPanel = () => (
-    <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-lg shadow-slate-200/60">
+    <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-lg shadow-slate-200/60 sm:p-6">
       <div className="mb-4 flex flex-col gap-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h3 className="font-serif text-2xl text-slate-900">{activeDef.label}</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="font-serif text-xl text-slate-900 sm:text-2xl">{activeDef.label}</h3>
+            {activeDef.kind !== "certifications" && activeDef.kind !== "seo" ? (
+              <span className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-600">
+                {displayedItems.length}
+              </span>
+            ) : null}
+          </div>
           {activeDef.kind !== "certifications" ? (
             <div className="flex flex-wrap items-center gap-2">
               {activeModule === "products" && (
@@ -886,22 +921,25 @@ export default function AdminContentManager() {
                   </button>
                 </div>
               )}
-              <input value={search} onChange={(e) => setSearch(e.target.value)} className="w-full md:w-64 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Live Search..." />
+              <div className="relative w-full md:w-64">
+                <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <input value={search} onChange={(e) => setSearch(e.target.value)} className="w-full rounded-lg border border-slate-300 py-2 pl-8 pr-3 text-sm outline-none ring-red-500/30 transition focus:ring-2" placeholder="Live Search..." />
+              </div>
             </div>
           ) : null}
         </div>
 
         {activeDef.kind === "content" && (
-          <div className="flex flex-wrap items-center gap-3">
-            <button type="button" onClick={downloadCsvTemplate} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm">
+          <div className="flex flex-wrap items-center gap-2">
+            <button type="button" onClick={downloadCsvTemplate} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:text-sm">
               ⬇️ Download Template
             </button>
-            <button type="button" onClick={downloadCsvData} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm">
+            <button type="button" onClick={downloadCsvData} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:text-sm">
               ⬇️ Download Data
             </button>
             <div>
               <input type="file" accept=".csv" ref={csvUploadRef} onChange={handleCsvUpload} className="hidden" />
-              <button type="button" disabled={isUploadingCsv} onClick={() => csvUploadRef.current?.click()} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition disabled:opacity-50 shadow-sm">
+              <button type="button" disabled={isUploadingCsv} onClick={() => csvUploadRef.current?.click()} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:opacity-50 sm:text-sm">
                 ⬆️ {isUploadingCsv ? "Uploading..." : "Bulk Upload CSV"}
               </button>
             </div>
@@ -917,9 +955,9 @@ export default function AdminContentManager() {
       </div>
 
       <div className="max-h-[70vh] overflow-auto rounded-xl border border-slate-200">
-        <table className="min-w-full text-sm">
+        <table className="min-w-full text-xs sm:text-sm">
           <thead className="sticky top-0 z-10">
-            <tr className="border-b bg-slate-50 text-left text-slate-600">
+            <tr className="border-b bg-slate-50 text-left text-[11px] uppercase tracking-wide text-slate-500 sm:text-xs">
               {(activeDef.kind === "content" || activeDef.kind === "support") && (
                 <th className="px-3 py-2 w-10">
                   <input
@@ -941,7 +979,7 @@ export default function AdminContentManager() {
           </thead>
           <tbody>
             {displayedItems.slice(0, visibleCount).map((row) => (
-              <tr key={row.id} className="border-b last:border-b-0 odd:bg-white even:bg-slate-50/50">
+              <tr key={row.id} className="border-b last:border-b-0 odd:bg-white even:bg-slate-50/50 transition-colors hover:bg-rose-50/60">
                 {(activeDef.kind === "content" || activeDef.kind === "support") && (
                   <td className="px-3 py-3 w-10">
                     <input
@@ -975,7 +1013,12 @@ export default function AdminContentManager() {
                 </td>
                 <td className="px-3 py-3 pr-3">
                   {activeDef.kind === "content" ? (
-                    <span className="inline-flex rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold capitalize text-slate-700">{String(row.status ?? "-")}</span>
+                    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold capitalize ${
+                      String(row.status) === "published" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"
+                    }`}>
+                      <span className={`h-1.5 w-1.5 rounded-full ${String(row.status) === "published" ? "bg-emerald-500" : "bg-amber-500"}`} />
+                      {String(row.status ?? "-")}
+                    </span>
                   ) : (
                 <span className="inline-flex rounded-full bg-blue-100 text-blue-700 px-2.5 py-1 text-xs font-bold uppercase tracking-wider">{String(row.enquiry_type ?? row.product_type ?? row.subject ?? (activeModule === "job_applications" ? "Job App" : "enquiry"))}</span>
                   )}
@@ -991,16 +1034,16 @@ export default function AdminContentManager() {
                 </td>
                 <td className="px-3 py-3">
                   {activeDef.kind === "content" ? (
-                    <div className="space-x-3">
-                      <Link href={`/admin/modules/${activeModule}/${row.id}`} className="font-semibold text-slate-700 hover:underline">View</Link>
-                      <button onClick={() => editRow(row)} className="font-semibold text-blue-700 hover:underline">Edit</button>
-                      <button onClick={() => deleteRow(row.id)} className="font-semibold text-red-700 hover:underline">Delete</button>
+                    <div className="flex flex-wrap items-center gap-1">
+                      <Link href={`/admin/modules/${activeModule}/${row.id}`} className="rounded-md px-2 py-1 font-semibold text-slate-700 transition hover:bg-slate-200">View</Link>
+                      <button onClick={() => editRow(row)} className="rounded-md px-2 py-1 font-semibold text-blue-700 transition hover:bg-blue-50">Edit</button>
+                      <button onClick={() => deleteRow(row.id)} className="rounded-md px-2 py-1 font-semibold text-red-700 transition hover:bg-red-50">Delete</button>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-3">
-                      <button onClick={() => setViewingItem(row)} className="font-semibold text-blue-700 hover:underline">View</button>
-                      {activeModule === "job_applications" && row.resume_url ? <a href={String(row.resume_url)} target="_blank" rel="noopener noreferrer" className="font-semibold text-amber-600 hover:underline whitespace-nowrap">Resume</a> : null}
-                      <button onClick={() => deleteRow(row.id)} className="font-semibold text-red-700 hover:underline">Delete</button>
+                    <div className="flex flex-wrap items-center gap-1">
+                      <button onClick={() => setViewingItem(row)} className="rounded-md px-2 py-1 font-semibold text-blue-700 transition hover:bg-blue-50">View</button>
+                      {activeModule === "job_applications" && row.resume_url ? <a href={String(row.resume_url)} target="_blank" rel="noopener noreferrer" className="rounded-md px-2 py-1 font-semibold text-amber-600 transition hover:bg-amber-50 whitespace-nowrap">Resume</a> : null}
+                      <button onClick={() => deleteRow(row.id)} className="rounded-md px-2 py-1 font-semibold text-red-700 transition hover:bg-red-50">Delete</button>
                     </div>
                   )}
                 </td>
@@ -1021,8 +1064,18 @@ export default function AdminContentManager() {
         )}
       </div>
 
-      {!loading && !displayedItems.length ? <p className="mt-4 text-sm text-slate-500">No records found.</p> : null}
-      {loading ? <p className="mt-4 text-sm text-slate-500">Loading...</p> : null}
+      {!loading && !displayedItems.length ? (
+        <div className="mt-4 flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-slate-200 py-10 text-center">
+          <Inbox className="h-8 w-8 text-slate-300" />
+          <p className="text-sm text-slate-500">No records found.</p>
+        </div>
+      ) : null}
+      {loading ? (
+        <div className="mt-4 flex items-center justify-center gap-2 py-8 text-sm text-slate-500">
+          <span className="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-red-500" />
+          Loading...
+        </div>
+      ) : null}
       {message ? <p className="mt-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">{message}</p> : null}
       {uploadErrors.length > 0 && (
         <div className="mt-3 rounded-lg border border-red-200 bg-red-50 p-4">
@@ -1039,25 +1092,50 @@ export default function AdminContentManager() {
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-      <aside className="h-fit max-h-[calc(100vh-8rem)] overflow-y-auto rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-lg shadow-slate-200/60 backdrop-blur lg:sticky lg:top-28 lg:col-span-3">
-        <h2 className="mb-3 font-serif text-xl text-slate-900">Modules</h2>
-        <div className="space-y-2">
-          {MODULES.map((module) => (
-            <button
-              key={module.key}
-              onClick={() => {
-                setActiveModule(module.key);
-                setSearch("");
-                setProductCategoryTab("All");
-                setSelectedIds(new Set());
-                setUploadErrors([]);
-                resetForm();
-              }}
-              className={`w-full rounded-xl px-3 py-2 text-left text-sm font-sans font-semibold transition ${activeModule === module.key ? "bg-gradient-to-r from-slate-900 to-slate-700 text-white shadow-md" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
-            >
-              {module.label}
-            </button>
-          ))}
+      <aside className="max-h-[70vh] overflow-y-auto rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-lg shadow-slate-200/60 backdrop-blur lg:sticky lg:top-28 lg:col-span-3 lg:h-fit lg:max-h-[calc(100vh-8rem)]">
+        <h2 className="mb-3 flex items-center gap-2 font-serif text-xl text-slate-900">
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-sm">
+            <LayoutPanelTop className="h-4 w-4" />
+          </span>
+          Modules
+        </h2>
+        <div className="space-y-4">
+          {MODULE_GROUPS.map((group) => {
+            const groupModules = MODULES.filter((m) => group.kinds.includes(m.kind));
+            if (groupModules.length === 0) return null;
+            return (
+              <div key={group.label}>
+                <p className="mb-1.5 px-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">{group.label}</p>
+                <div className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0 lg:space-y-1">
+                  {groupModules.map((module) => {
+                    const Icon = module.icon;
+                    const isActive = activeModule === module.key;
+                    return (
+                      <button
+                        key={module.key}
+                        onClick={() => {
+                          setActiveModule(module.key);
+                          setSearch("");
+                          setProductCategoryTab("All");
+                          setSelectedIds(new Set());
+                          setUploadErrors([]);
+                          resetForm();
+                        }}
+                        className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-3 py-2 text-left text-sm font-sans font-semibold transition lg:w-full lg:whitespace-normal ${
+                          isActive
+                            ? "bg-gradient-to-r from-slate-900 to-slate-700 text-white shadow-md"
+                            : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                        }`}
+                      >
+                        <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-rose-300" : "text-slate-500"}`} />
+                        {module.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </aside>
 
@@ -1068,8 +1146,13 @@ export default function AdminContentManager() {
 
         {activeDef.kind === "content" ? (
           <div className="grid gap-6 xl:grid-cols-2">
-            <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-6 shadow-lg shadow-slate-200/60 xl:sticky xl:top-28 xl:max-h-[calc(100vh-8rem)] xl:overflow-y-auto">
-              <h3 className="mb-1 font-serif text-2xl text-slate-900">{editingId ? "Edit" : "Create"} {activeDef.label}</h3>
+            <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-lg shadow-slate-200/60 sm:p-6 xl:sticky xl:top-28 xl:max-h-[calc(100vh-8rem)] xl:overflow-y-auto">
+              <div className="mb-1 flex items-center gap-2">
+                <span className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-white shadow-sm ${editingId ? "bg-gradient-to-br from-blue-500 to-blue-600" : "bg-gradient-to-br from-red-500 to-rose-600"}`}>
+                  <activeDef.icon className="h-4 w-4" />
+                </span>
+                <h3 className="font-serif text-xl text-slate-900 sm:text-2xl">{editingId ? "Edit" : "Create"} {activeDef.label}</h3>
+              </div>
               <p className="mb-2 text-sm text-slate-600">{activeDef.description}</p>
               <p className="mb-4 text-xs text-slate-500">Tip: Use the table on the right to quickly edit or delete records without leaving this form.</p>
 
@@ -1168,9 +1251,9 @@ export default function AdminContentManager() {
                   </>
                 ) : null}
 
-                <div className="flex gap-2 md:col-span-2">
-                  <button className="rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-rose-400/30">{editingId ? "Update" : "Create"}</button>
-                  {editingId ? <button type="button" onClick={resetForm} className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700">Cancel</button> : null}
+                <div className="flex gap-2 border-t border-slate-100 pt-4 md:col-span-2">
+                  <button className="rounded-lg bg-gradient-to-r from-red-500 to-rose-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-rose-400/30 transition hover:brightness-110">{editingId ? "Update" : "Create"}</button>
+                  {editingId ? <button type="button" onClick={resetForm} className="rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Cancel</button> : null}
                 </div>
               </form>
             </div>
