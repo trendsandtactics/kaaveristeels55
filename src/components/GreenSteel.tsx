@@ -36,14 +36,16 @@ export default function GreenSteel() {
   ];
 
   return (
-    <section
-      className="relative overflow-hidden py-16 lg:py-24"
-      style={{
-        backgroundImage: "url('/green.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <section className="relative overflow-hidden py-16 lg:py-24">
+      {/* Background */}
+      <Image
+        src="/green.png"
+        alt=""
+        fill
+        priority={false}
+        className="object-cover object-center -z-10"
+      />
+
       {/* Overlay */}
       <div className="absolute inset-0 bg-white/92" />
 
