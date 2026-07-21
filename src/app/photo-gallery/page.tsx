@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import DynamicModulePage from "@/components/DynamicModulePage";
 import { buildPageMetadata } from "@/lib/seo";
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata("photo-gallery");

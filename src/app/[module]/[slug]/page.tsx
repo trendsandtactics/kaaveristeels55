@@ -27,7 +27,7 @@ const MODULE_PATHS: Record<string, string> = {
   mediaEvents: "/media-events",
 };
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 export async function generateMetadata({ params }: { params: Promise<{ module: string; slug: string }> }): Promise<Metadata> {
   const { module, slug } = await params;

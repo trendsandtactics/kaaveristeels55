@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Leaf, Wind, Recycle, CheckSquare } from "lucide-react";
 import { buildPageMetadata } from "@/lib/seo";
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
     return buildPageMetadata("sustainability");
