@@ -6,6 +6,7 @@ import { Lock, Eye, EyeOff, Mail } from "lucide-react";
 
 const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "admin@kaaveristeels.com";
 const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD ?? "Admin@Kaaveri";
+const SESSION_STORAGE_KEY = "kaaveri_admin_session";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -13,17 +14,45 @@ export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoginError("");
 
     if (email.trim().toLowerCase() === ADMIN_EMAIL.toLowerCase() && password === ADMIN_PASSWORD) {
-      setLoginError("");
+      window.localStorage.setItem(
+        SESSION_STORAGE_KEY,
+        JSON.stringify({ role: "super", email: ADMIN_EMAIL, enabledModules: "all" }),
+      );
       router.push("/admin/modules");
       return;
     }
 
-    setLoginError("Invalid email or password.");
+    setSubmitting(true);
+    try {
+      const response = await fetch("/api/admin/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+
+      if (!response.ok || !data.user) {
+        setLoginError(data.error ?? "Invalid email or password.");
+        return;
+      }
+
+      window.localStorage.setItem(
+        SESSION_STORAGE_KEY,
+        JSON.stringify({ role: "user", email: data.user.email, enabledModules: data.user.enabledModules }),
+      );
+      router.push("/admin/modules");
+    } catch {
+      setLoginError("Unable to sign in. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -72,7 +101,9 @@ export default function AdminPage() {
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
-          <button type="submit" className="w-full rounded-xl bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-rose-900/35 transition hover:brightness-110">Sign In</button>
+          <button type="submit" disabled={submitting} className="w-full rounded-xl bg-gradient-to-r from-red-500 to-rose-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-rose-900/35 transition hover:brightness-110 disabled:opacity-60">
+            {submitting ? "Signing in..." : "Sign In"}
+          </button>
         </form>
 
         {loginError ? <p className="mt-4 rounded-lg border border-red-300/40 bg-red-500/20 px-3 py-2 text-sm text-red-100">{loginError}</p> : null}

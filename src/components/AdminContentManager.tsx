@@ -2,37 +2,15 @@
 
 import AdminCertificationsPanel from "@/components/AdminCertificationsPanel";
 import AdminPagesSeoPanel from "@/components/AdminPagesSeoPanel";
+import AdminUsersPanel from "@/components/AdminUsersPanel";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { revalidateModuleCache } from "@/app/actions";
-import {
-  Search,
-  Award,
-  Package,
-  Calendar,
-  FileText,
-  FolderKanban,
-  Briefcase,
-  MapPin,
-  Image as ImageIcon,
-  FileDown,
-  Bell,
-  Heart,
-  LayoutPanelTop,
-  Info,
-  Layers,
-  Inbox,
-  Mail,
-  UserCheck,
-  Calculator,
-  type LucideIcon,
-} from "lucide-react";
+import { LogOut, Search, Inbox, LayoutPanelTop } from "lucide-react";
+import { MODULES, MODULE_GROUPS, SESSION_STORAGE_KEY, type ModuleName, type AdminSession } from "@/lib/admin-modules";
 
-type ContentModuleName = "products" | "mediaEvents" | "blogs" | "projects" | "careers" | "dealers" | "galleries" | "brochures" | "popups" | "csr" | "pages" | "calculators" | "aboutUs" | "aboutHero";
 type SupportModuleName = "enquiries" | "contact_messages" | "job_applications";
-type ModuleName = ContentModuleName | SupportModuleName | "certifications" | "pagesSeo";
-
-type ModuleDef = { key: ModuleName; label: string; kind: "content" | "support" | "certifications" | "seo"; description: string; icon: LucideIcon };
 type Item = Record<string, unknown> & { id: number; title?: string; slug?: string; status?: string; updated_at?: string };
 
 type FormState = {
@@ -51,34 +29,6 @@ type FormState = {
   og_image: string;
   extra_data: Record<string, string>;
 };
-
-const MODULES: ModuleDef[] = [
-  { key: "pagesSeo", label: "Pages SEO", kind: "seo", description: "Manage meta title, description, keywords and OG image for every site page", icon: Search },
-  { key: "certifications", label: "Certifications", kind: "certifications", description: "Upload and manage certification files", icon: Award },
-  { key: "products", label: "Products", kind: "content", description: "Product catalog, specs, brochure links", icon: Package },
-  { key: "mediaEvents", label: "Media & Events", kind: "content", description: "Event highlights and company news", icon: Calendar },
-  { key: "blogs", label: "Blogs", kind: "content", description: "Rich blog content with SEO-ready publishing", icon: FileText },
-  { key: "projects", label: "Projects", kind: "content", description: "Project case studies and outcomes", icon: FolderKanban },
-  { key: "careers", label: "Careers", kind: "content", description: "Job listings and vacancy details", icon: Briefcase },
-  { key: "dealers", label: "Dealers", kind: "content", description: "Dealer directory with city/state filters", icon: MapPin },
-  { key: "galleries", label: "Photo/Video Gallery", kind: "content", description: "Visual media and showcase assets", icon: ImageIcon },
-  { key: "brochures", label: "Brochures", kind: "content", description: "Downloadable product brochures/PDFs", icon: FileDown },
-  { key: "popups", label: "Popups", kind: "content", description: "Homepage event/offer popup controls", icon: Bell },
-  { key: "csr", label: "CSR", kind: "content", description: "Manage Corporate Social Responsibility events and initiatives", icon: Heart },
-  { key: "pages", label: "Pages Content", kind: "content", description: "Manage page-specific dynamic sections like CTAs", icon: LayoutPanelTop },
-  { key: "aboutUs", label: "About Us", kind: "content", description: "Manage About Us section content and YouTube URL", icon: Info },
-  { key: "aboutHero", label: "About Hero", kind: "content", description: "Manage About Hero content and images", icon: Layers },
-  { key: "enquiries", label: "Enquiries", kind: "support", description: "Incoming product and generic enquiries", icon: Inbox },
-  { key: "contact_messages", label: "Contact Messages", kind: "support", description: "Website contact and feedback queue", icon: Mail },
-  { key: "job_applications", label: "Job Applications", kind: "support", description: "Candidate applications and resumes", icon: UserCheck },
-  { key: "calculators", label: "Calculators", kind: "content", description: "Manage calculator formulas and parameters", icon: Calculator },
-];
-
-const MODULE_GROUPS: { label: string; kinds: ModuleDef["kind"][] }[] = [
-  { label: "SEO & Certifications", kinds: ["seo", "certifications"] },
-  { label: "Content Modules", kinds: ["content"] },
-  { label: "Support Inbox", kinds: ["support"] },
-];
 
 const initialForm = (): FormState => ({
   title: "",
@@ -131,6 +81,9 @@ function endpointForSupportModule(module: SupportModuleName): string {
 }
 
 export default function AdminContentManager() {
+  const router = useRouter();
+  const [session, setSession] = useState<AdminSession | null>(null);
+  const [sessionChecked, setSessionChecked] = useState(false);
   const [activeModule, setActiveModule] = useState<ModuleName>("products");
   const [items, setItems] = useState<Item[]>([]);
   const [search, setSearch] = useState("");
@@ -150,11 +103,47 @@ export default function AdminContentManager() {
   const fileUrlInputRef = useRef<HTMLInputElement | null>(null);
   const csvUploadRef = useRef<HTMLInputElement | null>(null);
 
+  const visibleModules = useMemo(() => {
+    if (!session) return [];
+    if (session.role === "super" || session.enabledModules === "all") return MODULES;
+    const allowedKeys = session.enabledModules as ModuleName[];
+    return MODULES.filter((m) => m.key !== "users" && allowedKeys.includes(m.key));
+  }, [session]);
+
+  useEffect(() => {
+    const raw = typeof window !== "undefined" ? window.localStorage.getItem(SESSION_STORAGE_KEY) : null;
+    if (!raw) {
+      router.replace("/admin");
+      return;
+    }
+    try {
+      setSession(JSON.parse(raw) as AdminSession);
+    } catch {
+      router.replace("/admin");
+      return;
+    }
+    setSessionChecked(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!sessionChecked || visibleModules.length === 0) return;
+    if (!visibleModules.some((m) => m.key === activeModule)) {
+      setActiveModule(visibleModules[0].key);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessionChecked, visibleModules]);
+
+  const logout = () => {
+    window.localStorage.removeItem(SESSION_STORAGE_KEY);
+    router.replace("/admin");
+  };
+
   const activeDef = MODULES.find((module) => module.key === activeModule)!;
 
   const fetchItems = async (bypassCache = false) => {
     // Prevent generic content fetching when specialized panels are active
-    if (activeDef.kind === "certifications" || activeDef.kind === "seo") return;
+    if (activeDef.kind === "certifications" || activeDef.kind === "seo" || activeDef.kind === "users") return;
     
     const baseUrl = activeDef.kind === "support" 
       ? endpointForSupportModule(activeModule as SupportModuleName)
@@ -261,7 +250,7 @@ export default function AdminContentManager() {
   };
 
   const deleteRow = async (id: number) => {
-    if (activeDef.kind === "certifications" || activeDef.kind === "seo") return;
+    if (activeDef.kind === "certifications" || activeDef.kind === "seo" || activeDef.kind === "users") return;
     if (!confirm("Delete this record?")) return;
     
     let url = `/api/admin/content/${activeModule}/${id}`;
@@ -1090,18 +1079,42 @@ export default function AdminContentManager() {
     </div>
   );
 
+  if (!sessionChecked) {
+    return (
+      <div className="flex items-center justify-center gap-2 py-24 text-sm text-slate-500">
+        <span className="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-red-500" />
+        Loading admin panel...
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       <aside className="max-h-[70vh] overflow-y-auto rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-lg shadow-slate-200/60 backdrop-blur lg:sticky lg:top-28 lg:col-span-3 lg:h-fit lg:max-h-[calc(100vh-8rem)]">
-        <h2 className="mb-3 flex items-center gap-2 font-serif text-xl text-slate-900">
+        <h2 className="mb-1 flex items-center gap-2 font-serif text-xl text-slate-900">
           <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-sm">
             <LayoutPanelTop className="h-4 w-4" />
           </span>
           Modules
         </h2>
+        {session ? (
+          <div className="mb-3 flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <p className="truncate text-xs text-slate-500" title={session.email}>
+              {session.role === "super" ? "Super Admin" : session.email}
+            </p>
+            <button
+              onClick={logout}
+              className="flex shrink-0 items-center gap-1 rounded-md px-2 py-1 text-xs font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-800"
+              type="button"
+            >
+              <LogOut className="h-3.5 w-3.5" />
+              Logout
+            </button>
+          </div>
+        ) : null}
         <div className="space-y-4">
           {MODULE_GROUPS.map((group) => {
-            const groupModules = MODULES.filter((m) => group.kinds.includes(m.kind));
+            const groupModules = visibleModules.filter((m) => group.kinds.includes(m.kind));
             if (groupModules.length === 0) return null;
             return (
               <div key={group.label}>
@@ -1141,6 +1154,7 @@ export default function AdminContentManager() {
 
       <section className="lg:col-span-9 space-y-6">
         {activeDef.kind === "certifications" ? <AdminCertificationsPanel /> : null}
+        {activeDef.kind === "users" ? <AdminUsersPanel /> : null}
 
         {renderViewingModal()}
 
