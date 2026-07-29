@@ -246,7 +246,10 @@ export default function Footer() {
                             <div className="w-6 h-[3px] bg-red-500 rounded-full mb-8" />
 
                             {/* CERTIFICATE LOGOS */}
-                            <div className="flex flex-wrap items-center gap-4">
+                            <Link
+                                href="/certifications#top"
+                                className="flex flex-wrap items-center gap-4"
+                            >
                                 <Image
                                     src="/iso.png"
                                     alt="ISO"
@@ -270,7 +273,7 @@ export default function Footer() {
                                     height={48}
                                     className="object-contain"
                                 />
-                            </div>
+                            </Link>
                         </div>
 
                         {/* DIVIDER */}
