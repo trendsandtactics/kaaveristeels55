@@ -110,212 +110,210 @@ function baseContentTable(tableName: string): string {
   `;
 }
 
+let dynamicCmsTablesCreated = false;
+
 export async function ensureDynamicCmsTables(): Promise<void> {
+  if (dynamicCmsTablesCreated) {
+    return;
+  }
   if (dynamicCmsBootstrapPromise) {
     return dynamicCmsBootstrapPromise;
   }
 
   dynamicCmsBootstrapPromise = (async () => {
-  const pool = getPool();
+    const pool = getPool();
 
-  await pool.query(baseContentTable("products"));
-  await pool.query(baseContentTable("media_events"));
-  await pool.query(baseContentTable("blogs"));
-  await pool.query(baseContentTable("projects"));
-  await pool.query(baseContentTable("careers"));
-  await pool.query(baseContentTable("galleries"));
-  await pool.query(baseContentTable("brochures"));
-  await pool.query(baseContentTable("popups"));
-  await pool.query(baseContentTable("certifications"));
-  await pool.query(baseContentTable("csr"));
-  await pool.query(baseContentTable("about_us"));
-  await pool.query(baseContentTable("pages"));
-  await pool.query(baseContentTable("calculators"));
-  await pool.query(baseContentTable("aboutHero"));
+    const baseTableNames = [
+      "products", "media_events", "blogs", "projects", "careers",
+      "galleries", "brochures", "popups", "certifications", "csr",
+      "about_us", "pages", "calculators", "aboutHero"
+    ];
 
-  for (const table of Object.values(MODULE_TABLES)) {
-    try { await pool.query(`ALTER TABLE ${table} ADD COLUMN meta_keywords TEXT NULL`); } catch {}
-    try { await pool.query(`ALTER TABLE ${table} ADD COLUMN og_image VARCHAR(500) NULL`); } catch {}
-  }
+    // Create base content tables concurrently
+    await Promise.all(baseTableNames.map(name => pool.query(baseContentTable(name))));
 
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS product_categories (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(160) NOT NULL,
-      slug VARCHAR(180) NOT NULL UNIQUE,
-      status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
-      sort_order INT NOT NULL DEFAULT 0,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
+    // Alter table columns concurrently (ignore errors if columns exist)
+    const alterQueries: string[] = [];
+    for (const table of Object.values(MODULE_TABLES)) {
+      alterQueries.push(`ALTER TABLE ${table} ADD COLUMN meta_keywords TEXT NULL`);
+      alterQueries.push(`ALTER TABLE ${table} ADD COLUMN og_image VARCHAR(500) NULL`);
+    }
+    await Promise.allSettled(alterQueries.map(sql => pool.query(sql)));
 
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS blog_categories (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(160) NOT NULL,
-      slug VARCHAR(180) NOT NULL UNIQUE,
-      status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
-      sort_order INT NOT NULL DEFAULT 0,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
+    // Create auxiliary tables concurrently
+    await Promise.all([
+      pool.query(`
+        CREATE TABLE IF NOT EXISTS product_categories (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(160) NOT NULL,
+          slug VARCHAR(180) NOT NULL UNIQUE,
+          status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+          sort_order INT NOT NULL DEFAULT 0,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `),
+      pool.query(`
+        CREATE TABLE IF NOT EXISTS blog_categories (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(160) NOT NULL,
+          slug VARCHAR(180) NOT NULL UNIQUE,
+          status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+          sort_order INT NOT NULL DEFAULT 0,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `),
+      pool.query(`
+        CREATE TABLE IF NOT EXISTS blog_tags (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(160) NOT NULL,
+          slug VARCHAR(180) NOT NULL UNIQUE,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `),
+      pool.query(`
+        CREATE TABLE IF NOT EXISTS dealers (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          title VARCHAR(220) NOT NULL,
+          slug VARCHAR(240) NOT NULL UNIQUE,
+          short_description TEXT NULL,
+          content LONGTEXT NULL,
+          cover_image VARCHAR(500) NULL,
+          file_url VARCHAR(500) NULL,
+          video_url VARCHAR(500) NULL,
+          city VARCHAR(120) NULL,
+          state VARCHAR(120) NULL,
+          phone VARCHAR(60) NULL,
+          email VARCHAR(190) NULL,
+          map_url VARCHAR(500) NULL,
+          status ENUM('draft', 'published') NOT NULL DEFAULT 'draft',
+          featured TINYINT(1) NOT NULL DEFAULT 0,
+          sort_order INT NOT NULL DEFAULT 0,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          INDEX idx_location (city, state)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `),
+      pool.query(`
+        CREATE TABLE IF NOT EXISTS job_applications (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          career_id INT NULL,
+          name VARCHAR(180) NOT NULL,
+          email VARCHAR(190) NOT NULL,
+          phone VARCHAR(60) NULL,
+          resume_url VARCHAR(500) NULL,
+          cover_letter TEXT NULL,
+          status ENUM('new', 'reviewed', 'shortlisted', 'rejected') NOT NULL DEFAULT 'new',
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          INDEX idx_status (status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `),
+      pool.query(`
+        CREATE TABLE IF NOT EXISTS enquiries (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(180) NOT NULL,
+          email VARCHAR(190) NOT NULL,
+          phone VARCHAR(60) NULL,
+          enquiry_type VARCHAR(120) NOT NULL,
+          product_name VARCHAR(220) NULL,
+          message TEXT NULL,
+          status ENUM('new', 'in_progress', 'resolved') NOT NULL DEFAULT 'new',
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          INDEX idx_status (status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `),
+      pool.query(`
+        CREATE TABLE IF NOT EXISTS gallery_items (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          gallery_id INT NOT NULL,
+          title VARCHAR(220) NOT NULL,
+          item_type ENUM('photo', 'video', 'project') NOT NULL DEFAULT 'photo',
+          file_url VARCHAR(500) NOT NULL,
+          thumbnail_url VARCHAR(500) NULL,
+          sort_order INT NOT NULL DEFAULT 0,
+          status ENUM('draft', 'published') NOT NULL DEFAULT 'published',
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          INDEX idx_gallery (gallery_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `),
+      pool.query(`
+        CREATE TABLE IF NOT EXISTS contact_messages (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(180) NOT NULL,
+          email VARCHAR(190) NOT NULL,
+          phone VARCHAR(60) NULL,
+          subject VARCHAR(220) NULL,
+          message TEXT NOT NULL,
+          status ENUM('new', 'resolved') NOT NULL DEFAULT 'new',
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          INDEX idx_status (status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `),
+      pool.query(`
+        CREATE TABLE IF NOT EXISTS seo_meta (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          page_key VARCHAR(180) NOT NULL UNIQUE,
+          title VARCHAR(255) NULL,
+          description TEXT NULL,
+          keywords TEXT NULL,
+          og_image VARCHAR(500) NULL,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `),
+      pool.query(`
+        CREATE TABLE IF NOT EXISTS cms_uploads (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          file_name VARCHAR(255) NOT NULL,
+          mime_type VARCHAR(120) NOT NULL,
+          file_data LONGBLOB NOT NULL,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `),
+      pool.query(`
+        CREATE TABLE IF NOT EXISTS settings (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          setting_key VARCHAR(180) NOT NULL UNIQUE,
+          setting_value JSON NULL,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `),
+    ]);
 
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS blog_tags (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(160) NOT NULL,
-      slug VARCHAR(180) NOT NULL UNIQUE,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
+    // Optional column additions
+    const specificAlters = [
+      "ALTER TABLE dealers ADD COLUMN cover_image VARCHAR(500) NULL",
+      "ALTER TABLE dealers ADD COLUMN file_url VARCHAR(500) NULL",
+      "ALTER TABLE dealers ADD COLUMN video_url VARCHAR(500) NULL",
+      "ALTER TABLE dealers ADD COLUMN latitude VARCHAR(60) NULL",
+      "ALTER TABLE dealers ADD COLUMN longitude VARCHAR(60) NULL",
+      "ALTER TABLE dealers ADD COLUMN meta_title VARCHAR(255) NULL",
+      "ALTER TABLE dealers ADD COLUMN meta_description TEXT NULL",
+      "ALTER TABLE dealers ADD COLUMN meta_keywords TEXT NULL",
+      "ALTER TABLE dealers ADD COLUMN og_image VARCHAR(500) NULL",
+      "ALTER TABLE aboutHero ADD COLUMN slug VARCHAR(240) NULL",
+      "ALTER TABLE aboutHero ADD COLUMN short_description TEXT NULL",
+      "ALTER TABLE aboutHero ADD COLUMN content LONGTEXT NULL",
+      "ALTER TABLE aboutHero ADD COLUMN cover_image VARCHAR(500) NULL",
+      "ALTER TABLE aboutHero ADD COLUMN file_url VARCHAR(500) NULL",
+      "ALTER TABLE aboutHero ADD COLUMN video_url VARCHAR(500) NULL",
+      "ALTER TABLE aboutHero ADD COLUMN status ENUM('draft', 'published') NOT NULL DEFAULT 'published'",
+      "ALTER TABLE aboutHero ADD COLUMN featured TINYINT(1) NOT NULL DEFAULT 0",
+      "ALTER TABLE aboutHero ADD COLUMN sort_order INT NOT NULL DEFAULT 0",
+      "ALTER TABLE aboutHero ADD COLUMN meta_title VARCHAR(255) NULL",
+      "ALTER TABLE aboutHero ADD COLUMN meta_description TEXT NULL",
+      "ALTER TABLE aboutHero ADD COLUMN extra_data JSON NULL",
+    ];
 
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS dealers (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      title VARCHAR(220) NOT NULL,
-      slug VARCHAR(240) NOT NULL UNIQUE,
-      short_description TEXT NULL,
-      content LONGTEXT NULL,
-      cover_image VARCHAR(500) NULL,
-      file_url VARCHAR(500) NULL,
-      video_url VARCHAR(500) NULL,
-      city VARCHAR(120) NULL,
-      state VARCHAR(120) NULL,
-      phone VARCHAR(60) NULL,
-      email VARCHAR(190) NULL,
-      map_url VARCHAR(500) NULL,
-      status ENUM('draft', 'published') NOT NULL DEFAULT 'draft',
-      featured TINYINT(1) NOT NULL DEFAULT 0,
-      sort_order INT NOT NULL DEFAULT 0,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-      INDEX idx_location (city, state)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
-
-  try { await pool.query("ALTER TABLE dealers ADD COLUMN cover_image VARCHAR(500) NULL"); } catch {}
-  try { await pool.query("ALTER TABLE dealers ADD COLUMN file_url VARCHAR(500) NULL"); } catch {}
-  try { await pool.query("ALTER TABLE dealers ADD COLUMN video_url VARCHAR(500) NULL"); } catch {}
-  try { await pool.query("ALTER TABLE dealers ADD COLUMN latitude VARCHAR(60) NULL"); } catch {}
-  try { await pool.query("ALTER TABLE dealers ADD COLUMN longitude VARCHAR(60) NULL"); } catch {}
-  try { await pool.query("ALTER TABLE dealers ADD COLUMN meta_title VARCHAR(255) NULL"); } catch {}
-  try { await pool.query("ALTER TABLE dealers ADD COLUMN meta_description TEXT NULL"); } catch {}
-  try { await pool.query("ALTER TABLE dealers ADD COLUMN meta_keywords TEXT NULL"); } catch {}
-  try { await pool.query("ALTER TABLE dealers ADD COLUMN og_image VARCHAR(500) NULL"); } catch {}
-
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN slug VARCHAR(240) NULL"); } catch {}
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN short_description TEXT NULL"); } catch {}
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN content LONGTEXT NULL"); } catch {}
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN cover_image VARCHAR(500) NULL"); } catch {}
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN file_url VARCHAR(500) NULL"); } catch {}
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN video_url VARCHAR(500) NULL"); } catch {}
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN status ENUM('draft', 'published') NOT NULL DEFAULT 'published'"); } catch {}
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN featured TINYINT(1) NOT NULL DEFAULT 0"); } catch {}
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN sort_order INT NOT NULL DEFAULT 0"); } catch {}
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN meta_title VARCHAR(255) NULL"); } catch {}
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN meta_description TEXT NULL"); } catch {}
-  try { await pool.query("ALTER TABLE aboutHero ADD COLUMN extra_data JSON NULL"); } catch {}
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS job_applications (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      career_id INT NULL,
-      name VARCHAR(180) NOT NULL,
-      email VARCHAR(190) NOT NULL,
-      phone VARCHAR(60) NULL,
-      resume_url VARCHAR(500) NULL,
-      cover_letter TEXT NULL,
-      status ENUM('new', 'reviewed', 'shortlisted', 'rejected') NOT NULL DEFAULT 'new',
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-      INDEX idx_status (status)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS enquiries (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(180) NOT NULL,
-      email VARCHAR(190) NOT NULL,
-      phone VARCHAR(60) NULL,
-      enquiry_type VARCHAR(120) NOT NULL,
-      product_name VARCHAR(220) NULL,
-      message TEXT NULL,
-      status ENUM('new', 'in_progress', 'resolved') NOT NULL DEFAULT 'new',
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-      INDEX idx_status (status)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS gallery_items (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      gallery_id INT NOT NULL,
-      title VARCHAR(220) NOT NULL,
-      item_type ENUM('photo', 'video', 'project') NOT NULL DEFAULT 'photo',
-      file_url VARCHAR(500) NOT NULL,
-      thumbnail_url VARCHAR(500) NULL,
-      sort_order INT NOT NULL DEFAULT 0,
-      status ENUM('draft', 'published') NOT NULL DEFAULT 'published',
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-      INDEX idx_gallery (gallery_id)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS contact_messages (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(180) NOT NULL,
-      email VARCHAR(190) NOT NULL,
-      phone VARCHAR(60) NULL,
-      subject VARCHAR(220) NULL,
-      message TEXT NOT NULL,
-      status ENUM('new', 'resolved') NOT NULL DEFAULT 'new',
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-      INDEX idx_status (status)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS seo_meta (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      page_key VARCHAR(180) NOT NULL UNIQUE,
-      title VARCHAR(255) NULL,
-      description TEXT NULL,
-      keywords TEXT NULL,
-      og_image VARCHAR(500) NULL,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
-
-
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS cms_uploads (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      file_name VARCHAR(255) NOT NULL,
-      mime_type VARCHAR(120) NOT NULL,
-      file_data LONGBLOB NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS settings (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      setting_key VARCHAR(180) NOT NULL UNIQUE,
-      setting_value JSON NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-  `);
+    await Promise.allSettled(specificAlters.map(sql => pool.query(sql)));
+    dynamicCmsTablesCreated = true;
   })();
 
   try {
@@ -365,15 +363,18 @@ async function queryModuleItems(moduleName: string, options?: { status?: string;
 }
 
 export async function listModuleItems(moduleName: string, options?: { status?: string; q?: string; limit?: number }): Promise<ContentRow[]> {
-  await ensureDynamicCmsTables();
   const isPublicRead = options?.status === "published" && !options?.q;
   const limit = Math.min(Math.max(options?.limit ?? 5000, 1), 5000);
 
   if (isPublicRead) {
     const cacheKey = `dynamic-cms:list:${moduleName}:${limit}`;
-    return getOrSetCache(cacheKey, PUBLIC_LIST_CACHE_TTL_MS, () => queryModuleItems(moduleName, { ...options, limit, q: undefined }));
+    return getOrSetCache(cacheKey, PUBLIC_LIST_CACHE_TTL_MS, async () => {
+      await ensureDynamicCmsTables();
+      return queryModuleItems(moduleName, { ...options, limit, q: undefined });
+    });
   }
 
+  await ensureDynamicCmsTables();
   return queryModuleItems(moduleName, { ...options, limit });
 }
 
@@ -574,9 +575,11 @@ async function queryPublicModuleItemBySlug(moduleName: string, slug: string): Pr
 }
 
 export async function getPublicModuleItemBySlug(moduleName: string, slug: string): Promise<RowDataPacket | null> {
-  await ensureDynamicCmsTables();
   const cacheKey = `dynamic-cms:detail:${moduleName}:${slug}`;
-  return getOrSetCache(cacheKey, PUBLIC_DETAIL_CACHE_TTL_MS, () => queryPublicModuleItemBySlug(moduleName, slug));
+  return getOrSetCache(cacheKey, PUBLIC_DETAIL_CACHE_TTL_MS, async () => {
+    await ensureDynamicCmsTables();
+    return queryPublicModuleItemBySlug(moduleName, slug);
+  });
 }
 
 // Uncached — used only to build <title>/<meta> tags, which must always reflect the latest saved SEO data.

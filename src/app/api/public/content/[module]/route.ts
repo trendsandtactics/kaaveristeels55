@@ -14,7 +14,14 @@ export async function GET(request: Request, { params }: { params: { module: stri
       limit,
     });
 
-    return NextResponse.json({ data: items });
+    return NextResponse.json(
+      { data: items },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=1200",
+        },
+      }
+    );
   } catch (error) {
     console.error(`Public API Error [${params.module}]:`, error);
     return NextResponse.json({ error: "Failed to fetch module records." }, { status: 500 });

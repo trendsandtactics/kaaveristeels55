@@ -69,7 +69,7 @@ export default function DealersClient() {
       setLoading(true);
       setError("");
 
-      const res = await fetch("/api/public/content/dealers?limit=5000", { cache: "no-store" });
+      const res = await fetch("/api/public/content/dealers?limit=5000");
       if (!res.ok) throw new Error("Failed to fetch dealers.");
       const data = await res.json();
 
