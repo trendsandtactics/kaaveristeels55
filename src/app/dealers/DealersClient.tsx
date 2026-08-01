@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { MapPin, Phone, Mail, LocateFixed } from "lucide-react";
+import { MapPin, Phone, Mail, LocateFixed, Search, Navigation, X } from "lucide-react";
 import Image from "next/image";
 import { resolveMediaUrl } from "@/lib/media";
 
@@ -56,6 +56,7 @@ export default function DealersClient() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedCity, setSelectedCity] = useState<string>("All");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedDealer, setSelectedDealer] = useState<Dealer | null>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locating, setLocating] = useState(false);
@@ -105,6 +106,8 @@ export default function DealersClient() {
             phone: "+91 98765 43210",
             email: "chennai@kaaveristeel.com",
             mapUrl: "https://maps.google.com/maps?q=Guindy,%20Chennai&t=&z=13&ie=UTF8&iwloc=&output=embed",
+            latitude: "13.0067",
+            longitude: "80.2020",
             coverImage: null,
           },
           {
@@ -116,6 +119,8 @@ export default function DealersClient() {
             phone: "+91 87654 32109",
             email: "madurai@kaaveristeel.com",
             mapUrl: "https://maps.google.com/maps?q=Bypass%20Road,%20Madurai&t=&z=13&ie=UTF8&iwloc=&output=embed",
+            latitude: "9.9252",
+            longitude: "78.1198",
             coverImage: null,
           }
         );
@@ -179,11 +184,11 @@ export default function DealersClient() {
     );
   };
 
-  // Reset selected dealer when city changes
+  // Reset selected dealer when city or search query changes
   useEffect(() => {
     setSelectedDealer(null);
     setVisibleCount(50);
-  }, [selectedCity]);
+  }, [selectedCity, searchQuery]);
 
   useEffect(() => {
     setVisibleCount(50);
@@ -198,6 +203,19 @@ export default function DealersClient() {
     let result = dealers;
     if (selectedCity !== "All") {
       result = result.filter(d => d.city === selectedCity);
+    }
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      result = result.filter(
+        d =>
+          d.title.toLowerCase().includes(q) ||
+          d.address.toLowerCase().includes(q) ||
+          d.city.toLowerCase().includes(q) ||
+          d.state.toLowerCase().includes(q) ||
+          (d.phone && d.phone.toLowerCase().includes(q)) ||
+          (d.email && d.email.toLowerCase().includes(q))
+      );
     }
     
     const withDistance = result.map(d => {
@@ -235,7 +253,24 @@ export default function DealersClient() {
       });
     }
     return withDistance;
-  }, [dealers, selectedCity, userLocation, userAddress]);
+  }, [dealers, selectedCity, searchQuery, userLocation, userAddress]);
+
+  const getDirectionsUrl = useCallback((dealer: Dealer) => {
+    let destination = "";
+    if (dealer.latitude && dealer.longitude) {
+      destination = `${dealer.latitude},${dealer.longitude}`;
+    } else if (dealer.mapUrl && !dealer.mapUrl.includes("embed")) {
+      return dealer.mapUrl;
+    } else {
+      destination = `${dealer.title}, ${dealer.address}, ${dealer.city}, ${dealer.state}`;
+    }
+
+    let url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+    if (userLocation) {
+      url += `&origin=${userLocation.lat},${userLocation.lng}`;
+    }
+    return url;
+  }, [userLocation]);
 
   const activeMapUrl = useMemo(() => {
     const baseUrl = "https://www.google.com/maps/d/embed?mid=13I9QtlS8-FlaTl8_rKrwFdf1PsNWpW0&ehbc=2E312F&noprof=1";
@@ -261,8 +296,8 @@ export default function DealersClient() {
   }, [selectedDealer, filteredDealers, selectedCity, userLocation]);
 
   return (
-<main className="flex flex-col min-h-screen w-full relative bg-white overflow-hidden transition-colors duration-500">
-  {/* Hero Section */}
+    <main className="flex flex-col min-h-screen w-full relative bg-white overflow-hidden transition-colors duration-500">
+      {/* Hero Section */}
       <div className="w-full pt-32 pb-16 md:pt-36 md:pb-24 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-400 text-black relative overflow-hidden shadow-xl border-b border-black/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.6)_0%,transparent_70%)] pointer-events-none mix-blend-overlay" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.2)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none mix-blend-overlay opacity-40" />
@@ -289,37 +324,60 @@ export default function DealersClient() {
 
       {/* Dealers List Section */}
       <section className="px-6 py-12 md:py-20 max-w-7xl mx-auto w-full z-10 relative">
-        {/* Filter Row */}
-        <div className="mb-8 flex flex-col md:flex-row gap-6 items-center justify-between bg-white p-6 rounded-2xl shadow-md border border-gray-100">
-          <div className="flex items-center gap-4 w-full md:w-auto">
-            <h3 className="font-heading text-2xl font-bold text-gray-900">Filter by City</h3>
+        {/* Filter & Search Controls */}
+        <div className="mb-8 flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+          {/* Search Box */}
+          <div className="relative flex-1 min-w-[260px]">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search dealer shop name, city, address..."
+              className="w-full pl-11 pr-10 py-3 bg-gray-50 border border-black/15 rounded-xl outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/20 font-body text-sm font-medium transition-all shadow-sm"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1 rounded-full"
+                title="Clear search"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+            {/* Filter by City */}
+            <div className="flex items-center gap-2">
+              <select
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+                className="w-full sm:w-56 border border-black/15 rounded-xl px-4 py-3 bg-gray-50 outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/20 font-body text-sm font-semibold transition-all shadow-sm"
+              >
+                <option value="All">All Cities ({dealers.length})</option>
+                {cities.filter(c => c !== "All").map((city) => (
+                  <option key={city} value={city}>{city}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Near Me Button */}
             <button
               onClick={handleGetLocation}
               disabled={locating}
-              className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 border border-red-100 rounded-lg font-semibold text-sm hover:bg-red-100 transition-colors disabled:opacity-50"
+              className="flex items-center justify-center gap-2 px-4 py-3 bg-red-50 text-red-600 border border-red-100 rounded-xl font-semibold text-sm hover:bg-red-100 transition-colors disabled:opacity-50 shrink-0 shadow-sm"
               title="Find Dealers Near Me"
             >
               <LocateFixed className={`w-4 h-4 ${locating ? "animate-pulse" : ""}`} />
               {locating ? "Locating..." : "Near Me"}
             </button>
           </div>
-          
-          <div className="w-full md:w-auto flex flex-col">
-            <select
-              value={selectedCity}
-              onChange={(e) => setSelectedCity(e.target.value)}
-              className="w-full md:w-72 border border-black/20 rounded-xl px-4 py-3 bg-gray-50 outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/20 font-body text-sm font-semibold transition-all shadow-sm"
-            >
-              {cities.map((city) => (
-                <option key={city} value={city}>{city}</option>
-              ))}
-            </select>
-            {locationError && <p className="text-xs text-red-600 mt-2 text-right">{locationError}</p>}
-          </div>
         </div>
+        {locationError && <p className="text-xs text-red-600 -mt-6 mb-6 text-right px-2">{locationError}</p>}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
-          {/* Left Column: Dealers List */}
+          {/* Left Column: Dealers List Sidebar */}
           <div className="lg:col-span-5 flex flex-col gap-4">
             {userLocation && (
               <div className="p-4 bg-green-50 border border-green-200 rounded-xl shrink-0 shadow-sm">
@@ -331,85 +389,101 @@ export default function DealersClient() {
                 </p>
               </div>
             )}
+            
             <div className="flex flex-col gap-4 max-h-[400px] lg:max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-            {loading ? (
-            <p className="py-10 text-center text-sm text-black/60 font-semibold">
-              Loading dealers...
-            </p>
-          ) : error ? (
-            <p className="py-10 text-center text-sm text-red-600 font-semibold">{error}</p>
-          ) : filteredDealers.length === 0 ? (
-            <p className="py-10 text-center text-sm text-black/60 font-semibold">
-              No dealers found for this location.
-            </p>
-          ) : (
-            <>
-            {filteredDealers.slice(0, visibleCount).map((dealer) => (
-              <div
-                key={dealer.id}
-                onClick={() => {
-                  setSelectedDealer(dealer);
-                  if (window.innerWidth < 1024) {
-                    document.getElementById("map-view")?.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
-                className={`cursor-pointer rounded-2xl border p-5 md:p-6 transition-all duration-300 ${
-                  selectedDealer?.id === dealer.id
-                    ? "border-red-600 bg-red-50 shadow-md ring-1 ring-red-600"
-                    : "border-black/10 bg-white hover:shadow-lg hover:-translate-y-1 hover:border-black/20"
-                }`}
-              >
-            {dealer.coverImage && (
-              <div className="relative w-full h-56 sm:h-64 mb-5 rounded-xl overflow-hidden shrink-0 border border-black/10">
-                <Image
-                  src={resolveMediaUrl(dealer.coverImage, "/image/kaaveriabout.png")}
-                  alt={dealer.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
-            )}
-            <div className="flex justify-between items-start gap-2">
-              <h3 className="font-sans text-xl md:text-2xl font-bold text-gray-900">
-                {dealer.title}
-              </h3>
-              {dealer.distance !== null && dealer.distance !== undefined && (
-                <span className="shrink-0 rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-red-700">
-                  {dealer.distance.toFixed(1)} km
-                </span>
+              {loading ? (
+                <p className="py-10 text-center text-sm text-black/60 font-semibold">
+                  Loading dealers...
+                </p>
+              ) : error ? (
+                <p className="py-10 text-center text-sm text-red-600 font-semibold">{error}</p>
+              ) : filteredDealers.length === 0 ? (
+                <p className="py-10 text-center text-sm text-black/60 font-semibold">
+                  No dealers found matching your search.
+                </p>
+              ) : (
+                <>
+                  {filteredDealers.slice(0, visibleCount).map((dealer) => (
+                    <div
+                      key={dealer.id}
+                      onClick={() => {
+                        setSelectedDealer(dealer);
+                        if (window.innerWidth < 1024) {
+                          document.getElementById("map-view")?.scrollIntoView({ behavior: "smooth" });
+                        }
+                      }}
+                      className={`cursor-pointer rounded-2xl border p-5 md:p-6 transition-all duration-300 ${
+                        selectedDealer?.id === dealer.id
+                          ? "border-red-600 bg-red-50/70 shadow-md ring-1 ring-red-600"
+                          : "border-black/10 bg-white hover:shadow-lg hover:-translate-y-1 hover:border-black/20"
+                      }`}
+                    >
+                      {dealer.coverImage && (
+                        <div className="relative w-full h-56 sm:h-64 mb-5 rounded-xl overflow-hidden shrink-0 border border-black/10">
+                          <Image
+                            src={resolveMediaUrl(dealer.coverImage, "/image/kaaveriabout.png")}
+                            alt={dealer.title}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                          />
+                        </div>
+                      )}
+                      <div className="flex justify-between items-start gap-2">
+                        <h3 className="font-sans text-xl md:text-2xl font-bold text-gray-900">
+                          {dealer.title}
+                        </h3>
+                        {dealer.distance !== null && dealer.distance !== undefined && (
+                          <span className="shrink-0 rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-red-700">
+                            {dealer.distance.toFixed(1)} km
+                          </span>
+                        )}
+                      </div>
+                      <div className="mt-4 space-y-3">
+                        <div className="flex items-start gap-3 text-sm md:text-base text-gray-700">
+                          <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-red-600" />
+                          <p className="font-medium leading-tight">{dealer.address}, {dealer.city}, {dealer.state}</p>
+                        </div>
+                        {dealer.phone && (
+                          <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
+                            <Phone className="w-5 h-5 shrink-0 text-red-600" />
+                            <p className="font-medium">{dealer.phone}</p>
+                          </div>
+                        )}
+                        {dealer.email && (
+                          <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
+                            <Mail className="w-5 h-5 shrink-0 text-red-600" />
+                            <a href={`mailto:${dealer.email}`} className="font-medium hover:text-red-600 hover:underline transition-colors">{dealer.email}</a>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Get Directions Button */}
+                      <div className="mt-5 pt-4 border-t border-black/10 flex items-center justify-between gap-3">
+                        <a
+                          href={getDirectionsUrl(dealer)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-sm rounded-xl shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98]"
+                          title="Open Google Maps directions for this dealer"
+                        >
+                          <Navigation className="w-4 h-4" />
+                          Get Directions
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                  {visibleCount < filteredDealers.length && (
+                    <button
+                      onClick={() => setVisibleCount((prev) => prev + 50)}
+                      className="w-full py-3 mt-2 bg-red-50 border border-red-200 text-red-700 font-semibold rounded-xl hover:bg-red-100 transition-colors shrink-0"
+                    >
+                      Load More Dealers ({filteredDealers.length - visibleCount} remaining)
+                    </button>
+                  )}
+                </>
               )}
-            </div>
-            <div className="mt-4 space-y-3">
-              <div className="flex items-start gap-3 text-sm md:text-base text-gray-700">
-                <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-red-600" />
-                <p className="font-medium leading-tight">{dealer.address}, {dealer.city}, {dealer.state}</p>
-              </div>
-              {dealer.phone && (
-                <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
-                  <Phone className="w-5 h-5 shrink-0 text-red-600" />
-                  <p className="font-medium">{dealer.phone}</p>
-                </div>
-              )}
-              {dealer.email && (
-                <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
-                  <Mail className="w-5 h-5 shrink-0 text-red-600" />
-                  <a href={`mailto:${dealer.email}`} className="font-medium hover:text-red-600 hover:underline transition-colors">{dealer.email}</a>
-                </div>
-              )}
-            </div>
-              </div>
-            ))}
-            {visibleCount < filteredDealers.length && (
-              <button
-                onClick={() => setVisibleCount((prev) => prev + 50)}
-                className="w-full py-3 mt-2 bg-red-50 border border-red-200 text-red-700 font-semibold rounded-xl hover:bg-red-100 transition-colors shrink-0"
-              >
-                Load More Dealers ({filteredDealers.length - visibleCount} remaining)
-              </button>
-            )}
-            </>
-          )}
             </div>
           </div>
 
