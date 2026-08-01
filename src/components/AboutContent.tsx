@@ -13,8 +13,8 @@ import {
 const features = [
   {
     icon: Cog,
-    title: "GERMAN TECHNOLOGY",
-    desc: "Technologically advanced German technology for high strength & long durability.",
+    title: "GERMAN Thermax TECHNOLOGY",
+    desc: "Technologically advanced German thermax technology for high strength & long durability.",
   },
   {
     icon: Factory,
