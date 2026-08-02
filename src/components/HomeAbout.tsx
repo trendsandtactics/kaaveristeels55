@@ -35,7 +35,7 @@ export default function HomeAbout() {
         style={{ minHeight: "clamp(340px, 60vh, 100vh)" }}
       >
         <Image
-          src="/kaaveri1.png"
+          src="/aboutsection.png"
           alt="Kaaveri Steel Plant Production Facility"
           fill
           priority
