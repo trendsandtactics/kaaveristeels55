@@ -128,27 +128,42 @@ export default function TrustOnSiteClient() {
 
 
       {/* 🔴 CONTENT SECTION */}
-     <section className="px-6 md:px-20 py-16 bg-gray-50">
-  <div className="max-w-7xl mx-auto">
+    <section className="relative bg-white py-20 overflow-hidden">
+  {/* Background Glow */}
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#ffffff_40%,#f8f8f8_100%)]" />
 
-    {/* TOP IMAGE */}
-    <div className="flex justify-center mb-12">
-      <img
-        src="/trustonsitelogo.png" // Replace with your image path
-        alt="Kaaveri Trust On Site"
-        className="w-full max-w-md md:max-w-lg lg:max-w-xl object-contain"
-      />
-    </div>
+  <div className="relative max-w-7xl mx-auto px-6 md:px-16">
 
-    {/* HEADER CARDS */}
-    <div className="grid md:grid-cols-2 gap-6 mb-12">
+    {/* TOP LOGO WITH LINES */}
+    <div className="flex items-center justify-center mb-14">
 
-      <div className="font-serif bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
-        “We Don’t Just Promise Quality – We Prove It.”
+      <div className="hidden md:block flex-1 h-px bg-red-300"></div>
+
+      <div className="mx-6 relative">
+        <img
+          src="/trustonsitelogo.png"
+          alt="Trust On Site"
+          className="w-36 md:w-44 lg:w-48 object-contain"
+        />
       </div>
 
-      <div className="font-serif bg-gradient-to-r from-red-700 to-red-500 text-white text-center py-5 rounded-xl font-semibold text-lg shadow-md">
-        Why This Changes Everything
+      <div className="hidden md:block flex-1 h-px bg-red-300"></div>
+
+    </div>
+
+    {/* TITLE BOXES */}
+    <div className="grid md:grid-cols-2 gap-8 mb-10">
+
+      <div className="bg-gradient-to-r from-red-700 to-red-500 rounded-2xl py-5 px-6 text-center shadow-lg">
+        <h3 className="text-white text-xl md:text-2xl font-serif font-semibold">
+          “We Don’t Just Promise Quality – We Prove It.”
+        </h3>
+      </div>
+
+      <div className="bg-gradient-to-r from-red-700 to-red-500 rounded-2xl py-5 px-6 text-center shadow-lg">
+        <h3 className="text-white text-xl md:text-2xl font-serif font-semibold">
+          Why This Changes Everything
+        </h3>
       </div>
 
     </div>
@@ -157,18 +172,18 @@ export default function TrustOnSiteClient() {
     <div className="grid md:grid-cols-2 gap-8">
 
       {/* LEFT CARD */}
-      <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
-        <ul className="space-y-5">
+      <div className="bg-white rounded-3xl p-10 shadow-[0_15px_40px_rgba(0,0,0,0.08)] border border-gray-100">
+        <ul className="space-y-7">
           {[
             "Fully Equipped Mobile Testing Vehicle",
             "Instant Test Result",
             "Live Testing in Front of Engineers & Builders",
           ].map((item, index) => (
-            <li key={index} className="flex items-start gap-3 group">
-              <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
+            <li key={index} className="flex items-start gap-4">
+              <div className="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold shrink-0">
                 ✓
-              </span>
-              <p className="text-gray-700 group-hover:text-black transition">
+              </div>
+              <p className="text-gray-700 text-lg leading-relaxed">
                 {item}
               </p>
             </li>
@@ -177,19 +192,19 @@ export default function TrustOnSiteClient() {
       </div>
 
       {/* RIGHT CARD */}
-      <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
-        <ul className="space-y-5">
+      <div className="bg-white rounded-3xl p-10 shadow-[0_15px_40px_rgba(0,0,0,0.08)] border border-gray-100">
+        <ul className="space-y-7">
           {[
             "No Blind Trust",
             "Complete Transparency",
             "No Compromise On Strength",
             "Confidence For 100+ Years of Structure Life",
           ].map((item, index) => (
-            <li key={index} className="flex items-start gap-3 group">
-              <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
+            <li key={index} className="flex items-start gap-4">
+              <div className="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold shrink-0">
                 ✓
-              </span>
-              <p className="text-gray-700 group-hover:text-black transition">
+              </div>
+              <p className="text-gray-700 text-lg leading-relaxed">
                 {item}
               </p>
             </li>
@@ -200,8 +215,10 @@ export default function TrustOnSiteClient() {
     </div>
 
   </div>
-</section>
 
+  {/* Bottom Red Border */}
+  <div className="mt-16 h-3 w-full bg-gradient-to-r from-red-700 via-red-600 to-red-700"></div>
+</section>
 
       {/* 📞 CTA */}
  <section id="book-test" className="relative py-16 px-4 md:px-10">
