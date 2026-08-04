@@ -240,10 +240,6 @@ export default function TrustOnSiteClient() {
   <div className="mt-16 h-3 w-full bg-gradient-to-r from-red-700 via-red-600 to-red-700"></div>
 </section>
 
-  {/* Bottom Red Border */}
-  <div className="mt-16 h-3 w-full bg-gradient-to-r from-red-700 via-red-600 to-red-700"></div>
-</section>
-
       {/* 📞 CTA */}
  <section id="book-test" className="relative py-16 px-4 md:px-10">
 
