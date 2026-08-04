@@ -129,8 +129,16 @@ export default function TrustOnSiteClient() {
 
       {/* 🔴 CONTENT SECTION */}
      <section className="px-6 md:px-20 py-16 bg-gray-50">
-  
   <div className="max-w-7xl mx-auto">
+
+    {/* TOP IMAGE */}
+    <div className="flex justify-center mb-12">
+      <img
+        src="/trustonsitelogo.png" // Replace with your image path
+        alt="Kaaveri Trust On Site"
+        className="w-full max-w-md md:max-w-lg lg:max-w-xl object-contain"
+      />
+    </div>
 
     {/* HEADER CARDS */}
     <div className="grid md:grid-cols-2 gap-6 mb-12">
@@ -151,58 +159,47 @@ export default function TrustOnSiteClient() {
       {/* LEFT CARD */}
       <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
         <ul className="space-y-5">
-
           {[
             "Fully Equipped Mobile Testing Vehicle",
             "Instant Test Result",
-            "Live Testing in Front of Engineers & Builders"
+            "Live Testing in Front of Engineers & Builders",
           ].map((item, index) => (
             <li key={index} className="flex items-start gap-3 group">
-              
               <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
                 ✓
               </span>
-
               <p className="text-gray-700 group-hover:text-black transition">
                 {item}
               </p>
-
             </li>
           ))}
-
         </ul>
       </div>
 
       {/* RIGHT CARD */}
       <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition duration-300">
         <ul className="space-y-5">
-
           {[
             "No Blind Trust",
             "Complete Transparency",
             "No Compromise On Strength",
-            "Confidence For 100+ Years of Structure Life"
+            "Confidence For 100+ Years of Structure Life",
           ].map((item, index) => (
             <li key={index} className="flex items-start gap-3 group">
-              
               <span className="w-6 h-6 flex items-center justify-center rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition">
                 ✓
               </span>
-
               <p className="text-gray-700 group-hover:text-black transition">
                 {item}
               </p>
-
             </li>
           ))}
-
         </ul>
       </div>
 
     </div>
 
   </div>
-
 </section>
 
 
