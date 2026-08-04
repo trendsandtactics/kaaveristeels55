@@ -128,52 +128,72 @@ export default function TrustOnSiteClient() {
 
 
       {/* 🔴 CONTENT SECTION */}
-    <section className="relative bg-white py-20 overflow-hidden">
+<section className="relative bg-gray-50 py-20 overflow-hidden">
   {/* Background Glow */}
-  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#ffffff_40%,#f8f8f8_100%)]" />
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#ffffff_40%,#f8f8f8_100%)]"></div>
 
-  <div className="relative max-w-7xl mx-auto px-6 md:px-16">
+  <div className="relative max-w-7xl mx-auto px-6 md:px-20">
 
-    {/* TOP LOGO WITH LINES */}
+    {/* ================= TOP LOGO ================= */}
     <div className="flex items-center justify-center mb-14">
 
-      <div className="hidden md:block flex-1 h-px bg-red-300"></div>
+      {/* Left Line */}
+      <div className="hidden md:flex flex-1 items-center">
+        <div className="flex-1 h-px bg-red-300"></div>
 
-      <div className="mx-6 relative">
+        {/* Dot */}
+        <div className="relative mx-3">
+          <div className="w-5 h-5 rounded-full bg-red-100"></div>
+          <div className="absolute inset-0 m-auto w-2.5 h-2.5 rounded-full bg-red-600"></div>
+        </div>
+      </div>
+
+      {/* Logo */}
+      <div className="mx-6">
         <img
           src="/trustonsitelogo.png"
           alt="Trust On Site"
-          className="w-36 md:w-44 lg:w-48 object-contain"
+          className="w-28 md:w-32 lg:w-36 object-contain"
         />
       </div>
 
-      <div className="hidden md:block flex-1 h-px bg-red-300"></div>
+      {/* Right Line */}
+      <div className="hidden md:flex flex-1 items-center">
+
+        {/* Dot */}
+        <div className="relative mx-3">
+          <div className="w-5 h-5 rounded-full bg-red-100"></div>
+          <div className="absolute inset-0 m-auto w-2.5 h-2.5 rounded-full bg-red-600"></div>
+        </div>
+
+        <div className="flex-1 h-px bg-red-300"></div>
+      </div>
 
     </div>
 
-    {/* TITLE BOXES */}
+    {/* ================= HEADINGS ================= */}
     <div className="grid md:grid-cols-2 gap-8 mb-10">
 
-      <div className="bg-gradient-to-r from-red-700 to-red-500 rounded-2xl py-5 px-6 text-center shadow-lg">
-        <h3 className="text-white text-xl md:text-2xl font-serif font-semibold">
+      <div className="bg-gradient-to-r from-red-700 to-red-500 rounded-2xl py-5 px-6 shadow-lg text-center">
+        <h3 className="font-serif text-white text-xl md:text-2xl font-semibold">
           “We Don’t Just Promise Quality – We Prove It.”
         </h3>
       </div>
 
-      <div className="bg-gradient-to-r from-red-700 to-red-500 rounded-2xl py-5 px-6 text-center shadow-lg">
-        <h3 className="text-white text-xl md:text-2xl font-serif font-semibold">
+      <div className="bg-gradient-to-r from-red-700 to-red-500 rounded-2xl py-5 px-6 shadow-lg text-center">
+        <h3 className="font-serif text-white text-xl md:text-2xl font-semibold">
           Why This Changes Everything
         </h3>
       </div>
 
     </div>
 
-    {/* CONTENT */}
+    {/* ================= CONTENT ================= */}
     <div className="grid md:grid-cols-2 gap-8">
 
       {/* LEFT CARD */}
-      <div className="bg-white rounded-3xl p-10 shadow-[0_15px_40px_rgba(0,0,0,0.08)] border border-gray-100">
-        <ul className="space-y-7">
+      <div className="bg-white rounded-3xl p-10 border border-gray-100 shadow-[0_12px_35px_rgba(0,0,0,0.08)] hover:shadow-[0_18px_45px_rgba(0,0,0,0.12)] transition duration-300">
+        <ul className="space-y-6">
           {[
             "Fully Equipped Mobile Testing Vehicle",
             "Instant Test Result",
@@ -192,8 +212,8 @@ export default function TrustOnSiteClient() {
       </div>
 
       {/* RIGHT CARD */}
-      <div className="bg-white rounded-3xl p-10 shadow-[0_15px_40px_rgba(0,0,0,0.08)] border border-gray-100">
-        <ul className="space-y-7">
+      <div className="bg-white rounded-3xl p-10 border border-gray-100 shadow-[0_12px_35px_rgba(0,0,0,0.08)] hover:shadow-[0_18px_45px_rgba(0,0,0,0.12)] transition duration-300">
+        <ul className="space-y-6">
           {[
             "No Blind Trust",
             "Complete Transparency",
@@ -215,6 +235,10 @@ export default function TrustOnSiteClient() {
     </div>
 
   </div>
+
+  {/* Bottom Border */}
+  <div className="mt-16 h-3 w-full bg-gradient-to-r from-red-700 via-red-600 to-red-700"></div>
+</section>
 
   {/* Bottom Red Border */}
   <div className="mt-16 h-3 w-full bg-gradient-to-r from-red-700 via-red-600 to-red-700"></div>
