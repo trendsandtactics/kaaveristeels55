@@ -1,0 +1,15 @@
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+# Disallow private and administrative routes (only if these routes exist)
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
+Disallow: /setup-linking-vendor
+Disallow: /popup-modules
+Disallow: /map-feedback
+
+# Sitemap
+Sitemap: https://www.kaaveristeels.co.in/sitemap.xml
