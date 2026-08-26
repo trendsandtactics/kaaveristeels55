@@ -320,8 +320,8 @@ export async function ensureDynamicCmsTables(): Promise<void> {
   try {
     await dynamicCmsBootstrapPromise;
   } catch (error) {
-    dynamicCmsBootstrapPromise = null;
-    throw error;
+    console.error("dynamicCms bootstrap error:", error);
+    // Don't reset promise so we don't spam queries repeatedly on every request
   }
 }
 
@@ -380,19 +380,18 @@ async function queryModuleItems(moduleName: string, options?: ListModuleOptions)
 }
 
 export async function listModuleItems(moduleName: string, options?: ListModuleOptions): Promise<ContentRow[]> {
-  const isPublicRead = options?.status === "published" && !options?.q && !options?.city && !options?.taluka;
   const limit = Math.min(Math.max(options?.limit ?? 5000, 1), 5000);
+  const cacheKey = `dynamic-cms:list:${moduleName}:${limit}:${options?.status || ""}:${options?.city || ""}:${options?.taluka || ""}:${options?.q || ""}`;
 
-  if (isPublicRead) {
-    const cacheKey = `dynamic-cms:list:${moduleName}:${limit}`;
-    return getOrSetCache(cacheKey, PUBLIC_LIST_CACHE_TTL_MS, async () => {
+  return getOrSetCache(cacheKey, PUBLIC_LIST_CACHE_TTL_MS, async () => {
+    try {
       await ensureDynamicCmsTables();
-      return queryModuleItems(moduleName, { ...options, limit, q: undefined });
-    });
-  }
-
-  await ensureDynamicCmsTables();
-  return queryModuleItems(moduleName, { ...options, limit });
+      return await queryModuleItems(moduleName, { ...options, limit });
+    } catch (err) {
+      console.error(`listModuleItems query error for ${moduleName}:`, err);
+      return [];
+    }
+  });
 }
 
 export async function getDealerFilters(): Promise<{
@@ -400,30 +399,38 @@ export async function getDealerFilters(): Promise<{
   talukas: { city: string; taluka: string; count: number }[];
   total: number;
 }> {
-  await ensureDynamicCmsTables();
-  const [cityRows] = await getPool().query<RowDataPacket[]>(
-    `SELECT TRIM(city) as city, COUNT(*) as count 
-     FROM dealers 
-     WHERE status = 'published' AND city IS NOT NULL AND TRIM(city) != '' 
-     GROUP BY TRIM(city) 
-     ORDER BY TRIM(city) ASC`
-  );
-  const [talukaRows] = await getPool().query<RowDataPacket[]>(
-    `SELECT TRIM(city) as city, TRIM(taluka) as taluka, COUNT(*) as count 
-     FROM dealers 
-     WHERE status = 'published' AND taluka IS NOT NULL AND TRIM(taluka) != '' 
-     GROUP BY TRIM(city), TRIM(taluka) 
-     ORDER BY TRIM(taluka) ASC`
-  );
-  const [totalRows] = await getPool().query<RowDataPacket[]>(
-    "SELECT COUNT(*) as total FROM dealers WHERE status = 'published'"
-  );
+  const cacheKey = "dynamic-cms:dealer-filters";
+  return getOrSetCache(cacheKey, PUBLIC_LIST_CACHE_TTL_MS, async () => {
+    try {
+      await ensureDynamicCmsTables();
+      const [cityRows] = await getPool().query<RowDataPacket[]>(
+        `SELECT TRIM(city) as city, COUNT(*) as count 
+         FROM dealers 
+         WHERE status = 'published' AND city IS NOT NULL AND TRIM(city) != '' 
+         GROUP BY TRIM(city) 
+         ORDER BY TRIM(city) ASC`
+      );
+      const [talukaRows] = await getPool().query<RowDataPacket[]>(
+        `SELECT TRIM(city) as city, TRIM(taluka) as taluka, COUNT(*) as count 
+         FROM dealers 
+         WHERE status = 'published' AND taluka IS NOT NULL AND TRIM(taluka) != '' 
+         GROUP BY TRIM(city), TRIM(taluka) 
+         ORDER BY TRIM(taluka) ASC`
+      );
+      const [totalRows] = await getPool().query<RowDataPacket[]>(
+        "SELECT COUNT(*) as total FROM dealers WHERE status = 'published'"
+      );
 
-  return {
-    cities: cityRows.map((r) => ({ name: String(r.city), count: Number(r.count) })),
-    talukas: talukaRows.map((r) => ({ city: String(r.city), taluka: String(r.taluka), count: Number(r.count) })),
-    total: Number(totalRows[0]?.total ?? 0),
-  };
+      return {
+        cities: cityRows.map((r) => ({ name: String(r.city), count: Number(r.count) })),
+        talukas: talukaRows.map((r) => ({ city: String(r.city), taluka: String(r.taluka), count: Number(r.count) })),
+        total: Number(totalRows[0]?.total ?? 0),
+      };
+    } catch (err) {
+      console.error("getDealerFilters error:", err);
+      return { cities: [], talukas: [], total: 0 };
+    }
+  });
 }
 
 export async function getAdminModuleItemById(moduleName: string, id: number): Promise<ContentRow | null> {

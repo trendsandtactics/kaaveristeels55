@@ -103,7 +103,10 @@ export default function DealersClient() {
       if (q.trim()) params.set("q", q.trim());
 
       const res = await fetch(`/api/public/content/dealers?${params.toString()}`);
-      if (!res.ok) throw new Error("Failed to fetch dealers.");
+      if (!res.ok) {
+        console.warn("Dealers API response status:", res.status);
+        return;
+      }
       const data = await res.json();
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -130,9 +133,7 @@ export default function DealersClient() {
 
       setDealers(fetchedDealers);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Unable to fetch dealers."
-      );
+      console.warn("Dealers load error:", err);
     } finally {
       setLoading(false);
     }

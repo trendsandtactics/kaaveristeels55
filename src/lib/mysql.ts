@@ -33,6 +33,11 @@ function requiredFrom(options: { label: string; names: string[]; defaultValue?: 
   return value;
 }
 
+declare global {
+  // eslint-disable-next-line no-var
+  var _mysqlPool: Pool | undefined;
+}
+
 function buildPoolOptions(): PoolOptions {
   const mysqlUrl = firstEnv('MYSQL_URL', 'DATABASE_URL');
   const useSsl = parseBoolean(firstEnv('MYSQL_SSL', 'DB_SSL'));
@@ -41,13 +46,13 @@ function buildPoolOptions(): PoolOptions {
     return {
       uri: mysqlUrl,
       waitForConnections: true,
-      connectionLimit: 15,
-      maxIdle: 15,
-      idleTimeout: 60000,
+      connectionLimit: 5,
+      maxIdle: 5,
+      idleTimeout: 300000,
       connectTimeout: 10000,
       queueLimit: 0,
       enableKeepAlive: true,
-      keepAliveInitialDelay: 0,
+      keepAliveInitialDelay: 10000,
       ...(useSsl
         ? {
             ssl: {
@@ -77,13 +82,13 @@ function buildPoolOptions(): PoolOptions {
       defaultValue: 'u546576758_kaaveri',
     }),
     waitForConnections: true,
-    connectionLimit: 15,
-    maxIdle: 15,
-    idleTimeout: 60000,
+    connectionLimit: 5,
+    maxIdle: 5,
+    idleTimeout: 300000,
     connectTimeout: 10000,
     queueLimit: 0,
     enableKeepAlive: true,
-    keepAliveInitialDelay: 0,
+    keepAliveInitialDelay: 10000,
     ...(useSsl
       ? {
           ssl: {
@@ -95,11 +100,11 @@ function buildPoolOptions(): PoolOptions {
 }
 
 export function getPool(): Pool {
-  if (!pool) {
-    pool = mysql.createPool(buildPoolOptions());
+  if (!globalThis._mysqlPool) {
+    globalThis._mysqlPool = mysql.createPool(buildPoolOptions());
   }
 
-  return pool;
+  return globalThis._mysqlPool;
 }
 
 export async function ensureQuoteRequestsTable(): Promise<void> {
