@@ -18,20 +18,50 @@ const playfair = Playfair_Display({
 
 function resolveMetadataBase(): URL {
   const configured =
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://lyfee.in";
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://www.kaaveristeels.co.in";
 
   try {
     return new URL(configured);
   } catch {
-    return new URL("https://lyfee.in");
+    return new URL("https://www.kaaveristeels.co.in");
   }
 }
 
 export const metadata: Metadata = {
   metadataBase: resolveMetadataBase(),
-  title: "KAAVERI TMT BARS & STRUCTURAL",
+  title: {
+    default: "KAAVERI TMT BARS & STRUCTURAL | Premium Steel Manufacturer",
+    template: "%s | KAAVERI Steels",
+  },
   description:
-    "KAAVERI TMT Bars & Structural - Strong, Durable, and Trusted for all your construction needs.",
+    "KAAVERI TMT Bars & Structural - Strong, Durable, and Trusted steel products for all construction needs across Tamil Nadu and South India.",
+  keywords: [
+    "Kaaveri Steels",
+    "TMT Bars",
+    "Construction Steel",
+    "Fe 550D TMT Bars",
+    "Steel Dealers",
+    "Tamil Nadu Steel Manufacturer",
+  ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    title: "KAAVERI TMT BARS & STRUCTURAL",
+    description: "Strong, Durable, and Trusted steel products for all your construction needs.",
+    url: "https://www.kaaveristeels.co.in",
+    siteName: "KAAVERI Steels",
+    locale: "en_IN",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

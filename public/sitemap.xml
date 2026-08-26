@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+    <!-- Home Page -->
     <url>
         <loc>https://www.kaaveristeels.co.in/</loc>
-        <changefreq>weekly</changefreq>
+        <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
 
-    <url>
-        <loc>https://www.kaaveristeels.co.in/about-us</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
+    <!-- Core Commercial & Discovery Pages -->
     <url>
         <loc>https://www.kaaveristeels.co.in/products</loc>
         <changefreq>weekly</changefreq>
@@ -20,8 +16,14 @@
     </url>
 
     <url>
-        <loc>https://www.kaaveristeels.co.in/projects</loc>
+        <loc>https://www.kaaveristeels.co.in/dealers</loc>
         <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/about-us</loc>
+        <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
@@ -32,9 +34,107 @@
     </url>
 
     <url>
-        <loc>https://www.kaaveristeels.co.in/contact-us</loc>
+        <loc>https://www.kaaveristeels.co.in/trust-on-site</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/quality-policy</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/infrastructure</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/sustainability</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/certifications</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Interactive Tools & Calculators -->
+    <url>
+        <loc>https://www.kaaveristeels.co.in/construction-steel-calculator</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/weight-bundle-calculator</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Content, Projects & CSR -->
+    <url>
+        <loc>https://www.kaaveristeels.co.in/projects</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/blogs</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/careers</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/csr</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/media-events</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/photo-gallery</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/photo-video-project-gallery</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/product-brochure</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/product-enquiry</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.kaaveristeels.co.in/contact-us</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
     </url>
 
 </urlset>
