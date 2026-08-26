@@ -145,21 +145,50 @@ export default function DealersClient() {
     loadDealers();
   }, [loadDealers]);
 
-  // Ask for location on mount (Trigger browser allow popup)
+  // Initial location detection: fast IP fallback + high accuracy GPS on mount
   useEffect(() => {
+    let isMounted = true;
+
+    // Fast IP geolocation fallback so shops sort by location immediately without waiting
+    const fetchIpLocation = async () => {
+      try {
+        const res = await fetch("https://ipwho.is/", { cache: "no-store" });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (isMounted && data?.success && typeof data.latitude === "number" && typeof data.longitude === "number") {
+          setUserLocation((prev) => prev ?? { lat: data.latitude, lng: data.longitude });
+          const locStr = [data.city, data.region].filter(Boolean).join(", ");
+          if (locStr) {
+            setUserAddress((prev) => prev || locStr);
+          }
+        }
+      } catch {
+        // Ignore IP fallback error
+      }
+    };
+
+    fetchIpLocation();
+
+    // High accuracy GPS geolocation
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
+          if (!isMounted) return;
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
           setUserLocation({ lat, lng });
-          
+
           const address = await fetchShortAddress(lat, lng);
-          if (address) setUserAddress(address);
+          if (isMounted && address) setUserAddress(address);
         },
-        (err) => console.log("Location access denied or error:", err)
+        (err) => console.log("GPS Notice:", err?.message || err),
+        { enableHighAccuracy: true, timeout: 8000, maximumAge: 300000 }
       );
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleGetLocation = () => {
@@ -455,13 +484,16 @@ export default function DealersClient() {
           {/* Left Column: Dealers List Sidebar */}
           <div className="lg:col-span-5 flex flex-col gap-4">
             {userLocation && (
-              <div className="p-4 bg-green-50 border border-green-200 rounded-xl shrink-0 shadow-sm">
-                <p className="text-sm text-green-800 font-semibold flex items-center gap-2">
-                  <LocateFixed className="w-5 h-5 shrink-0" />
-                  <span className="truncate" title={userAddress}>
-                    {userAddress ? `Near: ${userAddress}` : "Showing dealers near your location"}
+              <div className="p-4 bg-green-50 border border-green-200 rounded-xl shrink-0 shadow-sm flex items-center justify-between gap-3">
+                <p className="text-sm text-green-800 font-semibold flex items-center gap-2 truncate">
+                  <LocateFixed className="w-5 h-5 shrink-0 text-green-700" />
+                  <span className="truncate" title={userAddress || "Your location"}>
+                    {userAddress ? `Nearest to: ${userAddress}` : "Showing shops sorted by distance from your location"}
                   </span>
                 </p>
+                <span className="shrink-0 text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-md">
+                  Location Active
+                </span>
               </div>
             )}
             
@@ -509,8 +541,9 @@ export default function DealersClient() {
                           {dealer.title}
                         </h3>
                         {dealer.distance !== null && dealer.distance !== undefined && (
-                          <span className="shrink-0 rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-red-700">
-                            {dealer.distance.toFixed(1)} km
+                          <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-red-700 shadow-sm">
+                            <Navigation className="w-3 h-3 text-red-600" />
+                            {dealer.distance < 1 ? `${Math.round(dealer.distance * 1000)} m` : `${dealer.distance.toFixed(1)} km`}
                           </span>
                         )}
                       </div>
