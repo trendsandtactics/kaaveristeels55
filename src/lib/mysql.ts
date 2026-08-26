@@ -1,7 +1,5 @@
 import mysql, { Pool, PoolOptions } from 'mysql2/promise';
 
-let pool: Pool | null = null;
-
 function parseBoolean(value: string | undefined): boolean {
   if (!value) {
     return false;
