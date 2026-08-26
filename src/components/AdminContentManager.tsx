@@ -212,6 +212,7 @@ export default function AdminContentManager() {
         ...base,
         extra_data: {
           city: form.extra_data.city || "",
+          taluka: form.extra_data.taluka || "",
           state: form.extra_data.state || "",
           phone: form.extra_data.phone || "",
           email: form.extra_data.email || "",
@@ -317,7 +318,7 @@ export default function AdminContentManager() {
   const downloadCsvTemplate = () => {
     const headers = ["title", "short_description", "content", "status", "featured", "sort_order", "cover_image", "file_url", "video_url"];
     if (activeModule === "products") headers.push("category", "subcategory");
-    else if (activeModule === "dealers") headers.push("city", "state", "phone", "email", "map_url", "latitude", "longitude");
+    else if (activeModule === "dealers") headers.push("city", "taluka", "state", "phone", "email", "map_url", "latitude", "longitude");
     else if (activeModule === "careers") headers.push("location", "employment_type");
     else if (activeModule === "mediaEvents") headers.push("media_type", "event_date");
     else if (activeModule === "projects") headers.push("scope");
@@ -344,7 +345,7 @@ export default function AdminContentManager() {
 
     const headers = ["id", "title", "slug", "short_description", "content", "status", "featured", "sort_order", "cover_image", "file_url", "video_url", "created_at", "updated_at"];
     if (activeModule === "products") headers.push("category", "subcategory");
-    else if (activeModule === "dealers") headers.push("city", "state", "phone", "email", "map_url", "latitude", "longitude");
+    else if (activeModule === "dealers") headers.push("city", "taluka", "state", "phone", "email", "map_url", "latitude", "longitude");
     else if (activeModule === "careers") headers.push("location", "employment_type");
     else if (activeModule === "mediaEvents") headers.push("media_type", "event_date");
     else if (activeModule === "projects") headers.push("scope");
@@ -670,6 +671,7 @@ export default function AdminContentManager() {
         return (
           <>
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="City" value={form.extra_data.city ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, city: e.target.value } }))} />
+            <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Taluk / Taluka" value={form.extra_data.taluka ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, taluka: e.target.value } }))} />
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="State" value={form.extra_data.state ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, state: e.target.value } }))} />
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Dealer Phone" value={form.extra_data.phone ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, phone: e.target.value } }))} />
             <input className="border rounded-lg px-3 py-2 text-sm" placeholder="Dealer Email" value={form.extra_data.email ?? ""} onChange={(e) => setForm((s) => ({ ...s, extra_data: { ...s.extra_data, email: e.target.value } }))} />

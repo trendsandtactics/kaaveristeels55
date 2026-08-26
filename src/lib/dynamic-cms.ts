@@ -290,6 +290,7 @@ export async function ensureDynamicCmsTables(): Promise<void> {
     // Optional column additions
     const specificAlters = [
       "ALTER TABLE dealers ADD COLUMN cover_image VARCHAR(500) NULL",
+      "ALTER TABLE dealers ADD COLUMN taluka VARCHAR(120) NULL",
       "ALTER TABLE dealers ADD COLUMN file_url VARCHAR(500) NULL",
       "ALTER TABLE dealers ADD COLUMN video_url VARCHAR(500) NULL",
       "ALTER TABLE dealers ADD COLUMN latitude VARCHAR(60) NULL",
@@ -334,10 +335,10 @@ async function queryModuleItems(moduleName: string, options?: { status?: string;
       params.push(options.status);
     }
     if (options?.q) {
-      where.push("(title LIKE ? OR city LIKE ? OR state LIKE ?)");
-      params.push(`%${options.q}%`, `%${options.q}%`, `%${options.q}%`);
+      where.push("(title LIKE ? OR city LIKE ? OR taluka LIKE ? OR state LIKE ?)");
+      params.push(`%${options.q}%`, `%${options.q}%`, `%${options.q}%`, `%${options.q}%`);
     }
-    const sql = `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers ${where.length ? `WHERE ${where.join(" AND ")}` : ""} ORDER BY featured DESC, sort_order ASC, updated_at DESC LIMIT ${limit}`;
+    const sql = `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'taluka', IFNULL(taluka, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers ${where.length ? `WHERE ${where.join(" AND ")}` : ""} ORDER BY featured DESC, sort_order ASC, updated_at DESC LIMIT ${limit}`;
     const [rows] = await getPool().query<ContentRow[]>(sql, params);
     return rows;
   }
@@ -383,7 +384,7 @@ export async function getAdminModuleItemById(moduleName: string, id: number): Pr
 
   if (moduleName === "dealers") {
     const [rows] = await getPool().query<ContentRow[]>(
-      `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE id = ? LIMIT 1`,
+      `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'taluka', IFNULL(taluka, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE id = ? LIMIT 1`,
       [id],
     );
     return rows[0] ?? null;
@@ -402,8 +403,8 @@ export async function createModuleItem(moduleName: string, input: ContentInput):
 
   if (moduleName === "dealers") {
     const [result] = await getPool().execute<ResultSetHeader>(
-      `INSERT INTO dealers (title, slug, short_description, content, cover_image, file_url, video_url, city, state, phone, email, map_url, latitude, longitude, status, featured, sort_order, meta_title, meta_description, meta_keywords, og_image)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO dealers (title, slug, short_description, content, cover_image, file_url, video_url, city, taluka, state, phone, email, map_url, latitude, longitude, status, featured, sort_order, meta_title, meta_description, meta_keywords, og_image)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         input.title,
         slug,
@@ -413,6 +414,7 @@ export async function createModuleItem(moduleName: string, input: ContentInput):
         input.file_url ?? null,
         input.video_url ?? null,
         String(input.extra_data?.city ?? "") || null,
+        String(input.extra_data?.taluka ?? "") || null,
         String(input.extra_data?.state ?? "") || null,
         String(input.extra_data?.phone ?? "") || null,
         String(input.extra_data?.email ?? "") || null,
@@ -467,7 +469,7 @@ export async function updateModuleItem(moduleName: string, id: number, input: Co
 
   if (moduleName === "dealers") {
     const [result] = await getPool().execute<ResultSetHeader>(
-      `UPDATE dealers SET title=?, slug=?, short_description=?, content=?, cover_image=?, file_url=?, video_url=?, city=?, state=?, phone=?, email=?, map_url=?, latitude=?, longitude=?, status=?, featured=?, sort_order=?, meta_title=?, meta_description=?, meta_keywords=?, og_image=? WHERE id=?`,
+      `UPDATE dealers SET title=?, slug=?, short_description=?, content=?, cover_image=?, file_url=?, video_url=?, city=?, taluka=?, state=?, phone=?, email=?, map_url=?, latitude=?, longitude=?, status=?, featured=?, sort_order=?, meta_title=?, meta_description=?, meta_keywords=?, og_image=? WHERE id=?`,
       [
         input.title,
         slug,
@@ -477,6 +479,7 @@ export async function updateModuleItem(moduleName: string, id: number, input: Co
         input.file_url ?? null,
         input.video_url ?? null,
         String(input.extra_data?.city ?? "") || null,
+        String(input.extra_data?.taluka ?? "") || null,
         String(input.extra_data?.state ?? "") || null,
         String(input.extra_data?.phone ?? "") || null,
         String(input.extra_data?.email ?? "") || null,
@@ -558,7 +561,7 @@ export async function deleteModuleItem(moduleName: string, id: number): Promise<
 async function queryPublicModuleItemBySlug(moduleName: string, slug: string): Promise<RowDataPacket | null> {
   if (moduleName === "dealers") {
     const [rows] = await getPool().query<RowDataPacket[]>(
-      `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE slug = ? AND status = 'published' LIMIT 1`,
+      `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'taluka', IFNULL(taluka, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE slug = ? AND status = 'published' LIMIT 1`,
       [slug],
     );
     return rows[0] ?? null;

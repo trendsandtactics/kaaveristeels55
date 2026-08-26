@@ -10,6 +10,7 @@ interface Dealer {
   title: string;
   address: string;
   city: string;
+  taluka?: string;
   state: string;
   phone: string;
   email?: string;
@@ -56,6 +57,7 @@ export default function DealersClient() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedCity, setSelectedCity] = useState<string>("All");
+  const [selectedTaluka, setSelectedTaluka] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedDealer, setSelectedDealer] = useState<Dealer | null>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
@@ -81,15 +83,16 @@ export default function DealersClient() {
         }
         return {
           id: item.id,
-          title: item.title,
+          title: item.title || "",
           address: item.short_description || "",
-          city: extra?.city || "",
-          state: extra?.state || "",
-          phone: extra?.phone || "",
-          email: extra?.email || "",
-          mapUrl: extra?.map_url || "",
-          latitude: extra?.latitude || "",
-          longitude: extra?.longitude || "",
+          city: (extra?.city || item.city || "").trim(),
+          taluka: (extra?.taluka || extra?.taluk || item.taluka || item.taluk || "").trim(),
+          state: (extra?.state || item.state || "").trim(),
+          phone: extra?.phone || item.phone || "",
+          email: extra?.email || item.email || "",
+          mapUrl: extra?.map_url || item.map_url || "",
+          latitude: extra?.latitude || item.latitude || "",
+          longitude: extra?.longitude || item.longitude || "",
           coverImage: item.cover_image || null,
         };
       });
@@ -101,6 +104,7 @@ export default function DealersClient() {
             id: 1,
             title: "Chennai Steel Hub",
             address: "12, Mount Road, Guindy",
+            taluka: "Guindy",
             city: "Chennai",
             state: "Tamil Nadu",
             phone: "+91 98765 43210",
@@ -114,6 +118,7 @@ export default function DealersClient() {
             id: 2,
             title: "Madurai Metals",
             address: "45, Bypass Road",
+            taluka: "Madurai South",
             city: "Madurai",
             state: "Tamil Nadu",
             phone: "+91 87654 32109",
@@ -170,6 +175,7 @@ export default function DealersClient() {
         const lng = position.coords.longitude;
         setUserLocation({ lat, lng });
         setSelectedCity("All");
+        setSelectedTaluka("All");
         setSelectedDealer(null);
         
         const address = await fetchShortAddress(lat, lng);
@@ -184,41 +190,60 @@ export default function DealersClient() {
     );
   };
 
-  // Reset selected dealer when city or search query changes
+  // Reset selected dealer when city, taluka, or search query changes
   useEffect(() => {
     setSelectedDealer(null);
     setVisibleCount(50);
-  }, [selectedCity, searchQuery]);
+  }, [selectedCity, selectedTaluka, searchQuery]);
 
   useEffect(() => {
     setVisibleCount(50);
   }, [userLocation]);
 
   const cities = useMemo(() => {
-    const uniqueCities = Array.from(new Set(dealers.map(d => d.city).filter(Boolean)));
-    return ["All", ...uniqueCities.sort()];
+    const uniqueCities = Array.from(
+      new Set(dealers.map((d) => d.city?.trim()).filter(Boolean))
+    );
+    return ["All", ...uniqueCities.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }))];
   }, [dealers]);
+
+  const talukas = useMemo(() => {
+    const pool =
+      selectedCity === "All"
+        ? dealers
+        : dealers.filter((d) => d.city.toLowerCase() === selectedCity.toLowerCase());
+
+    const uniqueTalukas = Array.from(
+      new Set(pool.map((d) => d.taluka?.trim()).filter(Boolean) as string[])
+    );
+    return ["All", ...uniqueTalukas.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }))];
+  }, [dealers, selectedCity]);
 
   const filteredDealers = useMemo(() => {
     let result = dealers;
     if (selectedCity !== "All") {
-      result = result.filter(d => d.city === selectedCity);
+      result = result.filter((d) => d.city.toLowerCase() === selectedCity.toLowerCase());
+    }
+
+    if (selectedTaluka !== "All") {
+      result = result.filter((d) => (d.taluka || "").toLowerCase() === selectedTaluka.toLowerCase());
     }
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       result = result.filter(
-        d =>
+        (d) =>
           d.title.toLowerCase().includes(q) ||
           d.address.toLowerCase().includes(q) ||
           d.city.toLowerCase().includes(q) ||
+          (d.taluka && d.taluka.toLowerCase().includes(q)) ||
           d.state.toLowerCase().includes(q) ||
           (d.phone && d.phone.toLowerCase().includes(q)) ||
           (d.email && d.email.toLowerCase().includes(q))
       );
     }
     
-    const withDistance = result.map(d => {
+    const withDistance = result.map((d) => {
       let distance: number | null = null;
       if (userLocation && d.latitude && d.longitude) {
         const lat = parseFloat(d.latitude);
@@ -230,9 +255,9 @@ export default function DealersClient() {
       
       let isCityMatch = false;
       if (userAddress && d.city) {
-        const parts = userAddress.toLowerCase().split(',').map(p => p.trim());
+        const parts = userAddress.toLowerCase().split(",").map((p) => p.trim());
         const dc = d.city.toLowerCase().trim();
-        if (dc && parts.some(p => p && (p === dc || dc.includes(p) || p.includes(dc)))) {
+        if (dc && parts.some((p) => p && (p === dc || dc.includes(p) || p.includes(dc)))) {
           isCityMatch = true;
         }
       }
@@ -253,7 +278,7 @@ export default function DealersClient() {
       });
     }
     return withDistance;
-  }, [dealers, selectedCity, searchQuery, userLocation, userAddress]);
+  }, [dealers, selectedCity, selectedTaluka, searchQuery, userLocation, userAddress]);
 
   const getDirectionsUrl = useCallback((dealer: Dealer) => {
     let destination = "";
@@ -262,7 +287,14 @@ export default function DealersClient() {
     } else if (dealer.mapUrl && !dealer.mapUrl.includes("embed")) {
       return dealer.mapUrl;
     } else {
-      destination = `${dealer.title}, ${dealer.address}, ${dealer.city}, ${dealer.state}`;
+      const locParts = [
+        dealer.title,
+        dealer.address,
+        dealer.taluka ? `${dealer.taluka}${dealer.taluka.toLowerCase().includes("taluk") ? "" : " Taluk"}` : "",
+        dealer.city,
+        dealer.state,
+      ].filter(Boolean);
+      destination = locParts.join(", ");
     }
 
     let url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
@@ -283,8 +315,8 @@ export default function DealersClient() {
       } else {
         return baseUrl;
       }
-    } else if (selectedCity !== "All" && filteredDealers.length > 0) {
-      const first = filteredDealers.find(d => d.latitude && d.longitude);
+    } else if ((selectedCity !== "All" || selectedTaluka !== "All") && filteredDealers.length > 0) {
+      const first = filteredDealers.find((d) => d.latitude && d.longitude);
       if (first && first.latitude && first.longitude) {
         return `${baseUrl}&ll=${first.latitude},${first.longitude}&z=12`;
       }
@@ -293,7 +325,7 @@ export default function DealersClient() {
     }
     
     return baseUrl;
-  }, [selectedDealer, filteredDealers, selectedCity, userLocation]);
+  }, [selectedDealer, filteredDealers, selectedCity, selectedTaluka, userLocation]);
 
   return (
     <main className="flex flex-col min-h-screen w-full relative bg-white overflow-hidden transition-colors duration-500">
@@ -325,15 +357,15 @@ export default function DealersClient() {
       {/* Dealers List Section */}
       <section className="px-6 py-12 md:py-20 max-w-7xl mx-auto w-full z-10 relative">
         {/* Filter & Search Controls */}
-        <div className="mb-8 flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between bg-white p-6 rounded-2xl shadow-md border border-gray-100">
+        <div className="mb-8 flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between bg-white p-6 rounded-2xl shadow-md border border-gray-100">
           {/* Search Box */}
-          <div className="relative flex-1 min-w-[260px]">
+          <div className="relative flex-1 min-w-[240px]">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search dealer shop name, city, address..."
+              placeholder="Search dealer shop name, city, taluka, address..."
               className="w-full pl-11 pr-10 py-3 bg-gray-50 border border-black/15 rounded-xl outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/20 font-body text-sm font-medium transition-all shadow-sm"
             />
             {searchQuery && (
@@ -347,18 +379,61 @@ export default function DealersClient() {
             )}
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+          <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center flex-wrap">
             {/* Filter by City */}
-            <div className="flex items-center gap-2">
+            <div className="flex-1 sm:flex-initial min-w-[170px]">
               <select
                 value={selectedCity}
-                onChange={(e) => setSelectedCity(e.target.value)}
-                className="w-full sm:w-56 border border-black/15 rounded-xl px-4 py-3 bg-gray-50 outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/20 font-body text-sm font-semibold transition-all shadow-sm"
+                onChange={(e) => {
+                  setSelectedCity(e.target.value);
+                  setSelectedTaluka("All");
+                }}
+                className="w-full sm:w-48 border border-black/15 rounded-xl px-3.5 py-3 bg-gray-50 outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/20 font-body text-sm font-semibold transition-all shadow-sm cursor-pointer"
               >
                 <option value="All">All Cities ({dealers.length})</option>
-                {cities.filter(c => c !== "All").map((city) => (
-                  <option key={city} value={city}>{city}</option>
-                ))}
+                {cities
+                  .filter((c) => c !== "All")
+                  .map((city) => {
+                    const count = dealers.filter(
+                      (d) => d.city.toLowerCase() === city.toLowerCase()
+                    ).length;
+                    return (
+                      <option key={city} value={city}>
+                        {city} ({count})
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
+
+            {/* Filter by Taluka */}
+            <div className="flex-1 sm:flex-initial min-w-[170px]">
+              <select
+                value={selectedTaluka}
+                onChange={(e) => setSelectedTaluka(e.target.value)}
+                className="w-full sm:w-48 border border-black/15 rounded-xl px-3.5 py-3 bg-gray-50 outline-none focus:border-red-600 focus:ring-2 focus:ring-red-600/20 font-body text-sm font-semibold transition-all shadow-sm cursor-pointer"
+              >
+                <option value="All">
+                  All Talukas {talukas.filter((t) => t !== "All").length > 0 ? `(${talukas.filter((t) => t !== "All").length})` : ""}
+                </option>
+                {talukas
+                  .filter((t) => t !== "All")
+                  .map((taluka) => {
+                    const count = (
+                      selectedCity === "All"
+                        ? dealers
+                        : dealers.filter(
+                            (d) => d.city.toLowerCase() === selectedCity.toLowerCase()
+                          )
+                    ).filter(
+                      (d) => (d.taluka || "").toLowerCase() === taluka.toLowerCase()
+                    ).length;
+                    return (
+                      <option key={taluka} value={taluka}>
+                        {taluka} ({count})
+                      </option>
+                    );
+                  })}
               </select>
             </div>
 
@@ -442,7 +517,16 @@ export default function DealersClient() {
                       <div className="mt-4 space-y-3">
                         <div className="flex items-start gap-3 text-sm md:text-base text-gray-700">
                           <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-red-600" />
-                          <p className="font-medium leading-tight">{dealer.address}, {dealer.city}, {dealer.state}</p>
+                          <p className="font-medium leading-tight">
+                            {[
+                              dealer.address,
+                              dealer.taluka ? `${dealer.taluka}${dealer.taluka.toLowerCase().includes("taluk") ? "" : " Taluk"}` : "",
+                              dealer.city,
+                              dealer.state,
+                            ]
+                              .filter(Boolean)
+                              .join(", ")}
+                          </p>
                         </div>
                         {dealer.phone && (
                           <div className="flex items-center gap-3 text-sm md:text-base text-gray-700">
