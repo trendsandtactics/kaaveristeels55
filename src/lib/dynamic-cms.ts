@@ -346,17 +346,19 @@ async function queryModuleItems(moduleName: string, options?: ListModuleOptions)
       params.push(options.status);
     }
     if (options?.city && options.city !== "All") {
-      where.push("(LOWER(TRIM(city)) = LOWER(TRIM(?)) OR LOWER(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city')))) = LOWER(TRIM(?)))");
-      params.push(options.city, options.city);
+      where.push("(LOWER(TRIM(city)) = LOWER(TRIM(?)) OR LOWER(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city')))) = LOWER(TRIM(?)) OR city LIKE ?)");
+      params.push(options.city, options.city, `%${options.city}%`);
     }
     if (options?.taluka && options.taluka !== "All") {
       where.push(`(
         LOWER(TRIM(taluka)) = LOWER(TRIM(?)) OR 
         LOWER(TRIM(taluk)) = LOWER(TRIM(?)) OR 
         LOWER(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluka')))) = LOWER(TRIM(?)) OR 
-        LOWER(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluk')))) = LOWER(TRIM(?))
+        LOWER(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluk')))) = LOWER(TRIM(?)) OR
+        taluka LIKE ? OR
+        taluk LIKE ?
       )`);
-      params.push(options.taluka, options.taluka, options.taluka, options.taluka);
+      params.push(options.taluka, options.taluka, options.taluka, options.taluka, `%${options.taluka}%`, `%${options.taluka}%`);
     }
     if (options?.q) {
       where.push("(title LIKE ? OR name LIKE ? OR short_description LIKE ? OR address LIKE ? OR city LIKE ? OR taluka LIKE ? OR taluk LIKE ? OR state LIKE ?)");
@@ -451,7 +453,7 @@ export async function getDealerFilters(): Promise<{
   total: number;
 }> {
   const cacheKey = "dynamic-cms:dealer-filters";
-  return getOrSetCache(cacheKey, PUBLIC_LIST_CACHE_TTL_MS, async () => {
+  return getOrSetCache(cacheKey, 15 * 1000, async () => {
     try {
       await ensureDynamicCmsTables();
       const [cityRows] = await getPool().query<RowDataPacket[]>(
