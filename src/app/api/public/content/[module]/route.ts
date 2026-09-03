@@ -19,9 +19,9 @@ export async function GET(request: Request, { params }: { params: { module: stri
       });
     }
 
-    // Fetch published records from the MySQL database using the dynamic-cms lib
+    // Fetch records from the MySQL database using the dynamic-cms lib
     const items = await listModuleItems(params.module, {
-      status: "published",
+      status: params.module === "dealers" ? undefined : "published",
       q,
       city: city && city !== "All" ? city : undefined,
       taluka: taluka && taluka !== "All" ? taluka : undefined,
