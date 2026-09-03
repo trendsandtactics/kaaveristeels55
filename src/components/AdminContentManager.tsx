@@ -208,11 +208,15 @@ export default function AdminContentManager() {
     };
 
     if (activeModule === "dealers") {
+      const dealerName = form.extra_data.name || form.title || "";
       return {
         ...base,
+        title: dealerName,
         extra_data: {
+          name: dealerName,
           city: form.extra_data.city || "",
-          taluka: form.extra_data.taluka || "",
+          taluka: form.extra_data.taluka || form.extra_data.taluk || "",
+          taluk: form.extra_data.taluka || form.extra_data.taluk || "",
           state: form.extra_data.state || "",
           phone: form.extra_data.phone || "",
           email: form.extra_data.email || "",

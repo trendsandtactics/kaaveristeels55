@@ -289,8 +289,11 @@ export async function ensureDynamicCmsTables(): Promise<void> {
 
     // Optional column additions
     const specificAlters = [
-      "ALTER TABLE dealers ADD COLUMN cover_image VARCHAR(500) NULL",
+      "ALTER TABLE dealers ADD COLUMN name VARCHAR(220) NULL",
       "ALTER TABLE dealers ADD COLUMN taluka VARCHAR(120) NULL",
+      "ALTER TABLE dealers ADD COLUMN taluk VARCHAR(120) NULL",
+      "ALTER TABLE dealers ADD COLUMN address TEXT NULL",
+      "ALTER TABLE dealers ADD COLUMN cover_image VARCHAR(500) NULL",
       "ALTER TABLE dealers ADD COLUMN file_url VARCHAR(500) NULL",
       "ALTER TABLE dealers ADD COLUMN video_url VARCHAR(500) NULL",
       "ALTER TABLE dealers ADD COLUMN latitude VARCHAR(60) NULL",
@@ -339,22 +342,70 @@ async function queryModuleItems(moduleName: string, options?: ListModuleOptions)
     const where: string[] = [];
     const params: Array<string> = [];
     if (options?.status) {
-      where.push("status = ?");
+      where.push("(status = ? OR status IS NULL OR status = '' OR status = 'draft')");
       params.push(options.status);
     }
     if (options?.city && options.city !== "All") {
-      where.push("LOWER(TRIM(city)) = LOWER(TRIM(?))");
-      params.push(options.city);
+      where.push("(LOWER(TRIM(city)) = LOWER(TRIM(?)) OR LOWER(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city')))) = LOWER(TRIM(?)))");
+      params.push(options.city, options.city);
     }
     if (options?.taluka && options.taluka !== "All") {
-      where.push("LOWER(TRIM(taluka)) = LOWER(TRIM(?))");
-      params.push(options.taluka);
+      where.push(`(
+        LOWER(TRIM(taluka)) = LOWER(TRIM(?)) OR 
+        LOWER(TRIM(taluk)) = LOWER(TRIM(?)) OR 
+        LOWER(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluka')))) = LOWER(TRIM(?)) OR 
+        LOWER(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluk')))) = LOWER(TRIM(?))
+      )`);
+      params.push(options.taluka, options.taluka, options.taluka, options.taluka);
     }
     if (options?.q) {
-      where.push("(title LIKE ? OR short_description LIKE ? OR city LIKE ? OR taluka LIKE ? OR state LIKE ?)");
-      params.push(`%${options.q}%`, `%${options.q}%`, `%${options.q}%`, `%${options.q}%`, `%${options.q}%`);
+      where.push("(title LIKE ? OR name LIKE ? OR short_description LIKE ? OR address LIKE ? OR city LIKE ? OR taluka LIKE ? OR taluk LIKE ? OR state LIKE ?)");
+      params.push(`%${options.q}%`, `%${options.q}%`, `%${options.q}%`, `%${options.q}%`, `%${options.q}%`, `%${options.q}%`, `%${options.q}%`, `%${options.q}%`);
     }
-    const sql = `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'taluka', IFNULL(taluka, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers ${where.length ? `WHERE ${where.join(" AND ")}` : ""} ORDER BY featured DESC, sort_order ASC, updated_at DESC LIMIT ${limit}`;
+    const sql = `SELECT 
+      id,
+      COALESCE(NULLIF(TRIM(name), ''), NULLIF(TRIM(title), '')) as name,
+      COALESCE(NULLIF(TRIM(title), ''), NULLIF(TRIM(name), '')) as title,
+      slug,
+      COALESCE(NULLIF(TRIM(address), ''), NULLIF(TRIM(short_description), '')) as address,
+      short_description,
+      content,
+      cover_image,
+      file_url,
+      video_url,
+      status,
+      featured,
+      sort_order,
+      meta_title,
+      meta_description,
+      meta_keywords,
+      og_image,
+      COALESCE(NULLIF(TRIM(city), ''), '') as city,
+      COALESCE(NULLIF(TRIM(taluka), ''), NULLIF(TRIM(taluk), ''), '') as taluka,
+      COALESCE(NULLIF(TRIM(taluk), ''), NULLIF(TRIM(taluka), ''), '') as taluk,
+      COALESCE(NULLIF(TRIM(state), ''), '') as state,
+      COALESCE(NULLIF(TRIM(phone), ''), '') as phone,
+      COALESCE(NULLIF(TRIM(email), ''), '') as email,
+      COALESCE(NULLIF(TRIM(map_url), ''), '') as map_url,
+      COALESCE(NULLIF(TRIM(latitude), ''), '') as latitude,
+      COALESCE(NULLIF(TRIM(longitude), ''), '') as longitude,
+      JSON_OBJECT(
+        'name', COALESCE(NULLIF(TRIM(name), ''), NULLIF(TRIM(title), ''), ''),
+        'city', IFNULL(city, ''),
+        'taluka', COALESCE(NULLIF(TRIM(taluka), ''), NULLIF(TRIM(taluk), ''), ''),
+        'taluk', COALESCE(NULLIF(TRIM(taluk), ''), NULLIF(TRIM(taluka), ''), ''),
+        'state', IFNULL(state, ''),
+        'phone', IFNULL(phone, ''),
+        'email', IFNULL(email, ''),
+        'map_url', IFNULL(map_url, ''),
+        'latitude', IFNULL(latitude, ''),
+        'longitude', IFNULL(longitude, ''),
+        'address', COALESCE(NULLIF(TRIM(address), ''), NULLIF(TRIM(short_description), ''), '')
+      ) as extra_data,
+      created_at,
+      updated_at 
+    FROM dealers ${where.length ? `WHERE ${where.join(" AND ")}` : ""} 
+    ORDER BY featured DESC, sort_order ASC, updated_at DESC LIMIT ${limit}`;
     const [rows] = await getPool().query<ContentRow[]>(sql, params);
     return rows;
   }
@@ -404,26 +455,37 @@ export async function getDealerFilters(): Promise<{
     try {
       await ensureDynamicCmsTables();
       const [cityRows] = await getPool().query<RowDataPacket[]>(
-        `SELECT TRIM(city) as city, COUNT(*) as count 
+        `SELECT 
+           TRIM(COALESCE(NULLIF(city, ''), JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city')))) AS city, 
+           COUNT(*) AS count 
          FROM dealers 
-         WHERE status = 'published' AND city IS NOT NULL AND TRIM(city) != '' 
-         GROUP BY TRIM(city) 
-         ORDER BY TRIM(city) ASC`
+         WHERE (status = 'published' OR status IS NULL OR status = '' OR status = 'draft')
+           AND COALESCE(NULLIF(TRIM(city), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city'))), '')) IS NOT NULL
+         GROUP BY city 
+         ORDER BY city ASC`
       );
       const [talukaRows] = await getPool().query<RowDataPacket[]>(
-        `SELECT TRIM(city) as city, TRIM(taluka) as taluka, COUNT(*) as count 
+        `SELECT 
+           TRIM(COALESCE(NULLIF(city, ''), JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city')), '')) AS city, 
+           TRIM(COALESCE(NULLIF(taluka, ''), NULLIF(taluk, ''), JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluka')), JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluk')))) AS taluka, 
+           COUNT(*) AS count 
          FROM dealers 
-         WHERE status = 'published' AND taluka IS NOT NULL AND TRIM(taluka) != '' 
-         GROUP BY TRIM(city), TRIM(taluka) 
-         ORDER BY TRIM(taluka) ASC`
+         WHERE (status = 'published' OR status IS NULL OR status = '' OR status = 'draft')
+           AND COALESCE(NULLIF(TRIM(taluka), ''), NULLIF(TRIM(taluk), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluka'))), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluk'))), '')) IS NOT NULL
+         GROUP BY city, taluka 
+         ORDER BY taluka ASC`
       );
       const [totalRows] = await getPool().query<RowDataPacket[]>(
-        "SELECT COUNT(*) as total FROM dealers WHERE status = 'published'"
+        "SELECT COUNT(*) as total FROM dealers WHERE (status = 'published' OR status IS NULL OR status = '' OR status = 'draft')"
       );
 
       return {
-        cities: cityRows.map((r) => ({ name: String(r.city), count: Number(r.count) })),
-        talukas: talukaRows.map((r) => ({ city: String(r.city), taluka: String(r.taluka), count: Number(r.count) })),
+        cities: cityRows
+          .map((r) => ({ name: String(r.city || "").trim(), count: Number(r.count) }))
+          .filter((c) => Boolean(c.name)),
+        talukas: talukaRows
+          .map((r) => ({ city: String(r.city || "").trim(), taluka: String(r.taluka || "").trim(), count: Number(r.count) }))
+          .filter((t) => Boolean(t.taluka)),
         total: Number(totalRows[0]?.total ?? 0),
       };
     } catch (err) {
@@ -438,7 +500,7 @@ export async function getAdminModuleItemById(moduleName: string, id: number): Pr
 
   if (moduleName === "dealers") {
     const [rows] = await getPool().query<ContentRow[]>(
-      `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'taluka', IFNULL(taluka, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE id = ? LIMIT 1`,
+      `SELECT id, COALESCE(NULLIF(TRIM(name), ''), NULLIF(TRIM(title), '')) as name, COALESCE(NULLIF(TRIM(title), ''), NULLIF(TRIM(name), '')) as title, slug, COALESCE(NULLIF(TRIM(address), ''), NULLIF(TRIM(short_description), '')) as address, short_description, content, cover_image, file_url, video_url, status, featured, sort_order, meta_title, meta_description, meta_keywords, og_image, JSON_OBJECT('name', COALESCE(NULLIF(TRIM(name), ''), NULLIF(TRIM(title), ''), ''), 'city', IFNULL(city, ''), 'taluka', COALESCE(NULLIF(TRIM(taluka), ''), NULLIF(TRIM(taluk), ''), ''), 'taluk', COALESCE(NULLIF(TRIM(taluk), ''), NULLIF(TRIM(taluka), ''), ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, ''), 'address', COALESCE(NULLIF(TRIM(address), ''), NULLIF(TRIM(short_description), ''), '')) as extra_data, created_at, updated_at FROM dealers WHERE id = ? LIMIT 1`,
       [id],
     );
     return rows[0] ?? null;
@@ -456,26 +518,33 @@ export async function createModuleItem(moduleName: string, input: ContentInput):
   const slug = slugify(input.slug || input.title || "item");
 
   if (moduleName === "dealers") {
+    const dealerName = String(input.extra_data?.name || input.title || "").trim();
+    const dealerTitle = String(input.title || input.extra_data?.name || "").trim();
+    const talukaVal = String(input.extra_data?.taluka ?? input.extra_data?.taluk ?? "") || null;
+    const addressVal = input.short_description || String(input.extra_data?.address || "") || null;
     const [result] = await getPool().execute<ResultSetHeader>(
-      `INSERT INTO dealers (title, slug, short_description, content, cover_image, file_url, video_url, city, taluka, state, phone, email, map_url, latitude, longitude, status, featured, sort_order, meta_title, meta_description, meta_keywords, og_image)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO dealers (title, name, slug, short_description, address, content, cover_image, file_url, video_url, city, taluka, taluk, state, phone, email, map_url, latitude, longitude, status, featured, sort_order, meta_title, meta_description, meta_keywords, og_image)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        input.title,
+        dealerTitle,
+        dealerName,
         slug,
         input.short_description ?? null,
+        addressVal,
         input.content ?? null,
         input.cover_image ?? null,
         input.file_url ?? null,
         input.video_url ?? null,
         String(input.extra_data?.city ?? "") || null,
-        String(input.extra_data?.taluka ?? "") || null,
+        talukaVal,
+        talukaVal,
         String(input.extra_data?.state ?? "") || null,
         String(input.extra_data?.phone ?? "") || null,
         String(input.extra_data?.email ?? "") || null,
         String(input.extra_data?.map_url ?? "") || null,
         String(input.extra_data?.latitude ?? "") || null,
         String(input.extra_data?.longitude ?? "") || null,
-        input.status ?? "draft",
+        input.status ?? "published",
         input.featured ? 1 : 0,
         input.sort_order ?? 0,
         input.meta_title ?? null,
@@ -522,25 +591,32 @@ export async function updateModuleItem(moduleName: string, id: number, input: Co
   const slug = slugify(input.slug || input.title || "item");
 
   if (moduleName === "dealers") {
+    const dealerName = String(input.extra_data?.name || input.title || "").trim();
+    const dealerTitle = String(input.title || input.extra_data?.name || "").trim();
+    const talukaVal = String(input.extra_data?.taluka ?? input.extra_data?.taluk ?? "") || null;
+    const addressVal = input.short_description || String(input.extra_data?.address || "") || null;
     const [result] = await getPool().execute<ResultSetHeader>(
-      `UPDATE dealers SET title=?, slug=?, short_description=?, content=?, cover_image=?, file_url=?, video_url=?, city=?, taluka=?, state=?, phone=?, email=?, map_url=?, latitude=?, longitude=?, status=?, featured=?, sort_order=?, meta_title=?, meta_description=?, meta_keywords=?, og_image=? WHERE id=?`,
+      `UPDATE dealers SET title=?, name=?, slug=?, short_description=?, address=?, content=?, cover_image=?, file_url=?, video_url=?, city=?, taluka=?, taluk=?, state=?, phone=?, email=?, map_url=?, latitude=?, longitude=?, status=?, featured=?, sort_order=?, meta_title=?, meta_description=?, meta_keywords=?, og_image=? WHERE id=?`,
       [
-        input.title,
+        dealerTitle,
+        dealerName,
         slug,
         input.short_description ?? null,
+        addressVal,
         input.content ?? null,
         input.cover_image ?? null,
         input.file_url ?? null,
         input.video_url ?? null,
         String(input.extra_data?.city ?? "") || null,
-        String(input.extra_data?.taluka ?? "") || null,
+        talukaVal,
+        talukaVal,
         String(input.extra_data?.state ?? "") || null,
         String(input.extra_data?.phone ?? "") || null,
         String(input.extra_data?.email ?? "") || null,
         String(input.extra_data?.map_url ?? "") || null,
         String(input.extra_data?.latitude ?? "") || null,
         String(input.extra_data?.longitude ?? "") || null,
-        input.status ?? "draft",
+        input.status ?? "published",
         input.featured ? 1 : 0,
         input.sort_order ?? 0,
         input.meta_title ?? null,
@@ -615,7 +691,7 @@ export async function deleteModuleItem(moduleName: string, id: number): Promise<
 async function queryPublicModuleItemBySlug(moduleName: string, slug: string): Promise<RowDataPacket | null> {
   if (moduleName === "dealers") {
     const [rows] = await getPool().query<RowDataPacket[]>(
-      `SELECT id,title,slug,short_description,content,cover_image,file_url,video_url,status,featured,sort_order,meta_title,meta_description,meta_keywords,og_image, JSON_OBJECT('city', IFNULL(city, ''), 'taluka', IFNULL(taluka, ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, '')) as extra_data,created_at,updated_at FROM dealers WHERE slug = ? AND status = 'published' LIMIT 1`,
+      `SELECT id, COALESCE(NULLIF(TRIM(name), ''), NULLIF(TRIM(title), '')) as name, COALESCE(NULLIF(TRIM(title), ''), NULLIF(TRIM(name), '')) as title, slug, COALESCE(NULLIF(TRIM(address), ''), NULLIF(TRIM(short_description), '')) as address, short_description, content, cover_image, file_url, video_url, status, featured, sort_order, meta_title, meta_description, meta_keywords, og_image, JSON_OBJECT('name', COALESCE(NULLIF(TRIM(name), ''), NULLIF(TRIM(title), ''), ''), 'city', IFNULL(city, ''), 'taluka', COALESCE(NULLIF(TRIM(taluka), ''), NULLIF(TRIM(taluk), ''), ''), 'taluk', COALESCE(NULLIF(TRIM(taluk), ''), NULLIF(TRIM(taluka), ''), ''), 'state', IFNULL(state, ''), 'phone', IFNULL(phone, ''), 'email', IFNULL(email, ''), 'map_url', IFNULL(map_url, ''), 'latitude', IFNULL(latitude, ''), 'longitude', IFNULL(longitude, ''), 'address', COALESCE(NULLIF(TRIM(address), ''), NULLIF(TRIM(short_description), ''), '')) as extra_data, created_at, updated_at FROM dealers WHERE slug = ? AND (status = 'published' OR status IS NULL OR status = '' OR status = 'draft') LIMIT 1`,
       [slug],
     );
     return rows[0] ?? null;

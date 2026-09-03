@@ -8,6 +8,7 @@ import { resolveMediaUrl } from "@/lib/media";
 interface Dealer {
   id: number;
   title: string;
+  name?: string;
   address: string;
   city: string;
   taluka?: string;
@@ -18,6 +19,7 @@ interface Dealer {
   latitude?: string;
   longitude?: string;
   coverImage?: string | null;
+  distance?: number | null;
 }
 
 function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
@@ -75,7 +77,7 @@ export default function DealersClient() {
   // Load distinct cities and talukas from SQL
   const loadFilters = useCallback(async () => {
     try {
-      const res = await fetch("/api/public/content/dealers?filters=true");
+      const res = await fetch(`/api/public/content/dealers?filters=true&_t=${Date.now()}`, { cache: "no-store" });
       if (!res.ok) return;
       const data = await res.json();
       if (data && Array.isArray(data.cities)) {
@@ -101,8 +103,9 @@ export default function DealersClient() {
       if (city && city !== "All") params.set("city", city);
       if (taluka && taluka !== "All") params.set("taluka", taluka);
       if (q.trim()) params.set("q", q.trim());
+      params.set("_t", Date.now().toString());
 
-      const res = await fetch(`/api/public/content/dealers?${params.toString()}`);
+      const res = await fetch(`/api/public/content/dealers?${params.toString()}`, { cache: "no-store" });
       if (!res.ok) {
         console.warn("Dealers API response status:", res.status);
         return;
@@ -115,12 +118,17 @@ export default function DealersClient() {
         if (typeof extra === "string") {
           try { extra = JSON.parse(extra); } catch { extra = {}; }
         }
+        const dealerName = (item.name || extra?.name || item.title || extra?.title || "").trim();
+        const talukaVal = (extra?.taluka || extra?.taluk || item.taluka || item.taluk || "").trim();
+        const cityVal = (extra?.city || item.city || "").trim();
+        const addressVal = (item.address || item.short_description || extra?.address || extra?.short_description || "").trim();
         return {
           id: item.id,
-          title: item.title || "",
-          address: item.short_description || "",
-          city: (extra?.city || item.city || "").trim(),
-          taluka: (extra?.taluka || extra?.taluk || item.taluka || item.taluk || "").trim(),
+          name: dealerName,
+          title: dealerName || item.title || "",
+          address: addressVal,
+          city: cityVal,
+          taluka: talukaVal,
           state: (extra?.state || item.state || "").trim(),
           phone: extra?.phone || item.phone || "",
           email: extra?.email || item.email || "",
@@ -232,37 +240,67 @@ export default function DealersClient() {
   }, [userLocation]);
 
   const cities = useMemo(() => {
-    if (filterData.cities.length > 0) {
-      return ["All", ...filterData.cities.map((c) => c.name)];
-    }
-    const uniqueCities = Array.from(
-      new Set(dealers.map((d) => d.city?.trim()).filter(Boolean))
+    const cityMap = new Map<string, string>();
+
+    filterData.cities.forEach((c) => {
+      const val = (c.name || "").trim();
+      if (val && !cityMap.has(val.toLowerCase())) {
+        cityMap.set(val.toLowerCase(), val);
+      }
+    });
+
+    dealers.forEach((d) => {
+      const val = (d.city || "").trim();
+      if (val && !cityMap.has(val.toLowerCase())) {
+        cityMap.set(val.toLowerCase(), val);
+      }
+    });
+
+    const sortedCities = Array.from(cityMap.values()).sort((a, b) =>
+      a.localeCompare(b, undefined, { sensitivity: "base" })
     );
-    return ["All", ...uniqueCities.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }))];
+
+    return ["All", ...sortedCities];
   }, [dealers, filterData.cities]);
 
   const talukas = useMemo(() => {
-    if (filterData.talukas.length > 0) {
-      const pool =
-        selectedCity === "All"
-          ? filterData.talukas
-          : filterData.talukas.filter(
-              (t) => t.city.toLowerCase() === selectedCity.toLowerCase()
-            );
-      const uniqueTalukas = Array.from(
-        new Set(pool.map((t) => t.taluka).filter(Boolean))
-      );
-      return ["All", ...uniqueTalukas.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }))];
-    }
+    const talukaMap = new Map<string, string>();
+
+    // 1. From filterData API
     const pool =
       selectedCity === "All"
-        ? dealers
-        : dealers.filter((d) => d.city.toLowerCase() === selectedCity.toLowerCase());
+        ? filterData.talukas
+        : filterData.talukas.filter(
+            (t) => (t.city || "").toLowerCase() === selectedCity.toLowerCase()
+          );
 
-    const uniqueTalukas = Array.from(
-      new Set(pool.map((d) => d.taluka?.trim()).filter(Boolean) as string[])
+    pool.forEach((t) => {
+      const val = (t.taluka || "").trim();
+      if (val && !talukaMap.has(val.toLowerCase())) {
+        talukaMap.set(val.toLowerCase(), val);
+      }
+    });
+
+    // 2. From loaded dealers to ensure no taluka is missing
+    const dealerPool =
+      selectedCity === "All"
+        ? dealers
+        : dealers.filter(
+            (d) => (d.city || "").toLowerCase() === selectedCity.toLowerCase()
+          );
+
+    dealerPool.forEach((d) => {
+      const val = (d.taluka || "").trim();
+      if (val && !talukaMap.has(val.toLowerCase())) {
+        talukaMap.set(val.toLowerCase(), val);
+      }
+    });
+
+    const sortedTalukas = Array.from(talukaMap.values()).sort((a, b) =>
+      a.localeCompare(b, undefined, { sensitivity: "base" })
     );
-    return ["All", ...uniqueTalukas.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }))];
+
+    return ["All", ...sortedTalukas];
   }, [dealers, selectedCity, filterData.talukas]);
 
   const filteredDealers = useMemo(() => {
@@ -283,7 +321,7 @@ export default function DealersClient() {
         const distA = a.distance !== null ? a.distance : Infinity;
         const distB = b.distance !== null ? b.distance : Infinity;
         if (distA !== distB) return distA - distB;
-        return a.title.localeCompare(b.title);
+        return (a.name || a.title).localeCompare(b.name || b.title);
       });
     }
     return withDistance;
@@ -297,7 +335,7 @@ export default function DealersClient() {
       return dealer.mapUrl;
     } else {
       const locParts = [
-        dealer.title,
+        dealer.name || dealer.title,
         dealer.address,
         dealer.taluka ? `${dealer.taluka}${dealer.taluka.toLowerCase().includes("taluk") ? "" : " Taluk"}` : "",
         dealer.city,
@@ -431,19 +469,23 @@ export default function DealersClient() {
                 {talukas
                   .filter((t) => t !== "All")
                   .map((taluka) => {
-                    const talukaItem = filterData.talukas.find(
-                      (t) =>
-                        t.taluka.toLowerCase() === taluka.toLowerCase() &&
-                        (selectedCity === "All" || t.city.toLowerCase() === selectedCity.toLowerCase())
-                    );
-                    const count = talukaItem
-                      ? talukaItem.count
-                      : dealers.filter(
-                          (d) => (d.taluka || "").toLowerCase() === taluka.toLowerCase()
-                        ).length;
+                    let count = 0;
+                    if (selectedCity === "All") {
+                      const fromFilters = filterData.talukas
+                        .filter((t) => (t.taluka || "").toLowerCase() === taluka.toLowerCase())
+                        .reduce((sum, t) => sum + (t.count || 0), 0);
+                      count = fromFilters || dealers.filter((d) => (d.taluka || "").toLowerCase() === taluka.toLowerCase()).length;
+                    } else {
+                      const match = filterData.talukas.find(
+                        (t) =>
+                          (t.taluka || "").toLowerCase() === taluka.toLowerCase() &&
+                          (t.city || "").toLowerCase() === selectedCity.toLowerCase()
+                      );
+                      count = match ? match.count : dealers.filter((d) => (d.taluka || "").toLowerCase() === taluka.toLowerCase()).length;
+                    }
                     return (
                       <option key={taluka} value={taluka}>
-                        {taluka} ({count})
+                        {taluka} {count > 0 ? `(${count})` : ""}
                       </option>
                     );
                   })}
@@ -467,6 +509,27 @@ export default function DealersClient() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Left Column: Dealers List Sidebar */}
           <div className="lg:col-span-5 flex flex-col gap-4">
+            {/* Sidebar Header */}
+            <div className="flex items-center justify-between px-1 pb-1">
+              <div>
+                <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">
+                  Authorized Dealers
+                </h2>
+                <p className="text-xs text-gray-500 font-medium mt-0.5">
+                  Showing {filteredDealers.length} {filteredDealers.length === 1 ? "dealer" : "dealers"}
+                  {selectedTaluka !== "All" ? ` in ${selectedTaluka} Taluka` : selectedCity !== "All" ? ` in ${selectedCity}` : ""}
+                </p>
+              </div>
+              {selectedTaluka !== "All" && (
+                <button
+                  onClick={() => setSelectedTaluka("All")}
+                  className="text-xs text-red-600 hover:text-red-700 font-bold underline cursor-pointer"
+                >
+                  Clear Taluka
+                </button>
+              )}
+            </div>
+
             {userLocation && (
               <div className="p-4 bg-green-50 border border-green-200 rounded-xl shrink-0 shadow-sm flex items-center justify-between gap-3">
                 <p className="text-sm text-green-800 font-semibold flex items-center gap-2 truncate">
@@ -513,7 +576,7 @@ export default function DealersClient() {
                         <div className="relative w-full h-56 sm:h-64 mb-5 rounded-xl overflow-hidden shrink-0 border border-black/10">
                           <Image
                             src={resolveMediaUrl(dealer.coverImage, "/image/kaaveriabout.png")}
-                            alt={dealer.title}
+                            alt={dealer.name || dealer.title}
                             fill
                             className="object-cover"
                             sizes="(max-width: 1024px) 100vw, 50vw"
@@ -521,9 +584,23 @@ export default function DealersClient() {
                         </div>
                       )}
                       <div className="flex justify-between items-start gap-2">
-                        <h3 className="font-sans text-xl md:text-2xl font-bold text-gray-900">
-                          {dealer.title}
-                        </h3>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-sans text-xl md:text-2xl font-bold text-gray-900 leading-snug">
+                            {dealer.name || dealer.title}
+                          </h3>
+                          {dealer.taluka && (
+                            <div className="mt-1.5 flex flex-wrap gap-1.5 items-center">
+                              <span className="inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded-md bg-amber-50 text-amber-900 border border-amber-200/80 shadow-xs">
+                                <span className="font-normal text-amber-700 mr-1">Taluka:</span> {dealer.taluka}
+                              </span>
+                              {dealer.city && (
+                                <span className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-md bg-gray-100 text-gray-700">
+                                  {dealer.city}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                        </div>
                         {dealer.distance !== null && dealer.distance !== undefined && (
                           <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-red-700 shadow-sm">
                             <Navigation className="w-3 h-3 text-red-600" />
