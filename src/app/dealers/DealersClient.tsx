@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { MapPin, Phone, Mail, LocateFixed, Search, Navigation, X } from "lucide-react";
 import Image from "next/image";
 import { resolveMediaUrl } from "@/lib/media";
+import { MASTER_TALUKAS, matchesTaluka } from "@/lib/talukas";
 
 interface Dealer {
   id: number;
@@ -279,43 +280,15 @@ export default function DealersClient() {
     );
   };
 
-  // Helper functions for flexible and resilient matching
-  const cleanTaluka = useCallback((str: string): string => {
-    return str
-      .toLowerCase()
-      .replace(/\b(taluk|taluka|tk)\b/gi, "")
-      .replace(/[^\w\s]/gi, "")
-      .trim();
-  }, []);
-
-  const matchesTaluka = useCallback((dealerTaluka?: string, filterTaluka?: string, dealerCity?: string): boolean => {
-    if (!filterTaluka || filterTaluka === "All") return true;
-    const f = filterTaluka.toLowerCase().trim();
-    const cF = cleanTaluka(f);
-
-    if (dealerTaluka) {
-      const d = dealerTaluka.toLowerCase().trim();
-      if (d === f) return true;
-      const cD = cleanTaluka(d);
-      if (cD && cF && (cD === cF || cD.includes(cF) || cF.includes(cD))) return true;
-    }
-
-    if (dealerCity) {
-      const c = dealerCity.toLowerCase().trim();
-      if (c === f) return true;
-      const cC = cleanTaluka(c);
-      if (cC && cF && (cC === cF || cC.includes(cF) || cF.includes(cC))) return true;
-    }
-
-    return false;
-  }, [cleanTaluka]);
-
   const matchesCity = useCallback((dealerCity?: string, filterCity?: string): boolean => {
     if (!filterCity || filterCity === "All") return true;
     if (!dealerCity) return false;
     const d = dealerCity.toLowerCase().trim();
     const f = filterCity.toLowerCase().trim();
-    return d === f || d.includes(f) || f.includes(d);
+    if (d === f || d.includes(f) || f.includes(d)) return true;
+    const normD = d.replace(/p+/g, "p").replace(/k+/g, "k").replace(/l+/g, "l").replace(/^thiru/, "tiru");
+    const normF = f.replace(/p+/g, "p").replace(/k+/g, "k").replace(/l+/g, "l").replace(/^thiru/, "tiru");
+    return normD === normF || normD.includes(normF) || normF.includes(normD);
   }, []);
 
   const matchesQuery = useCallback((dealer: Dealer, query: string): boolean => {
@@ -332,36 +305,23 @@ export default function DealersClient() {
     );
   }, []);
 
-  // Master list of all 83 unique talukas - ALWAYS AVAILABLE, NEVER DISAPPEARS
-  const allTalukas = useMemo(() => {
-    const talukaMap = new Map<string, string>();
+  // Master list of all 83 unique talukas - ALWAYS 83 ITEMS
+  const allTalukas = MASTER_TALUKAS;
 
-    filterData.talukas.forEach((t) => {
-      const val = (t.taluka || "").trim();
-      if (val && !talukaMap.has(val.toLowerCase())) {
-        talukaMap.set(val.toLowerCase(), val);
+  // Precompute dealer count for all 83 talukas
+  const talukaCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const taluka of allTalukas) {
+      let count = 0;
+      for (const d of allDealers) {
+        if (matchesTaluka(d.taluka, taluka, d.city, d.address)) {
+          count++;
+        }
       }
-    });
-
-    allDealers.forEach((d) => {
-      const val = (d.taluka || "").trim();
-      if (val && !talukaMap.has(val.toLowerCase())) {
-        talukaMap.set(val.toLowerCase(), val);
-      }
-    });
-
-    // Also include dealer cities so any taluka stored in the city column is included
-    allDealers.forEach((d) => {
-      const cityVal = (d.city || "").trim();
-      if (cityVal && !talukaMap.has(cityVal.toLowerCase())) {
-        talukaMap.set(cityVal.toLowerCase(), cityVal);
-      }
-    });
-
-    return Array.from(talukaMap.values()).sort((a, b) =>
-      a.localeCompare(b, undefined, { sensitivity: "base" })
-    );
-  }, [allDealers, filterData.talukas]);
+      counts.set(taluka, count);
+    }
+    return counts;
+  }, [allDealers, allTalukas]);
 
   // Master list of all unique cities
   const allCities = useMemo(() => {
@@ -395,7 +355,7 @@ export default function DealersClient() {
     // If a taluka was previously selected and doesn't belong to the new city, reset taluka
     if (selectedTaluka !== "All" && newCity !== "All") {
       const existsInNewCity = allDealers.some(
-        (d) => matchesCity(d.city, newCity) && matchesTaluka(d.taluka, selectedTaluka, d.city)
+        (d) => matchesCity(d.city, newCity) && matchesTaluka(d.taluka, selectedTaluka, d.city, d.address)
       );
       if (!existsInNewCity) {
         setSelectedTaluka("All");
@@ -411,7 +371,7 @@ export default function DealersClient() {
     if (newTaluka === "All") return;
 
     // Check dealers that match this taluka
-    const matchingDealers = allDealers.filter((d) => matchesTaluka(d.taluka, newTaluka, d.city));
+    const matchingDealers = allDealers.filter((d) => matchesTaluka(d.taluka, newTaluka, d.city, d.address));
 
     // If a specific city was selected and does not match any dealer in this taluka,
     // automatically sync the city to the taluka's city so the dealer is FOUND immediately!
@@ -433,14 +393,14 @@ export default function DealersClient() {
     return allDealers
       .filter((d) => {
         // Taluka filter
-        if (selectedTaluka !== "All" && !matchesTaluka(d.taluka, selectedTaluka, d.city)) {
+        if (selectedTaluka !== "All" && !matchesTaluka(d.taluka, selectedTaluka, d.city, d.address)) {
           return false;
         }
 
         // City filter
         if (selectedCity !== "All") {
           const cityMatches = matchesCity(d.city, selectedCity);
-          if (!cityMatches && (selectedTaluka === "All" || !matchesTaluka(d.taluka, selectedTaluka, d.city))) {
+          if (!cityMatches && (selectedTaluka === "All" || !matchesTaluka(d.taluka, selectedTaluka, d.city, d.address))) {
             return false;
           }
         }
@@ -471,7 +431,7 @@ export default function DealersClient() {
         }
         return (a.name || a.title).localeCompare(b.name || b.title);
       });
-  }, [allDealers, selectedCity, selectedTaluka, searchQuery, userLocation, matchesTaluka, matchesCity, matchesQuery]);
+  }, [allDealers, selectedCity, selectedTaluka, searchQuery, userLocation, matchesCity, matchesQuery]);
 
   const getDirectionsUrl = useCallback((dealer: Dealer) => {
     let destination = "";
@@ -603,7 +563,7 @@ export default function DealersClient() {
                   All Talukas ({allTalukas.length})
                 </option>
                 {allTalukas.map((taluka) => {
-                  const count = allDealers.filter((d) => matchesTaluka(d.taluka, taluka, d.city)).length;
+                  const count = talukaCounts.get(taluka) || 0;
                   return (
                     <option key={taluka} value={taluka}>
                       {taluka} {count > 0 ? `(${count})` : ""}

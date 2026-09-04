@@ -1,6 +1,7 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { getPool } from "@/lib/mysql";
 import { clearCacheByPrefix, getOrSetCache } from "@/lib/server-cache";
+import { MASTER_TALUKAS, TALUKA_ALIASES } from "@/lib/talukas";
 
 export const MODULE_TABLES = {
   products: "products",
@@ -533,13 +534,32 @@ export async function getDealerFilters(): Promise<{
         "SELECT COUNT(*) as total FROM dealers"
       );
 
+      const talukaMap = new Map<string, { city: string; taluka: string; count: number }>();
+      MASTER_TALUKAS.forEach((mt) => {
+        talukaMap.set(mt.toLowerCase(), { city: "", taluka: mt, count: 0 });
+      });
+
+      talukaRows.forEach((r) => {
+        const tVal = String(r.taluka || "").trim();
+        const cVal = String(r.city || "").trim();
+        let key = tVal.toLowerCase();
+        if (TALUKA_ALIASES[key]) {
+          key = TALUKA_ALIASES[key].toLowerCase();
+        }
+        if (talukaMap.has(key)) {
+          const item = talukaMap.get(key)!;
+          item.count += Number(r.count);
+          if (!item.city && cVal) item.city = cVal;
+        }
+      });
+
       return {
         cities: cityRows
           .map((r) => ({ name: String(r.city || "").trim(), count: Number(r.count) }))
           .filter((c) => Boolean(c.name)),
-        talukas: talukaRows
-          .map((r) => ({ city: String(r.city || "").trim(), taluka: String(r.taluka || "").trim(), count: Number(r.count) }))
-          .filter((t) => Boolean(t.taluka)),
+        talukas: Array.from(talukaMap.values()).sort((a, b) =>
+          a.taluka.localeCompare(b.taluka, undefined, { sensitivity: "base" })
+        ),
         total: Number(totalRows[0]?.total ?? 0),
       };
     } catch (err) {
