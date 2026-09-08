@@ -1,10 +1,8 @@
 export const MASTER_TALUKAS: string[] = [
-  "Aandipatti",
-  "Aannamalai",
   "Ambasamudram",
-  "Aravakurichi",
-  "Cheyyar",
-  "Chidambaram",
+  "Attur",
+  "Ayanavaram",
+  "Bodinayakanur",
   "Coimbatore",
   "Coimbatore (North)",
   "Coimbatore (South)",
@@ -13,75 +11,71 @@ export const MASTER_TALUKAS: string[] = [
   "Dindigul",
   "Dindigul (East)",
   "Dindigul (West)",
+  "Fort-Tondiarpet",
+  "Gangavalli",
+  "Gingee",
+  "Jayankondam",
   "Kalkulam",
-  "Kallakurichi",
   "Kamuthi",
-  "Karaikudi",
+  "Kandachipuram",
+  "Kariapatti",
   "Karur",
-  "Kattumannarkoil",
-  "Kilvelur",
-  "Kodavasal",
+  "Killiyoor",
   "Kovalam",
+  "Kulathur",
   "Kulithalai",
-  "Madurai",
-  "Madurai (East)",
+  "Madukkarai",
   "Madurai (North)",
-  "Madurai (South)",
+  "Madurantakam",
+  "Maduravoyal",
   "Mambalam",
-  "Manachanallur",
   "Manamadurai",
-  "Manapparai",
   "Mayiladuthurai",
-  "Melur",
-  "Mudukulathur",
-  "Musiri",
+  "Mettur",
+  "Mohanur",
+  "Mylapore",
   "Nagapattinam",
   "Namakkal",
-  "Nannilam",
-  "Needamangalam",
+  "Natham",
   "Nilakottai",
   "Palani",
-  "Palayamkottai",
+  "Pallavaram",
   "Pappireddipatti",
-  "Paramathi Velur",
-  "Pattukkottai",
+  "Pennagaram",
   "Pollachi",
-  "Ponneri",
   "Poonamallee",
-  "Radhapuram",
+  "Puducherry",
   "Rajapalayam",
   "Ramanathapuram",
-  "Rasipuram",
   "Salem",
   "Sankarankovil",
   "Sathiyamangalam",
+  "Sholinganallur",
   "Sirkali",
   "Sivakasi",
   "Sulur",
+  "Tambaram",
   "Tenkasi",
+  "Tharangambadi",
   "Theni",
-  "Thirukkuvalai",
   "Thiruthuraipoondi",
+  "Thiruvananthapuram",
   "Thiruvannamalai",
   "Thiruvarur",
-  "Thittakudi",
-  "Thoothukkudi",
-  "Thottiam",
+  "Thondamuthur",
+  "Thuraiyur",
   "Tiruchendur",
+  "Tiruchengode",
   "Tiruchirapalli",
-  "Tiruchirapalli (East)",
-  "Tiruchirapalli (West)",
-  "Tirunelveli",
-  "Tiruvadanai",
-  "Tiruvembur",
   "Udumalaipettai",
-  "Usilampatti",
-  "Uthangarai",
+  "Uthamapalayam",
   "Valangaiman",
-  "Velankanni",
-  "Villupuram",
+  "Vanur",
+  "Vedaranyam",
+  "Vilavancode",
   "Virudhachalam",
   "Virudhunagar",
+  "Watrap",
 ];
 
 // Mapping regional sub-districts and aliases to the master talukas
@@ -159,11 +153,13 @@ export function matchesTaluka(
 
   const addr = (dealerAddress || "").toLowerCase();
 
-  // 1. Direct match on taluka or alias
+  // 1. Direct match on taluka or alias (bidirectional)
   if (cD) {
     if (cD === cF) return true;
     if (TALUKA_ALIASES[cD] && cleanTaluka(TALUKA_ALIASES[cD]) === cF) return true;
     if (TALUKA_ALIASES[dTaluka] && cleanTaluka(TALUKA_ALIASES[dTaluka]) === cF) return true;
+    if (TALUKA_ALIASES[cF] && cleanTaluka(TALUKA_ALIASES[cF]) === cD) return true;
+    if (TALUKA_ALIASES[f] && cleanTaluka(TALUKA_ALIASES[f]) === cD) return true;
 
     // Guard against cross-matching directions: e.g. North should not match South
     const isOpposite =
@@ -184,6 +180,7 @@ export function matchesTaluka(
     if (cC.replace(/^thiru/, "tiru") === cF.replace(/^thiru/, "tiru")) return true;
 
     if (TALUKA_ALIASES[cC] && cleanTaluka(TALUKA_ALIASES[cC]) === cF) return true;
+    if (TALUKA_ALIASES[cF] && cleanTaluka(TALUKA_ALIASES[cF]) === cC) return true;
 
     // Base city match (e.g. filter is "Coimbatore", dealer city is "Coimbatore")
     if (cF === cC) return true;

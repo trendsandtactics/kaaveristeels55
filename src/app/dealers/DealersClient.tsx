@@ -5,10 +5,12 @@ import { MapPin, Phone, Mail, LocateFixed, Search, Navigation, X } from "lucide-
 import Image from "next/image";
 import { resolveMediaUrl } from "@/lib/media";
 import { MASTER_TALUKAS, matchesTaluka } from "@/lib/talukas";
+import { getMyMapPinCoords, hasMyMapPin } from "@/lib/dealer-pins";
 
 interface Dealer {
   id: number;
   title: string;
+  slug?: string;
   name?: string;
   address: string;
   city: string;
@@ -174,8 +176,13 @@ export default function DealersClient() {
               ""
             ).trim();
 
+            const pinCoords = getMyMapPinCoords(dealerName || item.title, item.slug);
+            const latitudeVal = pinCoords?.lat || (extra?.latitude ? String(extra.latitude) : "") || (item.latitude ? String(item.latitude) : "") || (rawExtra?.latitude ? String(rawExtra.latitude) : "");
+            const longitudeVal = pinCoords?.lng || (extra?.longitude ? String(extra.longitude) : "") || (item.longitude ? String(item.longitude) : "") || (rawExtra?.longitude ? String(rawExtra.longitude) : "");
+
             return {
               id: item.id,
+              slug: item.slug || "",
               name: dealerName,
               title: dealerName || item.title || "",
               address: addressVal,
@@ -185,8 +192,8 @@ export default function DealersClient() {
               phone: extra?.phone || item.phone || rawExtra?.phone || "",
               email: extra?.email || item.email || rawExtra?.email || "",
               mapUrl: extra?.map_url || item.map_url || rawExtra?.map_url || "",
-              latitude: extra?.latitude || item.latitude || rawExtra?.latitude || "",
-              longitude: extra?.longitude || item.longitude || rawExtra?.longitude || "",
+              latitude: latitudeVal ? String(latitudeVal) : "",
+              longitude: longitudeVal ? String(longitudeVal) : "",
               coverImage: item.cover_image || null,
             };
           });
@@ -305,13 +312,15 @@ export default function DealersClient() {
     );
   }, []);
 
-  // Master list of all 83 unique talukas - ALWAYS 83 ITEMS
-  const allTalukas = MASTER_TALUKAS;
-
-  // Precompute dealer count for all 83 talukas
+  // Precompute dealer count for all unique talukas
   const talukaCounts = useMemo(() => {
     const counts = new Map<string, number>();
-    for (const taluka of allTalukas) {
+    const candidates = new Set<string>();
+    allDealers.forEach((d) => { if (d.taluka) candidates.add(d.taluka.trim()); });
+    filterData.talukas.forEach((t) => { if (t.taluka) candidates.add(t.taluka.trim()); });
+    MASTER_TALUKAS.forEach((mt) => { if (mt) candidates.add(mt.trim()); });
+
+    candidates.forEach((taluka) => {
       let count = 0;
       for (const d of allDealers) {
         if (matchesTaluka(d.taluka, taluka, d.city, d.address)) {
@@ -319,9 +328,21 @@ export default function DealersClient() {
         }
       }
       counts.set(taluka, count);
-    }
+    });
     return counts;
-  }, [allDealers, allTalukas]);
+  }, [allDealers, filterData.talukas]);
+
+  // Master list of all unique talukas that have active dealers - guaranteed never to show 0
+  const allTalukas = useMemo(() => {
+    const candidates = new Set<string>();
+    allDealers.forEach((d) => { if (d.taluka) candidates.add(d.taluka.trim()); });
+    filterData.talukas.forEach((t) => { if (t.taluka) candidates.add(t.taluka.trim()); });
+    MASTER_TALUKAS.forEach((mt) => { if (mt) candidates.add(mt.trim()); });
+
+    return Array.from(candidates)
+      .filter((taluka) => (talukaCounts.get(taluka) || 0) > 0)
+      .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+  }, [allDealers, filterData.talukas, talukaCounts]);
 
   // Master list of all unique cities
   const allCities = useMemo(() => {
@@ -375,8 +396,8 @@ export default function DealersClient() {
 
     // If a specific city was selected and does not match any dealer in this taluka,
     // automatically sync the city to the taluka's city so the dealer is FOUND immediately!
-    if (selectedCity !== "All" && matchingDealers.length > 0) {
-      const inCurrentCity = matchingDealers.some((d) => matchesCity(d.city, selectedCity));
+    if (matchingDealers.length > 0) {
+      const inCurrentCity = selectedCity !== "All" && matchingDealers.some((d) => matchesCity(d.city, selectedCity));
       if (!inCurrentCity) {
         const primaryCity = matchingDealers[0].city;
         if (primaryCity && primaryCity.toLowerCase() !== newTaluka.toLowerCase()) {
@@ -397,10 +418,9 @@ export default function DealersClient() {
           return false;
         }
 
-        // City filter
-        if (selectedCity !== "All") {
-          const cityMatches = matchesCity(d.city, selectedCity);
-          if (!cityMatches && (selectedTaluka === "All" || !matchesTaluka(d.taluka, selectedTaluka, d.city, d.address))) {
+        // City filter (only applies when taluka is All, so taluka selection always displays)
+        if (selectedCity !== "All" && selectedTaluka === "All") {
+          if (!matchesCity(d.city, selectedCity)) {
             return false;
           }
         }
@@ -461,13 +481,17 @@ export default function DealersClient() {
     const baseUrl = "https://www.google.com/maps/d/embed?mid=1RQEUhxmncofWIu02gV-sCgboIZbCRfA&ehbc=2E312F&noprof=1";
     
     if (selectedDealer) {
-      if (selectedDealer.latitude && selectedDealer.longitude) {
-        return `${baseUrl}&ll=${selectedDealer.latitude},${selectedDealer.longitude}&z=16`;
-      } else if (selectedDealer.mapUrl) {
+      if (selectedDealer.mapUrl) {
         return selectedDealer.mapUrl;
-      } else {
-        return baseUrl;
       }
+      if (selectedDealer.latitude && selectedDealer.longitude) {
+        if (hasMyMapPin(selectedDealer.name || selectedDealer.title, selectedDealer.slug)) {
+          return `${baseUrl}&ll=${selectedDealer.latitude},${selectedDealer.longitude}&z=16`;
+        }
+        return `https://maps.google.com/maps?q=${selectedDealer.latitude},${selectedDealer.longitude}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+      }
+      const q = [selectedDealer.name || selectedDealer.title, selectedDealer.address, selectedDealer.city, selectedDealer.state].filter(Boolean).join(", ");
+      return `https://maps.google.com/maps?q=${encodeURIComponent(q)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
     } else if ((selectedCity !== "All" || selectedTaluka !== "All") && filteredDealers.length > 0) {
       const first = filteredDealers.find((d) => d.latitude && d.longitude);
       if (first && first.latitude && first.longitude) {
@@ -653,9 +677,26 @@ export default function DealersClient() {
               ) : error ? (
                 <p className="py-10 text-center text-sm text-red-600 font-semibold">{error}</p>
               ) : filteredDealers.length === 0 ? (
-                <p className="py-10 text-center text-sm text-black/60 font-semibold">
-                  No dealers found matching your search.
-                </p>
+                <div className="py-12 px-4 text-center bg-gray-50/70 border border-black/5 rounded-2xl">
+                  <p className="text-base text-gray-800 font-bold mb-1">
+                    No dealers found matching your search.
+                  </p>
+                  <p className="text-xs text-gray-500 mb-4">
+                    Try clearing your search or reset filters to see all available dealers.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSelectedCity("All");
+                      setSelectedTaluka("All");
+                      setSearchQuery("");
+                      setSelectedDealer(null);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-xs shadow-sm transition-all cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                    Reset All Filters
+                  </button>
+                </div>
               ) : (
                 <>
                   {filteredDealers.slice(0, visibleCount).map((dealer) => (
@@ -768,6 +809,25 @@ export default function DealersClient() {
 
           {/* Right Column: Google Map */}
           <div id="map-view" className="lg:col-span-7 h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl border border-black/10 relative bg-gray-200">
+            {selectedDealer && (
+              <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-lg border border-black/10 max-w-[85%]">
+                <MapPin className="w-4 h-4 text-red-600 shrink-0" />
+                <span className="text-xs sm:text-sm font-bold text-gray-900 truncate">
+                  {selectedDealer.name || selectedDealer.title}
+                </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedDealer(null);
+                  }}
+                  className="p-1 text-gray-400 hover:text-gray-700 rounded-full hover:bg-gray-100 transition-colors ml-1 cursor-pointer shrink-0"
+                  title="Return to full map overview"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+
             <iframe
               key={activeMapUrl}
               src={activeMapUrl}
@@ -776,7 +836,7 @@ export default function DealersClient() {
               style={{ border: 0 }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className={`absolute left-0 w-full ${activeMapUrl.includes('/d/embed') ? '-top-[60px] h-[calc(100%+60px)]' : 'top-0 h-full'}`}
+              className={`absolute left-0 w-full ${activeMapUrl.includes('/d/embed') ? '-top-[60px] h-[calc(100%+120px)]' : 'top-0 h-full'}`}
               title="Dealer Location Map"
             />
           </div>
