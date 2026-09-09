@@ -191,6 +191,7 @@ export async function ensureDynamicCmsTables(): Promise<void> {
           status ENUM('draft', 'published') NOT NULL DEFAULT 'draft',
           featured TINYINT(1) NOT NULL DEFAULT 0,
           sort_order INT NOT NULL DEFAULT 0,
+          extra_data JSON NULL,
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
           INDEX idx_location (city, state)
@@ -302,6 +303,7 @@ export async function ensureDynamicCmsTables(): Promise<void> {
       "ALTER TABLE dealers ADD COLUMN meta_description TEXT NULL",
       "ALTER TABLE dealers ADD COLUMN meta_keywords TEXT NULL",
       "ALTER TABLE dealers ADD COLUMN og_image VARCHAR(500) NULL",
+      "ALTER TABLE dealers ADD COLUMN extra_data JSON NULL",
       "ALTER TABLE aboutHero ADD COLUMN slug VARCHAR(240) NULL",
       "ALTER TABLE aboutHero ADD COLUMN short_description TEXT NULL",
       "ALTER TABLE aboutHero ADD COLUMN content LONGTEXT NULL",
@@ -346,19 +348,19 @@ async function queryModuleItems(moduleName: string, options?: ListModuleOptions)
       params.push(options.status);
     }
     if (options?.city && options.city !== "All") {
-      where.push("(LOWER(TRIM(city)) = LOWER(TRIM(?)) OR LOWER(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city')))) = LOWER(TRIM(?)) OR city LIKE ?)");
-      params.push(options.city, options.city, `%${options.city}%`);
+      where.push("(LOWER(TRIM(city)) = LOWER(TRIM(?)) OR city LIKE ?)");
+      params.push(options.city, `%${options.city}%`);
     }
     if (options?.taluka && options.taluka !== "All") {
       where.push(`(
         LOWER(TRIM(taluka)) = LOWER(TRIM(?)) OR 
         LOWER(TRIM(taluk)) = LOWER(TRIM(?)) OR 
-        LOWER(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluka')))) = LOWER(TRIM(?)) OR 
-        LOWER(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluk')))) = LOWER(TRIM(?)) OR
+        LOWER(TRIM(city)) = LOWER(TRIM(?)) OR
         taluka LIKE ? OR
-        taluk LIKE ?
+        taluk LIKE ? OR
+        city LIKE ?
       )`);
-      params.push(options.taluka, options.taluka, options.taluka, options.taluka, `%${options.taluka}%`, `%${options.taluka}%`);
+      params.push(options.taluka, options.taluka, options.taluka, `%${options.taluka}%`, `%${options.taluka}%`, `%${options.taluka}%`);
     }
     if (options?.q) {
       where.push("(title LIKE ? OR name LIKE ? OR short_description LIKE ? OR address LIKE ? OR city LIKE ? OR taluka LIKE ? OR taluk LIKE ? OR state LIKE ?)");
@@ -382,55 +384,37 @@ async function queryModuleItems(moduleName: string, options?: ListModuleOptions)
       meta_description,
       meta_keywords,
       og_image,
-      COALESCE(NULLIF(TRIM(city), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city'))), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.City'))), ''), '') as city,
+      COALESCE(NULLIF(TRIM(city), ''), '') as city,
       COALESCE(
         NULLIF(TRIM(taluka), ''),
         NULLIF(TRIM(taluk), ''),
-        NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluka'))), ''),
-        NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluk'))), ''),
-        NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.Taluk'))), ''),
-        NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.Taluka'))), ''),
-        NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.TALUKA'))), ''),
-        NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.TALUK'))), ''),
-        NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.sub_district'))), ''),
-        NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.area'))), ''),
         NULLIF(TRIM(city), ''),
         ''
       ) as taluka,
       COALESCE(
         NULLIF(TRIM(taluk), ''),
         NULLIF(TRIM(taluka), ''),
-        NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluk'))), ''),
-        NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluka'))), ''),
         NULLIF(TRIM(city), ''),
         ''
       ) as taluk,
-      COALESCE(NULLIF(TRIM(state), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.state'))), ''), '') as state,
-      COALESCE(NULLIF(TRIM(phone), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.phone'))), ''), '') as phone,
-      COALESCE(NULLIF(TRIM(email), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.email'))), ''), '') as email,
-      COALESCE(NULLIF(TRIM(map_url), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.map_url'))), ''), '') as map_url,
-      COALESCE(NULLIF(TRIM(latitude), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.latitude'))), ''), '') as latitude,
-      COALESCE(NULLIF(TRIM(longitude), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.longitude'))), ''), '') as longitude,
+      COALESCE(NULLIF(TRIM(state), ''), '') as state,
+      COALESCE(NULLIF(TRIM(phone), ''), '') as phone,
+      COALESCE(NULLIF(TRIM(email), ''), '') as email,
+      COALESCE(NULLIF(TRIM(map_url), ''), '') as map_url,
+      COALESCE(NULLIF(TRIM(latitude), ''), '') as latitude,
+      COALESCE(NULLIF(TRIM(longitude), ''), '') as longitude,
       JSON_OBJECT(
         'name', COALESCE(NULLIF(TRIM(name), ''), NULLIF(TRIM(title), ''), ''),
-        'city', COALESCE(NULLIF(TRIM(city), ''), NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city'))), ''), ''),
+        'city', IFNULL(city, ''),
         'taluka', COALESCE(
           NULLIF(TRIM(taluka), ''),
           NULLIF(TRIM(taluk), ''),
-          NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluka'))), ''),
-          NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluk'))), ''),
-          NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.Taluk'))), ''),
-          NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.Taluka'))), ''),
-          NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.TALUKA'))), ''),
-          NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.TALUK'))), ''),
           NULLIF(TRIM(city), ''),
           ''
         ),
         'taluk', COALESCE(
           NULLIF(TRIM(taluk), ''),
           NULLIF(TRIM(taluka), ''),
-          NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluk'))), ''),
-          NULLIF(TRIM(JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluka'))), ''),
           NULLIF(TRIM(city), ''),
           ''
         ),
@@ -496,38 +480,31 @@ export async function getDealerFilters(): Promise<{
       await ensureDynamicCmsTables();
       const [cityRows] = await getPool().query<RowDataPacket[]>(
         `SELECT 
-           TRIM(COALESCE(NULLIF(city, ''), JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city')))) AS city, 
+           TRIM(city) AS city_name, 
            COUNT(*) AS count 
          FROM dealers 
-         GROUP BY city 
-         HAVING city IS NOT NULL AND city != ''
-         ORDER BY city ASC`
+         WHERE city IS NOT NULL AND TRIM(city) != ''
+         GROUP BY city_name 
+         HAVING city_name IS NOT NULL AND city_name != ''
+         ORDER BY city_name ASC`
       );
       const [talukaRows] = await getPool().query<RowDataPacket[]>(
         `SELECT 
            TRIM(COALESCE(
              NULLIF(taluka, ''), 
              NULLIF(taluk, ''), 
-             JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluka')), 
-             JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.taluk')),
-             JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.Taluk')),
-             JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.Taluka')),
-             JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.TALUKA')),
-             JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.TALUK')),
              NULLIF(city, ''),
-             JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city')),
              ''
-           )) AS taluka,
+           )) AS taluka_name,
            TRIM(COALESCE(
              NULLIF(city, ''), 
-             JSON_UNQUOTE(JSON_EXTRACT(extra_data, '$.city')),
              ''
-           )) AS city, 
+           )) AS city_name, 
            COUNT(*) AS count 
          FROM dealers 
-         GROUP BY taluka, city 
-         HAVING taluka != '' AND taluka IS NOT NULL
-         ORDER BY taluka ASC`
+         GROUP BY taluka_name, city_name 
+         HAVING taluka_name != '' AND taluka_name IS NOT NULL
+         ORDER BY taluka_name ASC`
       );
       const [totalRows] = await getPool().query<RowDataPacket[]>(
         "SELECT COUNT(*) as total FROM dealers"
@@ -536,8 +513,8 @@ export async function getDealerFilters(): Promise<{
       const talukaMap = new Map<string, { city: string; taluka: string; count: number }>();
 
       talukaRows.forEach((r) => {
-        const tVal = String(r.taluka || "").trim();
-        const cVal = String(r.city || "").trim();
+        const tVal = String(r.taluka_name || r.taluka || "").trim();
+        const cVal = String(r.city_name || r.city || "").trim();
         const count = Number(r.count || 0);
         if (!tVal || count <= 0) return;
 
@@ -553,7 +530,7 @@ export async function getDealerFilters(): Promise<{
 
       return {
         cities: cityRows
-          .map((r) => ({ name: String(r.city || "").trim(), count: Number(r.count) }))
+          .map((r) => ({ name: String(r.city_name || r.city || "").trim(), count: Number(r.count) }))
           .filter((c) => Boolean(c.name)),
         talukas: Array.from(talukaMap.values())
           .filter((t) => t.count > 0)

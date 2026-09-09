@@ -199,6 +199,8 @@ export default function DealersClient() {
           });
 
           setAllDealers(mapped);
+        } else {
+          setError("Failed to load dealers. Please refresh the page.");
         }
       } catch (err) {
         console.warn("Failed to load dealers:", err);
