@@ -1,23 +1,55 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 
-export default function SteelScroll() {
+interface SteelScrollProps {
+  desktopVideoSrc?: string;
+  mobileVideoSrc?: string;
+}
+
+export default function SteelScroll({
+  desktopVideoSrc = "/kaaveri01.mp4",
+  mobileVideoSrc = "/kaaveri-mobile.mp4",
+}: SteelScrollProps) {
+  const [mobileSrc, setMobileSrc] = useState(mobileVideoSrc);
+
   return (
     <section
       id="steel-scroll-section"
       className="relative w-full h-[100dvh] overflow-hidden -mt-20 lg:-mt-24"
     >
-      {/* Background Video */}
+      {/* Desktop Video (Screen width >= 768px) */}
       <video
-        className="absolute inset-0 w-full h-full object-cover brightness-[1.05] contrast-[1.1]"
-        src="/kaaveri01.mp4"
+        key={`desktop-${desktopVideoSrc}`}
+        className="hidden md:block absolute inset-0 w-full h-full object-cover brightness-[1.05] contrast-[1.1]"
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
-      />
+        preload="auto"
+      >
+        <source src={desktopVideoSrc} type="video/mp4" />
+      </video>
+
+      {/* Mobile Responsive Video (Screen width < 768px) */}
+      <video
+        key={`mobile-${mobileSrc}`}
+        className="block md:hidden absolute inset-0 w-full h-full object-cover brightness-[1.05] contrast-[1.1]"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        onError={() => {
+          if (mobileSrc !== desktopVideoSrc) {
+            setMobileSrc(desktopVideoSrc);
+          }
+        }}
+      >
+        <source src={mobileSrc} type="video/mp4" />
+        <source src={desktopVideoSrc} type="video/mp4" />
+      </video>
 
       {/* Content */}
       <div className="absolute inset-0 z-10 flex items-end justify-center px-4 sm:px-8 lg:px-12 pb-8 sm:pb-12 lg:pb-16">
