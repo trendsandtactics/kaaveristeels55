@@ -85,26 +85,27 @@ export default function Footer() {
 
             <div className="max-w-7xl mx-auto px-6 md:px-10 pt-16 pb-8 relative z-10">
                 {/* TOP SECTION */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-8 lg:gap-14">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 sm:gap-10 md:gap-10 lg:gap-14 xl:gap-16">
                     {/* LOGO */}
-                    <div>
-                        <Link href="/#top">
+                    <div className="flex flex-col">
+                        <Link href="/#top" className="inline-block mb-6 group">
                             <Image
                                 src="/image/kaveerilogo.png"
-                                alt="KAAVERI"
-                                width={230}
-                                height={80}
-                                className="object-contain mb-8"
+                                alt="KAAVERI Steels Logo"
+                                width={300}
+                                height={105}
+                                className="w-60 sm:w-64 md:w-72 lg:w-80 max-w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                                priority
                             />
                         </Link>
 
-                        <p className="text-white/70 text-[15px] leading-[2.3] sm:max-w-[290px]">
+                        <p className="text-white/70 text-[15px] leading-relaxed sm:max-w-[320px]">
                             Premium TMT bars and structural steel products
                             engineered for durability, strength, and
                             sustainability.
                         </p>
 
-                        <div className="w-14 h-[3px] bg-red-500 rounded-full mt-8" />
+                        <div className="w-14 h-[3px] bg-red-500 rounded-full mt-6" />
                     </div>
 
                     {/* QUICK LINKS */}
@@ -248,30 +249,30 @@ export default function Footer() {
                             {/* CERTIFICATE LOGOS */}
                             <Link
                                 href="/certifications#top"
-                                className="flex flex-wrap items-center gap-4"
+                                className="flex flex-wrap items-center gap-5"
                             >
                                 <Image
                                     src="/iso.png"
-                                    alt="ISO"
-                                    width={48}
-                                    height={48}
-                                    className="object-contain"
+                                    alt="ISO Certified"
+                                    width={54}
+                                    height={54}
+                                    className="object-contain hover:scale-105 transition-transform"
                                 />
 
                                 <Image
                                     src="/nisst.png"
-                                    alt="NISST"
-                                    width={48}
-                                    height={48}
-                                    className="object-contain"
+                                    alt="NISST Certified"
+                                    width={54}
+                                    height={54}
+                                    className="object-contain hover:scale-105 transition-transform"
                                 />
 
                                 <Image
                                     src="/bis.png"
-                                    alt="BIS"
-                                    width={48}
-                                    height={48}
-                                    className="object-contain"
+                                    alt="BIS Certified IS 1786"
+                                    width={54}
+                                    height={54}
+                                    className="object-contain hover:scale-105 transition-transform"
                                 />
                             </Link>
                         </div>
