@@ -1,11 +1,22 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { MapPin, Phone, Mail, LocateFixed, Search, Navigation, X } from "lucide-react";
 import Image from "next/image";
 import { resolveMediaUrl } from "@/lib/media";
 import { MASTER_TALUKAS, matchesTaluka } from "@/lib/talukas";
 import { getMyMapPinCoords, hasMyMapPin } from "@/lib/dealer-pins";
+
+const DealersInteractiveMap = dynamic(() => import("./DealersInteractiveMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full min-h-[420px] lg:min-h-[600px] flex flex-col items-center justify-center bg-gray-100 text-gray-500">
+      <div className="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin mb-3"></div>
+      <p className="text-sm font-semibold">Loading Dealers Map...</p>
+    </div>
+  ),
+});
 
 interface Dealer {
   id: number;
@@ -84,6 +95,17 @@ export default function DealersClient() {
   const [locationError, setLocationError] = useState("");
   const [visibleCount, setVisibleCount] = useState(50);
   const [userAddress, setUserAddress] = useState("");
+  const [mapMode, setMapMode] = useState<"interactive" | "google">("interactive");
+
+  // Keep dealer card in view when selected
+  useEffect(() => {
+    if (selectedDealer) {
+      const card = document.getElementById(`dealer-card-${selectedDealer.id}`);
+      if (card) {
+        card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }
+  }, [selectedDealer]);
 
   const [filterData, setFilterData] = useState<{
     cities: { name: string; count: number }[];
@@ -176,9 +198,14 @@ export default function DealersClient() {
               ""
             ).trim();
 
+            const rawDbLat = item.latitude ? String(item.latitude).trim() : "";
+            const rawDbLng = item.longitude ? String(item.longitude).trim() : "";
+            const rawExtraLat = (extra?.latitude ? String(extra.latitude) : "") || (rawExtra?.latitude ? String(rawExtra.latitude) : "");
+            const rawExtraLng = (extra?.longitude ? String(extra.longitude) : "") || (rawExtra?.longitude ? String(rawExtra.longitude) : "");
             const pinCoords = getMyMapPinCoords(dealerName || item.title, item.slug);
-            const latitudeVal = pinCoords?.lat || (extra?.latitude ? String(extra.latitude) : "") || (item.latitude ? String(item.latitude) : "") || (rawExtra?.latitude ? String(rawExtra.latitude) : "");
-            const longitudeVal = pinCoords?.lng || (extra?.longitude ? String(extra.longitude) : "") || (item.longitude ? String(item.longitude) : "") || (rawExtra?.longitude ? String(rawExtra.longitude) : "");
+
+            const latitudeVal = rawDbLat || rawExtraLat || pinCoords?.lat || "";
+            const longitudeVal = rawDbLng || rawExtraLng || pinCoords?.lng || "";
 
             return {
               id: item.id,
@@ -671,7 +698,7 @@ export default function DealersClient() {
               </div>
             )}
             
-            <div className="flex flex-col gap-4 max-h-[400px] lg:max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="flex flex-col gap-4 max-h-[480px] lg:max-h-[660px] overflow-y-auto pr-2 custom-scrollbar">
               {loading ? (
                 <p className="py-10 text-center text-sm text-black/60 font-semibold">
                   Loading dealers...
@@ -704,6 +731,7 @@ export default function DealersClient() {
                   {filteredDealers.slice(0, visibleCount).map((dealer) => (
                     <div
                       key={dealer.id}
+                      id={`dealer-card-${dealer.id}`}
                       onClick={() => {
                         setSelectedDealer(dealer);
                         if (window.innerWidth < 1024) {
@@ -809,38 +837,90 @@ export default function DealersClient() {
             </div>
           </div>
 
-          {/* Right Column: Google Map */}
-          <div id="map-view" className="lg:col-span-7 h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl border border-black/10 relative bg-gray-200">
-            {selectedDealer && (
-              <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-lg border border-black/10 max-w-[85%]">
-                <MapPin className="w-4 h-4 text-red-600 shrink-0" />
-                <span className="text-xs sm:text-sm font-bold text-gray-900 truncate">
-                  {selectedDealer.name || selectedDealer.title}
-                </span>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedDealer(null);
-                  }}
-                  className="p-1 text-gray-400 hover:text-gray-700 rounded-full hover:bg-gray-100 transition-colors ml-1 cursor-pointer shrink-0"
-                  title="Return to full map overview"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
+          {/* Right Column: Dealers Map */}
+          <div id="map-view" className="lg:col-span-7 flex flex-col gap-3">
+            {/* Map Header Controls */}
+            <div className="flex items-center justify-between px-1 flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Map View:</span>
+                <div className="inline-flex rounded-xl bg-gray-100 p-1 border border-black/5 shadow-inner">
+                  <button
+                    onClick={() => setMapMode("interactive")}
+                    className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                      mapMode === "interactive"
+                        ? "bg-red-600 text-white shadow-sm"
+                        : "text-gray-600 hover:text-gray-900"
+                    }`}
+                  >
+                    📍 Interactive Map ({filteredDealers.filter((d) => d.latitude && d.longitude).length})
+                  </button>
+                  <button
+                    onClick={() => setMapMode("google")}
+                    className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                      mapMode === "google"
+                        ? "bg-red-600 text-white shadow-sm"
+                        : "text-gray-600 hover:text-gray-900"
+                    }`}
+                  >
+                    🗺️ Google View
+                  </button>
+                </div>
               </div>
-            )}
 
-            <iframe
-              key={activeMapUrl}
-              src={activeMapUrl}
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className={`absolute left-0 w-full ${activeMapUrl.includes('/d/embed') ? '-top-[60px] h-[calc(100%+120px)]' : 'top-0 h-full'}`}
-              title="Dealer Location Map"
-            />
+              {selectedDealer && (
+                <button
+                  onClick={() => setSelectedDealer(null)}
+                  className="text-xs text-red-600 hover:text-red-700 font-bold underline cursor-pointer"
+                >
+                  Clear Selection
+                </button>
+              )}
+            </div>
+
+            <div className="h-[480px] lg:h-[660px] rounded-2xl overflow-hidden shadow-xl border border-black/10 relative bg-gray-200">
+              {mapMode === "interactive" ? (
+                <DealersInteractiveMap
+                  dealers={filteredDealers}
+                  selectedDealer={selectedDealer}
+                  onSelectDealer={(dealer) => setSelectedDealer(dealer)}
+                  userLocation={userLocation}
+                  getDirectionsUrl={getDirectionsUrl}
+                />
+              ) : (
+                <>
+                  {selectedDealer && (
+                    <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-lg border border-black/10 max-w-[85%]">
+                      <MapPin className="w-4 h-4 text-red-600 shrink-0" />
+                      <span className="text-xs sm:text-sm font-bold text-gray-900 truncate">
+                        {selectedDealer.name || selectedDealer.title}
+                      </span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedDealer(null);
+                        }}
+                        className="p-1 text-gray-400 hover:text-gray-700 rounded-full hover:bg-gray-100 transition-colors ml-1 cursor-pointer shrink-0"
+                        title="Return to full map overview"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+
+                  <iframe
+                    key={activeMapUrl}
+                    src={activeMapUrl}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className={`absolute left-0 w-full ${activeMapUrl.includes('/d/embed') ? '-top-[60px] h-[calc(100%+120px)]' : 'top-0 h-full'}`}
+                    title="Dealer Location Map"
+                  />
+                </>
+              )}
+            </div>
           </div>
         </div>
       </section>
