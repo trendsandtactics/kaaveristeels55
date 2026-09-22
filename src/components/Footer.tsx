@@ -85,31 +85,31 @@ export default function Footer() {
 
             <div className="max-w-7xl mx-auto px-6 md:px-10 pt-16 pb-8 relative z-10">
                 {/* TOP SECTION */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 sm:gap-10 md:gap-10 lg:gap-14 xl:gap-16">
-                    {/* LOGO */}
-                    <div className="flex flex-col">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-10 lg:gap-12 xl:gap-16">
+                    {/* LOGO & COMPANY INFO */}
+                    <div className="sm:col-span-2 lg:col-span-4 flex flex-col">
                         <Link href="/#top" className="inline-block mb-6 group">
                             <Image
                                 src="/image/kaveerilogo.png"
                                 alt="KAAVERI Steels Logo"
-                                width={300}
-                                height={105}
-                                className="w-60 sm:w-64 md:w-72 lg:w-80 max-w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                                width={380}
+                                height={120}
+                                className="w-64 sm:w-72 md:w-80 lg:w-[350px] max-w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105"
                                 priority
                             />
                         </Link>
 
-                        <p className="text-white/70 text-[15px] leading-relaxed sm:max-w-[320px]">
+                        <p className="text-white/75 text-[15px] leading-relaxed max-w-md">
                             Premium TMT bars and structural steel products
                             engineered for durability, strength, and
                             sustainability.
                         </p>
 
-                        <div className="w-14 h-[3px] bg-red-500 rounded-full mt-6" />
+                        <div className="w-16 h-[3px] bg-red-500 rounded-full mt-6" />
                     </div>
 
                     {/* QUICK LINKS */}
-                    <div>
+                    <div className="sm:col-span-1 lg:col-span-2">
                         <h3 className="text-white uppercase tracking-[0.12em] text-[18px] font-bold mb-3">
                             Quick Links
                         </h3>
@@ -146,7 +146,7 @@ export default function Footer() {
                     </div>
 
                     {/* CONTACT */}
-                    <div>
+                    <div className="sm:col-span-1 lg:col-span-3">
                         <div className="flex items-center justify-between">
                             <div>
                                 <h3 className="text-white uppercase tracking-[0.12em] text-[18px] font-bold mb-3">
@@ -157,7 +157,7 @@ export default function Footer() {
                             </div>
 
                             {/* ADDRESS SCROLL BUTTONS */}
-                        <div className="hidden sm:flex items-center gap-2">
+                            <div className="hidden sm:flex items-center gap-2">
                                 <button
                                     onClick={prevAddress}
                                     className="w-11 h-11 rounded-full border border-white/10 bg-white/5 text-white hover:bg-red-500 hover:border-red-500 transition-all duration-300 flex items-center justify-center"
@@ -237,7 +237,7 @@ export default function Footer() {
                     </div>
 
                     {/* CERTIFICATIONS + SOCIAL */}
-                    <div>
+                    <div className="sm:col-span-2 lg:col-span-3">
                         {/* CERTIFICATIONS */}
                         <div>
                             <h3 className="text-white uppercase tracking-[0.12em] text-[18px] font-bold mb-3">
