@@ -150,9 +150,11 @@ export default function TrustOnSiteClient() {
 
       {/* Logo */}
       <div className="mx-6">
-        <img
+        <Image
           src="/trustonsitelogo.png"
-          alt="Trust On Site"
+          alt="Trust On Site - KAAVERI Mobile Steel Quality Testing"
+          width={144}
+          height={60}
           className="w-28 md:w-32 lg:w-36 object-contain"
         />
       </div>

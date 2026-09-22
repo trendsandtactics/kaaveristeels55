@@ -4,6 +4,9 @@ import Link from "next/link";
 import { Settings, CheckCircle, Users, Truck } from "lucide-react";
 import { buildPageMetadata } from "@/lib/seo";
 
+import JsonLd from "@/components/JsonLd";
+import { getBreadcrumbJsonLd } from "@/lib/jsonld";
+
 export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -11,6 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function InfrastructurePage() {
+    const breadcrumbs = getBreadcrumbJsonLd([{ name: "Infrastructure", path: "/infrastructure" }]);
     const highlights = [
         {
             icon: Settings,
@@ -36,6 +40,7 @@ export default function InfrastructurePage() {
 
     return (
         <main className="flex min-h-screen flex-col w-full relative bg-background">
+            <JsonLd id="infra-breadcrumbs" data={breadcrumbs} />
             {/* Hero Section */}
             <div className="w-full pt-28 pb-6 md:pt-32 md:pb-8 bg-gradient-to-r from-accent-yellow via-[#FFD700] to-accent-yellow text-black relative overflow-hidden shadow-2xl">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.8)_0%,transparent_60%)] pointer-events-none mix-blend-overlay" />
@@ -44,22 +49,22 @@ export default function InfrastructurePage() {
                 <div className="max-w-4xl mx-auto px-6 text-center z-10 relative">
                     <div className="flex items-center justify-center gap-4 mb-6">
                         <div className="w-12 h-[2px] bg-black" />
-                        <h1 className="font-sans uppercase tracking-[0.2em] font-bold text-sm text-black">
+                        <span className="font-sans uppercase tracking-[0.2em] font-bold text-sm text-black">
                             Infrastructure
-                        </h1>
+                        </span>
                         <div className="w-12 h-[2px] bg-black" />
                     </div>
-                    <h2 className="font-sans text-5xl md:text-7xl mb-6 text-black font-extrabold drop-shadow-md">
+                    <h1 className="font-sans text-5xl md:text-7xl mb-6 text-black font-extrabold drop-shadow-md">
                         Advanced Facilities That Power <span className="text-black/70">Quality Steel</span>
-                    </h2>
+                    </h1>
                 </div>
             </div>
 
             {/* Main Content Section */}
             <section className="max-w-5xl mx-auto px-6 md:px-12 py-20 text-center">
-                <h3 className="font-heading text-4xl md:text-5xl text-black font-extrabold mb-8">
+                <h2 className="font-heading text-4xl md:text-5xl text-black font-extrabold mb-8">
                     Built for Precision. Driven by Technology.
-                </h3>
+                </h2>
                 <div className="font-body text-black/70 text-lg leading-relaxed space-y-6">
                     <p>
                         KAAVERI’s manufacturing infrastructure is designed to support high-capacity, high-quality steel production with complete operational efficiency. Our facilities combine advanced machinery, modern process controls, and skilled manpower to deliver products that meet strict performance standards.

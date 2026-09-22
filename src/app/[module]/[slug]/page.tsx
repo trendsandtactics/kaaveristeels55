@@ -7,6 +7,13 @@ import { resolveMediaUrl } from "@/lib/media";
 import { buildItemMetadata } from "@/lib/seo";
 import ClientFadeUp from "@/components/ClientFadeUp";
 import ApplyNowModal from "@/components/ApplyNowModal";
+import JsonLd from "@/components/JsonLd";
+import {
+  getBaseUrl,
+  getBreadcrumbJsonLd,
+  getArticleJsonLd,
+  getProductJsonLd,
+} from "@/lib/jsonld";
 
 const ALLOWED_MODULES = new Set(["products", "mediaEvents", "blogs", "projects", "careers", "dealers", "galleries", "brochures", "popups", "csr"]);
 const MODULE_TITLES: Record<string, string> = {
@@ -36,7 +43,7 @@ export async function generateMetadata({ params }: { params: Promise<{ module: s
   const item = await getPublicModuleItemMetaBySlug(module, slug);
   if (!item) return {};
 
-  return buildItemMetadata(item);
+  return buildItemMetadata(item, module, slug);
 }
 
 export default async function ModuleDetailPage({ params }: { params: Promise<{ module: string; slug: string }> }) {
@@ -52,11 +59,28 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
   const image = resolveMediaUrl(item.cover_image ?? item.file_url, "/image/kaaveriabout.png");
   const moduleTitle = MODULE_TITLES[module] ?? module;
   const backPath = MODULE_PATHS[module] ?? `/${module}`;
+  const baseUrl = getBaseUrl();
+  const pageUrl = `${baseUrl}/${module}/${slug}`;
+  const breadcrumbData = getBreadcrumbJsonLd([
+    { name: moduleTitle, path: backPath },
+    { name: title, path: pageUrl },
+  ]);
 
   /* ── BLOG layout ────────────────────────────────────────────── */
   if (module === "blogs") {
+    const articleData = getArticleJsonLd({
+      title,
+      description,
+      url: pageUrl,
+      image,
+      datePublished: typeof item.created_at === "string" ? item.created_at : undefined,
+      dateModified: typeof item.updated_at === "string" ? item.updated_at : undefined,
+    });
+
     return (
       <main className="w-screen relative left-1/2 -translate-x-1/2 min-h-screen bg-white flex flex-col">
+        <JsonLd id="breadcrumb-schema" data={breadcrumbData} />
+        <JsonLd id="article-schema" data={articleData} />
 
         {/* Yellow hero */}
         <section className="w-full bg-[#FFD700] pt-24 pb-10 md:pt-32 md:pb-14 px-6">
@@ -110,8 +134,16 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ m
   }
 
   /* ── DEFAULT (products, careers, etc.) layout ───────────────── */
+  const productData = module === "products" ? getProductJsonLd({
+    name: title,
+    description,
+    image,
+  }) : null;
+
   return (
     <main className="w-screen relative left-1/2 -translate-x-1/2 min-h-screen bg-white flex flex-col">
+      <JsonLd id="breadcrumb-schema" data={breadcrumbData} />
+      {productData && <JsonLd id="product-schema" data={productData} />}
       {/* Yellow hero banner */}
       <section className="w-full bg-[#FFD700] pt-24 pb-10 md:pt-32 md:pb-14 px-6 relative overflow-hidden">
         {/* Subtle grid overlay */}

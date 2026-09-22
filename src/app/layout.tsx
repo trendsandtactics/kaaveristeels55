@@ -6,6 +6,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PopupRenderer from "@/components/PopupRenderer";
 
+import JsonLd from "@/components/JsonLd";
+import { getOrganizationJsonLd, getWebSiteJsonLd } from "@/lib/jsonld";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -34,15 +37,24 @@ export const metadata: Metadata = {
     template: "%s | KAAVERI Steels",
   },
   description:
-    "KAAVERI TMT Bars & Structural - Strong, Durable, and Trusted steel products for all construction needs across Tamil Nadu and South India.",
+    "KAAVERI TMT Bars & Structural - High-ductility Fe 550D TMT steel bars and structural steel products engineered for seismic durability and all construction needs across Tamil Nadu.",
   keywords: [
-    "Kaaveri Steels",
-    "TMT Bars",
+    "KAAVERI Steels",
+    "TMT Steel Bars",
     "Construction Steel",
     "Fe 550D TMT Bars",
-    "Steel Dealers",
+    "Steel Dealers Tamil Nadu",
     "Tamil Nadu Steel Manufacturer",
+    "Earthquake Resistant Steel",
   ],
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
+  alternates: {
+    canonical: "/",
+  },
   robots: {
     index: true,
     follow: true,
@@ -55,12 +67,28 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "KAAVERI TMT BARS & STRUCTURAL",
-    description: "Strong, Durable, and Trusted steel products for all your construction needs.",
+    title: "KAAVERI TMT BARS & STRUCTURAL | Premium Steel Manufacturer",
+    description:
+      "High-ductility Fe 550D TMT steel bars and structural steel products engineered for seismic durability across Tamil Nadu.",
     url: "https://www.kaaveristeels.co.in",
     siteName: "KAAVERI Steels",
     locale: "en_IN",
     type: "website",
+    images: [
+      {
+        url: "/tmt1.png",
+        width: 1200,
+        height: 630,
+        alt: "KAAVERI TMT BARS & STRUCTURAL",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "KAAVERI TMT BARS & STRUCTURAL | Premium Steel Manufacturer",
+    description:
+      "High-ductility Fe 550D TMT steel bars and structural steel products engineered for seismic durability across Tamil Nadu.",
+    images: ["/tmt1.png"],
   },
 };
 
@@ -74,6 +102,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} font-body antialiased bg-background text-foreground flex flex-col min-h-screen [&_h1]:font-serif [&_h2]:font-serif [&_h3]:font-serif [&_h4]:font-serif [&_h5]:font-serif [&_h6]:font-serif`}
       >
+        {/* Global Structured Data (Schema.org JSON-LD) */}
+        <JsonLd id="org-schema" data={getOrganizationJsonLd()} />
+        <JsonLd id="website-schema" data={getWebSiteJsonLd()} />
         {/* Google Tag Manager */}
         <Script id="google-tag-manager" strategy="afterInteractive">
           {`
