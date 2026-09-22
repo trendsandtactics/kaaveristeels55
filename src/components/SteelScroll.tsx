@@ -10,7 +10,7 @@ interface SteelScrollProps {
 
 export default function SteelScroll({
   desktopVideoSrc = "/kaaveri01.mp4",
-  mobileVideoSrc = "/kaaveri-mobile.mp4",
+  mobileVideoSrc = "/kaaverimobile.mp4",
 }: SteelScrollProps) {
   const [mobileSrc, setMobileSrc] = useState(mobileVideoSrc);
 
