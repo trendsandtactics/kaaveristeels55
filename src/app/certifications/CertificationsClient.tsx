@@ -28,10 +28,7 @@ export default function CertificationsClient() {
       setLoading(true);
       setError("");
 
-      // Add a timestamp query to completely bypass Next.js and browser caching
-      const response = await fetch(`/api/certifications?_t=${Date.now()}`, {
-        cache: "no-store",
-      });
+      const response = await fetch("/api/certifications");
 
       if (!response.ok) {
         throw new Error("Unable to fetch certificates.");

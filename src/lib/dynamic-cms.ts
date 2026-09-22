@@ -123,6 +123,17 @@ export async function ensureDynamicCmsTables(): Promise<void> {
   dynamicCmsBootstrapPromise = (async () => {
     const pool = getPool();
 
+    // Fast check: if tables already exist in MySQL, mark as created immediately (avoids 75 DDL queries on startup)
+    try {
+      const [check] = await pool.query<RowDataPacket[]>("SHOW TABLES LIKE 'dealers'");
+      if (Array.isArray(check) && check.length > 0) {
+        dynamicCmsTablesCreated = true;
+        return;
+      }
+    } catch {
+      // Fall through to full bootstrap if check fails
+    }
+
     const baseTableNames = [
       "products", "media_events", "blogs", "projects", "careers",
       "galleries", "brochures", "popups", "certifications", "csr",
@@ -475,40 +486,45 @@ export async function getDealerFilters(): Promise<{
   total: number;
 }> {
   const cacheKey = "dynamic-cms:dealer-filters";
-  return getOrSetCache(cacheKey, 15 * 1000, async () => {
+  return getOrSetCache(cacheKey, 10 * 60 * 1000, async () => {
     try {
       await ensureDynamicCmsTables();
-      const [cityRows] = await getPool().query<RowDataPacket[]>(
-        `SELECT 
-           TRIM(city) AS city_name, 
-           COUNT(*) AS count 
-         FROM dealers 
-         WHERE city IS NOT NULL AND TRIM(city) != ''
-         GROUP BY city_name 
-         HAVING city_name IS NOT NULL AND city_name != ''
-         ORDER BY city_name ASC`
-      );
-      const [talukaRows] = await getPool().query<RowDataPacket[]>(
-        `SELECT 
-           TRIM(COALESCE(
-             NULLIF(taluka, ''), 
-             NULLIF(taluk, ''), 
-             NULLIF(city, ''),
-             ''
-           )) AS taluka_name,
-           TRIM(COALESCE(
-             NULLIF(city, ''), 
-             ''
-           )) AS city_name, 
-           COUNT(*) AS count 
-         FROM dealers 
-         GROUP BY taluka_name, city_name 
-         HAVING taluka_name != '' AND taluka_name IS NOT NULL
-         ORDER BY taluka_name ASC`
-      );
-      const [totalRows] = await getPool().query<RowDataPacket[]>(
-        "SELECT COUNT(*) as total FROM dealers"
-      );
+      const pool = getPool();
+      const [cityResult, talukaResult, totalResult] = await Promise.all([
+        pool.query<RowDataPacket[]>(
+          `SELECT 
+             TRIM(city) AS city_name, 
+             COUNT(*) AS count 
+           FROM dealers 
+           WHERE city IS NOT NULL AND TRIM(city) != ''
+           GROUP BY city_name 
+           HAVING city_name IS NOT NULL AND city_name != ''
+           ORDER BY city_name ASC`
+        ),
+        pool.query<RowDataPacket[]>(
+          `SELECT 
+             TRIM(COALESCE(
+               NULLIF(taluka, ''), 
+               NULLIF(taluk, ''), 
+               NULLIF(city, ''),
+               ''
+             )) AS taluka_name,
+             TRIM(COALESCE(
+               NULLIF(city, ''), 
+               ''
+             )) AS city_name, 
+             COUNT(*) AS count 
+           FROM dealers 
+           GROUP BY taluka_name, city_name 
+           HAVING taluka_name != '' AND taluka_name IS NOT NULL
+           ORDER BY taluka_name ASC`
+        ),
+        pool.query<RowDataPacket[]>("SELECT COUNT(*) as total FROM dealers"),
+      ]);
+
+      const [cityRows] = cityResult;
+      const [talukaRows] = talukaResult;
+      const [totalRows] = totalResult;
 
       const talukaMap = new Map<string, { city: string; taluka: string; count: number }>();
 

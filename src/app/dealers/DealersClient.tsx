@@ -123,8 +123,8 @@ export default function DealersClient() {
         setError("");
 
         const [filterRes, dealersRes] = await Promise.allSettled([
-          fetch(`/api/public/content/dealers?filters=true&_t=${Date.now()}`, { cache: "no-store" }),
-          fetch(`/api/public/content/dealers?limit=5000&_t=${Date.now()}`, { cache: "no-store" }),
+          fetch("/api/public/content/dealers?filters=true"),
+          fetch("/api/public/content/dealers?limit=5000"),
         ]);
 
         if (!isMounted) return;

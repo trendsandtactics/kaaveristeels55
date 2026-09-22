@@ -26,9 +26,7 @@ export default function SteelCalculator() {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const res = await fetch("/api/public/content/calculators?limit=10", {
-          cache: "no-store",
-        });
+        const res = await fetch("/api/public/content/calculators?limit=10");
 
         const { data } = await res.json();
 

@@ -24,14 +24,29 @@ type CertificationRow = RowDataPacket & {
   created_at: string;
 };
 const CERTIFICATIONS_LIST_CACHE_TTL_MS = 5 * 60 * 1000;
+let certificationsTableCreated = false;
 let certificationsBootstrapPromise: Promise<void> | null = null;
 
 export async function ensureCertificationsTable(): Promise<void> {
+  if (certificationsTableCreated) {
+    return;
+  }
   if (certificationsBootstrapPromise) {
     return certificationsBootstrapPromise;
   }
 
-  certificationsBootstrapPromise = getPool().query(`
+  certificationsBootstrapPromise = (async () => {
+    try {
+      const [check] = await getPool().query<RowDataPacket[]>("SHOW TABLES LIKE 'certifications'");
+      if (Array.isArray(check) && check.length > 0) {
+        certificationsTableCreated = true;
+        return;
+      }
+    } catch {
+      // fallback
+    }
+
+    await getPool().query(`
       CREATE TABLE IF NOT EXISTS certifications (
         id INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(180) NOT NULL,
@@ -44,7 +59,9 @@ export async function ensureCertificationsTable(): Promise<void> {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    `).then(() => undefined);
+    `);
+    certificationsTableCreated = true;
+  })();
 
   try {
     await certificationsBootstrapPromise;

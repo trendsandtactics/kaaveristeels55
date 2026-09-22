@@ -14,7 +14,7 @@ export async function GET(request: Request, { params }: { params: { module: stri
       const filterData = await getDealerFilters();
       return NextResponse.json(filterData, {
         headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
         },
       });
     }
@@ -32,7 +32,7 @@ export async function GET(request: Request, { params }: { params: { module: stri
       { data: items },
       {
         headers: {
-          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
         },
       }
     );

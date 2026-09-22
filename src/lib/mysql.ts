@@ -44,13 +44,16 @@ function buildPoolOptions(): PoolOptions {
     return {
       uri: mysqlUrl,
       waitForConnections: true,
-      connectionLimit: 5,
-      maxIdle: 5,
+      connectionLimit: 20,
+      maxIdle: 10,
       idleTimeout: 300000,
       connectTimeout: 10000,
       queueLimit: 0,
       enableKeepAlive: true,
       keepAliveInitialDelay: 10000,
+      namedPlaceholders: true,
+      decimalNumbers: true,
+      compress: true,
       ...(useSsl
         ? {
             ssl: {
@@ -80,13 +83,16 @@ function buildPoolOptions(): PoolOptions {
       defaultValue: 'u546576758_kaaveri',
     }),
     waitForConnections: true,
-    connectionLimit: 5,
-    maxIdle: 5,
+    connectionLimit: 20,
+    maxIdle: 10,
     idleTimeout: 300000,
     connectTimeout: 10000,
     queueLimit: 0,
     enableKeepAlive: true,
     keepAliveInitialDelay: 10000,
+    namedPlaceholders: true,
+    decimalNumbers: true,
+    compress: true,
     ...(useSsl
       ? {
           ssl: {

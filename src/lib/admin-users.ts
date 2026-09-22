@@ -21,14 +21,29 @@ type AdminUserRow = RowDataPacket & {
   updated_at: string;
 };
 
+let adminUsersTableCreated = false;
 let adminUsersBootstrapPromise: Promise<void> | null = null;
 
 export async function ensureAdminUsersTable(): Promise<void> {
+  if (adminUsersTableCreated) {
+    return;
+  }
   if (adminUsersBootstrapPromise) {
     return adminUsersBootstrapPromise;
   }
 
-  adminUsersBootstrapPromise = getPool().query(`
+  adminUsersBootstrapPromise = (async () => {
+    try {
+      const [check] = await getPool().query<RowDataPacket[]>("SHOW TABLES LIKE 'admin_users'");
+      if (Array.isArray(check) && check.length > 0) {
+        adminUsersTableCreated = true;
+        return;
+      }
+    } catch {
+      // fallback
+    }
+
+    await getPool().query(`
       CREATE TABLE IF NOT EXISTS admin_users (
         id INT AUTO_INCREMENT PRIMARY KEY,
         email VARCHAR(190) NOT NULL UNIQUE,
@@ -38,7 +53,9 @@ export async function ensureAdminUsersTable(): Promise<void> {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    `).then(() => undefined);
+    `);
+    adminUsersTableCreated = true;
+  })();
 
   try {
     await adminUsersBootstrapPromise;

@@ -26,7 +26,7 @@ export default function ConstructionSteelCalculatorClient() {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const res = await fetch("/api/public/content/calculators?limit=10", { cache: "no-store" });
+        const res = await fetch("/api/public/content/calculators?limit=10");
         const { data } = await res.json();
         const item = data?.find((d: { slug: string; }) => d.slug === "construction-steel") || data?.[0];
         
