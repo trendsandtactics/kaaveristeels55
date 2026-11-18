@@ -5,8 +5,8 @@ import dynamic from "next/dynamic";
 import { MapPin, Phone, Mail, LocateFixed, Search, Navigation, X } from "lucide-react";
 import Image from "next/image";
 import { resolveMediaUrl } from "@/lib/media";
-import { MASTER_TALUKAS, matchesTaluka } from "@/lib/talukas";
-import { getMyMapPinCoords, hasMyMapPin } from "@/lib/dealer-pins";
+import { MASTER_TALUKAS, matchesTaluka, getTalukaOrCityCoords, extractCoordsFromMapUrl } from "@/lib/talukas";
+import { getMyMapPinCoords } from "@/lib/dealer-pins";
 
 const DealersInteractiveMap = dynamic(() => import("./DealersInteractiveMap"), {
   ssr: false,
@@ -203,9 +203,11 @@ export default function DealersClient() {
             const rawExtraLat = (extra?.latitude ? String(extra.latitude) : "") || (rawExtra?.latitude ? String(rawExtra.latitude) : "");
             const rawExtraLng = (extra?.longitude ? String(extra.longitude) : "") || (rawExtra?.longitude ? String(rawExtra.longitude) : "");
             const pinCoords = getMyMapPinCoords(dealerName || item.title, item.slug);
+            const urlCoords = extractCoordsFromMapUrl(extra?.map_url || item.map_url || rawExtra?.map_url);
+            const fallbackCoords = getTalukaOrCityCoords(talukaVal, cityVal, item.id);
 
-            const latitudeVal = rawDbLat || rawExtraLat || pinCoords?.lat || "";
-            const longitudeVal = rawDbLng || rawExtraLng || pinCoords?.lng || "";
+            const latitudeVal = rawDbLat || rawExtraLat || pinCoords?.lat || urlCoords?.lat || fallbackCoords?.lat || "";
+            const longitudeVal = rawDbLng || rawExtraLng || pinCoords?.lng || urlCoords?.lng || fallbackCoords?.lng || "";
 
             return {
               id: item.id,
@@ -505,33 +507,6 @@ export default function DealersClient() {
     }
     return url;
   }, [userLocation]);
-
-  const activeMapUrl = useMemo(() => {
-    const baseUrl = "https://www.google.com/maps/d/embed?mid=1RQEUhxmncofWIu02gV-sCgboIZbCRfA&ehbc=2E312F&noprof=1";
-    
-    if (selectedDealer) {
-      if (selectedDealer.mapUrl) {
-        return selectedDealer.mapUrl;
-      }
-      if (selectedDealer.latitude && selectedDealer.longitude) {
-        if (hasMyMapPin(selectedDealer.name || selectedDealer.title, selectedDealer.slug)) {
-          return `${baseUrl}&ll=${selectedDealer.latitude},${selectedDealer.longitude}&z=16`;
-        }
-        return `https://maps.google.com/maps?q=${selectedDealer.latitude},${selectedDealer.longitude}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
-      }
-      const q = [selectedDealer.name || selectedDealer.title, selectedDealer.address, selectedDealer.city, selectedDealer.state].filter(Boolean).join(", ");
-      return `https://maps.google.com/maps?q=${encodeURIComponent(q)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
-    } else if ((selectedCity !== "All" || selectedTaluka !== "All") && filteredDealers.length > 0) {
-      const first = filteredDealers.find((d) => d.latitude && d.longitude);
-      if (first && first.latitude && first.longitude) {
-        return `${baseUrl}&ll=${first.latitude},${first.longitude}&z=12`;
-      }
-    } else if (userLocation) {
-      return `${baseUrl}&ll=${userLocation.lat},${userLocation.lng}&z=12`;
-    }
-    
-    return baseUrl;
-  }, [selectedDealer, filteredDealers, selectedCity, selectedTaluka, userLocation]);
 
   return (
     <main className="flex flex-col min-h-screen w-full relative bg-white overflow-hidden transition-colors duration-500">
@@ -878,48 +853,15 @@ export default function DealersClient() {
             </div>
 
             <div className="h-[480px] lg:h-[660px] rounded-2xl overflow-hidden shadow-xl border border-black/10 relative bg-gray-200">
-              {mapMode === "interactive" ? (
-                <DealersInteractiveMap
-                  dealers={filteredDealers}
-                  selectedDealer={selectedDealer}
-                  onSelectDealer={(dealer) => setSelectedDealer(dealer)}
-                  userLocation={userLocation}
-                  getDirectionsUrl={getDirectionsUrl}
-                />
-              ) : (
-                <>
-                  {selectedDealer && (
-                    <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-lg border border-black/10 max-w-[85%]">
-                      <MapPin className="w-4 h-4 text-red-600 shrink-0" />
-                      <span className="text-xs sm:text-sm font-bold text-gray-900 truncate">
-                        {selectedDealer.name || selectedDealer.title}
-                      </span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedDealer(null);
-                        }}
-                        className="p-1 text-gray-400 hover:text-gray-700 rounded-full hover:bg-gray-100 transition-colors ml-1 cursor-pointer shrink-0"
-                        title="Return to full map overview"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  )}
-
-                  <iframe
-                    key={activeMapUrl}
-                    src={activeMapUrl}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className={`absolute left-0 w-full ${activeMapUrl.includes('/d/embed') ? '-top-[60px] h-[calc(100%+120px)]' : 'top-0 h-full'}`}
-                    title="Dealer Location Map"
-                  />
-                </>
-              )}
+              <DealersInteractiveMap
+                dealers={filteredDealers}
+                selectedDealer={selectedDealer}
+                onSelectDealer={(dealer) => setSelectedDealer(dealer)}
+                userLocation={userLocation}
+                getDirectionsUrl={getDirectionsUrl}
+                mapMode={mapMode}
+                onMapModeChange={(mode) => setMapMode(mode)}
+              />
             </div>
           </div>
         </div>

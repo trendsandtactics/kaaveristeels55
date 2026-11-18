@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { LocateFixed, RotateCcw, X } from "lucide-react";
+import { LocateFixed, RotateCcw, X, ExternalLink } from "lucide-react";
 
 export interface MapDealer {
   id: number;
@@ -29,7 +29,11 @@ interface DealersInteractiveMapProps {
   onSelectDealer: (dealer: MapDealer | null) => void;
   userLocation: { lat: number; lng: number } | null;
   getDirectionsUrl: (dealer: MapDealer) => string;
+  mapMode?: "interactive" | "google";
+  onMapModeChange?: (mode: "interactive" | "google") => void;
 }
+
+type LayerStyle = "interactive" | "google" | "satellite";
 
 // Custom SVG Pins - Zero asset dependencies, 100% retina sharp
 function createDealerIcon(isSelected: boolean) {
@@ -95,6 +99,10 @@ function buildPopupHtml(dealer: MapDealer, directionsUrl: string): string {
         : `${dealer.distance.toFixed(1)} km away`
       : "";
 
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${dealer.name || dealer.title}, ${dealer.city || ""}, Tamil Nadu`
+  )}`;
+
   return `
     <div style="font-family: inherit; padding: 12px 14px; max-width: 290px; line-height: 1.35;">
       <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px;">
@@ -131,7 +139,7 @@ function buildPopupHtml(dealer: MapDealer, directionsUrl: string): string {
 
       ${
         dealer.phone
-          ? `<div style="margin-bottom: 8px;">
+          ? `<div style="margin-bottom: 10px;">
               <a href="tel:${dealer.phone}" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: #dc2626; text-decoration: none;">
                 📞 ${dealer.phone}
               </a>
@@ -139,13 +147,20 @@ function buildPopupHtml(dealer: MapDealer, directionsUrl: string): string {
           : ""
       }
 
-      <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f3f4f6;">
+      <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f3f4f6; display: flex; flex-direction: column; gap: 6px;">
         <a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" style="display: block; width: 100%; box-sizing: border-box; text-align: center; background: #dc2626; color: #ffffff; font-size: 11px; font-weight: 700; padding: 7px 10px; border-radius: 8px; text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
           Get Directions ↗
+        </a>
+        <a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" style="display: block; width: 100%; box-sizing: border-box; text-align: center; background: #f3f4f6; color: #1f2937; font-size: 10px; font-weight: 600; padding: 5px 8px; border-radius: 6px; text-decoration: none; border: 1px solid #e5e7eb;">
+          View on Google Maps ↗
         </a>
       </div>
     </div>
   `;
+}
+
+function isCoordValid(lat: number, lng: number): boolean {
+  return !isNaN(lat) && !isNaN(lng) && lat >= 6 && lat <= 38 && lng >= 68 && lng <= 98;
 }
 
 export default function DealersInteractiveMap({
@@ -154,63 +169,122 @@ export default function DealersInteractiveMap({
   onSelectDealer,
   userLocation,
   getDirectionsUrl,
+  mapMode = "interactive",
+  onMapModeChange,
 }: DealersInteractiveMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<L.Map | null>(null);
+  const [map, setMap] = useState<L.Map | null>(null);
+  const tileLayerRef = useRef<L.TileLayer | null>(null);
   const markersGroupRef = useRef<L.LayerGroup | null>(null);
   const markerMapRef = useRef<Map<number, L.Marker>>(new Map());
   const userMarkerRef = useRef<L.Marker | null>(null);
 
-  const [mapLoaded, setMapLoaded] = useState(false);
+  const [activeStyle, setActiveStyle] = useState<LayerStyle>(
+    mapMode === "google" ? "google" : "interactive"
+  );
   const [plottedCount, setPlottedCount] = useState(0);
 
-  // Initialize Map
+  // Sync activeStyle with external mapMode prop
   useEffect(() => {
-    if (!mapContainerRef.current || mapInstanceRef.current) return;
+    if (mapMode === "google" && activeStyle === "interactive") {
+      setActiveStyle("google");
+    } else if (mapMode === "interactive" && (activeStyle === "google" || activeStyle === "satellite")) {
+      setActiveStyle("interactive");
+    }
+  }, [mapMode, activeStyle]);
 
-    // Center on Tamil Nadu [11.1271, 78.6569]
-    const map = L.map(mapContainerRef.current, {
-      center: [11.1271, 78.6569],
-      zoom: 7,
-      minZoom: 6,
-      maxZoom: 18,
-      zoomControl: false,
-    });
+  // Tile layer generator helper
+  const createTileLayer = useCallback((style: LayerStyle): L.TileLayer => {
+    if (style === "satellite") {
+      return L.tileLayer("https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}", {
+        maxZoom: 20,
+        subdomains: ["0", "1", "2", "3"],
+        attribution: '&copy; <a href="https://www.google.com/maps" target="_blank" rel="noopener">Google Maps Satellite</a>',
+      });
+    }
 
-    // Clean CartoDB Voyager tiles (crisp, elegant, fast)
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    if (style === "google") {
+      return L.tileLayer("https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
+        maxZoom: 20,
+        subdomains: ["0", "1", "2", "3"],
+        attribution: '&copy; <a href="https://www.google.com/maps" target="_blank" rel="noopener">Google Maps</a>',
+      });
+    }
+
+    // Default: Clean CartoDB Voyager
+    return L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
       maxZoom: 19,
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
       subdomains: "abcd",
-    }).addTo(map);
+    });
+  }, []);
+
+  // Initialize Map
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+
+    // Center on Tamil Nadu [11.1271, 78.6569]
+    const leafletMap = L.map(mapContainerRef.current, {
+      center: [11.1271, 78.6569],
+      zoom: 7,
+      minZoom: 6,
+      maxZoom: 19,
+      zoomControl: false,
+    });
 
     // Zoom control at bottom right
-    L.control.zoom({ position: "bottomright" }).addTo(map);
+    L.control.zoom({ position: "bottomright" }).addTo(leafletMap);
 
-    const markersGroup = L.layerGroup().addTo(map);
+    // Markers layer group
+    const markersGroup = L.layerGroup().addTo(leafletMap);
     markersGroupRef.current = markersGroup;
-    mapInstanceRef.current = map;
-    setMapLoaded(true);
 
-    // Invalidate size once rendered
+    setMap(leafletMap);
+
+    // ResizeObserver to handle container layout changes, drawer toggles, and screen rotations
+    const ro = new ResizeObserver(() => {
+      leafletMap.invalidateSize();
+    });
+    ro.observe(mapContainerRef.current);
+
     const timer = setTimeout(() => {
-      map.invalidateSize();
-    }, 250);
+      leafletMap.invalidateSize();
+    }, 200);
 
     return () => {
       clearTimeout(timer);
-      map.remove();
-      mapInstanceRef.current = null;
+      ro.disconnect();
+      leafletMap.remove();
+      setMap(null);
     };
-  }, []);
+  }, []); // intentionally run once per container mount
+
+  // Update Tile Layer when activeStyle changes
+  useEffect(() => {
+    if (!map) return;
+
+    if (tileLayerRef.current) {
+      tileLayerRef.current.remove();
+    }
+
+    const newLayer = createTileLayer(activeStyle);
+    newLayer.addTo(map);
+    tileLayerRef.current = newLayer;
+
+    // Report back to parent if changed internally
+    if (activeStyle === "interactive" && onMapModeChange && mapMode !== "interactive") {
+      onMapModeChange("interactive");
+    } else if ((activeStyle === "google" || activeStyle === "satellite") && onMapModeChange && mapMode !== "google") {
+      onMapModeChange("google");
+    }
+  }, [activeStyle, map, createTileLayer, onMapModeChange, mapMode]);
 
   // Update Markers based on Dealers list
   useEffect(() => {
-    const map = mapInstanceRef.current;
-    const group = markersGroupRef.current;
-    if (!map || !group || !mapLoaded) return;
+    if (!map || !markersGroupRef.current) return;
 
+    const group = markersGroupRef.current;
     group.clearLayers();
     markerMapRef.current.clear();
 
@@ -221,7 +295,7 @@ export default function DealersInteractiveMap({
 
       const lat = parseFloat(dealer.latitude);
       const lng = parseFloat(dealer.longitude);
-      if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) return;
+      if (!isCoordValid(lat, lng)) return;
 
       const isSelected = selectedDealer?.id === dealer.id;
       const marker = L.marker([lat, lng], {
@@ -267,20 +341,19 @@ export default function DealersInteractiveMap({
       } else {
         const bounds = L.latLngBounds(validBoundsPoints);
         map.fitBounds(bounds, {
-          padding: [40, 40],
+          padding: [45, 45],
           maxZoom: 13,
           animate: true,
         });
       }
     }
-  }, [dealers, mapLoaded, getDirectionsUrl, onSelectDealer, selectedDealer]);
+  }, [map, dealers, getDirectionsUrl, onSelectDealer, selectedDealer]);
 
-  // Sync Selected Dealer: update pin icons, fly to coordinate, and open popup
+  // Sync Selected Dealer: fly to coordinate, highlight pin, and open popup
   useEffect(() => {
-    const map = mapInstanceRef.current;
-    if (!map || !mapLoaded) return;
+    if (!map) return;
 
-    // Update all marker icons to reflect current selection
+    // Update icons
     markerMapRef.current.forEach((marker, id) => {
       const isSelected = selectedDealer?.id === id;
       marker.setIcon(createDealerIcon(isSelected));
@@ -291,28 +364,27 @@ export default function DealersInteractiveMap({
       const lat = parseFloat(selectedDealer.latitude);
       const lng = parseFloat(selectedDealer.longitude);
 
-      if (!isNaN(lat) && !isNaN(lng)) {
+      if (isCoordValid(lat, lng)) {
         map.flyTo([lat, lng], Math.max(map.getZoom(), 15), {
           duration: 0.8,
         });
 
         const targetMarker = markerMapRef.current.get(selectedDealer.id);
         if (targetMarker) {
-          // Slight timeout to let flyTo initiate before opening popup
-          setTimeout(() => {
+          const timer = setTimeout(() => {
             targetMarker.openPopup();
-          }, 300);
+          }, 350);
+          return () => clearTimeout(timer);
         }
       }
     }
-  }, [selectedDealer, mapLoaded]);
+  }, [selectedDealer, map]);
 
   // User Location Marker
   useEffect(() => {
-    const map = mapInstanceRef.current;
-    if (!map || !mapLoaded) return;
+    if (!map) return;
 
-    if (userLocation) {
+    if (userLocation && isCoordValid(userLocation.lat, userLocation.lng)) {
       if (userMarkerRef.current) {
         userMarkerRef.current.setLatLng([userLocation.lat, userLocation.lng]);
       } else {
@@ -329,16 +401,18 @@ export default function DealersInteractiveMap({
       userMarkerRef.current.remove();
       userMarkerRef.current = null;
     }
-  }, [userLocation, mapLoaded]);
+  }, [userLocation, map]);
 
   // Fit all current dealers
   const handleFitAll = useCallback(() => {
-    const map = mapInstanceRef.current;
     if (!map) return;
 
     const points: L.LatLngExpression[] = [];
     markerMapRef.current.forEach((marker) => {
-      points.push(marker.getLatLng());
+      const pos = marker.getLatLng();
+      if (isCoordValid(pos.lat, pos.lng)) {
+        points.push(pos);
+      }
     });
 
     if (points.length > 0) {
@@ -352,17 +426,22 @@ export default function DealersInteractiveMap({
         });
       }
     }
-  }, []);
+  }, [map]);
 
   // Center on user location
   const handleCenterOnUser = useCallback(() => {
-    const map = mapInstanceRef.current;
     if (!map || !userLocation) return;
     map.flyTo([userLocation.lat, userLocation.lng], 14, { duration: 0.8 });
-  }, [userLocation]);
+  }, [map, userLocation]);
+
+  const activeExternalGoogleUrl = selectedDealer
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        `${selectedDealer.name || selectedDealer.title}, ${selectedDealer.city || ""}, Tamil Nadu`
+      )}`
+    : `https://www.google.com/maps/search/?api=1&query=KAAVERI+Steels+Dealers+Tamil+Nadu`;
 
   return (
-    <div className="relative w-full h-full min-h-[420px] lg:min-h-[600px] rounded-2xl overflow-hidden bg-slate-100 shadow-inner">
+    <div className="relative w-full h-full min-h-[440px] lg:min-h-[660px] rounded-2xl overflow-hidden bg-slate-100 shadow-inner">
       {/* Embedded CSS for Leaflet resets and custom styling */}
       <style jsx global>{`
         @keyframes dealerPinPulse {
@@ -392,6 +471,11 @@ export default function DealersInteractiveMap({
           height: 100%;
           font-family: inherit;
           z-index: 10;
+        }
+
+        .leaflet-div-icon {
+          background: transparent !important;
+          border: none !important;
         }
 
         /* Custom Popup styling */
@@ -425,9 +509,9 @@ export default function DealersInteractiveMap({
       <div ref={mapContainerRef} className="w-full h-full" />
 
       {/* Top Overlay Badge & Controls */}
-      <div className="absolute top-3 left-3 right-3 z-[400] flex items-center justify-between pointer-events-none gap-2">
+      <div className="absolute top-3 left-3 right-3 z-[400] flex flex-wrap items-center justify-between pointer-events-none gap-2">
         {/* Plotted Dealers Status Pill */}
-        <div className="pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-md border border-black/10 max-w-[70%]">
+        <div className="pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-md border border-black/10 max-w-[80%] sm:max-w-[60%]">
           <div className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse shrink-0" />
           <span className="text-xs sm:text-sm font-bold text-gray-900 truncate">
             {selectedDealer ? (
@@ -452,11 +536,48 @@ export default function DealersInteractiveMap({
           )}
         </div>
 
-        {/* Map Action Buttons */}
+        {/* Map Actions and Layer Selector */}
         <div className="pointer-events-auto flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1 rounded-xl shadow-md border border-black/10">
+          {/* Layer switcher */}
+          <div className="inline-flex rounded-lg bg-gray-100 p-0.5">
+            <button
+              onClick={() => setActiveStyle("interactive")}
+              className={`px-2 py-1 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
+                activeStyle === "interactive"
+                  ? "bg-white text-red-600 shadow-xs"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+              title="Clean vector map"
+            >
+              Interactive
+            </button>
+            <button
+              onClick={() => setActiveStyle("google")}
+              className={`px-2 py-1 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
+                activeStyle === "google"
+                  ? "bg-white text-red-600 shadow-xs"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+              title="Google Map Streets"
+            >
+              Google
+            </button>
+            <button
+              onClick={() => setActiveStyle("satellite")}
+              className={`px-2 py-1 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
+                activeStyle === "satellite"
+                  ? "bg-white text-red-600 shadow-xs"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
+              title="Google Satellite view"
+            >
+              Satellite
+            </button>
+          </div>
+
           <button
             onClick={handleFitAll}
-            className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+            className="flex items-center gap-1 px-2 py-1.5 text-xs font-bold text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
             title="Fit all dealer locations into view"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -466,13 +587,24 @@ export default function DealersInteractiveMap({
           {userLocation && (
             <button
               onClick={handleCenterOnUser}
-              className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold text-blue-700 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
+              className="flex items-center gap-1 px-2 py-1.5 text-xs font-bold text-blue-700 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
               title="Center on my location"
             >
               <LocateFixed className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">My Location</span>
             </button>
           )}
+
+          <a
+            href={activeExternalGoogleUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 px-2 py-1.5 text-xs font-bold text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+            title="Open in Google Maps"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Maps ↗</span>
+          </a>
         </div>
       </div>
     </div>

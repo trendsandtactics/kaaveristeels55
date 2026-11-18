@@ -47,11 +47,6 @@ export const MY_MAP_PINS: Record<string, { lat: string; lng: string; title: stri
     "lng": "80.241427",
     "title": "SAN LANDMARK PRIVATE LIMITED"
   },
-  "unnis": {
-    "lat": "-6.303461",
-    "lng": "106.634051",
-    "title": "UNNIS"
-  },
   "ksureshcontractor": {
     "lat": "8.826391",
     "lng": "78.149716",
@@ -469,21 +464,28 @@ export const MY_MAP_PINS: Record<string, { lat: string; lng: string; title: stri
   }
 };
 
+function isValidPin(pin?: { lat: string; lng: string } | null): boolean {
+  if (!pin) return false;
+  const lat = parseFloat(pin.lat);
+  const lng = parseFloat(pin.lng);
+  return !isNaN(lat) && !isNaN(lng) && lat >= 6 && lat <= 38 && lng >= 68 && lng <= 98;
+}
+
 export function getMyMapPinCoords(title?: string, slug?: string): { lat: string; lng: string } | null {
   const cTitle = cleanKey(title);
   const cSlug = cleanKey(slug);
 
-  if (cTitle && MY_MAP_PINS[cTitle]) {
+  if (cTitle && MY_MAP_PINS[cTitle] && isValidPin(MY_MAP_PINS[cTitle])) {
     return { lat: MY_MAP_PINS[cTitle].lat, lng: MY_MAP_PINS[cTitle].lng };
   }
-  if (cSlug && MY_MAP_PINS[cSlug]) {
+  if (cSlug && MY_MAP_PINS[cSlug] && isValidPin(MY_MAP_PINS[cSlug])) {
     return { lat: MY_MAP_PINS[cSlug].lat, lng: MY_MAP_PINS[cSlug].lng };
   }
 
   // Substring match
   if (cTitle && cTitle.length > 6) {
     for (const [key, val] of Object.entries(MY_MAP_PINS)) {
-      if (key.includes(cTitle) || cTitle.includes(key)) {
+      if ((key.includes(cTitle) || cTitle.includes(key)) && isValidPin(val)) {
         return { lat: val.lat, lng: val.lng };
       }
     }
