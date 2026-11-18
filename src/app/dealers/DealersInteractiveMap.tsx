@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { LocateFixed, RotateCcw, X, ExternalLink } from "lucide-react";
+import { LocateFixed } from "lucide-react";
 
 export interface MapDealer {
   id: number;
@@ -32,8 +32,6 @@ interface DealersInteractiveMapProps {
   mapMode?: "interactive" | "google";
   onMapModeChange?: (mode: "interactive" | "google") => void;
 }
-
-type LayerStyle = "interactive" | "google" | "satellite";
 
 // Custom SVG Pins - Zero asset dependencies, 100% retina sharp
 function createDealerIcon(isSelected: boolean) {
@@ -170,7 +168,6 @@ export default function DealersInteractiveMap({
   userLocation,
   getDirectionsUrl,
   mapMode = "interactive",
-  onMapModeChange,
 }: DealersInteractiveMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<L.Map | null>(null);
@@ -179,44 +176,22 @@ export default function DealersInteractiveMap({
   const markerMapRef = useRef<Map<number, L.Marker>>(new Map());
   const userMarkerRef = useRef<L.Marker | null>(null);
 
-  const [activeStyle, setActiveStyle] = useState<LayerStyle>(
-    mapMode === "google" ? "google" : "interactive"
-  );
-  const [plottedCount, setPlottedCount] = useState(0);
-
-  // Sync activeStyle with external mapMode prop
-  useEffect(() => {
-    if (mapMode === "google" && activeStyle === "interactive") {
-      setActiveStyle("google");
-    } else if (mapMode === "interactive" && (activeStyle === "google" || activeStyle === "satellite")) {
-      setActiveStyle("interactive");
-    }
-  }, [mapMode, activeStyle]);
-
-  // Tile layer generator helper
-  const createTileLayer = useCallback((style: LayerStyle): L.TileLayer => {
-    if (style === "satellite") {
+  // Both modes use Google Maps tiles (no Carto)
+  const createTileLayer = useCallback((mode: "interactive" | "google"): L.TileLayer => {
+    if (mode === "google") {
+      // Google Hybrid Satellite
       return L.tileLayer("https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}", {
-        maxZoom: 20,
-        subdomains: ["0", "1", "2", "3"],
-        attribution: '&copy; <a href="https://www.google.com/maps" target="_blank" rel="noopener">Google Maps Satellite</a>',
-      });
-    }
-
-    if (style === "google") {
-      return L.tileLayer("https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
         maxZoom: 20,
         subdomains: ["0", "1", "2", "3"],
         attribution: '&copy; <a href="https://www.google.com/maps" target="_blank" rel="noopener">Google Maps</a>',
       });
     }
 
-    // Default: Clean CartoDB Voyager
-    return L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-      maxZoom: 19,
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
-      subdomains: "abcd",
+    // Interactive Map: Google Maps Roadmap / Street View (instead of Carto)
+    return L.tileLayer("https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
+      maxZoom: 20,
+      subdomains: ["0", "1", "2", "3"],
+      attribution: '&copy; <a href="https://www.google.com/maps" target="_blank" rel="noopener">Google Maps</a>',
     });
   }, []);
 
@@ -258,9 +233,9 @@ export default function DealersInteractiveMap({
       leafletMap.remove();
       setMap(null);
     };
-  }, []); // intentionally run once per container mount
+  }, []);
 
-  // Update Tile Layer when activeStyle changes
+  // Update Tile Layer when mapMode changes
   useEffect(() => {
     if (!map) return;
 
@@ -268,17 +243,10 @@ export default function DealersInteractiveMap({
       tileLayerRef.current.remove();
     }
 
-    const newLayer = createTileLayer(activeStyle);
+    const newLayer = createTileLayer(mapMode);
     newLayer.addTo(map);
     tileLayerRef.current = newLayer;
-
-    // Report back to parent if changed internally
-    if (activeStyle === "interactive" && onMapModeChange && mapMode !== "interactive") {
-      onMapModeChange("interactive");
-    } else if ((activeStyle === "google" || activeStyle === "satellite") && onMapModeChange && mapMode !== "google") {
-      onMapModeChange("google");
-    }
-  }, [activeStyle, map, createTileLayer, onMapModeChange, mapMode]);
+  }, [mapMode, map, createTileLayer]);
 
   // Update Markers based on Dealers list
   useEffect(() => {
@@ -331,8 +299,6 @@ export default function DealersInteractiveMap({
       markerMapRef.current.set(dealer.id, marker);
       validBoundsPoints.push([lat, lng]);
     });
-
-    setPlottedCount(validBoundsPoints.length);
 
     // Auto-fit bounds if no specific dealer is currently selected
     if (!selectedDealer && validBoundsPoints.length > 0) {
@@ -403,42 +369,29 @@ export default function DealersInteractiveMap({
     }
   }, [userLocation, map]);
 
-  // Fit all current dealers
-  const handleFitAll = useCallback(() => {
-    if (!map) return;
-
-    const points: L.LatLngExpression[] = [];
-    markerMapRef.current.forEach((marker) => {
-      const pos = marker.getLatLng();
-      if (isCoordValid(pos.lat, pos.lng)) {
-        points.push(pos);
-      }
-    });
-
-    if (points.length > 0) {
-      if (points.length === 1) {
-        map.setView(points[0], 14, { animate: true });
-      } else {
-        map.fitBounds(L.latLngBounds(points), {
-          padding: [50, 50],
-          maxZoom: 13,
-          animate: true,
-        });
-      }
-    }
-  }, [map]);
-
   // Center on user location
   const handleCenterOnUser = useCallback(() => {
-    if (!map || !userLocation) return;
-    map.flyTo([userLocation.lat, userLocation.lng], 14, { duration: 0.8 });
-  }, [map, userLocation]);
+    if (userLocation && isCoordValid(userLocation.lat, userLocation.lng)) {
+      map?.flyTo([userLocation.lat, userLocation.lng], 15, { duration: 0.8 });
+      return;
+    }
 
-  const activeExternalGoogleUrl = selectedDealer
-    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        `${selectedDealer.name || selectedDealer.title}, ${selectedDealer.city || ""}, Tamil Nadu`
-      )}`
-    : `https://www.google.com/maps/search/?api=1&query=KAAVERI+Steels+Dealers+Tamil+Nadu`;
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          if (isCoordValid(lat, lng)) {
+            map?.flyTo([lat, lng], 15, { duration: 0.8 });
+          }
+        },
+        (err) => {
+          console.warn("Geolocation notice:", err);
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    }
+  }, [map, userLocation]);
 
   return (
     <div className="relative w-full h-full min-h-[440px] lg:min-h-[660px] rounded-2xl overflow-hidden bg-slate-100 shadow-inner">
@@ -508,104 +461,16 @@ export default function DealersInteractiveMap({
       {/* Map Container */}
       <div ref={mapContainerRef} className="w-full h-full" />
 
-      {/* Top Overlay Badge & Controls */}
-      <div className="absolute top-3 left-3 right-3 z-[400] flex flex-wrap items-center justify-between pointer-events-none gap-2">
-        {/* Plotted Dealers Status Pill */}
-        <div className="pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-md border border-black/10 max-w-[80%] sm:max-w-[60%]">
-          <div className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse shrink-0" />
-          <span className="text-xs sm:text-sm font-bold text-gray-900 truncate">
-            {selectedDealer ? (
-              <span className="flex items-center gap-1">
-                <span className="truncate">{selectedDealer.name || selectedDealer.title}</span>
-              </span>
-            ) : (
-              <span>
-                {plottedCount} {plottedCount === 1 ? "Location" : "Locations"} on Map
-              </span>
-            )}
-          </span>
-
-          {selectedDealer && (
-            <button
-              onClick={() => onSelectDealer(null)}
-              className="p-0.5 text-gray-400 hover:text-gray-700 rounded-full hover:bg-gray-100 transition-colors ml-1 cursor-pointer shrink-0"
-              title="Clear selection"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          )}
-        </div>
-
-        {/* Map Actions and Layer Selector */}
-        <div className="pointer-events-auto flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1 rounded-xl shadow-md border border-black/10">
-          {/* Layer switcher */}
-          <div className="inline-flex rounded-lg bg-gray-100 p-0.5">
-            <button
-              onClick={() => setActiveStyle("interactive")}
-              className={`px-2 py-1 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
-                activeStyle === "interactive"
-                  ? "bg-white text-red-600 shadow-xs"
-                  : "text-gray-600 hover:text-gray-900"
-              }`}
-              title="Clean vector map"
-            >
-              Interactive
-            </button>
-            <button
-              onClick={() => setActiveStyle("google")}
-              className={`px-2 py-1 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
-                activeStyle === "google"
-                  ? "bg-white text-red-600 shadow-xs"
-                  : "text-gray-600 hover:text-gray-900"
-              }`}
-              title="Google Map Streets"
-            >
-              Google
-            </button>
-            <button
-              onClick={() => setActiveStyle("satellite")}
-              className={`px-2 py-1 text-[11px] font-bold rounded-md transition-all cursor-pointer ${
-                activeStyle === "satellite"
-                  ? "bg-white text-red-600 shadow-xs"
-                  : "text-gray-600 hover:text-gray-900"
-              }`}
-              title="Google Satellite view"
-            >
-              Satellite
-            </button>
-          </div>
-
-          <button
-            onClick={handleFitAll}
-            className="flex items-center gap-1 px-2 py-1.5 text-xs font-bold text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
-            title="Fit all dealer locations into view"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Fit All</span>
-          </button>
-
-          {userLocation && (
-            <button
-              onClick={handleCenterOnUser}
-              className="flex items-center gap-1 px-2 py-1.5 text-xs font-bold text-blue-700 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
-              title="Center on my location"
-            >
-              <LocateFixed className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">My Location</span>
-            </button>
-          )}
-
-          <a
-            href={activeExternalGoogleUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1 px-2 py-1.5 text-xs font-bold text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
-            title="Open in Google Maps"
-          >
-            <ExternalLink className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Maps ↗</span>
-          </a>
-        </div>
+      {/* Top Overlay: Only My Location button */}
+      <div className="absolute top-3 right-3 z-[400] pointer-events-none">
+        <button
+          onClick={handleCenterOnUser}
+          className="pointer-events-auto flex items-center gap-1.5 px-3.5 py-2 bg-white/95 backdrop-blur-md hover:bg-white text-gray-800 hover:text-red-600 rounded-xl shadow-md border border-black/10 text-xs font-bold transition-all cursor-pointer active:scale-95"
+          title="Center map on my location"
+        >
+          <LocateFixed className="w-4 h-4 text-red-600" />
+          <span>My Location</span>
+        </button>
       </div>
     </div>
   );

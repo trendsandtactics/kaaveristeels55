@@ -821,23 +821,23 @@ export default function DealersClient() {
                 <div className="inline-flex rounded-xl bg-gray-100 p-1 border border-black/5 shadow-inner">
                   <button
                     onClick={() => setMapMode("interactive")}
-                    className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                       mapMode === "interactive"
                         ? "bg-red-600 text-white shadow-sm"
                         : "text-gray-600 hover:text-gray-900"
                     }`}
                   >
-                    📍 Interactive Map ({filteredDealers.filter((d) => d.latitude && d.longitude).length})
+                    📍 Interactive Map
                   </button>
                   <button
                     onClick={() => setMapMode("google")}
-                    className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    className={`px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                       mapMode === "google"
                         ? "bg-red-600 text-white shadow-sm"
                         : "text-gray-600 hover:text-gray-900"
                     }`}
                   >
-                    🗺️ Google View
+                    🗺️ Google Map
                   </button>
                 </div>
               </div>
